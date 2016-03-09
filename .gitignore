@@ -1,0 +1,7 @@
+target/
+webapp/WEB-INF/classes/
+.classpath
+.project
+.settings/
+webapp/WEB-INF/.gitignore
+webapp/WEB-INF/lib/jdbc-stdext-2.0.jar
