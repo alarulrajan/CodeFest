@@ -5,8 +5,8 @@ webapp/WEB-INF/classes/
 .settings/
 webapp/WEB-INF/.gitignore
 webapp/WEB-INF/lib/jdbc-stdext-2.0.jar
-/build
 
+/build
 *.class
 
 # Mobile Tools for Java (J2ME)
