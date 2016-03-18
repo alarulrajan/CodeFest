@@ -16,36 +16,38 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.util.TimeGenerator;
 
 public class PutTheClockForwardAction extends Action {
-   public static final Logger LOG = Logger.getLogger(PutTheClockForwardAction.class);
-   public static final String OFFSET_IN_DAYS_KEY = "dayOffset";
+	public static final Logger LOG = Logger
+			.getLogger(PutTheClockForwardAction.class);
+	public static final String OFFSET_IN_DAYS_KEY = "dayOffset";
 
+	private TimeGenerator clock;
 
-   private TimeGenerator clock;
+	public void setTimeGenerator(final TimeGenerator clock) {
+		this.clock = clock;
+	}
 
-   public void setTimeGenerator(TimeGenerator clock) {
-      this.clock = clock;
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
 
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm actionForm,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      
-      int offsetInDays = 0;
-      try {
-         offsetInDays = Integer.parseInt(request.getParameter(OFFSET_IN_DAYS_KEY));
+		int offsetInDays = 0;
+		try {
+			offsetInDays = Integer.parseInt(request
+					.getParameter(PutTheClockForwardAction.OFFSET_IN_DAYS_KEY));
 
-      } catch (NumberFormatException e) {
-      }
-      if (offsetInDays > 0) {
-         clock.moveCurrentDay(offsetInDays);
-      } else {
-         clock.reset();
-      }
-      String returnto = request.getParameter(EditObjectAction.RETURNTO_PARAM);
-      if (returnto != null) {
-         return new ActionForward(returnto, true);
-      }
-      return mapping.findForward("view/projects");
-   }
+		} catch (final NumberFormatException e) {
+		}
+		if (offsetInDays > 0) {
+			this.clock.moveCurrentDay(offsetInDays);
+		} else {
+			this.clock.reset();
+		}
+		final String returnto = request
+				.getParameter(EditObjectAction.RETURNTO_PARAM);
+		if (returnto != null) {
+			return new ActionForward(returnto, true);
+		}
+		return mapping.findForward("view/projects");
+	}
 }

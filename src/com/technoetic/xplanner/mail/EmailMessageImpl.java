@@ -34,147 +34,175 @@ import com.technoetic.xplanner.domain.repository.RepositoryException;
 
 // DEBT: Should not have ANY sql or hql in any domain class. Instead it should be injected with one of the repository
 public class EmailMessageImpl implements EmailMessage {
-    protected Logger log = Logger.getLogger(getClass());
-    private Message msg;
-    private StringWriter bodyWriter;
-    private ArrayList attachments = new ArrayList();
-    HibernateOperationsWrapper hibernateOperationsWrapper;
-   private ObjectRepository objectRepository;
+	protected Logger log = Logger.getLogger(this.getClass());
+	private final Message msg;
+	private StringWriter bodyWriter;
+	private final ArrayList attachments = new ArrayList();
+	HibernateOperationsWrapper hibernateOperationsWrapper;
+	private ObjectRepository objectRepository;
 
-   /*package scope*/
-   EmailMessageImpl() throws MessagingException {
-       hibernateOperationsWrapper = new HibernateOperationsWrapper(ThreadSession.get());
-       Properties transportProperties = new Properties();
-      XPlannerProperties xplannerProperties = new XPlannerProperties();
-      Object hostName = xplannerProperties.getProperty("xplanner.mail.smtp.host");
-       if (hostName != null){
-         transportProperties.put("mail.smtp.host", hostName);
-       }
-       String userName = xplannerProperties.getProperty("xplanner.mail.smtp.user");
-       SmtpAuthenticator auth = null;
-       if(StringUtils.isNotBlank(userName)){
-           String password = xplannerProperties.getProperty("xplanner.mail.smtp.password");
-           auth = new SmtpAuthenticator(userName, password);
-    	   transportProperties.put("mail.smtp.auth", "true");
-    	   transportProperties.put("mail.smtp.starttls.enable", "true");
-       }
-      Object portNbr = xplannerProperties.getProperty("xplanner.mail.smtp.port");
-       if (portNbr != null){
-         transportProperties.put("mail.smtp.port", portNbr);
-         transportProperties.put("mail.smtp.socketFactory.port", portNbr);
-       }
-       Session session = Session.getDefaultInstance(transportProperties, auth);
-       session.setDebug(log.isDebugEnabled());
-       msg = new MimeMessage(session);
-       msg.setSentDate(new Date());
-   }
+	/* package scope */
+	EmailMessageImpl() throws MessagingException {
+		this.hibernateOperationsWrapper = new HibernateOperationsWrapper(
+				ThreadSession.get());
+		final Properties transportProperties = new Properties();
+		final XPlannerProperties xplannerProperties = new XPlannerProperties();
+		final Object hostName = xplannerProperties
+				.getProperty("xplanner.mail.smtp.host");
+		if (hostName != null) {
+			transportProperties.put("mail.smtp.host", hostName);
+		}
+		final String userName = xplannerProperties
+				.getProperty("xplanner.mail.smtp.user");
+		SmtpAuthenticator auth = null;
+		if (StringUtils.isNotBlank(userName)) {
+			final String password = xplannerProperties
+					.getProperty("xplanner.mail.smtp.password");
+			auth = new SmtpAuthenticator(userName, password);
+			transportProperties.put("mail.smtp.auth", "true");
+			transportProperties.put("mail.smtp.starttls.enable", "true");
+		}
+		final Object portNbr = xplannerProperties
+				.getProperty("xplanner.mail.smtp.port");
+		if (portNbr != null) {
+			transportProperties.put("mail.smtp.port", portNbr);
+			transportProperties.put("mail.smtp.socketFactory.port", portNbr);
+		}
+		final Session session = Session.getDefaultInstance(transportProperties,
+				auth);
+		session.setDebug(this.log.isDebugEnabled());
+		this.msg = new MimeMessage(session);
+		this.msg.setSentDate(new Date());
+	}
 
-   public void setHibernateOperations(HibernateOperations hibernateOperations)
-   {
-      this.hibernateOperationsWrapper = new HibernateOperationsWrapper(hibernateOperations);
-   }
+	public void setHibernateOperations(
+			final HibernateOperations hibernateOperations) {
+		this.hibernateOperationsWrapper = new HibernateOperationsWrapper(
+				hibernateOperations);
+	}
 
-    public void setFrom(String from) throws AddressException, MessagingException {
-        msg.setFrom(new InternetAddress(from));
-    }
+	@Override
+	public void setFrom(final String from) throws AddressException,
+			MessagingException {
+		this.msg.setFrom(new InternetAddress(from));
+	}
 
-    public void setRecipient(int personId) throws MessagingException {
-        try {
-            Person person = getPerson(personId);
-            if (StringUtils.isEmpty(person.getEmail())) {
-                throw new MessagingException("no email address for user: uid=" + person.getUserId() + ",id=" + person.getId());
-            }
-            setRecipients(person.getEmail());
-        } catch (MessagingException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new MessagingException("error setting recipient", e);
-        }
-    }
+	@Override
+	public void setRecipient(final int personId) throws MessagingException {
+		try {
+			final Person person = this.getPerson(personId);
+			if (StringUtils.isEmpty(person.getEmail())) {
+				throw new MessagingException("no email address for user: uid="
+						+ person.getUserId() + ",id=" + person.getId());
+			}
+			this.setRecipients(person.getEmail());
+		} catch (final MessagingException e) {
+			throw e;
+		} catch (final Exception e) {
+			throw new MessagingException("error setting recipient", e);
+		}
+	}
 
-   public void setObjectRepository(ObjectRepository objectRepository) {
-       this.objectRepository = objectRepository;
-   }
+	@Override
+	public void setObjectRepository(final ObjectRepository objectRepository) {
+		this.objectRepository = objectRepository;
+	}
 
-   private Person getPerson(int personId) throws RepositoryException {
-      return (Person) objectRepository.load(personId);
-   }
+	private Person getPerson(final int personId) throws RepositoryException {
+		return (Person) this.objectRepository.load(personId);
+	}
 
-    public void setRecipients(String recipients) throws AddressException, MessagingException {
-        if (StringUtils.isNotEmpty(recipients)) {
-            setRecipients(Message.RecipientType.TO, recipients.split(","));
-        }
-    }
+	@Override
+	public void setRecipients(final String recipients) throws AddressException,
+			MessagingException {
+		if (StringUtils.isNotEmpty(recipients)) {
+			this.setRecipients(Message.RecipientType.TO, recipients.split(","));
+		}
+	}
 
-    public void setRecipients(String[] recipients) throws AddressException, MessagingException {
-        InternetAddress[] addresses = new InternetAddress[recipients.length];
-        for (int i = 0; i < recipients.length; i++) {
-            addresses[i] = new InternetAddress(recipients[i]);
-        }
-        msg.setRecipients(Message.RecipientType.TO, addresses);
-    }
+	@Override
+	public void setRecipients(final String[] recipients)
+			throws AddressException, MessagingException {
+		final InternetAddress[] addresses = new InternetAddress[recipients.length];
+		for (int i = 0; i < recipients.length; i++) {
+			addresses[i] = new InternetAddress(recipients[i]);
+		}
+		this.msg.setRecipients(Message.RecipientType.TO, addresses);
+	}
 
-    public void setCcRecipients(String recipients) throws MessagingException, AddressException {
-        if (StringUtils.isNotEmpty(recipients)) {
-            setRecipients(Message.RecipientType.CC, recipients.split(","));
-        }
-    }
+	@Override
+	public void setCcRecipients(final String recipients)
+			throws MessagingException, AddressException {
+		if (StringUtils.isNotEmpty(recipients)) {
+			this.setRecipients(Message.RecipientType.CC, recipients.split(","));
+		}
+	}
 
-    private void setRecipients(Message.RecipientType recipientType, String[] recipients) throws AddressException, MessagingException {
-        if (recipients.length > 0) {
-            InternetAddress[] addresses = new InternetAddress[recipients.length];
-            for (int i = 0; i < recipients.length; i++) {
-                addresses[i] = new InternetAddress(recipients[i]);
-            }
-            msg.setRecipients(recipientType, addresses);
-        }
-    }
+	private void setRecipients(final Message.RecipientType recipientType,
+			final String[] recipients) throws AddressException,
+			MessagingException {
+		if (recipients.length > 0) {
+			final InternetAddress[] addresses = new InternetAddress[recipients.length];
+			for (int i = 0; i < recipients.length; i++) {
+				addresses[i] = new InternetAddress(recipients[i]);
+			}
+			this.msg.setRecipients(recipientType, addresses);
+		}
+	}
 
-    public void setBody(String body) throws MessagingException {
-        bodyWriter = new StringWriter();
-        bodyWriter.write(body);
-    }
+	@Override
+	public void setBody(final String body) throws MessagingException {
+		this.bodyWriter = new StringWriter();
+		this.bodyWriter.write(body);
+	}
 
-    public PrintWriter getBodyWriter() {
-        bodyWriter = new StringWriter();
-        return new PrintWriter(bodyWriter);
-    }
+	@Override
+	public PrintWriter getBodyWriter() {
+		this.bodyWriter = new StringWriter();
+		return new PrintWriter(this.bodyWriter);
+	}
 
-    public void setSubject(String subject) throws MessagingException {
-        msg.setSubject(subject);
-    }
+	@Override
+	public void setSubject(final String subject) throws MessagingException {
+		this.msg.setSubject(subject);
+	}
 
-    public void setSentDate(Date sentDate) throws MessagingException {
-        msg.setSentDate(sentDate);
-    }
+	@Override
+	public void setSentDate(final Date sentDate) throws MessagingException {
+		this.msg.setSentDate(sentDate);
+	}
 
-    public void addAttachment(String filename) throws MessagingException {
-        File file = new File(filename);
-        addAttachment(file.getName(), file);
-    }
+	@Override
+	public void addAttachment(final String filename) throws MessagingException {
+		final File file = new File(filename);
+		this.addAttachment(file.getName(), file);
+	}
 
-    public void addAttachment(String filename, File file) throws MessagingException {
-        MimeBodyPart part = new MimeBodyPart();
-        FileDataSource fds = new FileDataSource(file);
-        part.setDataHandler(new DataHandler(fds));
-        part.setFileName(filename);
-        attachments.add(part);
-    }
+	@Override
+	public void addAttachment(final String filename, final File file)
+			throws MessagingException {
+		final MimeBodyPart part = new MimeBodyPart();
+		final FileDataSource fds = new FileDataSource(file);
+		part.setDataHandler(new DataHandler(fds));
+		part.setFileName(filename);
+		this.attachments.add(part);
+	}
 
-    public void send() throws MessagingException {
-        MimeMultipart parts = new MimeMultipart();
-        if (bodyWriter == null) {
-            setBody("");
-        }
-        MimeBodyPart bodyPart = new MimeBodyPart();
-        bodyPart.setContent(bodyWriter.toString(), "text/html");
-        parts.addBodyPart(bodyPart);
-        Iterator iter = attachments.iterator();
-        while (iter.hasNext()) {
-            parts.addBodyPart((MimeBodyPart)iter.next());
-        }
-        msg.setContent(parts);
-        
-        Transport.send(msg);
-    }
+	@Override
+	public void send() throws MessagingException {
+		final MimeMultipart parts = new MimeMultipart();
+		if (this.bodyWriter == null) {
+			this.setBody("");
+		}
+		final MimeBodyPart bodyPart = new MimeBodyPart();
+		bodyPart.setContent(this.bodyWriter.toString(), "text/html");
+		parts.addBodyPart(bodyPart);
+		final Iterator iter = this.attachments.iterator();
+		while (iter.hasNext()) {
+			parts.addBodyPart((MimeBodyPart) iter.next());
+		}
+		this.msg.setContent(parts);
+
+		Transport.send(this.msg);
+	}
 }

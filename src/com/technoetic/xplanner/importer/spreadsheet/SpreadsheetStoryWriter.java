@@ -21,77 +21,81 @@ import com.technoetic.xplanner.importer.SpreadsheetStory;
  * Released under the Apache Software License, Version 1.1
  */
 
-public class SpreadsheetStoryWriter implements CookbookFields
-{
-   OutputStream output;
-   public static final String END_DATE_HEADER = "Iteration End Date";
-   public static final String TITLE_HEADER = "Feature/Story Title";
-   public static final String STATUS_HEADER = "Status";
-   public static final String PRIORITY_HEADER = "Priority  (1 thru n)";
-   public static final String ESTIMATE_HEADER = "Work Unit Estimate";
+public class SpreadsheetStoryWriter implements CookbookFields {
+	OutputStream output;
+	public static final String END_DATE_HEADER = "Iteration End Date";
+	public static final String TITLE_HEADER = "Feature/Story Title";
+	public static final String STATUS_HEADER = "Status";
+	public static final String PRIORITY_HEADER = "Priority  (1 thru n)";
+	public static final String ESTIMATE_HEADER = "Work Unit Estimate";
 
-   public SpreadsheetStoryWriter(OutputStream stream)
-   {
-      output = stream;
-   }
+	public SpreadsheetStoryWriter(final OutputStream stream) {
+		this.output = stream;
+	}
 
-   public void writeStories(List stories) throws IOException
-   {
-      //assert stories != null;
+	public void writeStories(final List stories) throws IOException {
+		// assert stories != null;
 
-      HSSFWorkbook wb = new HSSFWorkbook();
-      HSSFSheet sheet = wb.createSheet("Features");
-      writeHeader(sheet);
-      for (int i = 0; i < stories.size(); i++)
-      {
-         SpreadsheetStory spreadsheetStory = (SpreadsheetStory) stories.get(i);
-         writeStory(sheet, spreadsheetStory, i + 1);
-      }
-      wb.write(output);
-      output.close();
-   }
+		final HSSFWorkbook wb = new HSSFWorkbook();
+		final HSSFSheet sheet = wb.createSheet("Features");
+		this.writeHeader(sheet);
+		for (int i = 0; i < stories.size(); i++) {
+			final SpreadsheetStory spreadsheetStory = (SpreadsheetStory) stories
+					.get(i);
+			this.writeStory(sheet, spreadsheetStory, i + 1);
+		}
+		wb.write(this.output);
+		this.output.close();
+	}
 
-   private void writeStory(HSSFSheet sheet, SpreadsheetStory spreadsheetStory, int i)
-   {
-      HSSFRow row = sheet.createRow(i);
-      setCellValue(row, STORY_END_DATE_COL, spreadsheetStory.getEndDate());
-      setCellValue(row, TITLE_COL, spreadsheetStory.getTitle());
-      setCellValue(row, STATUS_COL, spreadsheetStory.getStatus());
-      setCellValue(row, STORY_PRIORITY_COL, spreadsheetStory.getPriority());
-      setCellValue(row, ESTIMATE_NUMBER_COL, spreadsheetStory.getEstimate());
-   }
+	private void writeStory(final HSSFSheet sheet,
+			final SpreadsheetStory spreadsheetStory, final int i) {
+		final HSSFRow row = sheet.createRow(i);
+		this.setCellValue(row, CookbookFields.STORY_END_DATE_COL,
+				spreadsheetStory.getEndDate());
+		this.setCellValue(row, CookbookFields.TITLE_COL,
+				spreadsheetStory.getTitle());
+		this.setCellValue(row, CookbookFields.STATUS_COL,
+				spreadsheetStory.getStatus());
+		this.setCellValue(row, CookbookFields.STORY_PRIORITY_COL,
+				spreadsheetStory.getPriority());
+		this.setCellValue(row, CookbookFields.ESTIMATE_NUMBER_COL,
+				spreadsheetStory.getEstimate());
+	}
 
-   private void writeHeader(HSSFSheet sheet)
-   {
-      HSSFRow row = sheet.createRow(0);
-      setCellValue(row, STORY_END_DATE_COL, END_DATE_HEADER);
-      setCellValue(row, TITLE_COL, TITLE_HEADER);
-      setCellValue(row, STATUS_COL, STATUS_HEADER);
-      setCellValue(row, STORY_PRIORITY_COL, PRIORITY_HEADER);
-      setCellValue(row, ESTIMATE_NUMBER_COL, ESTIMATE_HEADER);
-   }
+	private void writeHeader(final HSSFSheet sheet) {
+		final HSSFRow row = sheet.createRow(0);
+		this.setCellValue(row, CookbookFields.STORY_END_DATE_COL,
+				SpreadsheetStoryWriter.END_DATE_HEADER);
+		this.setCellValue(row, CookbookFields.TITLE_COL,
+				SpreadsheetStoryWriter.TITLE_HEADER);
+		this.setCellValue(row, CookbookFields.STATUS_COL,
+				SpreadsheetStoryWriter.STATUS_HEADER);
+		this.setCellValue(row, CookbookFields.STORY_PRIORITY_COL,
+				SpreadsheetStoryWriter.PRIORITY_HEADER);
+		this.setCellValue(row, CookbookFields.ESTIMATE_NUMBER_COL,
+				SpreadsheetStoryWriter.ESTIMATE_HEADER);
+	}
 
-   private void setCellValue(HSSFRow row, int col, Date date)
-   {
-      HSSFCell cell = row.createCell((short) col);
-      cell.setCellValue(date);
-   }
+	private void setCellValue(final HSSFRow row, final int col, final Date date) {
+		final HSSFCell cell = row.createCell((short) col);
+		cell.setCellValue(date);
+	}
 
-   private void setCellValue(HSSFRow row, int col, int value)
-   {
-      HSSFCell cell = row.createCell((short) col);
-      cell.setCellValue(value);
-   }
+	private void setCellValue(final HSSFRow row, final int col, final int value) {
+		final HSSFCell cell = row.createCell((short) col);
+		cell.setCellValue(value);
+	}
 
-   private void setCellValue(HSSFRow row, int col, double value)
-   {
-      HSSFCell cell = row.createCell((short) col);
-      cell.setCellValue(value);
-   }
+	private void setCellValue(final HSSFRow row, final int col,
+			final double value) {
+		final HSSFCell cell = row.createCell((short) col);
+		cell.setCellValue(value);
+	}
 
-   private void setCellValue(HSSFRow row, int col, String value)
-   {
-      HSSFCell cell = row.createCell((short) col);
-      cell.setCellValue(value);
-   }
+	private void setCellValue(final HSSFRow row, final int col,
+			final String value) {
+		final HSSFCell cell = row.createCell((short) col);
+		cell.setCellValue(value);
+	}
 }

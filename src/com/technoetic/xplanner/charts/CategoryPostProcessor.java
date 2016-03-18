@@ -8,13 +8,13 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 
 import de.laures.cewolf.ChartPostProcessor;
 
-
 /**
  * Post processor which is used to add shapes to the datapoints of a line graph.
  */
 public class CategoryPostProcessor implements ChartPostProcessor {
-    public void processChart(Object chart, Map params) {
-        CategoryPlot plot = (CategoryPlot)((JFreeChart)chart).getPlot();
-        plot.setRenderer(new LineAndShapeRenderer());
-    }
+	@Override
+	public void processChart(final Object chart, final Map params) {
+		final CategoryPlot plot = (CategoryPlot) ((JFreeChart) chart).getPlot();
+		plot.setRenderer(new LineAndShapeRenderer());
+	}
 }

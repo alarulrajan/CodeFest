@@ -9,7 +9,8 @@ package com.technoetic.xplanner.util;
 import java.io.InputStream;
 
 public class FileUtilities {
-   public static InputStream getFileFromClassPath(String filePath) {
-      return FileUtilities.class.getClassLoader().getResourceAsStream(filePath);
-   }
+	public static InputStream getFileFromClassPath(final String filePath) {
+		return FileUtilities.class.getClassLoader().getResourceAsStream(
+				filePath);
+	}
 }

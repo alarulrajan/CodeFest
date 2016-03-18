@@ -15,107 +15,114 @@ import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
 public class AggregateTimesheetQuery {
-    private final Logger log = Logger.getLogger(getClass());
-    private static String query;
-    private String[] personIds;
-    private java.util.Date endDate = new Date();
-    private java.util.Date startDate = new Date();
-    private static final String IN_CLAUSE = "AND person.id IN (";
-    private static final String IN_CLAUSE_REPLACEMENT = "AND 1=1";
-    private final Session session;
+	private final Logger log = Logger.getLogger(this.getClass());
+	private static String query;
+	private String[] personIds;
+	private java.util.Date endDate = new Date();
+	private java.util.Date startDate = new Date();
+	private static final String IN_CLAUSE = "AND person.id IN (";
+	private static final String IN_CLAUSE_REPLACEMENT = "AND 1=1";
+	private final Session session;
 
-    public AggregateTimesheetQuery(Session session) {
-        this.session = session;
-    }
+	public AggregateTimesheetQuery(final Session session) {
+		this.session = session;
+	}
 
-    // todo - review why this is not using the hibernate query language
-    // The current implementation will break if the Hibernate mappings change
-    public Timesheet getTimesheet() {
-        Timesheet timesheet = new Timesheet(this.startDate, this.endDate);
-        try {
-            try {
-                query =
-                        "SELECT project.id, project.name, iteration.id, iteration.name,  story.id, story.name, "+
-                        "Sum(time_entry.duration) "+
-                        "FROM Person as person, Project as project inner join project.iterations as iteration " +
-                        "inner join iteration.userStories as story inner join story.tasks as task inner join task.timeEntries as time_entry " +
-                        "WHERE (person.id = time_entry.person1Id OR person.id = time_entry.person2Id) " +
-                        "AND time_entry.reportDate >= ?  " +
-                        "AND time_entry.reportDate <= ? " +
-                        IN_CLAUSE_REPLACEMENT + " " +
-                        "GROUP BY project.id, project.name, iteration.id,  " +
-                        "iteration.name, story.id, story.name " +
-                        "ORDER BY project.name, iteration.name, story.name ";
+	// todo - review why this is not using the hibernate query language
+	// The current implementation will break if the Hibernate mappings change
+	public Timesheet getTimesheet() {
+		final Timesheet timesheet = new Timesheet(this.startDate, this.endDate);
+		try {
+			try {
+				AggregateTimesheetQuery.query = "SELECT project.id, project.name, iteration.id, iteration.name,  story.id, story.name, "
+						+ "Sum(time_entry.duration) "
+						+ "FROM Person as person, Project as project inner join project.iterations as iteration "
+						+ "inner join iteration.userStories as story inner join story.tasks as task inner join task.timeEntries as time_entry "
+						+ "WHERE (person.id = time_entry.person1Id OR person.id = time_entry.person2Id) "
+						+ "AND time_entry.reportDate >= ?  "
+						+ "AND time_entry.reportDate <= ? "
+						+ AggregateTimesheetQuery.IN_CLAUSE_REPLACEMENT
+						+ " "
+						+ "GROUP BY project.id, project.name, iteration.id,  "
+						+ "iteration.name, story.id, story.name "
+						+ "ORDER BY project.name, iteration.name, story.name ";
 
+				if (this.personIds != null && this.personIds.length > 0) {
+					// Set the in clause using String Manipulation
+					final StringBuffer inClause = new StringBuffer(
+							AggregateTimesheetQuery.IN_CLAUSE);
+					for (int i = 0; i < this.personIds.length; i++) {
+						if (i > 0) {
+							inClause.append(",");
+						}
+						inClause.append(this.personIds[i]);
+					}
+					inClause.append(")");
+					AggregateTimesheetQuery.query = AggregateTimesheetQuery.query
+							.replaceAll(
+									AggregateTimesheetQuery.IN_CLAUSE_REPLACEMENT,
+									inClause.toString());
+				}
+				final Iterator iterator = this.session.iterate(
+						AggregateTimesheetQuery.query, new Object[] {
+								this.startDate, this.endDate }, new Type[] {
+								Hibernate.DATE, Hibernate.DATE });
+				while (iterator.hasNext()) {
+					final int remoteUserId = SecurityHelper
+							.getRemoteUserId(ThreadServletRequest.get());
+					final Object[] row = (Object[]) iterator.next();
+					final int projectId = ((Integer) row[0]).intValue();
+					final String projectName = (String) row[1];
+					final int iterationId = ((Integer) row[2]).intValue();
+					final String iterationName = (String) row[3];
+					final int storyId = ((Integer) row[4]).intValue();
+					final String storyName = (String) row[5];
+					final double totalDuration = ((Double) row[6])
+							.doubleValue();
 
-                if (this.personIds != null && this.personIds.length > 0) {
-                    // Set the in clause using String Manipulation
-                    StringBuffer inClause = new StringBuffer(IN_CLAUSE);
-                    for (int i = 0; i < this.personIds.length; i++) {
-                        if (i > 0) {
-                            inClause.append(",");
-                        }
-                        inClause.append(this.personIds[i]);
-                    }
-                    inClause.append(")");
-                    query = query.replaceAll(IN_CLAUSE_REPLACEMENT, inClause.toString());
-                }
-               Iterator iterator = session.iterate(query, new Object[]{this.startDate, this.endDate}, new Type[]{Hibernate.DATE, Hibernate.DATE});
-               while (iterator.hasNext())
-               {
-                  final int remoteUserId = SecurityHelper.getRemoteUserId(ThreadServletRequest.get());
-                  Object [] row =  (Object[]) iterator.next();
-                  int projectId = ((Integer)row[0]).intValue();
-                  String projectName = (String) row[1];
-                  int iterationId = ((Integer)row[2]).intValue();
-                  String iterationName = (String) row[3];
-                  int storyId = ((Integer)row[4]).intValue();
-                  String storyName = (String) row[5];
-                  double totalDuration = ((Double)row[6]).doubleValue();
+					if (SystemAuthorizer.get().hasPermission(projectId,
+							remoteUserId, "system.project", projectId, "read")) {
+						final TimesheetEntry time = new TimesheetEntry();
+						time.setProjectId(projectId);
+						time.setProjectName(projectName);
+						time.setIterationId(iterationId);
+						time.setIterationName(iterationName);
+						time.setStoryId(storyId);
+						time.setStoryName(storyName);
+						time.setTotalDuration(totalDuration);
+						timesheet.addEntry(time);
+					}
+				}
+			} catch (final Exception ex) {
+				this.log.error("query error", ex);
+			}
+		} catch (final Exception ex) {
+			this.log.error("error in AggregateTimesheetQuery", ex);
+		}
+		return timesheet;
+	}
 
-                  if (SystemAuthorizer.get().hasPermission(projectId,
-                                                           remoteUserId, "system.project", projectId, "read")) {
-                                                              TimesheetEntry time = new TimesheetEntry();
-                        time.setProjectId(projectId);
-                        time.setProjectName(projectName);
-                        time.setIterationId(iterationId);
-                        time.setIterationName(iterationName);
-                        time.setStoryId(storyId);
-                        time.setStoryName(storyName);
-                        time.setTotalDuration(totalDuration);
-                        timesheet.addEntry(time);
-                    }
-               }
-           } catch (Exception ex) {
-                log.error("query error", ex);
-            }
-        } catch (Exception ex) {
-            log.error("error in AggregateTimesheetQuery", ex);
-        }
-        return timesheet;
-    }
+	public void setPersonIds(final String[] personIds) {
+		this.personIds = personIds;
+	}
 
-    public void setPersonIds(String[] personIds) {
-        this.personIds = personIds;
-    }
+	public String[] getPersonId() {
+		return this.personIds;
+	}
 
-    public String[] getPersonId() {
-        return personIds;
-    }
+	public java.util.Date getStartDate() {
+		return this.startDate;
+	}
 
-    public java.util.Date getStartDate() {
-        return startDate;
-    }
+	public void setStartDate(final java.util.Date startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setStartDate(java.util.Date startDate) {
-        this.startDate = startDate;
-    }
+	public java.util.Date getEndDate() {
+		return this.endDate;
+	}
 
-    public java.util.Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(java.util.Date endDate) {
-        this.endDate = endDate;
-    }
+	public void setEndDate(final java.util.Date endDate) {
+		this.endDate = endDate;
+	}
 }

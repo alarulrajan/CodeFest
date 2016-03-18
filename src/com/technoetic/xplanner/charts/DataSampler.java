@@ -9,17 +9,14 @@ import net.sf.xplanner.domain.Iteration;
 import com.technoetic.xplanner.util.TimeGenerator;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Apr 19, 2005
- * Time: 5:29:45 PM
+ * User: Mateusz Prokopowicz Date: Apr 19, 2005 Time: 5:29:45 PM
  */
-public interface DataSampler
-{
-   void generateOpeningDataSamples(Iteration iteration);
+public interface DataSampler {
+	void generateOpeningDataSamples(Iteration iteration);
 
-   void generateClosingDataSamples(Iteration iteration);
+	void generateClosingDataSamples(Iteration iteration);
 
-   void setTimeGenerator(TimeGenerator timeGenerator);
+	void setTimeGenerator(TimeGenerator timeGenerator);
 
-   void generateDataSamples(Iteration iteration);
+	void generateDataSamples(Iteration iteration);
 }

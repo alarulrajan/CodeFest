@@ -8,85 +8,93 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.XPlannerProperties;
 
 public class MoveContinueStoryForm extends AbstractEditorForm {
-    private String name;
-    private int iterationId;
-    private int targetIterationId;
-    private int customerId;
-   private boolean isFutureIteration;
+	private String name;
+	private int iterationId;
+	private int targetIterationId;
+	private int customerId;
+	private boolean isFutureIteration;
 
-    static final String MISSING_NAME_ERROR_KEY = "story.editor.missing_name";
-    static final String SAME_ITERATION_ERROR_KEY = "story.editor.same_iteration";
+	static final String MISSING_NAME_ERROR_KEY = "story.editor.missing_name";
+	static final String SAME_ITERATION_ERROR_KEY = "story.editor.same_iteration";
 
-    public String getContainerId() {
-        return Integer.toString(getIterationId());
-    }
+	public String getContainerId() {
+		return Integer.toString(this.getIterationId());
+	}
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
-        if (isSubmitted()) {
-            if (!isMerge()) {
-                require(errors, name, MISSING_NAME_ERROR_KEY);
-            } else {
-                require(errors, targetIterationId != iterationId, SAME_ITERATION_ERROR_KEY);
-            }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
+		if (this.isSubmitted()) {
+			if (!this.isMerge()) {
+				AbstractEditorForm.require(errors, this.name,
+						MoveContinueStoryForm.MISSING_NAME_ERROR_KEY);
+			} else {
+				AbstractEditorForm.require(errors,
+						this.targetIterationId != this.iterationId,
+						MoveContinueStoryForm.SAME_ITERATION_ERROR_KEY);
+			}
 
-        }
-        return errors;
-    }
+		}
+		return errors;
+	}
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-       XPlannerProperties props = new XPlannerProperties();
-        reset(mapping, request, props);
-    }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final XPlannerProperties props = new XPlannerProperties();
+		this.reset(mapping, request, props);
+	}
 
-    public void reset(ActionMapping mapping, HttpServletRequest request, XPlannerProperties props) {
-        super.reset(mapping, request);
-        name = null;
-        iterationId = 0;
-        targetIterationId = 0;
-        customerId = 0;
-    }
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request, final XPlannerProperties props) {
+		super.reset(mapping, request);
+		this.name = null;
+		this.iterationId = 0;
+		this.targetIterationId = 0;
+		this.customerId = 0;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setIterationId(int iterationId) {
-        if (targetIterationId == 0) {
-            targetIterationId = iterationId;
-        }
-        this.iterationId = iterationId;
-    }
+	public void setIterationId(final int iterationId) {
+		if (this.targetIterationId == 0) {
+			this.targetIterationId = iterationId;
+		}
+		this.iterationId = iterationId;
+	}
 
-    public int getIterationId() {
-        return iterationId;
-    }
+	public int getIterationId() {
+		return this.iterationId;
+	}
 
-    public int getTargetIterationId() {
-        return targetIterationId;
-    }
+	public int getTargetIterationId() {
+		return this.targetIterationId;
+	}
 
-    public void setTargetIterationId(int targetIterationId) {
-        this.targetIterationId = targetIterationId;
-    }
+	public void setTargetIterationId(final int targetIterationId) {
+		this.targetIterationId = targetIterationId;
+	}
 
-    public int getCustomerId() {
-        return customerId;
-    }
+	public int getCustomerId() {
+		return this.customerId;
+	}
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
+	public void setCustomerId(final int customerId) {
+		this.customerId = customerId;
+	}
 
-   public boolean isFutureIteration() {
-      return isFutureIteration;
-   }
+	public boolean isFutureIteration() {
+		return this.isFutureIteration;
+	}
 
-   public void setFutureIteration(boolean futureIteration) {
-      isFutureIteration = futureIteration;
-   }
+	public void setFutureIteration(final boolean futureIteration) {
+		this.isFutureIteration = futureIteration;
+	}
 }

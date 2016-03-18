@@ -13,43 +13,47 @@ import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Apr 12, 2005
- * Time: 3:25:26 PM
+ * User: Mateusz Prokopowicz Date: Apr 12, 2005 Time: 3:25:26 PM
  */
 public abstract class XplannerPieChartData implements DatasetProducer {
-   protected DefaultPieDataset dataSet = new DefaultPieDataset();
+	protected DefaultPieDataset dataSet = new DefaultPieDataset();
 
-   public void setStatistics(IterationStatisticsQuery statistics) {
-      Hashtable data = getData(statistics);
-      Enumeration enumeration = data.keys();
+	public void setStatistics(final IterationStatisticsQuery statistics) {
+		final Hashtable data = this.getData(statistics);
+		final Enumeration enumeration = data.keys();
 
-      while (enumeration.hasMoreElements()) {
+		while (enumeration.hasMoreElements()) {
 
-         Object group = enumeration.nextElement();
-         String groupName = (group !=null)?group.toString():"null";
+			final Object group = enumeration.nextElement();
+			final String groupName = group != null ? group.toString() : "null";
 
-         double value = ((Double) data.get(groupName)).doubleValue();
+			final double value = ((Double) data.get(groupName)).doubleValue();
 
-         // Note, doubles are rounded to the nearest integer for clarity and ease of display
-         Long roundedValue = new Long(Math.round(value));
-         if (roundedValue.longValue() != 0) {
-            dataSet.setValue(groupName + " (" + roundedValue + ")", roundedValue);
-         }
-      }
-   }
+			// Note, doubles are rounded to the nearest integer for clarity and
+			// ease of display
+			final Long roundedValue = new Long(Math.round(value));
+			if (roundedValue.longValue() != 0) {
+				this.dataSet.setValue(groupName + " (" + roundedValue + ")",
+						roundedValue);
+			}
+		}
+	}
 
-   protected abstract Hashtable getData(IterationStatisticsQuery statistics);
+	protected abstract Hashtable getData(IterationStatisticsQuery statistics);
 
-   public Object produceDataset(Map params) throws DatasetProduceException {
-      return dataSet;
-   }
+	@Override
+	public Object produceDataset(final Map params)
+			throws DatasetProduceException {
+		return this.dataSet;
+	}
 
-   public boolean hasExpired(Map params, Date since) {
-      return true;
-   }
+	@Override
+	public boolean hasExpired(final Map params, final Date since) {
+		return true;
+	}
 
-   public String getProducerId() {
-      return getClass().getName();
-   }
+	@Override
+	public String getProducerId() {
+		return this.getClass().getName();
+	}
 }

@@ -13,89 +13,105 @@ import org.hibernate.usertype.UserType;
 import org.hsqldb.types.Types;
 
 public abstract class CharacterEnumType implements UserType {
-   private static final int[] SQL_TYPES = {Types.CHAR};
+	private static final int[] SQL_TYPES = { Types.CHAR };
 
-   public int[] sqlTypes() {
-      return SQL_TYPES;
-   }
+	@Override
+	public int[] sqlTypes() {
+		return CharacterEnumType.SQL_TYPES;
+	}
 
-   public abstract Class returnedClass();
+	@Override
+	public abstract Class returnedClass();
 
-   public boolean equals(Object x, Object y) throws HibernateException {
-      return x == y;
-   }
+	@Override
+	public boolean equals(final Object x, final Object y)
+			throws HibernateException {
+		return x == y;
+	}
 
-   public Object deepCopy(Object value) throws HibernateException {
-      return value;
-   }
+	@Override
+	public Object deepCopy(final Object value) throws HibernateException {
+		return value;
+	}
 
-   public boolean isMutable() {
-      return false;
-   }
+	@Override
+	public boolean isMutable() {
+		return false;
+	}
 
-   public Object nullSafeGet(ResultSet resultSet,
-                             String[] names,
-                             Object owner)
-           throws HibernateException, SQLException {
+	@Override
+	public Object nullSafeGet(final ResultSet resultSet, final String[] names,
+			final Object owner) throws HibernateException, SQLException {
 
-     String name = resultSet.getString(names[0]);
-     return resultSet.wasNull() ? null : getType(name);
-   }
+		final String name = resultSet.getString(names[0]);
+		return resultSet.wasNull() ? null : this.getType(name);
+	}
 
-   protected abstract CharacterEnum getType(String code);
+	protected abstract CharacterEnum getType(String code);
 
-   public void nullSafeSet(PreparedStatement statement, Object value, int index)
-         throws HibernateException, SQLException {
-       if (value == null) {
-           statement.setNull(index, Types.CHAR);
-       } else {
-           statement.setString(index, convert(value));
-       }
-   }
+	@Override
+	public void nullSafeSet(final PreparedStatement statement,
+			final Object value, final int index) throws HibernateException,
+			SQLException {
+		if (value == null) {
+			statement.setNull(index, Types.CHAR);
+		} else {
+			statement.setString(index, this.convert(value));
+		}
+	}
 
-   private String convert(Object value)
-   {
-      CharacterEnum characterEnum = (CharacterEnum) value;
+	private String convert(final Object value) {
+		final CharacterEnum characterEnum = (CharacterEnum) value;
 
-      return String.copyValueOf(new char[] {characterEnum.getCode()} );
-   }
+		return String.copyValueOf(new char[] { characterEnum.getCode() });
+	}
 
-/* (non-Javadoc)
- * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)
- */
-@Override
-public Object assemble(Serializable serializable, Object obj)
-		throws HibernateException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable,
+	 * java.lang.Object)
+	 */
+	@Override
+	public Object assemble(final Serializable serializable, final Object obj)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-/* (non-Javadoc)
- * @see org.hibernate.usertype.UserType#disassemble(java.lang.Object)
- */
-@Override
-public Serializable disassemble(Object obj) throws HibernateException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hibernate.usertype.UserType#disassemble(java.lang.Object)
+	 */
+	@Override
+	public Serializable disassemble(final Object obj) throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-/* (non-Javadoc)
- * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
- */
-@Override
-public int hashCode(Object obj) throws HibernateException {
-	// TODO Auto-generated method stub
-	return 0;
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
+	 */
+	@Override
+	public int hashCode(final Object obj) throws HibernateException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-/* (non-Javadoc)
- * @see org.hibernate.usertype.UserType#replace(java.lang.Object, java.lang.Object, java.lang.Object)
- */
-@Override
-public Object replace(Object obj, Object obj1, Object obj2)
-		throws HibernateException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hibernate.usertype.UserType#replace(java.lang.Object,
+	 * java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public Object replace(final Object obj, final Object obj1, final Object obj2)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

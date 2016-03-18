@@ -19,27 +19,28 @@ import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 import com.technoetic.xplanner.util.LogUtil;
 
 public class InvalidateCacheAction extends Action {
-    private static final Logger log = LogUtil.getLogger();
-    private Authorizer authorizer;
-    private Map cacheMap;
+	private static final Logger log = LogUtil.getLogger();
+	private Authorizer authorizer;
+	private Map cacheMap;
 
-    public void setCacheMap(Map cacheMap) {
-      this.cacheMap = cacheMap;
-    }
+	public void setCacheMap(final Map cacheMap) {
+		this.cacheMap = cacheMap;
+	}
 
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm form,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      cacheMap.clear();
-      if (SystemAuthorizer.get() != authorizer) {
-         log.error("Configuration problem: there are 2 Authorizers in the system!");
-      }
-      log.info("cache cleared");
-      return null;
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		this.cacheMap.clear();
+		if (SystemAuthorizer.get() != this.authorizer) {
+			InvalidateCacheAction.log
+					.error("Configuration problem: there are 2 Authorizers in the system!");
+		}
+		InvalidateCacheAction.log.info("cache cleared");
+		return null;
+	}
 
-   public void setAuthorizer(Authorizer authorizer) {
-      this.authorizer = authorizer;
-   }
+	public void setAuthorizer(final Authorizer authorizer) {
+		this.authorizer = authorizer;
+	}
 }

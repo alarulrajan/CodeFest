@@ -5,57 +5,66 @@ import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.struts.Globals;
 import org.apache.struts.taglib.TagUtils;
 import org.apache.struts.util.MessageResources;
 
 public class ContentTitleTag extends BodyTagSupport {
-    private ArrayList titleArguments;
-    private String title;
-    private String titleKey;
+	private ArrayList titleArguments;
+	private String title;
+	private String titleKey;
 
-    public int doStartTag() throws JspException {
-        titleArguments = new ArrayList();
-        return super.doStartTag();
-    }
+	@Override
+	public int doStartTag() throws JspException {
+		this.titleArguments = new ArrayList();
+		return super.doStartTag();
+	}
 
-    public int doEndTag() throws JspException {
-        String formattedTitle = null;
-        if (title == null) {
-            if (titleKey != null) {
-                MessageResources resources = (MessageResources)pageContext.findAttribute(Globals.MESSAGES_KEY);
-                if (resources == null) {
-                    throw new JspException("no resource bundle in request");
-                }
-                formattedTitle = resources.getMessage(TagUtils.getInstance().getUserLocale(pageContext, ""), titleKey, titleArguments.toArray());
-            } else {
-                formattedTitle = getBodyContent().getString().trim();
-            }
-        } else {
-            formattedTitle = MessageFormat.format(title, titleArguments.toArray());
-        }
-        ContentTag tag = (ContentTag)findAncestorWithClass(this, ContentTag.class);
-        tag.putAttribute("title", formattedTitle);
-        return super.doEndTag();
-    }
+	@Override
+	public int doEndTag() throws JspException {
+		String formattedTitle = null;
+		if (this.title == null) {
+			if (this.titleKey != null) {
+				final MessageResources resources = (MessageResources) this.pageContext
+						.findAttribute(Globals.MESSAGES_KEY);
+				if (resources == null) {
+					throw new JspException("no resource bundle in request");
+				}
+				formattedTitle = resources.getMessage(TagUtils.getInstance()
+						.getUserLocale(this.pageContext, ""), this.titleKey,
+						this.titleArguments.toArray());
+			} else {
+				formattedTitle = this.getBodyContent().getString().trim();
+			}
+		} else {
+			formattedTitle = MessageFormat.format(this.title,
+					this.titleArguments.toArray());
+		}
+		final ContentTag tag = (ContentTag) TagSupport.findAncestorWithClass(
+				this, ContentTag.class);
+		tag.putAttribute("title", formattedTitle);
+		return super.doEndTag();
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 
-    public void setTitleKey(String titleKey) {
-        this.titleKey = titleKey;
-    }
+	public void setTitleKey(final String titleKey) {
+		this.titleKey = titleKey;
+	}
 
-    public void addTitleArgument(Object value) {
-        titleArguments.add(value);
-    }
+	public void addTitleArgument(final Object value) {
+		this.titleArguments.add(value);
+	}
 
-    public void release() {
-        title = null;
-        titleKey = null;
-        titleArguments = null;
-        super.release();
-    }
+	@Override
+	public void release() {
+		this.title = null;
+		this.titleKey = null;
+		this.titleArguments = null;
+		super.release();
+	}
 }

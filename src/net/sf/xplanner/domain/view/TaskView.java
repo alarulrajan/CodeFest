@@ -4,48 +4,59 @@ import java.util.Date;
 
 import net.sf.xplanner.domain.NamedObject;
 
-public class TaskView extends NamedObject{
+public class TaskView extends NamedObject {
 	private String type;
 	private boolean completed;
 	private double originalEstimate;
 	private double estimatedHours;
 	private Date createdDate;
 	private int acceptorId;
-	
+
 	public String getType() {
-		return type;
+		return this.type;
 	}
-	public void setType(String type) {
+
+	public void setType(final String type) {
 		this.type = type;
 	}
+
 	public boolean isCompleted() {
-		return completed;
+		return this.completed;
 	}
-	public void setCompleted(boolean completed) {
+
+	public void setCompleted(final boolean completed) {
 		this.completed = completed;
 	}
+
 	public double getOriginalEstimate() {
 		return this.originalEstimate;
 	}
-	public void setOriginalEstimate(double originalEstimate) {
+
+	public void setOriginalEstimate(final double originalEstimate) {
 		this.originalEstimate = originalEstimate;
 	}
+
 	public Date getCreatedDate() {
-		return createdDate;
+		return this.createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+
+	public void setCreatedDate(final Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
 	public double getEstimatedHours() {
-		return estimatedHours;
+		return this.estimatedHours;
 	}
-	public void setEstimatedHours(double estimatedHours) {
+
+	public void setEstimatedHours(final double estimatedHours) {
 		this.estimatedHours = estimatedHours;
 	}
+
 	public int getAcceptorId() {
-		return acceptorId;
+		return this.acceptorId;
 	}
-	public void setAcceptorId(int acceptorId) {
+
+	public void setAcceptorId(final int acceptorId) {
 		this.acceptorId = acceptorId;
 	}
 }

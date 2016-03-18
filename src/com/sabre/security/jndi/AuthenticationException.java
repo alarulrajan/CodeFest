@@ -4,35 +4,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: sg897500
- * Date: Oct 14, 2005
- * Time: 3:14:31 PM
+ * Created by IntelliJ IDEA. User: sg897500 Date: Oct 14, 2005 Time: 3:14:31 PM
  * To change this template use File | Settings | File Templates.
  */
 public class AuthenticationException extends Exception {
-   private Map<String,String> errorByModule = new HashMap<String,String>();
 
-    public AuthenticationException(String message) {
-        super(message);
-        errorByModule.put("Default", message);
-    }
+	private static final long serialVersionUID = 201603310102030405L;
 
-    public AuthenticationException(String message, Throwable cause) {
-        super(message, cause);
-        errorByModule.put("", message);
-    }
+	private final Map<String, String> errorByModule = new HashMap<String, String>();
 
-    public AuthenticationException(Throwable cause) {
-        super(cause);
-    }
+	public AuthenticationException(final String message) {
+		super(message);
+		this.errorByModule.put("Default", message);
+	}
 
-   public AuthenticationException(Map<String,String> errorByModule) {
-      this.errorByModule = errorByModule;
-   }
+	public AuthenticationException(final String message, final Throwable cause) {
+		super(message, cause);
+		this.errorByModule.put("", message);
+	}
 
-   public Map<String,String> getErrorsByModule() {
-       return this.errorByModule;
-   }
-   
+	public AuthenticationException(final Throwable cause) {
+		super(cause);
+	}
+
+	public AuthenticationException(final Map<String, String> errorByModule) {
+		if (errorByModule == null) {
+			return;
+		}
+		this.errorByModule.putAll(errorByModule);
+	}
+
+	public Map<String, String> getErrorsByModule() {
+		return this.errorByModule;
+	}
+
 }

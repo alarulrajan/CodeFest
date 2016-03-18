@@ -3,14 +3,15 @@
 
 <hibernate-reverse-engineering>
 
-<table-filter match-name="attribute" match-catalog="xplanner"></table-filter>
+	<table-filter match-name="attribute" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="datasample" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="history" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="identifier" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="integration" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="iteration" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="note" match-catalog="xplanner"></table-filter>
-	<table-filter match-name="notification_receivers" match-catalog="xplanner"></table-filter>
+	<table-filter match-name="notification_receivers"
+		match-catalog="xplanner"></table-filter>
 	<table-filter match-name="patches" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="permission" match-catalog="xplanner"></table-filter>
 	<table-filter match-name="person" match-catalog="xplanner"></table-filter>

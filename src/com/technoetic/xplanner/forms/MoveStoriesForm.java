@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoveStoriesForm extends AbstractEditorForm {
-	private List<String> storyIds = new ArrayList<String>();
+	private final List<String> storyIds = new ArrayList<String>();
 	private int targetIterationId;
 	private String iterationId;
 
 	public List<String> getStoryIds() {
-		return storyIds;
+		return this.storyIds;
 	}
 
-	public void setSelected(int index, String storyId) {
-		storyIds.add(storyId);
+	public void setSelected(final int index, final String storyId) {
+		this.storyIds.add(storyId);
 	}
 
 	public int getTargetIterationId() {
-		return targetIterationId;
+		return this.targetIterationId;
 	}
 
-	public void setTargetIterationId(int targetIterationId) {
+	public void setTargetIterationId(final int targetIterationId) {
 		this.targetIterationId = targetIterationId;
 	}
 
 	public String getIterationId() {
-		return iterationId;
+		return this.iterationId;
 	}
 
-	public void setIterationId(String iterationId) {
+	public void setIterationId(final String iterationId) {
 		this.iterationId = iterationId;
 	}
 }

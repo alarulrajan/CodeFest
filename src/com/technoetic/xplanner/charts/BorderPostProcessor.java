@@ -12,8 +12,9 @@ import de.laures.cewolf.ChartPostProcessor;
  * Post processor which is used change the border colour of a pie chart.
  */
 public class BorderPostProcessor implements ChartPostProcessor {
-    public void processChart(Object chart, Map params) {
-        PiePlot plot = (PiePlot)((JFreeChart)chart).getPlot();
-        plot.setOutlinePaint(Color.WHITE);
-    }
+	@Override
+	public void processChart(final Object chart, final Map params) {
+		final PiePlot plot = (PiePlot) ((JFreeChart) chart).getPlot();
+		plot.setOutlinePaint(Color.WHITE);
+	}
 }

@@ -16,40 +16,43 @@ import com.technoetic.xplanner.db.AggregateTimesheetQuery;
 import com.technoetic.xplanner.forms.AggregateTimesheetForm;
 
 public class ViewAggregateTimesheetAction extends AbstractAction {
-    private static final Logger log = Logger.getLogger("ViewAggregateTimesheetAction");
+	private static final Logger log = Logger
+			.getLogger("ViewAggregateTimesheetAction");
 
-    @Override
-	protected ActionForward doExecute(ActionMapping actionMapping,
-            ActionForm actionForm,
-            HttpServletRequest request,
-            HttpServletResponse reply) throws Exception {
-        AggregateTimesheetForm form = (AggregateTimesheetForm)actionForm;
-        try {
-            Session session = getSession(request);
-            try {
+	@Override
+	protected ActionForward doExecute(final ActionMapping actionMapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse reply) throws Exception {
+		final AggregateTimesheetForm form = (AggregateTimesheetForm) actionForm;
+		try {
+			final Session session = this.getSession(request);
+			try {
 
-                form.setAllPeople(session.find("from people in class net.sf.xplanner.domain.Person " +
-                        "where people.hidden = false order by name"));
-                AggregateTimesheetQuery query = new AggregateTimesheetQuery(getSession(request));
-                query.setPersonIds(form.getSelectedPeople());
-                query.setStartDate(form.getStartDate());
-                query.setEndDate(form.getEndDate());
-                form.setTimesheet(query.getTimesheet());
-                if (form.getDateFormat() == null) {
-                    String format = getResources(request).getMessage("format.date");
-                    form.setDateFormat(new SimpleDateFormat(format));
-                }
-                return actionMapping.findForward("view/aggregateTimesheet");
-            } catch (Exception ex) {
-                session.connection().rollback();
-                log.error("error", ex);
-                throw new ServletException(ex);
-            }
-        } catch (ServletException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("error", ex);
-            throw new ServletException(ex);
-        }
-    }
+				form.setAllPeople(session
+						.find("from people in class net.sf.xplanner.domain.Person "
+								+ "where people.hidden = false order by name"));
+				final AggregateTimesheetQuery query = new AggregateTimesheetQuery(
+						this.getSession(request));
+				query.setPersonIds(form.getSelectedPeople());
+				query.setStartDate(form.getStartDate());
+				query.setEndDate(form.getEndDate());
+				form.setTimesheet(query.getTimesheet());
+				if (form.getDateFormat() == null) {
+					final String format = this.getResources(request)
+							.getMessage("format.date");
+					form.setDateFormat(new SimpleDateFormat(format));
+				}
+				return actionMapping.findForward("view/aggregateTimesheet");
+			} catch (final Exception ex) {
+				session.connection().rollback();
+				ViewAggregateTimesheetAction.log.error("error", ex);
+				throw new ServletException(ex);
+			}
+		} catch (final ServletException ex) {
+			throw ex;
+		} catch (final Exception ex) {
+			ViewAggregateTimesheetAction.log.error("error", ex);
+			throw new ServletException(ex);
+		}
+	}
 }

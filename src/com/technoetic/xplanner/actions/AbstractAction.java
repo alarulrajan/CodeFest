@@ -2,7 +2,6 @@ package com.technoetic.xplanner.actions;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -54,94 +53,109 @@ public abstract class AbstractAction<T extends Identifiable> extends Action {
 	private CommonDao<T> commonDao;
 
 	public AbstractAction() {
-		Type genericSuperclass = getClass().getGenericSuperclass();
+		final Type genericSuperclass = this.getClass().getGenericSuperclass();
 		if (genericSuperclass instanceof ParameterizedType) {
-			Object object = ((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];	
+			final Object object = ((ParameterizedType) genericSuperclass)
+					.getActualTypeArguments()[0];
 			if (object instanceof Class<?>) {
-				domainClass = (Class<T>) object;
-			}else {
-				domainClass = null; //(Class<T>) ((TypeVariable) object).getClass();
+				this.domainClass = (Class<T>) object;
+			} else {
+				this.domainClass = null; // (Class<T>) ((TypeVariable)
+											// object).getClass();
 			}
-		}else {
-			domainClass = null; //(Class<T>) ((TypeVariable) object).getClass();
+		} else {
+			this.domainClass = null; // (Class<T>) ((TypeVariable)
+										// object).getClass();
 		}
 	}
-	
+
 	@Override
-	public ActionForward execute(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
 			final HttpServletResponse response) throws Exception {
-		if (LOG.isDebugEnabled()) {
-			String name = mapping.getName();
-			String requestParams = RequestUtils.toString(request);
-			String action = "\naction=\"" + name + "\" requestParams=" + requestParams;
-			LOG.debug(action);
+		if (AbstractAction.LOG.isDebugEnabled()) {
+			final String name = mapping.getName();
+			final String requestParams = RequestUtils.toString(request);
+			final String action = "\naction=\"" + name + "\" requestParams="
+					+ requestParams;
+			AbstractAction.LOG.debug(action);
 		}
 		try {
-			ActionForward forward = (ActionForward) transactionTemplate.execute(new Callable() {
-				public Object run() throws Exception {
-					ActionForward forward = doExecute(mapping, form, request, response);
-					// DEBT JM DEBT: Should be a instance member. Try converting
-					// to SpringAction to have a stateful action with members
-					T object = getTargetObject(request);
-					if (object != null) {
-						beforeObjectCommit(object, mapping, form, request, response);
-					}
-					return forward;
+			final ActionForward forward = (ActionForward) this.transactionTemplate
+					.execute(new Callable() {
+						@Override
+						public Object run() throws Exception {
+							final ActionForward forward = AbstractAction.this
+									.doExecute(mapping, form, request, response);
+							// DEBT JM DEBT: Should be a instance member. Try
+							// converting
+							// to SpringAction to have a stateful action with
+							// members
+							final T object = AbstractAction.this
+									.getTargetObject(request);
+							if (object != null) {
+								AbstractAction.this.beforeObjectCommit(object,
+										mapping, form, request, response);
+							}
+							return forward;
 
-				}
-			});
-			afterObjectCommit(mapping, form, request, response);
+						}
+					});
+			this.afterObjectCommit(mapping, form, request, response);
 			return forward;
-		} catch (Throwable e) {
-			LOG.error(e);
-			if (e instanceof RuntimeException)
-				throw (RuntimeException) e;
-			if (e instanceof Error)
-				throw (Error) e;
-			if (e instanceof Exception)
-				throw (Exception) e;
-			return null; // never reached
+		} catch (final Exception e) {
+			AbstractAction.LOG.error(e);
+			throw e;
 		}
 	}
 
 	// DEBT(SPRING) Remove access to session. Access to the db should always go
 	// through repositories or queries that are injected
-	protected void beforeObjectCommit(T object, ActionMapping actionMapping, ActionForm actionForm,
-			HttpServletRequest request, HttpServletResponse reply) throws Exception {
+	protected void beforeObjectCommit(final T object,
+			final ActionMapping actionMapping, final ActionForm actionForm,
+			final HttpServletRequest request, final HttpServletResponse reply)
+			throws Exception {
 	}
 
-	protected void afterObjectCommit(ActionMapping actionMapping, ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse reply) throws Exception {
+	protected void afterObjectCommit(final ActionMapping actionMapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse reply) throws Exception {
 	}
 
-	protected abstract ActionForward doExecute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	protected abstract ActionForward doExecute(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 
-	protected Class getObjectType(ActionMapping actionMapping, HttpServletRequest request)
-			throws ClassNotFoundException, ServletException {
-		String className = type;
+	protected Class getObjectType(final ActionMapping actionMapping,
+			final HttpServletRequest request) throws ClassNotFoundException,
+			ServletException {
+		String className = this.type;
 		if (className == null) {
-			className = getObjectTypeFromForward(actionMapping, className);
+			className = this.getObjectTypeFromForward(actionMapping, className);
 		}
 		if (className == null) {
-			className = request.getParameter(TYPE_KEY);
+			className = request.getParameter(AbstractAction.TYPE_KEY);
 		}
 		if (className != null) {
 			return Class.forName(className);
 		} else {
-			throw new ServletException("no object type is specified in mapping or request");
+			throw new ServletException(
+					"no object type is specified in mapping or request");
 		}
 	}
 
-	private String getObjectTypeFromForward(ActionMapping actionMapping, String className) {
-		ActionForward forward = actionMapping.findForward(TYPE_KEY);
+	private String getObjectTypeFromForward(final ActionMapping actionMapping,
+			String className) {
+		final ActionForward forward = actionMapping
+				.findForward(AbstractAction.TYPE_KEY);
 		if (forward != null) {
 			className = forward.getPath();
 		}
 		return className;
 	}
 
-	protected DomainContext setDomainContext(HttpServletRequest request, Object object, ActionMapping actionMapping)
+	protected DomainContext setDomainContext(final HttpServletRequest request,
+			final Object object, final ActionMapping actionMapping)
 			throws Exception {
 		DomainContext domainContext = DomainContext.get(request);
 		if (domainContext != null) {
@@ -150,30 +164,36 @@ public abstract class AbstractAction<T extends Identifiable> extends Action {
 		domainContext = new DomainContext();
 		domainContext.populate(object);
 		domainContext.setActionMapping(actionMapping);
-		String projectIdParam = request.getParameter("projectId");
-		if (domainContext.getProjectId() == 0 && StringUtils.isNotEmpty(projectIdParam) && !projectIdParam.equals("0")) {
-			Project project = (Project) getCommonDao().getById(Project.class, Integer.parseInt((request.getParameter("projectId"))));
+		final String projectIdParam = request.getParameter("projectId");
+		if (domainContext.getProjectId() == 0
+				&& StringUtils.isNotEmpty(projectIdParam)
+				&& !projectIdParam.equals("0")) {
+			final Project project = this.getCommonDao().getById(Project.class,
+					Integer.parseInt(request.getParameter("projectId")));
 			domainContext.populate(project);
 		}
 		domainContext.save(request);
 		return domainContext;
 	}
 
-	public void addError(HttpServletRequest request, String errorKey) {
-		addError(request, new ActionError(errorKey));
+	public void addError(final HttpServletRequest request, final String errorKey) {
+		this.addError(request, new ActionError(errorKey));
 	}
 
-	public void addError(HttpServletRequest request, String errorKey, Object arg) {
-		addError(request, new ActionError(errorKey, arg));
+	public void addError(final HttpServletRequest request,
+			final String errorKey, final Object arg) {
+		this.addError(request, new ActionError(errorKey, arg));
 	}
 
-	private void addError(HttpServletRequest request, ActionError error) {
-		ActionErrors errors = getActionErrors(request);
+	private void addError(final HttpServletRequest request,
+			final ActionError error) {
+		final ActionErrors errors = this.getActionErrors(request);
 		errors.add(ActionErrors.GLOBAL_ERROR, error);
 	}
 
-	private ActionErrors getActionErrors(HttpServletRequest request) {
-		ActionErrors errors = (ActionErrors) request.getAttribute(Globals.ERROR_KEY);
+	private ActionErrors getActionErrors(final HttpServletRequest request) {
+		ActionErrors errors = (ActionErrors) request
+				.getAttribute(Globals.ERROR_KEY);
 		if (errors == null) {
 			errors = new ActionErrors();
 			request.setAttribute(Globals.ERROR_KEY, errors);
@@ -181,75 +201,79 @@ public abstract class AbstractAction<T extends Identifiable> extends Action {
 		return errors;
 	}
 
-	public ActionForward getGeneralErrorForward(ActionMapping mapping, HttpServletRequest request, String errorKey) {
-		addError(request, errorKey);
+	public ActionForward getGeneralErrorForward(final ActionMapping mapping,
+			final HttpServletRequest request, final String errorKey) {
+		this.addError(request, errorKey);
 		return mapping.findForward("error");
 	}
 
-	public ActionForward getGeneralErrorForward(ActionMapping mapping, HttpServletRequest request, String errorKey,
-			Object arg) {
-		addError(request, errorKey, arg);
+	public ActionForward getGeneralErrorForward(final ActionMapping mapping,
+			final HttpServletRequest request, final String errorKey,
+			final Object arg) {
+		this.addError(request, errorKey, arg);
 		return mapping.findForward("error");
 
 	}
 
 	@SuppressWarnings("unchecked")
-	protected T getTargetObject(HttpServletRequest request) {
-		return (T) request.getAttribute(TARGET_OBJECT);
+	protected T getTargetObject(final HttpServletRequest request) {
+		return (T) request.getAttribute(AbstractAction.TARGET_OBJECT);
 	}
 
-	protected void setTargetObject(HttpServletRequest request, Object target) {
-		request.setAttribute(TARGET_OBJECT, target);
+	protected void setTargetObject(final HttpServletRequest request,
+			final Object target) {
+		request.setAttribute(AbstractAction.TARGET_OBJECT, target);
 	}
 
-	protected Session getSession(HttpServletRequest request) {
+	protected Session getSession(final HttpServletRequest request) {
 		return HibernateHelper.getSession(request);
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 
-	public void setTransactionTemplate(CheckedExceptionHandlingTransactionTemplate transactionTemplate) {
+	public void setTransactionTemplate(
+			final CheckedExceptionHandlingTransactionTemplate transactionTemplate) {
 		this.transactionTemplate = transactionTemplate;
 	}
 
-	public Iteration getIteration(int id) throws RepositoryException {
-		return getCommonDao().getById(Iteration.class, id);
+	public Iteration getIteration(final int id) throws RepositoryException {
+		return this.getCommonDao().getById(Iteration.class, id);
 	}
 
-	public void setEventBus(EventManager eventBus) {
+	public void setEventBus(final EventManager eventBus) {
 		this.eventBus = eventBus;
 	}
 
 	public EventManager getEventBus() {
-		return eventBus;
+		return this.eventBus;
 	}
 
-	protected final Person getLoggedInUser(HttpServletRequest request) {
+	protected final Person getLoggedInUser(final HttpServletRequest request) {
 		try {
-			int remoteUserId = SecurityHelper.getRemoteUserId(request);
-			return getCommonDao().getById(Person.class, remoteUserId);
-		} catch (AuthenticationException e) {
-			e.printStackTrace();
+			final int remoteUserId = SecurityHelper.getRemoteUserId(request);
+			return this.getCommonDao().getById(Person.class, remoteUserId);
+		} catch (final AuthenticationException e) {
+			AbstractAction.LOG.error("", e);
 		}
 		return null;
 
 	}
 
 	public CommonDao<T> getCommonDao() {
-		return commonDao;
+		return this.commonDao;
 	}
 
 	@Autowired
 	@Required
-	public void setCommonDao(CommonDao<T> commonDao) {
+	public void setCommonDao(final CommonDao<T> commonDao) {
 		this.commonDao = commonDao;
 	}
 
 	@Autowired
 	@Required
-	public void setHistorySupport(HistorySupport historySupport) {
+	public void setHistorySupport(final HistorySupport historySupport) {
 		this.historySupport = historySupport;
 	}
 

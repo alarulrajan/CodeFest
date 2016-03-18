@@ -18,55 +18,64 @@
  */
 package net.sf.xplanner.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import net.sf.xplanner.domain.enums.SettingScope;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="object_type", discriminatorType = DiscriminatorType.STRING)
-@Table(name="setting")
-public class Setting extends NamedObject{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "object_type", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "setting")
+public class Setting extends NamedObject {
 	private String category;
 	private String defaultValue;
 	private SettingScope scope;
 	private ObjectType objectType;
 
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public ObjectType getObjectType() {
-		return objectType;
+		return this.objectType;
 	}
 
 	@Column(name = "category", length = 255)
 	public String getCategory() {
-		return category;
+		return this.category;
 	}
 
 	@Column(name = "defaultValue", length = 255)
 	public String getDefaultValue() {
-		return defaultValue;
+		return this.defaultValue;
 	}
 
 	@Column(name = "setting_scope")
 	@Enumerated(EnumType.ORDINAL)
 	public SettingScope getScope() {
-		return scope;
+		return this.scope;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(final String category) {
 		this.category = category;
 	}
 
-	public void setDefaultValue(String defaultValue) {
+	public void setDefaultValue(final String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
-	
-	public void setScope(SettingScope scope) {
+
+	public void setScope(final SettingScope scope) {
 		this.scope = scope;
 	}
-	
-	public void setObjectType(ObjectType objectType) {
+
+	public void setObjectType(final ObjectType objectType) {
 		this.objectType = objectType;
 	}
-	
+
 }

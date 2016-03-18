@@ -17,38 +17,43 @@ import com.technoetic.xplanner.security.LoginModule;
 import com.technoetic.xplanner.security.PersonPrincipal;
 
 public class LoginSupportImpl implements LoginSupport {
-   public static final String MESSAGE_STORAGE_ERROR_KEY = "authentication.module.message.storageError";
+	public static final String MESSAGE_STORAGE_ERROR_KEY = "authentication.module.message.storageError";
 
-   public Person populateSubjectPrincipalFromDatabase(Subject subject, String userId)
-         throws AuthenticationException {
-      Person person = null;
-      try {
-         person = getPerson(userId);
-      } catch (HibernateException e) {
-         throw new AuthenticationException(MESSAGE_STORAGE_ERROR_KEY);
-      }
-      if (person == null) {
-         throw new AuthenticationException(LoginModule.MESSAGE_USER_NOT_FOUND_KEY);
-      }
-      subject.getPrincipals().clear();
-      subject.getPrincipals().add(new PersonPrincipal(person));
-      return person;
-   }
+	@Override
+	public Person populateSubjectPrincipalFromDatabase(final Subject subject,
+			final String userId) throws AuthenticationException {
+		Person person = null;
+		try {
+			person = this.getPerson(userId);
+		} catch (final HibernateException e) {
+			throw new AuthenticationException(
+					LoginSupportImpl.MESSAGE_STORAGE_ERROR_KEY);
+		}
+		if (person == null) {
+			throw new AuthenticationException(
+					LoginModule.MESSAGE_USER_NOT_FOUND_KEY);
+		}
+		subject.getPrincipals().clear();
+		subject.getPrincipals().add(new PersonPrincipal(person));
+		return person;
+	}
 
-   public Person getPerson(String userId) throws HibernateException {
-      Session session = ThreadSession.get();
-      List people = session.find("from person in class " +
-                                 Person.class.getName() + " where userid = ?",
-                                 userId, Hibernate.STRING);
-      Iterator peopleIterator = people.iterator();
-      if (peopleIterator.hasNext()) {
-         return (Person) peopleIterator.next();
-      } else {
-         return null;
-      }
-   }
+	@Override
+	public Person getPerson(final String userId) throws HibernateException {
+		final Session session = ThreadSession.get();
+		final List people = session.find(
+				"from person in class " + Person.class.getName()
+						+ " where userid = ?", userId, Hibernate.STRING);
+		final Iterator peopleIterator = people.iterator();
+		if (peopleIterator.hasNext()) {
+			return (Person) peopleIterator.next();
+		} else {
+			return null;
+		}
+	}
 
-   public Subject createSubject() {
-      return new Subject();
-   }
+	@Override
+	public Subject createSubject() {
+		return new Subject();
+	}
 }

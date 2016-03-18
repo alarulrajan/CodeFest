@@ -10,28 +10,26 @@ import net.sf.xplanner.domain.Task;
 
 import org.displaytag.decorator.TableDecorator;
 
-
 public class TaskDecorator extends TableDecorator {
-    public double getPercentCompleted() {
-        Task task = getTask();
-        return HoursDecorator.getPercentCompletedScore(task.getEstimatedHours(),
-                                                       task.getActualHours(),
-                                                       task.getRemainingHours(),
-                                                       task.isCompleted());
-    }
+	public double getPercentCompleted() {
+		final Task task = this.getTask();
+		return HoursDecorator.getPercentCompletedScore(
+				task.getEstimatedHours(), task.getActualHours(),
+				task.getRemainingHours(), task.isCompleted());
+	}
 
-    public double getRemainingHours() {
-        Task task = getTask();
-        return HoursDecorator.getRemainingHoursScore(task.getActualHours(), task.getRemainingHours(), task.isCompleted());
-    }
+	public double getRemainingHours() {
+		final Task task = this.getTask();
+		return HoursDecorator.getRemainingHoursScore(task.getActualHours(),
+				task.getRemainingHours(), task.isCompleted());
+	}
 
-    public String getAcceptorName() {
-        return PersonIdDecorator.getPersonName(getTask().getAcceptorId());
-    }
+	public String getAcceptorName() {
+		return PersonIdDecorator.getPersonName(this.getTask().getAcceptorId());
+	}
 
-    private Task getTask() {
-        return ((Task) getCurrentRowObject());
-    }
-
+	private Task getTask() {
+		return (Task) this.getCurrentRowObject();
+	}
 
 }

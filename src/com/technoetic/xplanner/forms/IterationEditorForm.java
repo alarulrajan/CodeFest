@@ -8,130 +8,141 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
 public class IterationEditorForm extends AbstractEditorForm {
-   private String name;
-   private String description;
-   private Date startDate;
-   private Date endDate;
-   private double daysWorked;
-   private String startDateString;
-   private String endDateString;
-   private String statusKey;
-   private int projectId;
+	private String name;
+	private String description;
+	private Date startDate;
+	private Date endDate;
+	private double daysWorked;
+	private String startDateString;
+	private String endDateString;
+	private String statusKey;
+	private int projectId;
 
-   public String getContainerId() {
-      return Integer.toString(getProjectId());
-   }
+	public String getContainerId() {
+		return Integer.toString(this.getProjectId());
+	}
 
-   public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-      initConverters(request);
-      ActionErrors errors = new ActionErrors();
-      if (isSubmitted()) {
-         require(errors, name, "iteration.editor.missing_name");
-         require(errors, startDateString, "iteration.editor.bad_start_date");
-         require(errors, endDateString, "iteration.editor.bad_end_date");
-         requirePositiveInterval(errors);
-      }
-      return errors;
-   }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		AbstractEditorForm.initConverters(request);
+		final ActionErrors errors = new ActionErrors();
+		if (this.isSubmitted()) {
+			AbstractEditorForm.require(errors, this.name,
+					"iteration.editor.missing_name");
+			AbstractEditorForm.require(errors, this.startDateString,
+					"iteration.editor.bad_start_date");
+			AbstractEditorForm.require(errors, this.endDateString,
+					"iteration.editor.bad_end_date");
+			this.requirePositiveInterval(errors);
+		}
+		return errors;
+	}
 
-   public void reset(ActionMapping mapping, HttpServletRequest request) {
-      super.reset(mapping, request);
-      name = null;
-      description = null;
-      startDateString = null;
-      endDateString = null;
-      projectId = 0;
-      dateConverter = null;
-   }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.name = null;
+		this.description = null;
+		this.startDateString = null;
+		this.endDateString = null;
+		this.projectId = 0;
+		AbstractEditorForm.dateConverter = null;
+	}
 
-   private void requirePositiveInterval(ActionErrors errors) {
-      if (errors.size() == 0) {
-         startDate = convertToDate(startDateString, "iteration.editor.bad_start_date", errors);
-         endDate = convertToDate(endDateString, "iteration.editor.bad_end_date", errors);
-         if (startDate != null && endDate != null && endDate.compareTo(startDate) <= 0) {
-            error(errors, "iteration.editor.nonpositive_interval");
-         }
-      }
-   }
+	private void requirePositiveInterval(final ActionErrors errors) {
+		if (errors.size() == 0) {
+			this.startDate = AbstractEditorForm.convertToDate(
+					this.startDateString, "iteration.editor.bad_start_date",
+					errors);
+			this.endDate = AbstractEditorForm.convertToDate(this.endDateString,
+					"iteration.editor.bad_end_date", errors);
+			if (this.startDate != null && this.endDate != null
+					&& this.endDate.compareTo(this.startDate) <= 0) {
+				AbstractEditorForm.error(errors,
+						"iteration.editor.nonpositive_interval");
+			}
+		}
+	}
 
-   public String getName() {
-      return name;
-   }
+	public String getName() {
+		return this.name;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-   public String getStatusKey() {
-      return statusKey;
-   }
+	public String getStatusKey() {
+		return this.statusKey;
+	}
 
-   public void setStatusKey(String statusKey) {
-      this.statusKey = statusKey;
-   }
+	public void setStatusKey(final String statusKey) {
+		this.statusKey = statusKey;
+	}
 
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-   public String getDescription() {
-      return description;
-   }
+	public String getDescription() {
+		return this.description;
+	}
 
-   public void setStartDateString(String startDateString) {
-      this.startDateString = startDateString;
-   }
+	public void setStartDateString(final String startDateString) {
+		this.startDateString = startDateString;
+	}
 
-   public String getStartDateString() {
-      return startDateString;
-   }
+	public String getStartDateString() {
+		return this.startDateString;
+	}
 
-   public void setEndDateString(String endDateString) {
-      this.endDateString = endDateString;
-   }
+	public void setEndDateString(final String endDateString) {
+		this.endDateString = endDateString;
+	}
 
-   public String getEndDateString() {
-      return endDateString;
-   }
+	public String getEndDateString() {
+		return this.endDateString;
+	}
 
-   public void setProjectId(int projectId) {
-      this.projectId = projectId;
-   }
+	public void setProjectId(final int projectId) {
+		this.projectId = projectId;
+	}
 
-   public int getProjectId() {
-      return projectId;
-   }
+	public int getProjectId() {
+		return this.projectId;
+	}
 
-   public Date getEndDate() {
-      return endDate;
-   }
+	public Date getEndDate() {
+		return this.endDate;
+	}
 
-   public void setEndDate(Date endDate) {
-      this.endDate = endDate;
-      endDateString = toString(endDate);
-   }
+	public void setEndDate(final Date endDate) {
+		this.endDate = endDate;
+		this.endDateString = this.toString(endDate);
+	}
 
-   public Date getStartDate() {
-      return startDate;
-   }
+	public Date getStartDate() {
+		return this.startDate;
+	}
 
-   public void setStartDate(Date startDate) {
-      this.startDate = startDate;
-      startDateString = toString(startDate);
-   }
+	public void setStartDate(final Date startDate) {
+		this.startDate = startDate;
+		this.startDateString = this.toString(startDate);
+	}
 
-   public double getDaysWorked() {
-      return daysWorked;
-   }
+	public double getDaysWorked() {
+		return this.daysWorked;
+	}
 
-   public void setDaysWorked(double daysWorked) {
-      this.daysWorked = daysWorked;
-   }
+	public void setDaysWorked(final double daysWorked) {
+		this.daysWorked = daysWorked;
+	}
 
-
-private String toString(Date date) {
-      return (date == null ? "" : dateConverter.format(date));
-   }
-
+	private String toString(final Date date) {
+		return date == null ? "" : AbstractEditorForm.dateConverter
+				.format(date);
+	}
 
 }

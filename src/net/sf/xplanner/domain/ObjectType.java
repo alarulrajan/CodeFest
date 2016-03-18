@@ -26,39 +26,37 @@ import javax.persistence.Table;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
- *
+ * 
  * @author Maksym
  */
 @Entity
-@Table(name="object_type")
+@Table(name = "object_type")
 public class ObjectType extends DomainObject implements Identifiable {
-    private static final long serialVersionUID = 1L;
+	@Column(unique = true, length = 32)
+	private String name;
 
-    @Column(unique=true, length=32)
-    private String name;
+	@Column(length = 255)
+	private String description;
 
-    @Column(length=255)
-    private String description;
+	public String getDescription() {
+		return this.description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "net.sf.xplanner.domain.ObjectType[name=" + name + "]";
-    }
+	@Override
+	public String toString() {
+		return "net.sf.xplanner.domain.ObjectType[name=" + this.name + "]";
+	}
 
 }

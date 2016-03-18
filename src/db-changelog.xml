@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 	<changeSet author="maksym" id="1-1">
-		<preConditions onFail="MARK_RAN" >
+		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="attribute" />
 			</not>
@@ -237,9 +237,10 @@
 		</createTable>
 	</changeSet>
 	<changeSet author="maksym" id="1-2">
-		<preConditions onFail="MARK_RAN" >
+		<preConditions onFail="MARK_RAN">
 			<not>
-				<indexExists tableName="person" indexName="userId" columnNames="userId" />
+				<indexExists tableName="person" indexName="userId"
+					columnNames="userId" />
 			</not>
 		</preConditions>
 		<addPrimaryKey columnNames="targetId, name" tableName="attribute" />
@@ -255,16 +256,56 @@
 		<createIndex indexName="role" tableName="role" unique="true">
 			<column name="role" />
 		</createIndex>
-		<addForeignKeyConstraint baseColumnNames="project_id"	baseTableName="iteration" constraintName="FK8904EEDD8A94A401" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"	referencedColumnNames="id" referencedTableName="project" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="attachment_id" baseTableName="note" constraintName="noteAttachments" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="xfile" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="person_id" baseTableName="notification_receivers"	constraintName="FK90D2EE1032DA9A45" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="person" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="project_id"	baseTableName="notification_receivers" constraintName="FK90D2EE108A94A401" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="story"  constraintName="FK0015856662D8A5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"	onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="person" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="iteration_id"	baseTableName="story"  constraintName="FK0025856662D8A5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="iteration" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="story_id" baseTableName="task"  constraintName="FK3635856662D8A5"	deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"	onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="story" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="task_id" baseTableName="time_entry"	constraintName="FK0045856662D8A5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"	referencedColumnNames="id" referencedTableName="task" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="xdir"  constraintName="FK3811157B66B0D0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="xdir" referencesUniqueColumn="false" />
-		<addForeignKeyConstraint baseColumnNames="dir_id"	baseTableName="xfile"  constraintName="FK6CAF9F4B0A1860D"	deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"	onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="xdir" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="project_id"
+			baseTableName="iteration" constraintName="FK8904EEDD8A94A401"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="attachment_id"
+			baseTableName="note" constraintName="noteAttachments" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="xfile"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="person_id"
+			baseTableName="notification_receivers" constraintName="FK90D2EE1032DA9A45"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="person"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="project_id"
+			baseTableName="notification_receivers" constraintName="FK90D2EE108A94A401"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="story" constraintName="FK0015856662D8A5" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="person"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="iteration_id"
+			baseTableName="story" constraintName="FK0025856662D8A5" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="iteration"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="story_id"
+			baseTableName="task" constraintName="FK3635856662D8A5" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="story"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="task_id"
+			baseTableName="time_entry" constraintName="FK0045856662D8A5"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="parent_id"
+			baseTableName="xdir" constraintName="FK3811157B66B0D0" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="xdir"
+			referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="dir_id"
+			baseTableName="xfile" constraintName="FK6CAF9F4B0A1860D" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="xdir"
+			referencesUniqueColumn="false" />
 
 		<insert tableName="permission">
 			<column name="id" valueNumeric="6" />
@@ -484,10 +525,10 @@
 	</changeSet>
 	<changeSet author="maksym" id="2-4">
 		<addColumn tableName="project">
-			<column name="backlog_id" type="INT"/>
+			<column name="backlog_id" type="INT" />
 		</addColumn>
 	</changeSet>
 	<changeSet author="maksym" id="2-5">
-		<renameTable newTableName="roles" oldTableName="role"/>
+		<renameTable newTableName="roles" oldTableName="role" />
 	</changeSet>
 </databaseChangeLog>

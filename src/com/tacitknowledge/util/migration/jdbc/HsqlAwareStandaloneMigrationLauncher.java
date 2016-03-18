@@ -13,10 +13,11 @@ import com.technoetic.xplanner.db.hsqldb.HsqlServer;
  * <p>
  * This class expects the following Java environment parameters:
  * <ul>
- *    <li>migration.systemname - the name of the logical system being migrated</li>
+ * <li>migration.systemname - the name of the logical system being migrated</li>
  * </ul>
  * <p>
  * Below is an example of how this class can be configured in build.xml:
+ * 
  * <pre>
  *   ...
  *  &lt;target name="patch.database" description="Runs the migration system"&gt;
@@ -30,23 +31,25 @@ import com.technoetic.xplanner.db.hsqldb.HsqlServer;
  * &lt;/target&gt;
  *   ...
  * </pre>
- *
- * @author  Mike Hardy (mike@tacitknowledge.com)
- * @version $Id: StandaloneMigrationLauncher.java,v 1.7 2005/09/07 22:20:34 chrisa Exp $
- * @see     com.tacitknowledge.util.migration.MigrationProcess
+ * 
+ * @author Mike Hardy (mike@tacitknowledge.com)
+ * @version $Id: StandaloneMigrationLauncher.java,v 1.7 2005/09/07 22:20:34
+ *          chrisa Exp $
+ * @see com.tacitknowledge.util.migration.MigrationProcess
  */
-public class HsqlAwareStandaloneMigrationLauncher
-{
-    /**
-     * Run the migrations for the given system name
-     *
-     * @param arguments the command line arguments, if any (none are used)
-     * @exception Exception if anything goes wrong
-     */
-    public static void main(String[] arguments) throws Exception {
-      HsqlServer.start();
-      StandaloneMigrationLauncher.main(arguments);
-      HsqlServer.shutdown();
-    }
+public class HsqlAwareStandaloneMigrationLauncher {
+	/**
+	 * Run the migrations for the given system name
+	 * 
+	 * @param arguments
+	 *            the command line arguments, if any (none are used)
+	 * @exception Exception
+	 *                if anything goes wrong
+	 */
+	public static void main(final String[] arguments) throws Exception {
+		HsqlServer.start();
+		StandaloneMigrationLauncher.main(arguments);
+		HsqlServer.shutdown();
+	}
 
 }

@@ -15,38 +15,45 @@ import org.apache.struts.upload.FormFile;
 
 import com.technoetic.xplanner.file.FileSystem;
 import com.technoetic.xplanner.forms.NoteEditorForm;
+
 public class EditNoteAction extends EditObjectAction<Note> {
-    private FileSystem fileSystem;
-	protected void populateObject(HttpServletRequest request, Object object, ActionForm form) throws Exception {
-        Logger.getLogger(EditNoteAction.class).debug("Populating...");
+	private FileSystem fileSystem;
 
-        super.populateObject(request, object, form);
+	@Override
+	protected void populateObject(final HttpServletRequest request,
+			final Object object, final ActionForm form) throws Exception {
+		Logger.getLogger(EditNoteAction.class).debug("Populating...");
 
-        NoteEditorForm noteForm = (NoteEditorForm)form;
+		super.populateObject(request, object, form);
 
-        FormFile formFile = noteForm.getFormFile();
-        if (formFile != null) {
-            String filename = formFile.getFileName();
-            if (StringUtils.isNotEmpty(filename)) {
-                String contentType = formFile.getContentType();
-                InputStream input = formFile.getInputStream();
-                int fileSize = formFile.getFileSize();
-                int projectId = request.getParameter("projectId") != null ?
-                        Integer.parseInt(request.getParameter("projectId")) : 0;
-                Directory directory = fileSystem.getDirectory("/attachments/project/"+projectId);
-                File file = fileSystem.createFile(getSession(request), directory, filename, contentType, fileSize, input);
-                Note note = (Note)object;
-                note.setFile(file);
+		final NoteEditorForm noteForm = (NoteEditorForm) form;
 
-                Logger.getLogger(EditNoteAction.class).debug("Saving note: filename="
-                        + filename + ", fileSize=" + fileSize + ", contentType=" + contentType);
+		final FormFile formFile = noteForm.getFormFile();
+		if (formFile != null) {
+			final String filename = formFile.getFileName();
+			if (StringUtils.isNotEmpty(filename)) {
+				final String contentType = formFile.getContentType();
+				final InputStream input = formFile.getInputStream();
+				final int fileSize = formFile.getFileSize();
+				final int projectId = request.getParameter("projectId") != null ? Integer
+						.parseInt(request.getParameter("projectId")) : 0;
+				final Directory directory = this.fileSystem
+						.getDirectory("/attachments/project/" + projectId);
+				final File file = this.fileSystem.createFile(
+						this.getSession(request), directory, filename,
+						contentType, fileSize, input);
+				final Note note = (Note) object;
+				note.setFile(file);
 
-            }
-        }
-    }
+				Logger.getLogger(EditNoteAction.class).debug(
+						"Saving note: filename=" + filename + ", fileSize="
+								+ fileSize + ", contentType=" + contentType);
 
-    public void setFileSystem(FileSystem fileSystem) {
-        this.fileSystem = fileSystem;
-    }
+			}
+		}
+	}
+
+	public void setFileSystem(final FileSystem fileSystem) {
+		this.fileSystem = fileSystem;
+	}
 }
-

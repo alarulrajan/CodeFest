@@ -18,10 +18,12 @@ import org.apache.commons.logging.LogFactory;
  * <p>
  * This class expects the following Java environment parameters:
  * <ul>
- *    <li>migration.systemname - the name of the logical system being migrated</li>
+ * <li>migration.systemname - the name of the logical system being migrated</li>
  * </ul>
  * <p>
- * Below is an example of how this class can be configured in an Ant build.xml file:
+ * Below is an example of how this class can be configured in an Ant build.xml
+ * file:
+ * 
  * <pre>
  *   ...
  *  &lt;target name="patch.information" description="Prints out information about patch levels"&gt;
@@ -35,77 +37,79 @@ import org.apache.commons.logging.LogFactory;
  * &lt;/target&gt;
  *   ...
  * </pre>
- *
- * @author  Mike Hardy (mike@tacitknowledge.com)
- * @version $Id: MigrationInformation.java,v 1.10 2005/09/07 22:20:34 chrisa Exp $
- * @see     com.tacitknowledge.util.migration.MigrationProcess
+ * 
+ * @author Mike Hardy (mike@tacitknowledge.com)
+ * @version $Id: MigrationInformation.java,v 1.10 2005/09/07 22:20:34 chrisa Exp
+ *          $
+ * @see com.tacitknowledge.util.migration.MigrationProcess
  */
-public class MigrationInformation
-{
-    /** Class logger */
-    private static Log log = LogFactory.getLog(MigrationInformation.class);
+public class MigrationInformation {
+	/** Class logger */
+	private static Log log = LogFactory.getLog(MigrationInformation.class);
 
-    /**
-     * Private constructor - this object shouldn't be instantiated
-     */
-    private MigrationInformation()
-    {
-        // does nothing
-    }
+	/**
+	 * Private constructor - this object shouldn't be instantiated
+	 */
+	private MigrationInformation() {
+		// does nothing
+	}
 
-    /**
-     * Get the migration level information for the given system name
-     *
-     * @param arguments the command line arguments, if any (none are used)
-     * @exception Exception if anything goes wrong
-     */
-    public static void main(String[] arguments) throws Exception
-    {
-        MigrationInformation info = new MigrationInformation();
-        String migrationName = System.getProperty("migration.systemname");
-        if (migrationName == null)
-        {
-            if ((arguments != null) && (arguments.length > 0))
-            {
-                migrationName = arguments[0].trim();
-            }
-        }
-        info.getMigrationInformation(migrationName);
-    }
+	/**
+	 * Get the migration level information for the given system name
+	 * 
+	 * @param arguments
+	 *            the command line arguments, if any (none are used)
+	 * @exception Exception
+	 *                if anything goes wrong
+	 */
+	public static void main(final String[] arguments) throws Exception {
+		final MigrationInformation info = new MigrationInformation();
+		String migrationName = System.getProperty("migration.systemname");
+		if (migrationName == null) {
+			if (arguments != null && arguments.length > 0) {
+				migrationName = arguments[0].trim();
+			}
+		}
+		info.getMigrationInformation(migrationName);
+	}
 
-    /**
-     * Get the migration level information for the given system name
-     *
-     * @param systemName the name of the system
-     * @throws Exception if anything goes wrong
-     */
-    public void getMigrationInformation(String systemName) throws Exception
-    {
-        if (systemName == null)
-        {
-            throw new IllegalArgumentException("The migration.systemname "
-                                               + "system property is required");
-        }
+	/**
+	 * Get the migration level information for the given system name
+	 * 
+	 * @param systemName
+	 *            the name of the system
+	 * @throws Exception
+	 *             if anything goes wrong
+	 */
+	public void getMigrationInformation(final String systemName)
+			throws Exception {
+		if (systemName == null) {
+			throw new IllegalArgumentException("The migration.systemname "
+					+ "system property is required");
+		}
 
-        // The MigrationLauncher is responsible for handling the interaction
-        // between the PatchTable and the underlying MigrationTasks; as each
-        // task is executed, the patch level is incremented, etc.
-        try
-        {
-            JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader.createFactory();
-            JdbcMigrationLauncher launcher
-                = launcherFactory.createMigrationLauncher(systemName);
-            log.info("Current Database patch level is        : "
-                     + launcher.getDatabasePatchLevel());
-            int unappliedPatches = launcher.getNextPatchLevel()
-                                   - launcher.getDatabasePatchLevel() - 1;
-            log.info("Current number of unapplied patches is : " + unappliedPatches);
-            log.info("The next patch to author should be     : " + launcher.getNextPatchLevel());
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-            throw e;
-        }
-    }
+		// The MigrationLauncher is responsible for handling the interaction
+		// between the PatchTable and the underlying MigrationTasks; as each
+		// task is executed, the patch level is incremented, etc.
+		try {
+			final JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader
+					.createFactory();
+			final JdbcMigrationLauncher launcher = launcherFactory
+					.createMigrationLauncher(systemName);
+			MigrationInformation.log
+					.info("Current Database patch level is        : "
+							+ launcher.getDatabasePatchLevel());
+			final int unappliedPatches = launcher.getNextPatchLevel()
+					- launcher.getDatabasePatchLevel() - 1;
+			MigrationInformation.log
+					.info("Current number of unapplied patches is : "
+							+ unappliedPatches);
+			MigrationInformation.log
+					.info("The next patch to author should be     : "
+							+ launcher.getNextPatchLevel());
+		} catch (final Exception e) {
+			MigrationInformation.log.error(e);
+			throw e;
+		}
+	}
 }

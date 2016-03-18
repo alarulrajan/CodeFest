@@ -11,6 +11,6 @@
 package com.technoetic.xplanner.util;
 
 public interface Callable {
-   Object run() throws Exception;
+	Object run() throws Exception;
 
 }

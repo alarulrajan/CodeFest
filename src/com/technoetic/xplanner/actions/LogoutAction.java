@@ -17,19 +17,20 @@ import com.technoetic.xplanner.security.CredentialCookie;
 import com.technoetic.xplanner.security.SecurityHelper;
 
 public class LogoutAction extends Action {
-   private Authenticator authenticator;
+	private Authenticator authenticator;
 
+	public void setAuthenticator(final Authenticator authenticator) {
+		this.authenticator = authenticator;
+	}
 
-   public void setAuthenticator(Authenticator authenticator) {
-      this.authenticator = authenticator;
-   }
-
-   public ActionForward execute(ActionMapping actionMapping, ActionForm actionForm,
-                                HttpServletRequest httpServletRequest,
-                                HttpServletResponse httpServletResponse)
-         throws Exception {
-      authenticator.logout(httpServletRequest, SecurityHelper.getRemoteUserId(httpServletRequest));
-      new CredentialCookie(httpServletRequest, httpServletResponse).remove();
-      return actionMapping.findForward("security/login");
-   }
+	@Override
+	public ActionForward execute(final ActionMapping actionMapping,
+			final ActionForm actionForm,
+			final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse) throws Exception {
+		this.authenticator.logout(httpServletRequest,
+				SecurityHelper.getRemoteUserId(httpServletRequest));
+		new CredentialCookie(httpServletRequest, httpServletResponse).remove();
+		return actionMapping.findForward("security/login");
+	}
 }

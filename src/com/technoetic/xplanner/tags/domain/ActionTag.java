@@ -3,8 +3,6 @@
  */
 package com.technoetic.xplanner.tags.domain;
 
-import java.io.StringWriter;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 
@@ -13,9 +11,7 @@ import net.sf.xplanner.domain.DomainObject;
 import org.apache.struts.Globals;
 import org.apache.struts.taglib.TagUtils;
 import org.apache.struts.taglib.html.ImgTag;
-import org.apache.struts.util.RequestUtils;
 import org.springframework.context.MessageSource;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.technoetic.xplanner.tags.LinkTag;
@@ -23,77 +19,95 @@ import com.technoetic.xplanner.views.ActionRenderer;
 
 //DEBT(DATADRIVEN) Move the responsability of configuring the link to the actionrender (i.e. it is a strategy object)
 public class ActionTag extends LinkTag {
-   String action;
-   ActionRenderer actionRenderer;
-   DomainObject targetBean;
+	String action;
+	ActionRenderer actionRenderer;
+	DomainObject targetBean;
 
-   public String getAction() {
-      return action;
-   }
+	@Override
+	public String getAction() {
+		return this.action;
+	}
 
-   public void setAction(String action) {
-      this.action = action;
-   }
+	@Override
+	public void setAction(final String action) {
+		this.action = action;
+	}
 
-   public ActionRenderer getActionRenderer() {
-      return actionRenderer;
-   }
+	public ActionRenderer getActionRenderer() {
+		return this.actionRenderer;
+	}
 
-   public void setActionRenderer(ActionRenderer actionRenderer) {
-      this.actionRenderer = actionRenderer;
-   }
+	public void setActionRenderer(final ActionRenderer actionRenderer) {
+		this.actionRenderer = actionRenderer;
+	}
 
-   public DomainObject getTargetBean() {
-      return targetBean;
-   }
+	public DomainObject getTargetBean() {
+		return this.targetBean;
+	}
 
-   public void setTargetBean(DomainObject targetBean) {
-      this.targetBean = targetBean;
-   }
+	public void setTargetBean(final DomainObject targetBean) {
+		this.targetBean = targetBean;
+	}
 
-   public int doStartTag() throws JspException {
-      setPage("/do/" + actionRenderer.getTargetPage());
-      setUseReturnto(actionRenderer.useReturnTo());
-      setOnclick(actionRenderer.getOnclick());
-      if (!actionRenderer.shouldPassOidParam())
-         setFkey(0);
-      int result = super.doStartTag();
-      if (actionRenderer.shouldPassOidParam())
-         addRequestParameter("oid", String.valueOf(targetBean.getId()));
-      if (actionRenderer.isDisplayedAsIcon())
-         renderAsIcon();
-      else
-         renderAsText();
-      return result;
-   }
+	@Override
+	public int doStartTag() throws JspException {
+		this.setPage("/do/" + this.actionRenderer.getTargetPage());
+		this.setUseReturnto(this.actionRenderer.useReturnTo());
+		this.setOnclick(this.actionRenderer.getOnclick());
+		if (!this.actionRenderer.shouldPassOidParam()) {
+			this.setFkey(0);
+		}
+		final int result = super.doStartTag();
+		if (this.actionRenderer.shouldPassOidParam()) {
+			this.addRequestParameter("oid",
+					String.valueOf(this.targetBean.getId()));
+		}
+		if (this.actionRenderer.isDisplayedAsIcon()) {
+			this.renderAsIcon();
+		} else {
+			this.renderAsText();
+		}
+		return result;
+	}
 
-   public int doEndTag() throws JspException {
-      return super.doEndTag();
-   }
+	@Override
+	public int doEndTag() throws JspException {
+		return super.doEndTag();
+	}
 
-   private void renderAsIcon() throws JspException {
-      BodyContent body = pageContext.pushBody();
-      ImgTag imgTag = new ImgTag();
-      imgTag.setPageContext(pageContext);
-      imgTag.setPage(actionRenderer.getIconPath());
-      imgTag.setBorder("0");
-//      imgTag.setAlt(getActionName());
-      imgTag.setStyleClass(actionRenderer.getName());
-      imgTag.doStartTag();
-      imgTag.doEndTag();
-      pageContext.popBody();
-      text = body.getString();
-   }
+	private void renderAsIcon() throws JspException {
+		final BodyContent body = this.pageContext.pushBody();
+		final ImgTag imgTag = new ImgTag();
+		imgTag.setPageContext(this.pageContext);
+		imgTag.setPage(this.actionRenderer.getIconPath());
+		imgTag.setBorder("0");
+		// imgTag.setAlt(getActionName());
+		imgTag.setStyleClass(this.actionRenderer.getName());
+		imgTag.doStartTag();
+		imgTag.doEndTag();
+		this.pageContext.popBody();
+		this.text = body.getString();
+	}
 
-   private void renderAsText() throws JspException {text = getActionName();}
+	private void renderAsText() throws JspException {
+		this.text = this.getActionName();
+	}
 
-   private String getActionName() throws JspException {
-	   return ((MessageSource)WebApplicationContextUtils.getRequiredWebApplicationContext(pageContext.getServletContext()).getBean("messageSource")).getMessage(actionRenderer.getTitleKey(), null, TagUtils.getInstance().getUserLocale(pageContext, Globals.LOCALE_KEY));
-   }
+	private String getActionName() throws JspException {
+		return ((MessageSource) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(
+						this.pageContext.getServletContext()).getBean(
+						"messageSource")).getMessage(
+				this.actionRenderer.getTitleKey(),
+				null,
+				TagUtils.getInstance().getUserLocale(this.pageContext,
+						Globals.LOCALE_KEY));
+	}
 
-   public void release() {
-      super.release();
-      actionRenderer = null;
-      text = null;
-   }
+	@Override
+	public void release() {
+		super.release();
+		this.actionRenderer = null;
+		this.text = null;
+	}
 }

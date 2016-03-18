@@ -6,40 +6,41 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DailyTimesheetEntry implements Serializable {
-    private java.util.Date entryDate;
-    private java.math.BigDecimal totalDuration = new BigDecimal(0.0);
-    public static SimpleDateFormat shortDateFormat = new SimpleDateFormat(
-            "EEE d-MMM-yy");
+	private java.util.Date entryDate;
+	private java.math.BigDecimal totalDuration = new BigDecimal(0.0);
+	public static SimpleDateFormat shortDateFormat = new SimpleDateFormat(
+			"EEE d-MMM-yy");
 
-    public DailyTimesheetEntry() {
-    }
+	public DailyTimesheetEntry() {
+	}
 
-    public DailyTimesheetEntry(Date entryDate, BigDecimal duration) {
-        this.setEntryDate(entryDate);
-        this.setTotalDuration(duration);
-    }
+	public DailyTimesheetEntry(final Date entryDate, final BigDecimal duration) {
+		this.setEntryDate(entryDate);
+		this.setTotalDuration(duration);
+	}
 
-    public Date getEntryDate() {
-        return entryDate;
-    }
+	public Date getEntryDate() {
+		return this.entryDate;
+	}
 
-    public String getEntryDateShort() {
-        return shortDateFormat.format(this.getEntryDate());
-    }
+	public String getEntryDateShort() {
+		return DailyTimesheetEntry.shortDateFormat.format(this.getEntryDate());
+	}
 
-    public void setEntryDate(Date date) {
-        this.entryDate = date;
-    }
+	public void setEntryDate(final Date date) {
+		this.entryDate = date;
+	}
 
-    public java.math.BigDecimal getTotalDuration() {
-        return totalDuration.setScale(1, BigDecimal.ROUND_HALF_EVEN);
-    }
+	public java.math.BigDecimal getTotalDuration() {
+		return this.totalDuration.setScale(1, BigDecimal.ROUND_HALF_EVEN);
+	}
 
-    public void setTotalDuration(java.math.BigDecimal totalDuration) {
-        this.totalDuration = totalDuration;
-    }
+	public void setTotalDuration(final java.math.BigDecimal totalDuration) {
+		this.totalDuration = totalDuration;
+	}
 
-    public void setTotalDuration(double totalDuration) {
-        this.totalDuration = this.totalDuration.add(new BigDecimal(totalDuration));
-    }
+	public void setTotalDuration(final double totalDuration) {
+		this.totalDuration = this.totalDuration.add(new BigDecimal(
+				totalDuration));
+	}
 }

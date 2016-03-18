@@ -6,43 +6,40 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import com.technoetic.xplanner.security.AuthenticationException;
-public class IterationOptionsTag extends OptionsTag
-{
-    private int projectId;
-    private boolean onlyCurrentProject;
-    private Date startDate;
-    private IterationLoader iterationLoader;
 
-    protected List getOptions() throws HibernateException, AuthenticationException
-   {
-       iterationLoader = new IterationLoader();
-       iterationLoader.setPageContext(pageContext);
+public class IterationOptionsTag extends OptionsTag {
+	private int projectId;
+	private boolean onlyCurrentProject;
+	private Date startDate;
+	private IterationLoader iterationLoader;
 
-       return iterationLoader.getIterationOptions(projectId, onlyCurrentProject, startDate);
-   }
+	@Override
+	protected List getOptions() throws HibernateException,
+			AuthenticationException {
+		this.iterationLoader = new IterationLoader();
+		this.iterationLoader.setPageContext(this.pageContext);
 
-    public int getProjectId()
-    {
-        return projectId;
-    }
+		return this.iterationLoader.getIterationOptions(this.projectId,
+				this.onlyCurrentProject, this.startDate);
+	}
 
-    public void setProjectId(int projectId)
-    {
-        this.projectId = projectId;
-    }
+	public int getProjectId() {
+		return this.projectId;
+	}
 
-    public boolean isOnlyCurrentProject()
-    {
-        return onlyCurrentProject;
-    }
+	public void setProjectId(final int projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setOnlyCurrentProject(boolean onlyCurrentProject)
-    {
-        this.onlyCurrentProject = onlyCurrentProject;
-    }
+	public boolean isOnlyCurrentProject() {
+		return this.onlyCurrentProject;
+	}
 
-    public void setStartDate(Date startDate)
-    {
-        this.startDate = startDate;
-    }
+	public void setOnlyCurrentProject(final boolean onlyCurrentProject) {
+		this.onlyCurrentProject = onlyCurrentProject;
+	}
+
+	public void setStartDate(final Date startDate) {
+		this.startDate = startDate;
+	}
 }

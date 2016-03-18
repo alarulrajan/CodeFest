@@ -15,60 +15,68 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import com.technoetic.xplanner.util.LogUtil;
 
 public class IdGenerator {
-  int nextId;
+	int nextId;
 
-  protected static final Logger LOG = LogUtil.getLogger();
+	protected static final Logger LOG = LogUtil.getLogger();
 
-  static IdGenerator instance;
-  public static final int NEXT_ID_COL_INDEX = 1;
+	static IdGenerator instance;
+	public static final int NEXT_ID_COL_INDEX = 1;
 
-  public static String getUniqueId(String prefix) {
-    return prefix + getInstance().getNext();
-  }
+	public static String getUniqueId(final String prefix) {
+		return prefix + IdGenerator.getInstance().getNext();
+	}
 
-  public static int getNextPersistentId() throws Exception {
-    return getInstance().getFromDB(HibernateHelper.getConnection());
-  }
+	public static int getNextPersistentId() throws Exception {
+		IdGenerator.getInstance();
+		return IdGenerator.getFromDB(HibernateHelper.getConnection());
+	}
 
-  public static void setNextPersistentId(int id) throws Exception {
-    getInstance().setInDB(HibernateHelper.getConnection(), id);
-  }
+	public static void setNextPersistentId(final int id) throws Exception {
+		IdGenerator.getInstance();
+		IdGenerator.setInDB(HibernateHelper.getConnection(), id);
+	}
 
-  private int getNext() {
-    return nextId++;
-  }
+	private int getNext() {
+		return this.nextId++;
+	}
 
-  private static IdGenerator getInstance() {
-    if (instance == null) {
-      instance = new IdGenerator();
-    }
-    return instance;
-  }
+	private static IdGenerator getInstance() {
+		if (IdGenerator.instance == null) {
+			IdGenerator.instance = new IdGenerator();
+		}
+		return IdGenerator.instance;
+	}
 
-  private IdGenerator() {
-    try {
-      nextId = getFromDB(HibernateHelper.getConnection());
-    } catch (Exception e) {
-      LOG.error(e);
-    }
-  }
+	private IdGenerator() {
+		try {
+			this.nextId = IdGenerator
+					.getFromDB(HibernateHelper.getConnection());
+		} catch (final Exception e) {
+			IdGenerator.LOG.error(e);
+		}
+	}
 
-  public static int getFromDB(Connection connection) throws Exception {
-    return newTemplate(connection).queryForInt(HibernateIdentityGenerator.GET_NEXT_ID_QUERY);
-  }
+	public static int getFromDB(final Connection connection) throws Exception {
+		return IdGenerator.newTemplate(connection).queryForInt(
+				HibernateIdentityGenerator.GET_NEXT_ID_QUERY);
+	}
 
-  public static void setInDB(Connection connection, int nextValue) throws Exception {
-    newTemplate(connection).update(HibernateIdentityGenerator.SET_NEXT_ID_QUERY, new Object[]{new Integer(nextValue)});
-  }
+	public static void setInDB(final Connection connection, final int nextValue)
+			throws Exception {
+		IdGenerator.newTemplate(connection).update(
+				HibernateIdentityGenerator.SET_NEXT_ID_QUERY,
+				new Object[] { new Integer(nextValue) });
+	}
 
-  private static JdbcTemplate newTemplate(Connection connection) {
-    return new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-  }
+	private static JdbcTemplate newTemplate(final Connection connection) {
+		return new JdbcTemplate(
+				new SingleConnectionDataSource(connection, true));
+	}
 
-  public static void main(String[] args) {
-    System.out.println("id=" + getUniqueId("test"));
-    System.out.println("id=" + getUniqueId("test"));
-    System.out.println("id=" + getUniqueId("test"));
-  }
+	public static void main(final String[] args) {
+		System.out.println("id=" + IdGenerator.getUniqueId("test"));
+		System.out.println("id=" + IdGenerator.getUniqueId("test"));
+		System.out.println("id=" + IdGenerator.getUniqueId("test"));
+	}
 
 }

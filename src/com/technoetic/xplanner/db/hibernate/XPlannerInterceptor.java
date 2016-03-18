@@ -11,122 +11,141 @@ import org.hibernate.Transaction;
 import org.hibernate.type.Type;
 
 public class XPlannerInterceptor implements Interceptor {
-    private static String LAST_UPDATE_TIME = "lastUpdateTime";
-
-    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        return false;
-    }
-
-    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
-        return setLastUpdateTime(propertyNames, currentState);
-    }
-
-    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        return setLastUpdateTime(propertyNames, state);
-    }
-
-    private boolean setLastUpdateTime(String[] propertyNames, Object[] state) {
-        for (int i = 0; i < propertyNames.length; i++) {
-            if (LAST_UPDATE_TIME.equals(propertyNames[i])) {
-                state[i] = new Date();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        // empty
-    }
-
-    public void preFlush(Iterator entities) {
-        // empty
-    }
-
-    public void postFlush(Iterator entities) {
-        // empty
-    }
-
-    public int[] findDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState,
-            String[] propertyNames, Type[] types) {
-        return null;
-    }
-
-    public Object instantiate(Class clazz, Serializable id) throws CallbackException {
-        return null;
-    }
-
-    public Boolean isUnsaved(Object entity) {
-        return null;
-    }
+	private static String LAST_UPDATE_TIME = "lastUpdateTime";
 
 	@Override
-	public void afterTransactionBegin(Transaction tx) {
-		// TODO Auto-generated method stub
-		
+	public boolean onLoad(final Object entity, final Serializable id,
+			final Object[] state, final String[] propertyNames,
+			final Type[] types) {
+		return false;
 	}
 
 	@Override
-	public void afterTransactionCompletion(Transaction tx) {
-		// TODO Auto-generated method stub
-		
+	public boolean onFlushDirty(final Object entity, final Serializable id,
+			final Object[] currentState, final Object[] previousState,
+			final String[] propertyNames, final Type[] types) {
+		return this.setLastUpdateTime(propertyNames, currentState);
 	}
 
 	@Override
-	public void beforeTransactionCompletion(Transaction tx) {
-		// TODO Auto-generated method stub
-		
+	public boolean onSave(final Object entity, final Serializable id,
+			final Object[] state, final String[] propertyNames,
+			final Type[] types) {
+		return this.setLastUpdateTime(propertyNames, state);
+	}
+
+	private boolean setLastUpdateTime(final String[] propertyNames,
+			final Object[] state) {
+		for (int i = 0; i < propertyNames.length; i++) {
+			if (XPlannerInterceptor.LAST_UPDATE_TIME.equals(propertyNames[i])) {
+				state[i] = new Date();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
-	public Object getEntity(String entityName, Serializable id)
+	public void onDelete(final Object entity, final Serializable id,
+			final Object[] state, final String[] propertyNames,
+			final Type[] types) {
+		// empty
+	}
+
+	@Override
+	public void preFlush(final Iterator entities) {
+		// empty
+	}
+
+	@Override
+	public void postFlush(final Iterator entities) {
+		// empty
+	}
+
+	@Override
+	public int[] findDirty(final Object entity, final Serializable id,
+			final Object[] currentState, final Object[] previousState,
+			final String[] propertyNames, final Type[] types) {
+		return null;
+	}
+
+	public Object instantiate(final Class clazz, final Serializable id)
+			throws CallbackException {
+		return null;
+	}
+
+	public Boolean isUnsaved(final Object entity) {
+		return null;
+	}
+
+	@Override
+	public void afterTransactionBegin(final Transaction tx) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void afterTransactionCompletion(final Transaction tx) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void beforeTransactionCompletion(final Transaction tx) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Object getEntity(final String entityName, final Serializable id)
 			throws CallbackException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getEntityName(Object object) throws CallbackException {
+	public String getEntityName(final Object object) throws CallbackException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object instantiate(String entityName, EntityMode entityMode,
-			Serializable id) throws CallbackException {
+	public Object instantiate(final String entityName,
+			final EntityMode entityMode, final Serializable id)
+			throws CallbackException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean isTransient(Object entity) {
+	public Boolean isTransient(final Object entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void onCollectionRecreate(Object collection, Serializable key)
-			throws CallbackException {
+	public void onCollectionRecreate(final Object collection,
+			final Serializable key) throws CallbackException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void onCollectionRemove(Object collection, Serializable key)
-			throws CallbackException {
+	public void onCollectionRemove(final Object collection,
+			final Serializable key) throws CallbackException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void onCollectionUpdate(Object collection, Serializable key)
-			throws CallbackException {
+	public void onCollectionUpdate(final Object collection,
+			final Serializable key) throws CallbackException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public String onPrepareStatement(String sql) {
+	public String onPrepareStatement(final String sql) {
 		// TODO Auto-generated method stub
 		return sql;
 	}

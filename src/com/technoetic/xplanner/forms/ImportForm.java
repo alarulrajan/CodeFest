@@ -14,83 +14,76 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Jun 7, 2005
- * Time: 12:02:31 PM
+ * User: Mateusz Prokopowicz Date: Jun 7, 2005 Time: 12:02:31 PM
  */
-public class ImportForm extends AbstractEditorForm
-{
-   protected FormFile formFile;
-   protected String action = null;
-   protected List results = null;
-   private File file;
-   static final String NO_IMPORT_FILE_KEY = "import.status.no_import_file";
+public class ImportForm extends AbstractEditorForm {
+	protected FormFile formFile;
+	protected String action = null;
+	protected List results = null;
+	private File file;
+	static final String NO_IMPORT_FILE_KEY = "import.status.no_import_file";
 
-   public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
-   {
-      ActionErrors errors = new ActionErrors();
-      if (isSubmitted())
-      {
-         if (formFile == null || StringUtils.isEmpty(formFile.getFileName()))
-         {
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                       new ActionError(NO_IMPORT_FILE_KEY));
-         }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
+		if (this.isSubmitted()) {
+			if (this.formFile == null
+					|| StringUtils.isEmpty(this.formFile.getFileName())) {
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+						ImportForm.NO_IMPORT_FILE_KEY));
+			}
 
-      }
-      return errors;
-   }
+		}
+		return errors;
+	}
 
-   public void reset(ActionMapping mapping, HttpServletRequest request)
-   {
-      super.reset(mapping, request);
-      results = new ArrayList();
-      formFile = null;
-      action = null;
-   }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.results = new ArrayList();
+		this.formFile = null;
+		this.action = null;
+	}
 
-   public void setFormFile(FormFile formFile)
-   {
-      this.formFile = formFile;
-   }
+	public void setFormFile(final FormFile formFile) {
+		this.formFile = formFile;
+	}
 
-   public FormFile getFormFile()
-   {
-      return formFile;
-   }
+	public FormFile getFormFile() {
+		return this.formFile;
+	}
 
-   public File getAttachedFile()
-   {
-      return file;
-   }
+	public File getAttachedFile() {
+		return this.file;
+	}
 
-   public void setFile(File file)
-   {
-      this.file = file;
-   }
+	public void setFile(final File file) {
+		this.file = file;
+	}
 
-   public boolean isSubmitted()
-   {
-      return action != null && !action.equals("") && !action.equals("null");
-   }
+	@Override
+	public boolean isSubmitted() {
+		return this.action != null && !this.action.equals("")
+				&& !this.action.equals("null");
+	}
 
-   public String getAction()
-   {
-      return action;
-   }
+	@Override
+	public String getAction() {
+		return this.action;
+	}
 
-   public void setAction(String action)
-   {
-      this.action = action;
-   }
+	@Override
+	public void setAction(final String action) {
+		this.action = action;
+	}
 
-   public List getResults()
-   {
-      return results;
-   }
+	public List getResults() {
+		return this.results;
+	}
 
-   public void setResults(List results)
-   {
-      this.results = results;
-   }
+	public void setResults(final List results) {
+		this.results = results;
+	}
 }

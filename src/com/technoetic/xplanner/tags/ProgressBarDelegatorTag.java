@@ -10,67 +10,82 @@ import org.apache.log4j.Logger;
 import com.technoetic.xplanner.XPlannerProperties;
 
 public class ProgressBarDelegatorTag implements ProgressBarTag {
-    private Logger log = Logger.getLogger(getClass());
-    private ProgressBarTag delegate;
-    private static final String HTML_TYPE = "html";
-    private static final String IMAGE_TYPE = "image";
+	private final Logger log = Logger.getLogger(this.getClass());
+	private ProgressBarTag delegate;
+	private static final String HTML_TYPE = "html";
+	private static final String IMAGE_TYPE = "image";
 
-    public ProgressBarDelegatorTag() {
-       String type = new XPlannerProperties().getProperty("xplanner.progressbar.impl", HTML_TYPE);
-        if (StringUtils.equalsIgnoreCase(type, HTML_TYPE)) {
-            delegate = new ProgressBarHtmlTag();
-        } else if (StringUtils.equalsIgnoreCase(type, IMAGE_TYPE)) {
-            delegate = new ProgressBarImageTag();
-        } else {
-            log.error("unrecognized progress bar type, using HTML by default: type=" + type);
-        }
-    }
+	public ProgressBarDelegatorTag() {
+		final String type = new XPlannerProperties().getProperty(
+				"xplanner.progressbar.impl", ProgressBarDelegatorTag.HTML_TYPE);
+		if (StringUtils.equalsIgnoreCase(type,
+				ProgressBarDelegatorTag.HTML_TYPE)) {
+			this.delegate = new ProgressBarHtmlTag();
+		} else if (StringUtils.equalsIgnoreCase(type,
+				ProgressBarDelegatorTag.IMAGE_TYPE)) {
+			this.delegate = new ProgressBarImageTag();
+		} else {
+			this.log.error("unrecognized progress bar type, using HTML by default: type="
+					+ type);
+		}
+	}
 
-    public void setActual(double actual) {
-        delegate.setActual(actual);
-    }
+	@Override
+	public void setActual(final double actual) {
+		this.delegate.setActual(actual);
+	}
 
-    public void setComplete(boolean complete) {
-        delegate.setComplete(complete);
-    }
+	@Override
+	public void setComplete(final boolean complete) {
+		this.delegate.setComplete(complete);
+	}
 
-    public void setEstimate(double estimate) {
-        delegate.setEstimate(estimate);
-    }
+	@Override
+	public void setEstimate(final double estimate) {
+		this.delegate.setEstimate(estimate);
+	}
 
-    public void setHeight(int height) {
-        delegate.setHeight(height);
-    }
+	@Override
+	public void setHeight(final int height) {
+		this.delegate.setHeight(height);
+	}
 
-    public void setWidth(Object width) {
-    	delegate.setWidth(String.valueOf(width));
-    }
+	public void setWidth(final Object width) {
+		this.delegate.setWidth(String.valueOf(width));
+	}
 
-    public void setWidth(String width) {
-    	delegate.setWidth(width);
-    }
+	@Override
+	public void setWidth(final String width) {
+		this.delegate.setWidth(width);
+	}
 
-    public int doEndTag() throws JspException {
-        return delegate.doEndTag();
-    }
+	@Override
+	public int doEndTag() throws JspException {
+		return this.delegate.doEndTag();
+	}
 
-    public int doStartTag() throws JspException {
-        return delegate.doStartTag();
-    }
+	@Override
+	public int doStartTag() throws JspException {
+		return this.delegate.doStartTag();
+	}
 
-    public Tag getParent() {
-        return delegate.getParent();
-    }
+	@Override
+	public Tag getParent() {
+		return this.delegate.getParent();
+	}
 
-    public void release() {
-        delegate.release();
-    }
+	@Override
+	public void release() {
+		this.delegate.release();
+	}
 
-    public void setPageContext(PageContext pageContext) {
-        delegate.setPageContext(pageContext);
-    }
+	@Override
+	public void setPageContext(final PageContext pageContext) {
+		this.delegate.setPageContext(pageContext);
+	}
 
-    public void setParent(Tag tag) {
-        delegate.setParent(tag);
-    }
+	@Override
+	public void setParent(final Tag tag) {
+		this.delegate.setParent(tag);
+	}
 }

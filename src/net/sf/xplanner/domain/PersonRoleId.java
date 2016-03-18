@@ -18,7 +18,8 @@ public class PersonRoleId implements java.io.Serializable {
 	public PersonRoleId() {
 	}
 
-	public PersonRoleId(int roleId, int personId, int projectId) {
+	public PersonRoleId(final int roleId, final int personId,
+			final int projectId) {
 		this.roleId = roleId;
 		this.personId = personId;
 		this.projectId = projectId;
@@ -29,7 +30,7 @@ public class PersonRoleId implements java.io.Serializable {
 		return this.roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(final int roleId) {
 		this.roleId = roleId;
 	}
 
@@ -38,7 +39,7 @@ public class PersonRoleId implements java.io.Serializable {
 		return this.personId;
 	}
 
-	public void setPersonId(int personId) {
+	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
@@ -47,24 +48,29 @@ public class PersonRoleId implements java.io.Serializable {
 		return this.projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(final int projectId) {
 		this.projectId = projectId;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
 			return true;
-		if ((other == null))
+		}
+		if (other == null) {
 			return false;
-		if (!(other instanceof PersonRoleId))
+		}
+		if (!(other instanceof PersonRoleId)) {
 			return false;
-		PersonRoleId castOther = (PersonRoleId) other;
+		}
+		final PersonRoleId castOther = (PersonRoleId) other;
 
-		return (this.getRoleId() == castOther.getRoleId())
-				&& (this.getPersonId() == castOther.getPersonId())
-				&& (this.getProjectId() == castOther.getProjectId());
+		return this.getRoleId() == castOther.getRoleId()
+				&& this.getPersonId() == castOther.getPersonId()
+				&& this.getProjectId() == castOther.getProjectId();
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

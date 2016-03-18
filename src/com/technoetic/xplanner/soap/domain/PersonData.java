@@ -3,53 +3,53 @@ package com.technoetic.xplanner.soap.domain;
 import net.sf.xplanner.domain.Person;
 
 public class PersonData extends DomainData {
-    private String name;
-    private String email;
-    private String phone;
-    private String initials;
-    private String userId;
+	private String name;
+	private String email;
+	private String phone;
+	private String initials;
+	private String userId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return this.email;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setPhone(final String phone) {
+		this.phone = phone;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getPhone() {
+		return this.phone;
+	}
 
-    public void setInitials(String initials) {
-        this.initials = initials;
-    }
+	public void setInitials(final String initials) {
+		this.initials = initials;
+	}
 
-    public String getInitials() {
-        return initials;
-    }
+	public String getInitials() {
+		return this.initials;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public String getUserId() {
+		return this.userId;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	public void setUserId(final String userId) {
+		this.userId = userId;
+	}
 
-    public static Class getInternalClass() {
-        return Person.class;
-    }
+	public static Class getInternalClass() {
+		return Person.class;
+	}
 }

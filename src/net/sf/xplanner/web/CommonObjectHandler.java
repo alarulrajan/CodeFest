@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommonObjectHandler {
 
 	@RequestMapping("/{objectType}/list")
-	public String list(@PathVariable String objectType){
+	public String list(@PathVariable final String objectType) {
 		System.out.println(objectType);
-		
+
 		return objectType;
 	}
 
 	@RequestMapping("/{objectType}/edit/{objectId}")
-	public String edit(@PathVariable String objectType, @PathVariable Integer objectId){
+	public String edit(@PathVariable final String objectType,
+			@PathVariable final Integer objectId) {
 		System.out.println(objectType);
 		return objectType;
 	}

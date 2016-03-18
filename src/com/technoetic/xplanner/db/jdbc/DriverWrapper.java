@@ -23,73 +23,99 @@ import com.technoetic.xplanner.XPlannerProperties;
 import com.thoughtworks.proxy.toys.echo.Echoing;
 
 public class DriverWrapper implements Driver {
-   Driver driver;
+	Driver driver;
 
-   static {
-      try {
-         initWrapperDriver();
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
+	static {
+		try {
+			DriverWrapper.initWrapperDriver();
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
 
-   }
+	}
 
-   private static void initWrapperDriver() throws SQLException {
-      DriverManager.setLogWriter(new PrintWriter(System.err));
-//      List registeredDrivers = new ArrayList(EnumerationUtils.toList(DriverManager.getDrivers()));
-//      for (Iterator it = registeredDrivers.iterator(); it.hasNext();) {
-//         Driver driver = (Driver) it.next();
-//         DriverManager.deregisterDriver(driver);
-//      }
-      DriverManager.registerDriver(new DriverWrapper());
-//      for (Iterator it = registeredDrivers.iterator(); it.hasNext();) {
-//         Driver driver = (Driver) it.next();
-//         DriverManager.registerDriver(driver);
-//      }
-   }
+	private static void initWrapperDriver() throws SQLException {
+		DriverManager.setLogWriter(new PrintWriter(System.err));
+		// List registeredDrivers = new
+		// ArrayList(EnumerationUtils.toList(DriverManager.getDrivers()));
+		// for (Iterator it = registeredDrivers.iterator(); it.hasNext();) {
+		// Driver driver = (Driver) it.next();
+		// DriverManager.deregisterDriver(driver);
+		// }
+		DriverManager.registerDriver(new DriverWrapper());
+		// for (Iterator it = registeredDrivers.iterator(); it.hasNext();) {
+		// Driver driver = (Driver) it.next();
+		// DriverManager.registerDriver(driver);
+		// }
+	}
 
-   private static Driver findDriver(String driverClassName) throws SQLException {
-      Class driverClass = null;
-      try {
-         driverClass = Class.forName(driverClassName);
-      } catch (ClassNotFoundException e) {
-         throwDriverNotFoundException(driverClassName);
-      }
-      List registeredDrivers = new ArrayList(EnumerationUtils.toList(DriverManager.getDrivers()));
-      for (Iterator it = registeredDrivers.iterator(); it.hasNext();) {
-         Driver driver = (Driver) it.next();
-         if (driver.getClass().equals(driverClass)) return driver;
-      }
-      throwDriverNotFoundException(driverClassName);
-      return null; //never reached
-   }
+	private static Driver findDriver(final String driverClassName)
+			throws SQLException {
+		Class driverClass = null;
+		try {
+			driverClass = Class.forName(driverClassName);
+		} catch (final ClassNotFoundException e) {
+			DriverWrapper.throwDriverNotFoundException(driverClassName);
+		}
+		final List registeredDrivers = new ArrayList(
+				EnumerationUtils.toList(DriverManager.getDrivers()));
+		for (final Iterator it = registeredDrivers.iterator(); it.hasNext();) {
+			final Driver driver = (Driver) it.next();
+			if (driver.getClass().equals(driverClass)) {
+				return driver;
+			}
+		}
+		DriverWrapper.throwDriverNotFoundException(driverClassName);
+		return null; // never reached
+	}
 
-   private static void throwDriverNotFoundException(String driverClassName) throws SQLException {
-      throw new SQLException("Could not find driver '" + driverClassName + "'");
-   }
+	private static void throwDriverNotFoundException(
+			final String driverClassName) throws SQLException {
+		throw new SQLException("Could not find driver '" + driverClassName
+				+ "'");
+	}
 
-   public DriverWrapper() throws SQLException {
-      String driverClassName = new XPlannerProperties().getProperty("xplanner.wrapped.driver");
-      driver = findDriver(driverClassName);
-      DriverManager.deregisterDriver(driver);
-   }
+	public DriverWrapper() throws SQLException {
+		final String driverClassName = new XPlannerProperties()
+				.getProperty("xplanner.wrapped.driver");
+		this.driver = DriverWrapper.findDriver(driverClassName);
+		DriverManager.deregisterDriver(this.driver);
+	}
 
-   public int getMajorVersion() {return driver.getMajorVersion();}
+	@Override
+	public int getMajorVersion() {
+		return this.driver.getMajorVersion();
+	}
 
-   public int getMinorVersion() {return driver.getMinorVersion();}
+	@Override
+	public int getMinorVersion() {
+		return this.driver.getMinorVersion();
+	}
 
-   public boolean jdbcCompliant() {return driver.jdbcCompliant();}
+	@Override
+	public boolean jdbcCompliant() {
+		return this.driver.jdbcCompliant();
+	}
 
-   public boolean acceptsURL(String url) throws SQLException {return driver.acceptsURL(url);}
+	@Override
+	public boolean acceptsURL(final String url) throws SQLException {
+		return this.driver.acceptsURL(url);
+	}
 
-   public Connection connect(String url, Properties info) throws SQLException {
-      return (Connection) Echoing.object(Connection.class, driver.connect(url, info));
-   }
+	@Override
+	public Connection connect(final String url, final Properties info)
+			throws SQLException {
+		return (Connection) Echoing.object(Connection.class,
+				this.driver.connect(url, info));
+	}
 
-   public DriverPropertyInfo[] getPropertyInfo(String url, Properties info) throws SQLException {
-      return driver.getPropertyInfo(url, info);
-   }
+	@Override
+	public DriverPropertyInfo[] getPropertyInfo(final String url,
+			final Properties info) throws SQLException {
+		return this.driver.getPropertyInfo(url, info);
+	}
 
+	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		throw new SQLFeatureNotSupportedException();
 	}

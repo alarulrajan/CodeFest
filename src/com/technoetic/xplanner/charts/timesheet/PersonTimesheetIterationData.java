@@ -14,27 +14,32 @@ import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 
 public class PersonTimesheetIterationData implements DatasetProducer {
-    private DefaultPieDataset dataSet = new DefaultPieDataset();
+	private final DefaultPieDataset dataSet = new DefaultPieDataset();
 
-    public void setTimesheet(Timesheet timesheet) {
-        Hashtable iterationData = timesheet.getIterationData();
-        for (Enumeration keys = iterationData.keys(); keys.hasMoreElements();) {
-            String iteration = (String)keys.nextElement();
-            BigDecimal value = ((BigDecimal)iterationData.get(iteration))
-                    .setScale(0, BigDecimal.ROUND_HALF_EVEN);
-            dataSet.setValue(iteration + " (" + value + ")", value);
-        }
-    }
+	public void setTimesheet(final Timesheet timesheet) {
+		final Hashtable iterationData = timesheet.getIterationData();
+		for (final Enumeration keys = iterationData.keys(); keys
+				.hasMoreElements();) {
+			final String iteration = (String) keys.nextElement();
+			final BigDecimal value = ((BigDecimal) iterationData.get(iteration))
+					.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+			this.dataSet.setValue(iteration + " (" + value + ")", value);
+		}
+	}
 
-    public Object produceDataset(Map params) throws DatasetProduceException {
-        return dataSet;
-    }
+	@Override
+	public Object produceDataset(final Map params)
+			throws DatasetProduceException {
+		return this.dataSet;
+	}
 
-    public boolean hasExpired(Map params, Date since) {
-        return true;
-    }
+	@Override
+	public boolean hasExpired(final Map params, final Date since) {
+		return true;
+	}
 
-    public String getProducerId() {
-        return this.getClass().getName();
-    }
+	@Override
+	public String getProducerId() {
+		return this.getClass().getName();
+	}
 }

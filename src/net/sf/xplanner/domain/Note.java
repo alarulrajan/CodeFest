@@ -1,6 +1,5 @@
 package net.sf.xplanner.domain;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,27 +19,28 @@ import com.technoetic.xplanner.domain.Nameable;
 import com.technoetic.xplanner.tags.DomainContext;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "note")
-public class Note extends DomainObject implements java.io.Serializable, Nameable {
+public class Note extends DomainObject implements java.io.Serializable,
+		Nameable {
 	private static final long serialVersionUID = 4379309425634770729L;
 	private int attachedToId;
 	private Integer authorId;
@@ -58,7 +58,7 @@ public class Note extends DomainObject implements java.io.Serializable, Nameable
 		return this.attachedToId;
 	}
 
-	public void setAttachedToId(int attachedToId) {
+	public void setAttachedToId(final int attachedToId) {
 		this.attachedToId = attachedToId;
 	}
 
@@ -67,7 +67,7 @@ public class Note extends DomainObject implements java.io.Serializable, Nameable
 		return this.authorId;
 	}
 
-	public void setAuthorId(Integer authorId) {
+	public void setAuthorId(final Integer authorId) {
 		this.authorId = authorId;
 	}
 
@@ -76,7 +76,7 @@ public class Note extends DomainObject implements java.io.Serializable, Nameable
 		return this.subject;
 	}
 
-	public void setSubject(String subject) {
+	public void setSubject(final String subject) {
 		this.subject = subject;
 	}
 
@@ -85,7 +85,7 @@ public class Note extends DomainObject implements java.io.Serializable, Nameable
 		return this.body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(final String body) {
 		this.body = body;
 	}
 
@@ -95,56 +95,52 @@ public class Note extends DomainObject implements java.io.Serializable, Nameable
 		return this.submissionTime;
 	}
 
-	public void setSubmissionTime(Date submissionTime) {
+	public void setSubmissionTime(final Date submissionTime) {
 		this.submissionTime = submissionTime;
 	}
-	
+
 	@OneToOne
-	@JoinColumn(name="attachment_id")
-	public File getFile(){
-		return file;
+	@JoinColumn(name = "attachment_id")
+	public File getFile() {
+		return this.file;
 	}
 
-	public void setFile(File file) {
+	public void setFile(final File file) {
 		this.file = file;
 	}
 
-	@Transient @Deprecated
-	 public int getAttachmentCount() throws HibernateException
-	   {
-	      List noteList = null;
-	      noteList =
-	         ThreadSession.get().find("select note from Note note where note.file.id=" + this.getFile().getId());
-	      if (noteList != null)
-	      {
-	         return noteList.size();
-	      }
-	      else
-	      {
-	         return 0;
-	      }
-	   }
+	@Transient
+	@Deprecated
+	public int getAttachmentCount() throws HibernateException {
+		List noteList = null;
+		noteList = ThreadSession.get().find(
+				"select note from Note note where note.file.id="
+						+ this.getFile().getId());
+		if (noteList != null) {
+			return noteList.size();
+		} else {
+			return 0;
+		}
+	}
 
-	
-	@Transient @Deprecated
-	   public DomainObject getParent()
-	   {
-	      //DEBT: Remove the cycle. Note should not depends on a web tier operation
-	      return DomainContext.getNoteTarget(getAttachedToId());
-	   }
+	@Transient
+	@Deprecated
+	public DomainObject getParent() {
+		// DEBT: Remove the cycle. Note should not depends on a web tier
+		// operation
+		return DomainContext.getNoteTarget(this.getAttachedToId());
+	}
 
 	@Transient
 	@Override
 	public String getName() {
-		return getSubject();
+		return this.getSubject();
 	}
 
 	@Transient
 	@Override
 	public String getDescription() {
-		return getBody();
+		return this.getBody();
 	}
-
-
 
 }

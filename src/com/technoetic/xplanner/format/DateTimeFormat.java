@@ -8,30 +8,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 public class DateTimeFormat extends AbstractFormat {
-    private SimpleDateFormat formatter = null;
+	private SimpleDateFormat formatter = null;
 
-    public DateTimeFormat(HttpServletRequest request) {
-        String format = getFormat(request, "format.datetime");
-        if (format != null) {
-            formatter = new SimpleDateFormat(format);
-        } else {
-            formatter = new SimpleDateFormat();
-        }
-    }
+	public DateTimeFormat(final HttpServletRequest request) {
+		final String format = AbstractFormat.getFormat(request,
+				"format.datetime");
+		if (format != null) {
+			this.formatter = new SimpleDateFormat(format);
+		} else {
+			this.formatter = new SimpleDateFormat();
+		}
+	}
 
-    public String format(Date value) {
-        return value != null ? formatter.format(value) : "";
-    }
+	public String format(final Date value) {
+		return value != null ? this.formatter.format(value) : "";
+	}
 
-    public Date parse(String date) throws ParseException {
-        return formatter.parse(date);
-    }
+	public Date parse(final String date) throws ParseException {
+		return this.formatter.parse(date);
+	}
 
-    public static String format(PageContext pageContext, Date value) {
-        return new DateTimeFormat(((HttpServletRequest)pageContext.getRequest())).format(value);
-    }
+	public static String format(final PageContext pageContext, final Date value) {
+		return new DateTimeFormat((HttpServletRequest) pageContext.getRequest())
+				.format(value);
+	}
 
-    public static String format(HttpServletRequest request, Date value) {
-        return new DateTimeFormat(request).format(value);
-    }
+	public static String format(final HttpServletRequest request,
+			final Date value) {
+		return new DateTimeFormat(request).format(value);
+	}
 }

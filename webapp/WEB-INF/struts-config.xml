@@ -5,9 +5,7 @@
 
 <struts-config>
 
-	<!--
-		========== Form Bean Definitions ===================================
-	-->
+	<!-- ========== Form Bean Definitions =================================== -->
 	<form-beans type="org.apache.struts.action.ActionFormBean">
 		<form-bean name="edit/project"
 			type="com.technoetic.xplanner.forms.ProjectEditorForm" />
@@ -19,16 +17,13 @@
 			type="com.technoetic.xplanner.forms.IterationStatusEditorForm" />
 		<form-bean name="close/iteration"
 			type="com.technoetic.xplanner.forms.IterationStatusEditorForm" />
-			
+
 		<form-bean name="edit/feature"
 			type="com.technoetic.xplanner.forms.FeatureEditorForm" />
 		<form-bean name="edit/userstory"
 			type="com.technoetic.xplanner.forms.UserStoryEditorForm" />
-		<!--
-			FIXME rename the action to movecontinue/userstory or find a better
-			name to encapsulate move, continue, copy, split. Break up jsps as
-			well
-		-->
+		<!-- FIXME rename the action to movecontinue/userstory or find a better 
+			name to encapsulate move, continue, copy, split. Break up jsps as well -->
 		<form-bean name="move/continue/userstory"
 			type="com.technoetic.xplanner.forms.MoveContinueStoryForm"></form-bean>
 		<form-bean name="edit/note"
@@ -51,10 +46,7 @@
 			type="com.technoetic.xplanner.forms.ImportStoriesForm" />
 		<form-bean name="edit/time"
 			type="com.technoetic.xplanner.forms.TimeEditorForm" />
-		<!--
-			form-bean name="edit/time_notification"
-			type="com.technoetic.xplanner.forms.TimeNotificationReceiversForm"/
-		-->
+		<!-- form-bean name="edit/time_notification" type="com.technoetic.xplanner.forms.TimeNotificationReceiversForm"/ -->
 		<form-bean name="timesheetForm"
 			type="com.technoetic.xplanner.forms.PersonTimesheetForm" />
 		<form-bean name="aggregateTimesheetForm"
@@ -74,10 +66,8 @@
 			type="com.technoetic.xplanner.forms.RoleEditorForm" />
 	</form-beans>
 
-	<!--
-		TODO Move common error handling into the struts-config.xml and out of
-		AbstractAction
-	-->
+	<!-- TODO Move common error handling into the struts-config.xml and out 
+		of AbstractAction -->
 	<global-exceptions>
 		<exception
 			type="com.technoetic.xplanner.domain.repository.ObjectNotFoundException"
@@ -88,9 +78,7 @@
 			type="com.technoetic.xplanner.security.auth.AuthorizationException"
 			path="/WEB-INF/jsp/common/generalError.jsp" key="security.notauthorized" />
 	</global-exceptions>
-	<!--
-		========== Global Forward Definitions ==============================
-	-->
+	<!-- ========== Global Forward Definitions ============================== -->
 	<global-forwards type="org.apache.struts.action.ActionForward">
 		<forward name="view/projects" path="/WEB-INF/jsp/view/projects.jsp" />
 		<forward name="view/project" path="/WEB-INF/jsp/view/project.jsp" />
@@ -140,44 +128,39 @@
 		<forward name="edit/roles" path="/WEB-INF/jsp/edit/editRoles.jsp" />
 		<forward name="search/id" path="/do/search/id" />
 		<forward name="search/content" path="/do/search/content" />
-    <forward name="view/dashboard" path="/WEB-INF/jsp/view/dashboard.jsp" />
-    <forward name="view/settings" path="/WEB-INF/jsp/view/settings.jsp" />
-    <forward name="view/integrations" path="/WEB-INF/jsp/view/integrations.jsp" />
+		<forward name="view/dashboard" path="/WEB-INF/jsp/view/dashboard.jsp" />
+		<forward name="view/settings" path="/WEB-INF/jsp/view/settings.jsp" />
+		<forward name="view/integrations" path="/WEB-INF/jsp/view/integrations.jsp" />
 	</global-forwards>
 
 
-	<!--
-		========== Action Mapping Definitions ==============================
-	-->
+	<!-- ========== Action Mapping Definitions ============================== -->
 	<action-mappings>
 
-		<!--
-			For any actions of type org.twdata.struts.SpringAction, look in the
-			spring-beans.xml for more details about the action configuration.
-		-->
+		<!-- For any actions of type org.twdata.struts.SpringAction, look in the 
+			spring-beans.xml for more details about the action configuration. -->
 		<action path="/changeLocale" />
-		
+
 		<action path="/systemInfo">
 			<forward name="success" path="/WEB-INF/jsp/common/unexpectedError.jsp" />
 		</action>
 
 		<action path="/login" parameter="security/login" name="login/authenticate">
 			<forward name="notAuthenticated" path="/WEB-INF/jsp/security/login.jsp" />
-			<forward name="authenticated" path="/do/view/projects" redirect="true" />
+			<forward name="authenticated" path="/do/view/projects"
+				redirect="true" />
 		</action>
 
 		<action path="/notAuthorized" parameter="security/notAuthorized" />
 
 		<action path="/logout" />
 
-		<!--
-			<action path="/logout" parameter="security/logout" > </action>
-		-->
+		<!-- <action path="/logout" parameter="security/logout" > </action> -->
 
 		<action path="/view/twikiformat" parameter="view/twikiformat" />
 
 		<action path="/view/projects" parameter="view/projects" />
-		
+
 		<action path="/view/project">
 			<forward name="display" path="/WEB-INF/jsp/view/project.jsp" />
 		</action>
@@ -192,7 +175,8 @@
 
 		<action path="/export/project/mspdi" />
 
-		<action path="/edit/project" input="/WEB-INF/jsp/edit/editProject.jsp" name="edit/project" />
+		<action path="/edit/project" input="/WEB-INF/jsp/edit/editProject.jsp"
+			name="edit/project" />
 
 		<action path="/delete/project" name="edit/project" />
 
@@ -247,7 +231,7 @@
 			<forward redirect="false" name="edit/time" path="/do/edit/time" />
 		</action>
 
-		<!-- DEBT: Why having the editIterationStatus.jsp for close?-->
+		<!-- DEBT: Why having the editIterationStatus.jsp for close? -->
 		<action path="/close/iteration" input="/WEB-INF/jsp/edit/editIterationStatus.jsp"
 			name="close/iteration">
 			<forward redirect="true" name="onclose"
@@ -288,7 +272,8 @@
 			<forward name="display" path="/WEB-INF/jsp/view/task.jsp" />
 		</action>
 
-		<action path="/edit/task" input="/WEB-INF/jsp/edit/editTask.jsp" name="edit/task" />
+		<action path="/edit/task" input="/WEB-INF/jsp/edit/editTask.jsp"
+			name="edit/task" />
 
 		<action path="/move/continue/task" input="/WEB-INF/jsp/edit/moveContinueTask.jsp"
 			name="move/continue/task" scope="session">
@@ -325,7 +310,7 @@
 				path="/WEB-INF/jsp/edit/editPerson.jsp" />
 		</action>
 
-		<!--      Todo Move importPeople.jsp to import/people.jsp-->
+		<!-- Todo Move importPeople.jsp to import/people.jsp -->
 		<action path="/import/people" input="/WEB-INF/jsp/edit/importPeople.jsp"
 			name="import/people" />
 
@@ -401,9 +386,9 @@
 		<action path="/view/directory" name="view/file">
 			<forward name="display" path="/WEB-INF/jsp/view/directory.jsp" />
 		</action>
-		
+
 		<action path="/view/settings" parameter="view/settings" />
-		
+
 		<action path="/admin/reload-tiles" />
 
 		<action path="/edit/roles" input="/WEB-INF/jsp/edit/editRoles.jsp"

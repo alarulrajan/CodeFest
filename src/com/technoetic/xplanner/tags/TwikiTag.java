@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.technoetic.xplanner.DomainSpecificPropertiesFactory;
 import com.technoetic.xplanner.XPlannerProperties;
-import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 import com.technoetic.xplanner.util.LogUtil;
 import com.technoetic.xplanner.wiki.SchemeHandler;
 import com.technoetic.xplanner.wiki.SimpleSchemeHandler;
@@ -33,116 +32,123 @@ public class TwikiTag extends RequestContextAwareTag {
 
 	final private String prefix = "twiki.scheme.";
 	final private String handlerSuffix = ".handler";
-	final private String wikiKey = prefix + "wiki";
+	final private String wikiKey = this.prefix + "wiki";
 
+	@Override
 	public int doEndTag() throws JspException {
 		try {
-			Object obj = RequestUtils.lookup(pageContext, name, null);
-			String content = (String) PropertyUtils.getProperty(obj, property);
-			Properties properties = new DomainSpecificPropertiesFactory(
-					getRequestContext().getWebApplicationContext().getBean(SessionFactory.class),
+			final Object obj = RequestUtils.lookup(this.pageContext, this.name,
+					null);
+			final String content = (String) PropertyUtils.getProperty(obj,
+					this.property);
+			final Properties properties = new DomainSpecificPropertiesFactory(
+					this.getRequestContext().getWebApplicationContext()
+							.getBean(SessionFactory.class),
 					XPlannerProperties.getProperties())
 					.createPropertiesFor(obj);
-			WikiFormat formatter = getFormatter(properties);
+			final WikiFormat formatter = this.getFormatter(properties);
 			if (content != null) {
 				formatter.setProperties(properties);
-				pageContext.getOut()
-						.print(formatter.format(content.toString()));
+				this.pageContext.getOut().print(
+						formatter.format(content.toString()));
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			throw new JspException(ex);
 		}
-		return EVAL_PAGE;
+		return Tag.EVAL_PAGE;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setProperty(String property) {
+	public void setProperty(final String property) {
 		this.property = property;
 	}
 
 	public String getProperty() {
-		return property;
+		return this.property;
 	}
 
-	private synchronized WikiFormat getFormatter(Properties properties) {
-		if (formatter == null) {
+	private synchronized WikiFormat getFormatter(final Properties properties) {
+		if (TwikiTag.formatter == null) {
 			// Read formatter class name from properties
 			if (properties.getProperty("wiki.format") != null) {
 				try {
-					formatter = (WikiFormat) Class.forName(
+					TwikiTag.formatter = (WikiFormat) Class.forName(
 							properties.getProperty("wiki.format"))
 							.newInstance();
-				} catch (Exception e) {
-					LOG.error(
+				} catch (final Exception e) {
+					TwikiTag.LOG.error(
 							"Cannot instantiate wiki format, using default: ",
 							e);
 					// Fall back to default
-					formatter = new TwikiFormat();
+					TwikiTag.formatter = new TwikiFormat();
 				}
 			} else {
 				// Fall back to default
-				formatter = new TwikiFormat();
+				TwikiTag.formatter = new TwikiFormat();
 			}
 		}
-		formatter.setProperties(properties);
-		if (schemeHandlers == null || schemeHandlers.isEmpty()) {
-			schemeHandlers = loadSchemeHandlers(properties);
+		TwikiTag.formatter.setProperties(properties);
+		if (this.schemeHandlers == null || this.schemeHandlers.isEmpty()) {
+			this.schemeHandlers = this.loadSchemeHandlers(properties);
 		} else {
-			final String translation = properties.getProperty(wikiKey);
-			schemeHandlers.put(wikiKey.substring(prefix.length()),
+			final String translation = properties.getProperty(this.wikiKey);
+			this.schemeHandlers.put(
+					this.wikiKey.substring(this.prefix.length()),
 					new SimpleSchemeHandler(translation));
 		}
-		formatter = new TwikiFormat(schemeHandlers);
-		return formatter;
+		TwikiTag.formatter = new TwikiFormat(this.schemeHandlers);
+		return TwikiTag.formatter;
 	}
 
-	private HashMap loadSchemeHandlers(Properties properties) {
-		HashMap schemeHandlers = new HashMap();
-		Enumeration keys = properties.keys();
+	private HashMap loadSchemeHandlers(final Properties properties) {
+		final HashMap schemeHandlers = new HashMap();
+		final Enumeration keys = properties.keys();
 		while (keys.hasMoreElements()) {
-			String key = (String) keys.nextElement();
-			if (key.startsWith(prefix)) {
+			final String key = (String) keys.nextElement();
+			if (key.startsWith(this.prefix)) {
 				final String translation = properties.getProperty(key);
-				if (key.endsWith(handlerSuffix)
-						&& !key.equals(prefix + handlerSuffix.substring(1))) {
+				if (key.endsWith(this.handlerSuffix)
+						&& !key.equals(this.prefix
+								+ this.handlerSuffix.substring(1))) {
 					try {
 						String className = translation;
 						String argument = null;
-						int argumentOffset = translation.indexOf(";");
+						final int argumentOffset = translation.indexOf(";");
 						if (argumentOffset != -1) {
 							className = translation
 									.substring(0, argumentOffset);
 							argument = translation
 									.substring(argumentOffset + 1);
 						}
-						Class handlerClass = Class.forName(className);
+						final Class handlerClass = Class.forName(className);
 						SchemeHandler handler = null;
 						try {
-							Constructor argConstructor = handlerClass
+							final Constructor argConstructor = handlerClass
 									.getConstructor(new Class[] { String.class });
 							if (argConstructor != null) {
 								handler = (SchemeHandler) argConstructor
 										.newInstance(new Object[] { argument });
 							}
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							handler = (SchemeHandler) handlerClass
 									.newInstance();
 						}
-						String handlerKey = key.substring(prefix.length(),
-								key.length() - handlerSuffix.length());
+						final String handlerKey = key.substring(
+								this.prefix.length(), key.length()
+										- this.handlerSuffix.length());
 						schemeHandlers.put(handlerKey, handler);
-					} catch (Exception e) {
-						LOG.error("error", e);
+					} catch (final Exception e) {
+						TwikiTag.LOG.error("error", e);
 					}
 				} else {
-					schemeHandlers.put(key.substring(prefix.length()),
+					schemeHandlers.put(key.substring(this.prefix.length()),
 							new SimpleSchemeHandler(translation));
 				}
 			}

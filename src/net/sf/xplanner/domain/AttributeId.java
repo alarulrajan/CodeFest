@@ -17,7 +17,7 @@ public class AttributeId implements java.io.Serializable {
 	public AttributeId() {
 	}
 
-	public AttributeId(int targetId, String name) {
+	public AttributeId(final int targetId, final String name) {
 		this.targetId = targetId;
 		this.name = name;
 	}
@@ -27,7 +27,7 @@ public class AttributeId implements java.io.Serializable {
 		return this.targetId;
 	}
 
-	public void setTargetId(int targetId) {
+	public void setTargetId(final int targetId) {
 		this.targetId = targetId;
 	}
 
@@ -36,31 +36,36 @@ public class AttributeId implements java.io.Serializable {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
 			return true;
-		if ((other == null))
+		}
+		if (other == null) {
 			return false;
-		if (!(other instanceof AttributeId))
+		}
+		if (!(other instanceof AttributeId)) {
 			return false;
-		AttributeId castOther = (AttributeId) other;
+		}
+		final AttributeId castOther = (AttributeId) other;
 
-		return (this.getTargetId() == castOther.getTargetId())
-				&& ((this.getName() == castOther.getName()) || (this.getName() != null
-						&& castOther.getName() != null && this.getName()
-						.equals(castOther.getName())));
+		return this.getTargetId() == castOther.getTargetId()
+				&& (this.getName() == castOther.getName() || this.getName() != null
+						&& castOther.getName() != null
+						&& this.getName().equals(castOther.getName()));
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 
 		result = 37 * result + this.getTargetId();
 		result = 37 * result
-				+ (getName() == null ? 0 : this.getName().hashCode());
+				+ (this.getName() == null ? 0 : this.getName().hashCode());
 		return result;
 	}
 

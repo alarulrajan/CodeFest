@@ -5,10 +5,8 @@
 package com.technoetic.xplanner;
 
 /**
- * User: mprokopowicz
- * Date: Feb 9, 2006
- * Time: 1:47:32 PM
+ * User: mprokopowicz Date: Feb 9, 2006 Time: 1:47:32 PM
  */
 public interface Command {
-   void execute();
+	void execute();
 }

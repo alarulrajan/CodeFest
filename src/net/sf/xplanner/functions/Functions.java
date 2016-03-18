@@ -9,26 +9,31 @@ import org.apache.commons.lang.StringUtils;
 
 public class Functions {
 
-	public static List<Object> filter(List<Object> objects, String fieldName, Object fieldValue) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
-		if(objects == null || objects.size()==0 || StringUtils.isBlank(fieldName)|| fieldValue ==null){
+	public static List<Object> filter(final List<Object> objects,
+			final String fieldName, final Object fieldValue)
+			throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException {
+		if (objects == null || objects.size() == 0
+				|| StringUtils.isBlank(fieldName) || fieldValue == null) {
 			return objects;
 		}
 		int intValue = 0;
-		List<Object> result = new ArrayList<Object>(objects.size());
-		
-		if(fieldValue instanceof Long){
-			intValue = ((Long)fieldValue).intValue();
+		final List<Object> result = new ArrayList<Object>(objects.size());
+
+		if (fieldValue instanceof Long) {
+			intValue = ((Long) fieldValue).intValue();
 		}
-		
-		for (Object object : objects) {
-			Object property = PropertyUtils.getProperty(object, fieldName);
-			if(property instanceof Enum){
-				if(fieldValue.equals(((Enum)property).name())){
+
+		for (final Object object : objects) {
+			final Object property = PropertyUtils
+					.getProperty(object, fieldName);
+			if (property instanceof Enum) {
+				if (fieldValue.equals(((Enum) property).name())) {
 					result.add(object);
 				}
-			}else if(fieldValue.equals(property)){
+			} else if (fieldValue.equals(property)) {
 				result.add(object);
-			}else if((fieldValue instanceof Long) && property.equals(intValue)){
+			} else if (fieldValue instanceof Long && property.equals(intValue)) {
 				result.add(object);
 			}
 		}

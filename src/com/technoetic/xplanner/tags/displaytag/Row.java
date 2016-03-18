@@ -13,195 +13,208 @@ import org.displaytag.util.TagConstants;
 
 /**
  * Holds informations for a table row.
+ * 
  * @author fgiust
  * @version $Revision: 33 $ ($Author: sg0620641 $)
  */
-public class Row extends org.displaytag.model.Row
-{
+public class Row extends org.displaytag.model.Row {
 
-    /**
-     * Object holding values for the current row.
-     */
-    private Object rowObject;
+	/**
+	 * Object holding values for the current row.
+	 */
+	private final Object rowObject;
 
-    /**
-     * List of cell objects.
-     */
-    private List staticCells;
+	/**
+	 * List of cell objects.
+	 */
+	private final List staticCells;
 
-    /**
-     * Row number.
-     */
-    private int rowNumber;
+	/**
+	 * Row number.
+	 */
+	private int rowNumber;
 
-    /**
-     * TableModel which the row belongs to.
-     */
-    private TableModel tableModel;
+	/**
+	 * TableModel which the row belongs to.
+	 */
+	private TableModel tableModel;
 
-    /**
-     * Default Row Decorator
-     */
-    private RowDecorator decorator;
+	/**
+	 * Default Row Decorator
+	 */
+	private RowDecorator decorator;
 
-    /**
-     * Constructor for Row.
-     * @param object Object
-     * @param number int
-     */
-    public Row(Object object, int number)
-    {
-        super(object, number);
-        decorator = new DefaultRowDecorator();
-        this.rowObject = object;
-        this.rowNumber = number;
-        this.staticCells = new ArrayList();
-    }
+	/**
+	 * Constructor for Row.
+	 * 
+	 * @param object
+	 *            Object
+	 * @param number
+	 *            int
+	 */
+	public Row(final Object object, final int number) {
+		super(object, number);
+		this.decorator = new DefaultRowDecorator();
+		this.rowObject = object;
+		this.rowNumber = number;
+		this.staticCells = new ArrayList();
+	}
 
-    /**
-     * Constructor that allows specification of a row decorator
-     * @param rowObject
-     * @param rowNumber
-     * @param decorator
-     */
-    public Row(Object rowObject, int rowNumber, RowDecorator decorator) {
-        this(rowObject, rowNumber);
-        this.decorator = decorator != null ? decorator : new DefaultRowDecorator();
-    }
+	/**
+	 * Constructor that allows specification of a row decorator
+	 * 
+	 * @param rowObject
+	 * @param rowNumber
+	 * @param decorator
+	 */
+	public Row(final Object rowObject, final int rowNumber,
+			final RowDecorator decorator) {
+		this(rowObject, rowNumber);
+		this.decorator = decorator != null ? decorator
+				: new DefaultRowDecorator();
+	}
 
-    /**
-     * Setter for the row number.
-     * @param number row number
-     */
-    public void setRowNumber(int number)
-    {
-        this.rowNumber = number;
-    }
+	/**
+	 * Setter for the row number.
+	 * 
+	 * @param number
+	 *            row number
+	 */
+	@Override
+	public void setRowNumber(final int number) {
+		this.rowNumber = number;
+	}
 
-    /**
-     * @return true if the current row number is odd
-     */
-    public boolean isOddRow()
-    {
-        return this.rowNumber % 2 == 0;
-    }
+	/**
+	 * @return true if the current row number is odd
+	 */
+	@Override
+	public boolean isOddRow() {
+		return this.rowNumber % 2 == 0;
+	}
 
-    /**
-     * Getter for the row number.
-     * @return row number
-     */
-    public int getRowNumber()
-    {
-        return this.rowNumber;
-    }
+	/**
+	 * Getter for the row number.
+	 * 
+	 * @return row number
+	 */
+	@Override
+	public int getRowNumber() {
+		return this.rowNumber;
+	}
 
-    /**
-     * Adds a cell to the row.
-     * @param cell Cell
-     */
-    public void addCell(Cell cell)
-    {
-        this.staticCells.add(cell);
-    }
+	/**
+	 * Adds a cell to the row.
+	 * 
+	 * @param cell
+	 *            Cell
+	 */
+	@Override
+	public void addCell(final Cell cell) {
+		this.staticCells.add(cell);
+	}
 
-    /**
-     * getter for the list of Cell object.
-     * @return List containing Cell objects
-     */
-    public List getCellList()
-    {
-        return this.staticCells;
-    }
+	/**
+	 * getter for the list of Cell object.
+	 * 
+	 * @return List containing Cell objects
+	 */
+	@Override
+	public List getCellList() {
+		return this.staticCells;
+	}
 
-    /**
-     * getter for the object holding values for the current row.
-     * @return Object object holding values for the current row
-     */
-    public Object getObject()
-    {
-        return this.rowObject;
-    }
+	/**
+	 * getter for the object holding values for the current row.
+	 * 
+	 * @return Object object holding values for the current row
+	 */
+	@Override
+	public Object getObject() {
+		return this.rowObject;
+	}
 
-    /**
-     * Iterates on columns.
-     * @param columns List
-     * @return ColumnIterator
-     */
-    public ColumnIterator getColumnIterator(List columns)
-    {
-        return new ColumnIterator(columns, this);
-    }
+	/**
+	 * Iterates on columns.
+	 * 
+	 * @param columns
+	 *            List
+	 * @return ColumnIterator
+	 */
+	@Override
+	public ColumnIterator getColumnIterator(final List columns) {
+		return new ColumnIterator(columns, this);
+	}
 
-    /**
-     * Setter for the table model the row belongs to.
-     * @param table TableModel
-     */
-    protected void setParentTable(TableModel table)
-    {
-        this.tableModel = table;
-    }
+	/**
+	 * Setter for the table model the row belongs to.
+	 * 
+	 * @param table
+	 *            TableModel
+	 */
+	@Override
+	protected void setParentTable(final TableModel table) {
+		this.tableModel = table;
+	}
 
-    /**
-     * Getter for the table model the row belongs to.
-     * @return TableModel
-     */
-    protected TableModel getParentTable()
-    {
-        return this.tableModel;
-    }
+	/**
+	 * Getter for the table model the row belongs to.
+	 * 
+	 * @return TableModel
+	 */
+	@Override
+	protected TableModel getParentTable() {
+		return this.tableModel;
+	}
 
-    /**
-     * Writes the open &lt;tr> tag.
-     * @return String &lt;tr> tag with the appropriate css class attribute
-     */
-    public String getOpenTag()
-    {
-        String css = decorator.getCssClasses(this);
+	/**
+	 * Writes the open &lt;tr> tag.
+	 * 
+	 * @return String &lt;tr> tag with the appropriate css class attribute
+	 */
+	@Override
+	public String getOpenTag() {
+		final String css = this.decorator.getCssClasses(this);
 
-        if (StringUtils.isNotEmpty(css))
-        {
-            return TagConstants.TAG_OPEN
-                + TagConstants.TAGNAME_ROW
-                + " "
-                + TagConstants.ATTRIBUTE_CLASS
-                + "=\""
-                + css
-                + "\""
-                + TagConstants.TAG_CLOSE;
-        }
-        else
-        {
-            return TagConstants.TAG_OPEN + TagConstants.TAGNAME_ROW + TagConstants.TAG_CLOSE;
-        }
-    }
+		if (StringUtils.isNotEmpty(css)) {
+			return TagConstants.TAG_OPEN + TagConstants.TAGNAME_ROW + " "
+					+ TagConstants.ATTRIBUTE_CLASS + "=\"" + css + "\""
+					+ TagConstants.TAG_CLOSE;
+		} else {
+			return TagConstants.TAG_OPEN + TagConstants.TAGNAME_ROW
+					+ TagConstants.TAG_CLOSE;
+		}
+	}
 
-    public TableModel getTableModel() {
-        return tableModel;
-    }
+	public TableModel getTableModel() {
+		return this.tableModel;
+	}
 
-    private static class DefaultRowDecorator implements RowDecorator {
-        public String getCssClasses(Row row) {
-            return row.getTableModel().getProperties().getCssRow(row.getRowNumber());
-        }
-    }
+	private static class DefaultRowDecorator implements RowDecorator {
+		@Override
+		public String getCssClasses(final Row row) {
+			return row.getTableModel().getProperties()
+					.getCssRow(row.getRowNumber());
+		}
+	}
 
-    /**
-     * writes the &lt;/tr> tag.
-     * @return String &lt;/tr> tag
-     */
-    public String getCloseTag()
-    {
-        return TagConstants.TAG_TR_CLOSE;
-    }
+	/**
+	 * writes the &lt;/tr> tag.
+	 * 
+	 * @return String &lt;/tr> tag
+	 */
+	@Override
+	public String getCloseTag() {
+		return TagConstants.TAG_TR_CLOSE;
+	}
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString()
-    {
-        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-            .append("rowNumber", this.rowNumber)
-            .append("rowObject", this.rowObject)
-            .toString();
-    }
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
+				.append("rowNumber", this.rowNumber)
+				.append("rowObject", this.rowObject).toString();
+	}
 }

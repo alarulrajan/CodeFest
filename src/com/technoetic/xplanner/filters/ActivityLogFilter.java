@@ -16,31 +16,35 @@ import org.apache.log4j.Logger;
 
 import com.technoetic.xplanner.util.LogUtil;
 
-
 public class ActivityLogFilter implements Filter {
 
-   public static final Logger LOG = LogUtil.getLogger();
+	public static final Logger LOG = LogUtil.getLogger();
 
-   //TODO: Once we migrate to 1.5, use String.format to extract the logging pattern into the web.xml filter init param.
+	// TODO: Once we migrate to 1.5, use String.format to extract the logging
+	// pattern into the web.xml filter init param.
 
-   public void init(FilterConfig config) throws ServletException {
-   }
+	@Override
+	public void init(final FilterConfig config) throws ServletException {
+	}
 
-   public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-         throws IOException, ServletException {
+	@Override
+	public void doFilter(final ServletRequest request,
+			final ServletResponse response, final FilterChain filterChain)
+			throws IOException, ServletException {
 
-      ActivityLogFilterHelper helper = new ActivityLogFilterHelper();
-      helper.doHelperSetUp(request);
+		final ActivityLogFilterHelper helper = new ActivityLogFilterHelper();
+		helper.doHelperSetUp(request);
 
-      LOG.info(helper.getStartLogRecord());
+		ActivityLogFilter.LOG.info(helper.getStartLogRecord());
 
-      filterChain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 
-      LOG.info(helper.getEndLogRecord());
+		ActivityLogFilter.LOG.info(helper.getEndLogRecord());
 
-   }
+	}
 
-   public void destroy() {
-   }
+	@Override
+	public void destroy() {
+	}
 
 }

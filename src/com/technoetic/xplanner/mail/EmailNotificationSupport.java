@@ -22,79 +22,100 @@ import com.technoetic.xplanner.DomainSpecificPropertiesFactory;
 import com.technoetic.xplanner.XPlannerProperties;
 
 /**
- * User: mprokopowicz
- * Date: Feb 3, 2006
- * Time: 5:36:56 PM
+ * User: mprokopowicz Date: Feb 3, 2006 Time: 5:36:56 PM
  */
 public class EmailNotificationSupport {
-	private EmailFormatter emailFormatter;
-	private DomainSpecificPropertiesFactory propertiesFactory;
-	private static final Logger log = Logger.getLogger(EmailNotificationSupport.class);
-	private EmailMessageFactory emailMessageFactory;
+	private final EmailFormatter emailFormatter;
+	private final DomainSpecificPropertiesFactory propertiesFactory;
+	private static final Logger log = Logger
+			.getLogger(EmailNotificationSupport.class);
+	private final EmailMessageFactory emailMessageFactory;
 	static final String XPLANNER_MAIL_FROM_KEY = "xplanner.mail.from";
 
-	public EmailNotificationSupport(EmailFormatter emailFormatter,
-		EmailMessageFactory emailMessageFactory,
-		DomainSpecificPropertiesFactory propertiesFactory) {
+	public EmailNotificationSupport(final EmailFormatter emailFormatter,
+			final EmailMessageFactory emailMessageFactory,
+			final DomainSpecificPropertiesFactory propertiesFactory) {
 		this.emailFormatter = emailFormatter;
 		this.emailMessageFactory = emailMessageFactory;
 		this.propertiesFactory = propertiesFactory;
 	}
 
-	public void sendNotifications(Map<Integer, List<Object>> notificationEmails, Map<String, Object> params) {
-		Set<Integer> keySet = notificationEmails.keySet();
-		Iterator<Integer> iterator = keySet.iterator();
-		ResourceBundle bundle = ResourceBundle.getBundle("EmailResourceBundle");
-		String subject = bundle.getString((String)params.get(EmailFormatterImpl.SUBJECT));
+	public void sendNotifications(
+			final Map<Integer, List<Object>> notificationEmails,
+			final Map<String, Object> params) {
+		final Set<Integer> keySet = notificationEmails.keySet();
+		final Iterator<Integer> iterator = keySet.iterator();
+		final ResourceBundle bundle = ResourceBundle
+				.getBundle("EmailResourceBundle");
+		final String subject = bundle.getString((String) params
+				.get(EmailFormatterImpl.SUBJECT));
 		while (iterator.hasNext()) {
-			Integer id = iterator.next();
-			List<Object> bodyEntryList = notificationEmails.get(id);
+			final Integer id = iterator.next();
+			final List<Object> bodyEntryList = notificationEmails.get(id);
 			try {
-				EmailMessage emailMessage = emailMessageFactory.createMessage();
+				final EmailMessage emailMessage = this.emailMessageFactory
+						.createMessage();
 				emailMessage.setRecipient(id.intValue());
 				emailMessage.setSubject(subject);
-				emailMessage.setFrom(propertiesFactory.getDefaultProperties().getProperty(XPLANNER_MAIL_FROM_KEY));
-				String formatedText = emailFormatter.formatEmailEntry(bodyEntryList, params);
+				emailMessage
+						.setFrom(this.propertiesFactory
+								.getDefaultProperties()
+								.getProperty(
+										EmailNotificationSupport.XPLANNER_MAIL_FROM_KEY));
+				final String formatedText = this.emailFormatter
+						.formatEmailEntry(bodyEntryList, params);
 				emailMessage.setBody(formatedText);
 				emailMessage.send();
-			} catch (Exception e) {
-				log.error("Error sending email: ", e);
+			} catch (final Exception e) {
+				EmailNotificationSupport.log.error("Error sending email: ", e);
 			}
 		}
 	}
 
-	public void sendNotifications(Map<Integer, List<Object>> notificationEmails, String emailHeaderKey, String subjectKey) {
-		Set<Integer> keySet = notificationEmails.keySet();
-		Iterator<Integer> iterator = keySet.iterator();
-		ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundle");
-		String subject = bundle.getString(subjectKey);
-		String emailHeader = bundle.getString(emailHeaderKey);
-		String emailFooter = bundle.getString(MissingTimeEntryNotifier.EMAIL_BODY_FOOTER);
-		String emailTaskHeader = bundle.getString(MissingTimeEntryNotifier.EMAIL_TASK_HEADER);
-		String emailStoryHeader = bundle.getString(MissingTimeEntryNotifier.EMAIL_STORY_HEADER);
+	public void sendNotifications(
+			final Map<Integer, List<Object>> notificationEmails,
+			final String emailHeaderKey, final String subjectKey) {
+		final Set<Integer> keySet = notificationEmails.keySet();
+		final Iterator<Integer> iterator = keySet.iterator();
+		final ResourceBundle bundle = ResourceBundle
+				.getBundle("ResourceBundle");
+		final String subject = bundle.getString(subjectKey);
+		final String emailHeader = bundle.getString(emailHeaderKey);
+		final String emailFooter = bundle
+				.getString(MissingTimeEntryNotifier.EMAIL_BODY_FOOTER);
+		final String emailTaskHeader = bundle
+				.getString(MissingTimeEntryNotifier.EMAIL_TASK_HEADER);
+		final String emailStoryHeader = bundle
+				.getString(MissingTimeEntryNotifier.EMAIL_STORY_HEADER);
 		while (iterator.hasNext()) {
-			Integer id = iterator.next();
-			List<Object> bodyEntryList = notificationEmails.get(id);
+			final Integer id = iterator.next();
+			final List<Object> bodyEntryList = notificationEmails.get(id);
 			try {
-				EmailMessage emailMessage = emailMessageFactory.createMessage();
+				final EmailMessage emailMessage = this.emailMessageFactory
+						.createMessage();
 				emailMessage.setRecipient(id.intValue());
 				emailMessage.setSubject(subject);
-				emailMessage.setFrom(propertiesFactory.getDefaultProperties().getProperty(XPLANNER_MAIL_FROM_KEY));
-				String formatedText = emailFormatter.formatEmailEntry(emailHeader,
-					emailFooter,
-					emailStoryHeader,
-					emailTaskHeader,
-					bodyEntryList);
+				emailMessage
+						.setFrom(this.propertiesFactory
+								.getDefaultProperties()
+								.getProperty(
+										EmailNotificationSupport.XPLANNER_MAIL_FROM_KEY));
+				final String formatedText = this.emailFormatter
+						.formatEmailEntry(emailHeader, emailFooter,
+								emailStoryHeader, emailTaskHeader,
+								bodyEntryList);
 				emailMessage.setBody(formatedText);
 				emailMessage.send();
-			} catch (Exception e) {
-				log.error("Error sending email: ", e);
+			} catch (final Exception e) {
+				EmailNotificationSupport.log.error("Error sending email: ", e);
 			}
 		}
 	}
 
-	public void compileEmail(Map<Integer, List<Object>> notificationEmails, int receiverId, Person acceptor, Task task,
-		UserStory story) {
+	public void compileEmail(
+			final Map<Integer, List<Object>> notificationEmails,
+			final int receiverId, final Person acceptor, final Task task,
+			final UserStory story) {
 		List<Object> emailBodyList;
 		if (notificationEmails.containsKey(new Integer(receiverId))) {
 			emailBodyList = notificationEmails.get(new Integer(receiverId));
@@ -102,7 +123,7 @@ public class EmailNotificationSupport {
 			emailBodyList = new ArrayList<Object>();
 			notificationEmails.put(new Integer(receiverId), emailBodyList);
 		}
-		List<Object> entryList = new ArrayList<Object>();
+		final List<Object> entryList = new ArrayList<Object>();
 		entryList.add(task);
 		entryList.add(story);
 		if (acceptor != null) {
@@ -111,19 +132,24 @@ public class EmailNotificationSupport {
 		emailBodyList.add(entryList);
 	}
 
-	public boolean isProjectToBeNotified(Map<Integer, Boolean> projectsToBeNotified,
-		Project project) {
-		Boolean isNotified = projectsToBeNotified.get(new Integer(project.getId()));
+	public boolean isProjectToBeNotified(
+			final Map<Integer, Boolean> projectsToBeNotified,
+			final Project project) {
+		Boolean isNotified = projectsToBeNotified.get(new Integer(project
+				.getId()));
 		if (isNotified == null) {
-			isNotified = Boolean.valueOf(isProjectToBeNotified(project));
+			isNotified = Boolean.valueOf(this.isProjectToBeNotified(project));
 			projectsToBeNotified.put(new Integer(project.getId()), isNotified);
 		}
 		return isNotified.booleanValue();
 	}
 
-	public boolean isProjectToBeNotified(Project project) {
-		Properties projectDynamicProperties = propertiesFactory.createPropertiesFor(project);
-		String stringValue = projectDynamicProperties.getProperty(XPlannerProperties.SEND_NOTIFICATION_KEY, Boolean.TRUE.toString());
+	public boolean isProjectToBeNotified(final Project project) {
+		final Properties projectDynamicProperties = this.propertiesFactory
+				.createPropertiesFor(project);
+		final String stringValue = projectDynamicProperties.getProperty(
+				XPlannerProperties.SEND_NOTIFICATION_KEY,
+				Boolean.TRUE.toString());
 		return Boolean.valueOf(stringValue).booleanValue();
 	}
 }

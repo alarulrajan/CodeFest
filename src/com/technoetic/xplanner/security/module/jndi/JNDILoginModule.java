@@ -57,9 +57,7 @@
  *
  */
 
-
 package com.technoetic.xplanner.security.module.jndi;
-
 
 import java.util.Map;
 
@@ -75,39 +73,38 @@ import com.technoetic.xplanner.security.LoginModule;
 import com.technoetic.xplanner.security.module.LoginSupport;
 import com.technoetic.xplanner.security.module.LoginSupportImpl;
 
-
 /**
- * <p>Implementation of <strong>Realm</strong> that works with a directory
- * server accessed via the Java Naming and Directory Interface (JNDI) APIs.
- * The following constraints are imposed on the data structure in the
- * underlying directory server:</p>
+ * <p>
+ * Implementation of <strong>Realm</strong> that works with a directory server
+ * accessed via the Java Naming and Directory Interface (JNDI) APIs. The
+ * following constraints are imposed on the data structure in the underlying
+ * directory server:
+ * </p>
  * <ul>
  * <p/>
  * <li>Each user that can be authenticated is represented by an individual
- * element in the top level <code>DirContext</code> that is accessed
- * via the <code>connectionURL</code> property.</li>
+ * element in the top level <code>DirContext</code> that is accessed via the
+ * <code>connectionURL</code> property.</li>
  * <p/>
- * <li>If a socket connection can not be made to the <code>connectURL</code>
- * an attempt will be made to use the <code>alternateURL</code> if it
- * exists.</li>
+ * <li>If a socket connection can not be made to the <code>connectURL</code> an
+ * attempt will be made to use the <code>alternateURL</code> if it exists.</li>
  * <p/>
  * <li>Each user element has a distinguished name that can be formed by
  * substituting the presented username into a pattern configured by the
  * <code>userPattern</code> property.</li>
  * <p/>
- * <li>Alternatively, if the <code>userPattern</code> property is not
- * specified, a unique element can be located by searching the directory
- * context. In this case:
+ * <li>Alternatively, if the <code>userPattern</code> property is not specified,
+ * a unique element can be located by searching the directory context. In this
+ * case:
  * <ul>
- * <li>The <code>userSearch</code> pattern specifies the search filter
- * after substitution of the username.</li>
- * <li>The <code>userBase</code> property can be set to the element that
- * is the base of the subtree containing users.  If not specified,
- * the search base is the top-level context.</li>
- * <li>The <code>userSubtree</code> property can be set to
- * <code>true</code> if you wish to search the entire subtree of the
- * directory context.  The default value of <code>false</code>
- * requests a search of only the current level.</li>
+ * <li>The <code>userSearch</code> pattern specifies the search filter after
+ * substitution of the username.</li>
+ * <li>The <code>userBase</code> property can be set to the element that is the
+ * base of the subtree containing users. If not specified, the search base is
+ * the top-level context.</li>
+ * <li>The <code>userSubtree</code> property can be set to <code>true</code> if
+ * you wish to search the entire subtree of the directory context. The default
+ * value of <code>false</code> requests a search of only the current level.</li>
  * </ul>
  * </li>
  * <p/>
@@ -116,125 +113,137 @@ import com.technoetic.xplanner.security.module.LoginSupportImpl;
  * <code>userPassword</code> property is not specified.</li>
  * <p/>
  * <li>The user may be authenticated by retrieving the value of an attribute
- * from the directory and comparing it explicitly with the value presented
- * by the user. This method is used when the <code>userPassword</code>
- * property is specified, in which case:
+ * from the directory and comparing it explicitly with the value presented by
+ * the user. This method is used when the <code>userPassword</code> property is
+ * specified, in which case:
  * <ul>
  * <li>The element for this user must contain an attribute named by the
  * <code>userPassword</code> property.
- * <li>The value of the user password attribute is either a cleartext
- * String, or the result of passing a cleartext String through the
- * <code>RealmBase.digest()</code> method (using the standard digest
- * support included in <code>RealmBase</code>).
- * <li>The user is considered to be authenticated if the presented
- * credentials (after being passed through
- * <code>RealmBase.digest()</code>) are equal to the retrieved value
- * for the user password attribute.</li>
- * </ul></li>
+ * <li>The value of the user password attribute is either a cleartext String, or
+ * the result of passing a cleartext String through the
+ * <code>RealmBase.digest()</code> method (using the standard digest support
+ * included in <code>RealmBase</code>).
+ * <li>The user is considered to be authenticated if the presented credentials
+ * (after being passed through <code>RealmBase.digest()</code>) are equal to the
+ * retrieved value for the user password attribute.</li>
+ * </ul>
+ * </li>
  * <p/>
  * <li>Each group of users that has been assigned a particular role may be
- * represented by an individual element in the top level
- * <code>DirContext</code> that is accessed via the
- * <code>connectionURL</code> property.  This element has the following
- * characteristics:
+ * represented by an individual element in the top level <code>DirContext</code>
+ * that is accessed via the <code>connectionURL</code> property. This element
+ * has the following characteristics:
  * <ul>
- * <li>The set of all possible groups of interest can be selected by a
- * search pattern configured by the <code>roleSearch</code>
- * property.</li>
+ * <li>The set of all possible groups of interest can be selected by a search
+ * pattern configured by the <code>roleSearch</code> property.</li>
  * <li>The <code>roleSearch</code> pattern optionally includes pattern
- * replacements "{0}" for the distinguished name, and/or "{1}" for
- * the username, of the authenticated user for which roles will be
- * retrieved.</li>
- * <li>The <code>roleBase</code> property can be set to the element that
- * is the base of the search for matching roles.  If not specified,
- * the entire context will be searched.</li>
- * <li>The <code>roleSubtree</code> property can be set to
- * <code>true</code> if you wish to search the entire subtree of the
- * directory context.  The default value of <code>false</code>
- * requests a search of only the current level.</li>
- * <li>The element includes an attribute (whose name is configured by
- * the <code>roleName</code> property) containing the name of the
- * role represented by this element.</li>
- * </ul></li>
+ * replacements "{0}" for the distinguished name, and/or "{1}" for the username,
+ * of the authenticated user for which roles will be retrieved.</li>
+ * <li>The <code>roleBase</code> property can be set to the element that is the
+ * base of the search for matching roles. If not specified, the entire context
+ * will be searched.</li>
+ * <li>The <code>roleSubtree</code> property can be set to <code>true</code> if
+ * you wish to search the entire subtree of the directory context. The default
+ * value of <code>false</code> requests a search of only the current level.</li>
+ * <li>The element includes an attribute (whose name is configured by the
+ * <code>roleName</code> property) containing the name of the role represented
+ * by this element.</li>
+ * </ul>
+ * </li>
  * <p/>
- * <li>In addition, roles may be represented by the values of an attribute
- * in the user's element whose name is configured by the
- * <code>userRoleName</code> property.</li>
+ * <li>In addition, roles may be represented by the values of an attribute in
+ * the user's element whose name is configured by the <code>userRoleName</code>
+ * property.</li>
  * <p/>
  * <li>Note that the standard <code>&lt;security-role-ref&gt;</code> element in
- * the web application deployment descriptor allows applications to refer
- * to roles programmatically by names other than those used in the
- * directory server itself.</li>
+ * the web application deployment descriptor allows applications to refer to
+ * roles programmatically by names other than those used in the directory server
+ * itself.</li>
  * </ul>
- *
+ * 
  * @author John Holman
  * @author Craig R. McClanahan
- * @version $Revision: 799 $ $Date: 2005-10-25 04:39:39 -0500 (Tue, 25 Oct 2005) $
+ * @version $Revision: 799 $ $Date: 2005-10-25 04:39:39 -0500 (Tue, 25 Oct 2005)
+ *          $
  */
 
 public class JNDILoginModule implements LoginModule {
 
-   JNDIAuthenticator authenticator = null;
-   LoginSupport support = null;
+	JNDIAuthenticator authenticator = null;
+	LoginSupport support = null;
 
-   public static final  Logger log = Logger.getLogger(JNDILoginModule.class);
-   /**
-    * Descriptive information about this Realm implementation.
-    */
-   protected String name = null;
-   /**
-    * Should we dereference directory aliases?
-    * See http://java.sun.com/products/jndi/tutorial/ldap/misc/aliases.html
-    */
-   protected String derefAliases = "always";
+	public static final Logger log = Logger.getLogger(JNDILoginModule.class);
+	/**
+	 * Descriptive information about this Realm implementation.
+	 */
+	protected String name = null;
+	/**
+	 * Should we dereference directory aliases? See
+	 * http://java.sun.com/products/jndi/tutorial/ldap/misc/aliases.html
+	 */
+	protected String derefAliases = "always";
 
-   public JNDILoginModule(JNDIAuthenticator authenticator, LoginSupport support) {
-      this.authenticator = authenticator;
-      this.support = support;
-   }
+	public JNDILoginModule(final JNDIAuthenticator authenticator,
+			final LoginSupport support) {
+		this.authenticator = authenticator;
+		this.support = support;
+	}
 
-   public JNDILoginModule() {
-      this.authenticator = new JNDIAuthenticatorImpl();
-      this.support = new LoginSupportImpl();
-   }
+	public JNDILoginModule() {
+		this.authenticator = new JNDIAuthenticatorImpl();
+		this.support = new LoginSupportImpl();
+	}
 
-   public void setOptions(Map options) {
-      authenticator.setOptions(options);
-   }
+	@Override
+	public void setOptions(final Map options) {
+		this.authenticator.setOptions(options);
+	}
 
-   public Subject authenticate(String userId, String password) throws AuthenticationException {
-      Subject subject = null;
-      log.debug(ATTEMPTING_TO_AUTHENTICATE + this.getName() + " (" + userId + ")");
-      try {
-         subject = authenticator.authenticate(userId, password);
-      } catch (com.sabre.security.jndi.AuthenticationException e) {
-         throw new AuthenticationException(e.getMessage());
-      }
-      support.populateSubjectPrincipalFromDatabase(subject, userId);
-      log.debug(AUTHENTICATION_SUCCESFULL + this.getName());
-      return subject;
-   }
+	@Override
+	public Subject authenticate(final String userId, final String password)
+			throws AuthenticationException {
+		Subject subject = null;
+		JNDILoginModule.log.debug(LoginModule.ATTEMPTING_TO_AUTHENTICATE
+				+ this.getName() + " (" + userId + ")");
+		try {
+			subject = this.authenticator.authenticate(userId, password);
+		} catch (final com.sabre.security.jndi.AuthenticationException e) {
+			throw new AuthenticationException(e.getMessage());
+		}
+		this.support.populateSubjectPrincipalFromDatabase(subject, userId);
+		JNDILoginModule.log.debug(LoginModule.AUTHENTICATION_SUCCESFULL
+				+ this.getName());
+		return subject;
+	}
 
-   public boolean isCapableOfChangingPasswords() {
-      return false;
-   }
+	@Override
+	public boolean isCapableOfChangingPasswords() {
+		return false;
+	}
 
-   public void changePassword(String userId, String password) throws AuthenticationException {
-      throw new UnsupportedOperationException("change Password not implemented");
-   }
+	@Override
+	public void changePassword(final String userId, final String password)
+			throws AuthenticationException {
+		throw new UnsupportedOperationException(
+				"change Password not implemented");
+	}
 
-   public void logout(HttpServletRequest request) throws AuthenticationException {
-      request.getSession().invalidate();
-   }
+	@Override
+	public void logout(final HttpServletRequest request)
+			throws AuthenticationException {
+		request.getSession().invalidate();
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	@Override
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-   /**
-    * Return a short name for this Realm implementation.
-    */
-   public String getName() {
-      return this.name;
-   }
+	/**
+	 * Return a short name for this Realm implementation.
+	 */
+	@Override
+	public String getName() {
+		return this.name;
+	}
 }

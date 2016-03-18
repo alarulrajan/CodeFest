@@ -4,6 +4,6 @@
 package com.technoetic.xplanner.views;
 
 public interface IterationAccuracyPage {
-   String CURRENT_STATUS_TABLE_ID = "currentStatus";
-   String ITERATION_STATUS_TABLE_ID = "iterationStatus";
+	String CURRENT_STATUS_TABLE_ID = "currentStatus";
+	String ITERATION_STATUS_TABLE_ID = "iterationStatus";
 }

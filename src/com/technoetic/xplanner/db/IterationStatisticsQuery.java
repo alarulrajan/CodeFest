@@ -19,249 +19,298 @@ import org.hibernate.type.Type;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
 public class IterationStatisticsQuery {
-    private final Logger log = Logger.getLogger(getClass());
+	private final Logger log = Logger.getLogger(this.getClass());
 
-    private String query;
-    private int iterationId = -1;
-    private Collection tasks = null;
-    private Iteration iteration = null;
+	private String query;
+	private int iterationId = -1;
+	private Collection tasks = null;
+	private Iteration iteration = null;
 
-    private Hashtable taskTypeCount = null;
-    private Hashtable taskDispositionCount = null;
-    private Hashtable taskTypeEstimatedHours = null;
-    private Hashtable taskDispositionEstimatedHours = null;
-    private Hashtable taskTypeActualHours = null;
-    private Hashtable taskDispositionActualHours = null;
+	private Hashtable taskTypeCount = null;
+	private Hashtable taskDispositionCount = null;
+	private Hashtable taskTypeEstimatedHours = null;
+	private Hashtable taskDispositionEstimatedHours = null;
+	private Hashtable taskTypeActualHours = null;
+	private Hashtable taskDispositionActualHours = null;
 
-    private Locale locale = null;
-    private MessageResources resources = null;
+	private Locale locale = null;
+	private MessageResources resources = null;
 
-    /**
-     * Clears any data that this class may be caching.
-     */
-    private void clearCache() {
-        tasks = null;
-        iteration = null;
+	/**
+	 * Clears any data that this class may be caching.
+	 */
+	private void clearCache() {
+		this.tasks = null;
+		this.iteration = null;
 
-        taskTypeCount = null;
-        taskDispositionCount = null;
-        taskTypeEstimatedHours = null;
-        taskDispositionEstimatedHours = null;
-        taskTypeActualHours = null;
-        taskDispositionActualHours = null;
-    }
+		this.taskTypeCount = null;
+		this.taskDispositionCount = null;
+		this.taskTypeEstimatedHours = null;
+		this.taskDispositionEstimatedHours = null;
+		this.taskTypeActualHours = null;
+		this.taskDispositionActualHours = null;
+	}
 
-    /**
-     * Used to set the HTTP request object. This may be required by other classes to access resource strings.
-     *
-     * @param request the HTTP request object.
-     */
-    public void setRequest(HttpServletRequest request) {
-        try {
-            locale = (Locale)request.getSession().getAttribute(Globals.LOCALE_KEY);
-        } catch (IllegalStateException e) {	// Invalidated session
-            locale = null;
-        }
-        if (locale == null) {
-            locale = Locale.getDefault();
-        }
+	/**
+	 * Used to set the HTTP request object. This may be required by other
+	 * classes to access resource strings.
+	 * 
+	 * @param request
+	 *            the HTTP request object.
+	 */
+	public void setRequest(final HttpServletRequest request) {
+		try {
+			this.locale = (Locale) request.getSession().getAttribute(
+					Globals.LOCALE_KEY);
+		} catch (final IllegalStateException e) { // Invalidated session
+			this.locale = null;
+		}
+		if (this.locale == null) {
+			this.locale = Locale.getDefault();
+		}
 
-        resources = (MessageResources)request.getAttribute(Globals.MESSAGES_KEY);
-    }
+		this.resources = (MessageResources) request
+				.getAttribute(Globals.MESSAGES_KEY);
+	}
 
-    /**
-     * Returns the string, stored using the specified key from the resource bundle. Note, this method should
-     * only be invoked after <code>setRequest()</code> has been used to specify the HTTP request object.
-     *
-     * @param key used to idenfity the string to be returned
-     * @return the string loaded from the resource bundle (in the request locale).
-     */
-    public String getResourceString(String key) {
-        return resources.getMessage(locale, key);
-    }
+	/**
+	 * Returns the string, stored using the specified key from the resource
+	 * bundle. Note, this method should only be invoked after
+	 * <code>setRequest()</code> has been used to specify the HTTP request
+	 * object.
+	 * 
+	 * @param key
+	 *            used to idenfity the string to be returned
+	 * @return the string loaded from the resource bundle (in the request
+	 *         locale).
+	 */
+	public String getResourceString(final String key) {
+		return this.resources.getMessage(this.locale, key);
+	}
 
-    /**
-     * Specifies the iteration for which data should be gathered.
-     *
-     * @param iterationId the iteration for which data is to be gathered.
-     */
-    public synchronized void setIterationId(int iterationId) {
-        clearCache();
-        this.iterationId = iterationId;
-    }
+	/**
+	 * Specifies the iteration for which data should be gathered.
+	 * 
+	 * @param iterationId
+	 *            the iteration for which data is to be gathered.
+	 */
+	public synchronized void setIterationId(final int iterationId) {
+		this.clearCache();
+		this.iterationId = iterationId;
+	}
 
-    /**
-     * Returns the iteration for this class is gathering data.
-     *
-     * @return the iteration id for which data is being gathered.
-     */
-    public synchronized int getIterationId() {
-        return iterationId;
-    }
+	/**
+	 * Returns the iteration for this class is gathering data.
+	 * 
+	 * @return the iteration id for which data is being gathered.
+	 */
+	public synchronized int getIterationId() {
+		return this.iterationId;
+	}
 
-    /**
-     * Returns the set of tasks which make up the iteration. Note, this method should only be invoked after
-     * <code>setIterationId(int)</code> has been used to specify the iteration and <code>setHibernateSession(Session)</code>
-     * has been used to set the database session.
-     *
-     * @return all the tasks which make up the iteration.
-     */
-    public synchronized java.util.Collection getIterationTasks() {
-        if (tasks == null) {
-            try {
-                try {
-                    if (query == null) {
-                       //DEBT: externalize the query
-                        query = "select distinct task " +
-                                " from task in class net.sf.xplanner.domain.Task, " +
-                                " iteration in class net.sf.xplanner.domain.Iteration, " +
-                                " story in class net.sf.xplanner.domain.UserStory " +
-                                " where " +
-                                " task.userStory.id = story.id and story.iteration.id = iteration.id and" +
-                                " iteration.id = ?";
-                    }
-                    tasks = ThreadSession.get().find(query,
-                                                     new Object[]{new Integer(iterationId)},
-                                                     new Type[]{Hibernate.INTEGER});
-                } catch (Exception ex) {
-                    log.error("query error", ex);
-                }
-            } catch (Exception ex) {
-                log.error("error in iteration query", ex);
-            }
-        }
+	/**
+	 * Returns the set of tasks which make up the iteration. Note, this method
+	 * should only be invoked after <code>setIterationId(int)</code> has been
+	 * used to specify the iteration and
+	 * <code>setHibernateSession(Session)</code> has been used to set the
+	 * database session.
+	 * 
+	 * @return all the tasks which make up the iteration.
+	 */
+	public synchronized java.util.Collection getIterationTasks() {
+		if (this.tasks == null) {
+			try {
+				try {
+					if (this.query == null) {
+						// DEBT: externalize the query
+						this.query = "select distinct task "
+								+ " from task in class net.sf.xplanner.domain.Task, "
+								+ " iteration in class net.sf.xplanner.domain.Iteration, "
+								+ " story in class net.sf.xplanner.domain.UserStory "
+								+ " where "
+								+ " task.userStory.id = story.id and story.iteration.id = iteration.id and"
+								+ " iteration.id = ?";
+					}
+					this.tasks = ThreadSession.get().find(this.query,
+							new Object[] { new Integer(this.iterationId) },
+							new Type[] { Hibernate.INTEGER });
+				} catch (final Exception ex) {
+					this.log.error("query error", ex);
+				}
+			} catch (final Exception ex) {
+				this.log.error("error in iteration query", ex);
+			}
+		}
 
-        return tasks;
-    }
+		return this.tasks;
+	}
 
+	/**
+	 * Returns information about the iteration for which data is being gathered.
+	 * Note, this method should only be invoked after
+	 * <code>setIterationId(int)</code> has been used to specify the iteration
+	 * and <code>setHibernateSession(Session)</code> has been used to set the
+	 * database session.
+	 * 
+	 * @return information about the iteration.
+	 */
+	public synchronized Iteration getIteration() {
+		if (this.iteration == null) {
+			try {
+				this.iteration = (Iteration) ThreadSession.get().load(
+						Iteration.class, new Integer(this.iterationId));
+			} catch (final Exception ex) {
+				this.log.error("error loading iteration [" + this.iterationId
+						+ "]", ex);
+			}
+		}
+		return this.iteration;
+	}
 
-    /**
-     * Returns information about the iteration for which data is being gathered.
-     * Note, this method should only be invoked after <code>setIterationId(int)</code> has been used to
-     * specify the iteration and <code>setHibernateSession(Session)</code> has been used to set the database session.
-     *
-     * @return information about the iteration.
-     */
-    public synchronized Iteration getIteration() {
-        if (iteration == null) {
-            try {
-                iteration = (Iteration)ThreadSession.get().load(Iteration.class, new Integer(iterationId));
-            } catch (Exception ex) {
-                log.error("error loading iteration [" + iterationId + "]", ex);
-            }
-        }
-        return iteration;
-    }
+	public Hashtable getTaskCountByType() {
+		if (this.taskTypeCount == null) {
+			this.taskTypeCount = new TypeAggregator() {
+				@Override
+				protected double getValue(final Task task) {
+					return 1;
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskTypeCount;
+	}
 
-    public Hashtable getTaskCountByType() {
-        if (taskTypeCount == null) {
-            taskTypeCount = new TypeAggregator() {
-              @Override
-			protected double getValue(Task task) { return 1; }
-           }.aggregateByGroup();
-        }
-        return taskTypeCount;
-    }
+	public Hashtable getTaskCountByDisposition() {
+		if (this.taskDispositionCount == null) {
+			this.taskDispositionCount = new DispositionAggregator() {
+				@Override
+				protected double getValue(final Task task) {
+					return 1;
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskDispositionCount;
+	}
 
-    public Hashtable getTaskCountByDisposition() {
-        if (taskDispositionCount == null) {
-           taskDispositionCount = new DispositionAggregator() {
-              @Override
-			protected double getValue(Task task) { return 1; }
-           }.aggregateByGroup();
-        }
-       return taskDispositionCount;
-    }
+	public Hashtable getTaskEstimatedHoursByType() {
+		if (this.taskTypeEstimatedHours == null) {
+			this.taskTypeEstimatedHours = new TypeAggregator(true) {
+				@Override
+				protected double getValue(final Task task) {
+					return task.getEstimatedHours();
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskTypeEstimatedHours;
+	}
 
-   public Hashtable getTaskEstimatedHoursByType() {
-       if (taskTypeEstimatedHours == null) {
-           taskTypeEstimatedHours = new TypeAggregator(true) {
-              @Override
-			protected double getValue(Task task) { return task.getEstimatedHours(); }
-           }.aggregateByGroup();
-       }
-       return taskTypeEstimatedHours;
-   }
+	public Hashtable getTaskEstimatedHoursByDisposition() {
+		if (this.taskDispositionEstimatedHours == null) {
+			this.taskDispositionEstimatedHours = new DispositionAggregator(true) {
+				@Override
+				protected double getValue(final Task task) {
+					return task.getEstimatedHours();
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskDispositionEstimatedHours;
+	}
 
-    public Hashtable getTaskEstimatedHoursByDisposition() {
-        if (taskDispositionEstimatedHours == null) {
-            taskDispositionEstimatedHours = new DispositionAggregator(true) {
-             @Override
-			protected double getValue(Task task) {return task.getEstimatedHours();}
-          }.aggregateByGroup();
-        }
-        return taskDispositionEstimatedHours;
-    }
+	public Hashtable getTaskActualHoursByType() {
+		if (this.taskTypeActualHours == null) {
+			this.taskTypeActualHours = new TypeAggregator(true) {
+				@Override
+				protected double getValue(final Task task) {
+					return task.getActualHours();
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskTypeActualHours;
+	}
 
-   public Hashtable getTaskActualHoursByType() {
-       if (taskTypeActualHours == null) {
-           taskTypeActualHours = new TypeAggregator(true) {
-            @Override
-			protected double getValue(Task task) {return task.getActualHours();}
-         }.aggregateByGroup();
-       }
-       return taskTypeActualHours;
-   }
+	public Hashtable getTaskActualHoursByDisposition() {
+		if (this.taskDispositionActualHours == null) {
+			this.taskDispositionActualHours = new DispositionAggregator(true) {
+				@Override
+				protected double getValue(final Task task) {
+					return task.getActualHours();
+				}
+			}.aggregateByGroup();
+		}
+		return this.taskDispositionActualHours;
+	}
 
-    public Hashtable getTaskActualHoursByDisposition() {
-        if (taskDispositionActualHours == null) {
-            taskDispositionActualHours = new DispositionAggregator(true) {
-             @Override
-			protected double getValue(Task task) {return task.getActualHours();}
-          }.aggregateByGroup();
-        }
-        return taskDispositionActualHours;
-    }
+	abstract class Aggregator {
+		protected boolean onlyCompletedTask;
 
-   abstract class Aggregator {
-      protected boolean onlyCompletedTask;
-      public Aggregator() {}
-      public Aggregator(boolean onlyCompletedTask) {
-         this.onlyCompletedTask = onlyCompletedTask;
-      }
+		public Aggregator() {
+		}
 
-      public Hashtable aggregateByGroup() {
-         Hashtable valuesByGroup = new Hashtable();
+		public Aggregator(final boolean onlyCompletedTask) {
+			this.onlyCompletedTask = onlyCompletedTask;
+		}
 
-         Iterator taskItr = getIterationTasks().iterator();
+		public Hashtable aggregateByGroup() {
+			final Hashtable valuesByGroup = new Hashtable();
 
-         while (taskItr.hasNext()) {
-            Task task = (Task)taskItr.next();
+			final Iterator taskItr = IterationStatisticsQuery.this
+					.getIterationTasks().iterator();
 
-            if (!apply(task)) continue;
+			while (taskItr.hasNext()) {
+				final Task task = (Task) taskItr.next();
 
-            Double sum = (Double)valuesByGroup.get(getGroup(task));
-            if (sum == null) sum = new Double(0);
+				if (!this.apply(task)) {
+					continue;
+				}
 
-            Double newSum = new Double(sum.intValue() + getValue(task));
-            valuesByGroup.put(getGroup(task), newSum);
-         }
-         return valuesByGroup;
-      }
+				Double sum = (Double) valuesByGroup.get(this.getGroup(task));
+				if (sum == null) {
+					sum = new Double(0);
+				}
 
-      protected boolean apply(Task task) { return !onlyCompletedTask || task.isCompleted(); }
-      abstract protected double getValue(Task task);
-      abstract protected String getGroup(Task task);
-   }
+				final Double newSum = new Double(sum.intValue()
+						+ this.getValue(task));
+				valuesByGroup.put(this.getGroup(task), newSum);
+			}
+			return valuesByGroup;
+		}
 
-   private abstract class TypeAggregator extends Aggregator {
+		protected boolean apply(final Task task) {
+			return !this.onlyCompletedTask || task.isCompleted();
+		}
 
-      public TypeAggregator() {}
-      public TypeAggregator(boolean onlyCompletedTask) {
-         super(onlyCompletedTask);
-      }
-      @Override
-	protected String getGroup(Task task) {return task.getType();}
-   }
+		abstract protected double getValue(Task task);
 
-   private abstract class DispositionAggregator extends Aggregator {
+		abstract protected String getGroup(Task task);
+	}
 
-      public DispositionAggregator() {}
-      public DispositionAggregator(boolean onlyCompletedTask) {
-         super(onlyCompletedTask);
-      }
-      @Override
-	protected String getGroup(Task task) {
-         return getResourceString(task.getDispositionNameKey());}
-   }
+	private abstract class TypeAggregator extends Aggregator {
+
+		public TypeAggregator() {
+		}
+
+		public TypeAggregator(final boolean onlyCompletedTask) {
+			super(onlyCompletedTask);
+		}
+
+		@Override
+		protected String getGroup(final Task task) {
+			return task.getType();
+		}
+	}
+
+	private abstract class DispositionAggregator extends Aggregator {
+
+		public DispositionAggregator() {
+		}
+
+		public DispositionAggregator(final boolean onlyCompletedTask) {
+			super(onlyCompletedTask);
+		}
+
+		@Override
+		protected String getGroup(final Task task) {
+			return IterationStatisticsQuery.this.getResourceString(task
+					.getDispositionNameKey());
+		}
+	}
 }

@@ -27,7 +27,8 @@
 <xplanner:content>
 	<xplanner:contentTitle titleKey="projects.title" />
 
-	<script src="<html:rewrite page="/js/tooltip.js"/>" type="text/javascript"></script>
+	<script src="<html:rewrite page="/js/tooltip.js"/>"
+		type="text/javascript"></script>
 
 	<db:useBeans id="projects" type="net.sf.xplanner.domain.Project"
 		order="is_hidden,name asc" />
@@ -55,7 +56,9 @@
 
 
 	<span class="title">
-	<h1><bean:message key="projects.title" /></h1>
+		<h1>
+			<bean:message key="projects.title" />
+		</h1>
 	</span>
 
 	<bean:size id="projectCount" name="projects" />
@@ -87,14 +90,15 @@
 				title='<%= messages.getMessage("iterations.tableheading.actions") %>'>
 				<xplanner:isUserAuthorized name="project"
 					permission='<%=action.getPermission()%>'>
-					<xplanner:link styleClass="image" 
+					<xplanner:link styleClass="image"
 						page='<%=action.getTargetPage()%>' paramId="oid"
 						onclick='<%=action.getOnclick()%>' paramName="project"
 						paramProperty="id">
 
 
 						<html:img page='<%=action.getIconPath()%>'
-							alt='<%=action.getName()%>' border="0" styleClass="${action.name}" />
+							alt='<%=action.getName()%>' border="0"
+							styleClass="${action.name}" />
 					</xplanner:link>
 				</xplanner:isUserAuthorized>
 			</xplanner:actionButtonsColumn>
@@ -146,16 +150,17 @@
 
 	<logic:equal name="projectCount" value="0">
 		<span class="highlighted_message"><bean:message
-			key="projects.none" /></span>
+				key="projects.none" /></span>
 	</logic:equal>
 
 
 	<span class="links"> <xplanner:isUserAuthorized
-		resourceType="system.project" permission="create.project">
-		<xplanner:link page="/do/edit/project">
-			<bean:message key="projects.link.add_project" />
-		</xplanner:link>
-	</xplanner:isUserAuthorized> </span>
+			resourceType="system.project" permission="create.project">
+			<xplanner:link page="/do/edit/project">
+				<bean:message key="projects.link.add_project" />
+			</xplanner:link>
+		</xplanner:isUserAuthorized>
+	</span>
 	<tiles:put name="globalActions" direct="true">
 		<xplanner:authenticatedUser id="person" />
 		<xplanner:link page="/do/view/people">

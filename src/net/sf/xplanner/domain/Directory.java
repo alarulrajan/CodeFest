@@ -10,23 +10,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "xdir")
@@ -45,36 +45,35 @@ public class Directory extends DomainObject implements java.io.Serializable {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy="directory")
+	@OneToMany(mappedBy = "directory")
 	public List<File> getFiles() {
-		return files;
+		return this.files;
 	}
-	
-	public void setFiles(List<File> files) {
+
+	public void setFiles(final List<File> files) {
 		this.files = files;
 	}
 
 	@ManyToOne
 	public Directory getParent() {
-		return parent;
+		return this.parent;
 	}
 
-	public void setParent(Directory parent) {
-		this.parent = parent;	
+	public void setParent(final Directory parent) {
+		this.parent = parent;
 	}
-	
-	
+
 	@OneToMany()
-	@JoinColumn(name="parent_id")
+	@JoinColumn(name = "parent_id")
 	public List<Directory> getSubdirectories() {
-        return subdirectories;
-    }
+		return this.subdirectories;
+	}
 
-	public void setSubdirectories(List<Directory> subdirectories) {
+	public void setSubdirectories(final List<Directory> subdirectories) {
 		this.subdirectories = subdirectories;
 	}
 

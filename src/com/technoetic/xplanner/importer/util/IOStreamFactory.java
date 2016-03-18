@@ -10,10 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class IOStreamFactory
-{
-   public InputStream newInputStream(String path) throws IOException
-   {
-      return new FileInputStream(path);
-   }
+public class IOStreamFactory {
+	public InputStream newInputStream(final String path) throws IOException {
+		return new FileInputStream(path);
+	}
 }

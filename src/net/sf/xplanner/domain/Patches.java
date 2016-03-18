@@ -1,6 +1,5 @@
 package net.sf.xplanner.domain;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,23 +10,23 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "patches")
@@ -41,8 +40,8 @@ public class Patches implements java.io.Serializable {
 	public Patches() {
 	}
 
-	public Patches(String systemName, int patchLevel, Date patchDate,
-			char patchInProgress) {
+	public Patches(final String systemName, final int patchLevel,
+			final Date patchDate, final char patchInProgress) {
 		this.systemName = systemName;
 		this.patchLevel = patchLevel;
 		this.patchDate = patchDate;
@@ -55,7 +54,7 @@ public class Patches implements java.io.Serializable {
 		return this.systemName;
 	}
 
-	public void setSystemName(String systemName) {
+	public void setSystemName(final String systemName) {
 		this.systemName = systemName;
 	}
 
@@ -64,7 +63,7 @@ public class Patches implements java.io.Serializable {
 		return this.patchLevel;
 	}
 
-	public void setPatchLevel(int patchLevel) {
+	public void setPatchLevel(final int patchLevel) {
 		this.patchLevel = patchLevel;
 	}
 
@@ -74,7 +73,7 @@ public class Patches implements java.io.Serializable {
 		return this.patchDate;
 	}
 
-	public void setPatchDate(Date patchDate) {
+	public void setPatchDate(final Date patchDate) {
 		this.patchDate = patchDate;
 	}
 
@@ -83,7 +82,7 @@ public class Patches implements java.io.Serializable {
 		return this.patchInProgress;
 	}
 
-	public void setPatchInProgress(char patchInProgress) {
+	public void setPatchInProgress(final char patchInProgress) {
 		this.patchInProgress = patchInProgress;
 	}
 

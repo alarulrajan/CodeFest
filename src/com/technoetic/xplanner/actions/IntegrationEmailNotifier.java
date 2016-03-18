@@ -17,37 +17,47 @@ import com.technoetic.xplanner.mail.EmailMessage;
 import com.technoetic.xplanner.mail.EmailMessageFactory;
 
 public class IntegrationEmailNotifier implements IntegrationListener {
-   private Logger log = Logger.getLogger(getClass());
+	private final Logger log = Logger.getLogger(this.getClass());
 
-   Properties properties;
-   MetaRepository metaRepository;
+	Properties properties;
+	MetaRepository metaRepository;
 
-   public void setProperties(Properties properties) {
-      this.properties = properties;
-   }
+	public void setProperties(final Properties properties) {
+		this.properties = properties;
+	}
 
-   public void setMetaRepository(MetaRepository metaRepository) {
-      this.metaRepository = metaRepository;
-   }
+	public void setMetaRepository(final MetaRepository metaRepository) {
+		this.metaRepository = metaRepository;
+	}
 
-   public void onEvent(int eventType, Integration integration, HttpServletRequest request) {
-      if (eventType == INTEGRATION_READY_EVENT) {
-         try {
-            MessageResources resources = (MessageResources) request.getAttribute(Globals.MESSAGES_KEY);
-            EmailMessage email =
-                  new EmailMessageFactory(metaRepository.getRepository(Person.class)).createMessage();
-            email.setFrom(properties.getProperty(XPlannerProperties.EMAIL_FROM));
-            email.setRecipient(integration.getPersonId());
-            email.setCcRecipients(properties.getProperty("xplanner.integration.mail.cc"));
-            email.setSubject(resources.getMessage("integrations.notification.subject"));
-            String link = request.getScheme() + "://" + request.getServerName() + ":" +
-                          request.getServerPort() + request.getContextPath() +
-                          "/do/view/integrations?projectId=" + integration.getProjectId();
-            email.setBody(resources.getMessage("integrations.notification.text", link));
-            email.send();
-         } catch (Exception ex) {
-            log.error("couldn't send notification", ex);
-         }
-      }
-   }
+	@Override
+	public void onEvent(final int eventType, final Integration integration,
+			final HttpServletRequest request) {
+		if (eventType == IntegrationListener.INTEGRATION_READY_EVENT) {
+			try {
+				final MessageResources resources = (MessageResources) request
+						.getAttribute(Globals.MESSAGES_KEY);
+				final EmailMessage email = new EmailMessageFactory(
+						this.metaRepository.getRepository(Person.class))
+						.createMessage();
+				email.setFrom(this.properties
+						.getProperty(XPlannerProperties.EMAIL_FROM));
+				email.setRecipient(integration.getPersonId());
+				email.setCcRecipients(this.properties
+						.getProperty("xplanner.integration.mail.cc"));
+				email.setSubject(resources
+						.getMessage("integrations.notification.subject"));
+				final String link = request.getScheme() + "://"
+						+ request.getServerName() + ":"
+						+ request.getServerPort() + request.getContextPath()
+						+ "/do/view/integrations?projectId="
+						+ integration.getProjectId();
+				email.setBody(resources.getMessage(
+						"integrations.notification.text", link));
+				email.send();
+			} catch (final Exception ex) {
+				this.log.error("couldn't send notification", ex);
+			}
+		}
+	}
 }

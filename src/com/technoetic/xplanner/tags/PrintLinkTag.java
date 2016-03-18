@@ -16,21 +16,23 @@ import org.displaytag.util.Href;
 import org.displaytag.util.RequestHelper;
 
 public class PrintLinkTag extends LinkTag {
-    public static final String PRINT_PARAMETER_NAME = "print";
+	public static final String PRINT_PARAMETER_NAME = "print";
 
-    public static boolean isInPrintMode(PageContext pageContext) {
-        return pageContext.getRequest().getParameter( PRINT_PARAMETER_NAME ) != null;
-    }
+	public static boolean isInPrintMode(final PageContext pageContext) {
+		return pageContext.getRequest().getParameter(
+				PrintLinkTag.PRINT_PARAMETER_NAME) != null;
+	}
 
-    
-    public int doStartTag() throws JspException {
-        RequestHelper helper = new DefaultRequestHelper((HttpServletRequest) pageContext.getRequest(),
-                                                        (HttpServletResponse) pageContext.getResponse());
-        Href basehref = helper.getHref();
-        Href href = new Href("");
-        href.setParameterMap(basehref.getParameterMap());
-        href.addParameter(PrintLinkTag.PRINT_PARAMETER_NAME,"");
-        setHref(href.toString());
-        return super.doStartTag();
-    }
+	@Override
+	public int doStartTag() throws JspException {
+		final RequestHelper helper = new DefaultRequestHelper(
+				(HttpServletRequest) this.pageContext.getRequest(),
+				(HttpServletResponse) this.pageContext.getResponse());
+		final Href basehref = helper.getHref();
+		final Href href = new Href("");
+		href.setParameterMap(basehref.getParameterMap());
+		href.addParameter(PrintLinkTag.PRINT_PARAMETER_NAME, "");
+		this.setHref(href.toString());
+		return super.doStartTag();
+	}
 }

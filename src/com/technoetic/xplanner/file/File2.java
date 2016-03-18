@@ -5,69 +5,66 @@ import java.sql.Blob;
 import com.technoetic.xplanner.domain.Identifiable;
 
 public class File2 implements Identifiable {
-    private int id;
-    private String name;
-    private String contentType;
-    private Blob data;
-    private long fileSize;
-    private Directory2 directory;
+	private int id;
+	private String name;
+	private String contentType;
+	private Blob data;
+	private long fileSize;
+	private Directory2 directory;
 
-    public String getContentType() {
-        return contentType;
-    }
+	public String getContentType() {
+		return this.contentType;
+	}
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+	public void setContentType(final String contentType) {
+		this.contentType = contentType;
+	}
 
-    public Blob getData() {
-        return data;
-    }
+	public Blob getData() {
+		return this.data;
+	}
 
-    public void setData(Blob data) {
-        this.data = data;
-    }
+	public void setData(final Blob data) {
+		this.data = data;
+	}
 
-    public long getFileSize() {
-        return fileSize;
-    }
+	public long getFileSize() {
+		return this.fileSize;
+	}
 
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
+	public void setFileSize(final long fileSize) {
+		this.fileSize = fileSize;
+	}
 
-    public int getId() {
-        return id;
-    }
+	@Override
+	public int getId() {
+		return this.id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(final int id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public Directory2 getDirectory() {
-        return directory;
-    }
+	public Directory2 getDirectory() {
+		return this.directory;
+	}
 
-    protected void setDirectory(Directory2 directory) {
-        this.directory = directory;
-    }
+	protected void setDirectory(final Directory2 directory) {
+		this.directory = directory;
+	}
 
-
-  public String toString() {
-    return "File{" +
-           "id=" + id +
-           ", name='" + name + '\'' +
-           ", directory=" + directory +
-           ", contentType='" + contentType + '\'' +
-           ", fileSize=" + fileSize +
-           '}';
-  }
+	@Override
+	public String toString() {
+		return "File{" + "id=" + this.id + ", name='" + this.name + '\''
+				+ ", directory=" + this.directory + ", contentType='"
+				+ this.contentType + '\'' + ", fileSize=" + this.fileSize + '}';
+	}
 }

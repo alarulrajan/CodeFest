@@ -1,6 +1,5 @@
 package net.sf.xplanner.domain;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,23 +10,23 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "integration")
@@ -46,13 +45,15 @@ public class Integration implements java.io.Serializable {
 	public Integration() {
 	}
 
-	public Integration(int id) {
+	public Integration(final int id) {
 		this.id = id;
 	}
 
-	public Integration(int id, Integer projectId, Date lastUpdate,
-			Integer personId, Date whenStarted, Date whenRequested,
-			Date whenComplete, Character state, String comments) {
+	public Integration(final int id, final Integer projectId,
+			final Date lastUpdate, final Integer personId,
+			final Date whenStarted, final Date whenRequested,
+			final Date whenComplete, final Character state,
+			final String comments) {
 		this.id = id;
 		this.projectId = projectId;
 		this.lastUpdate = lastUpdate;
@@ -70,7 +71,7 @@ public class Integration implements java.io.Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -79,7 +80,7 @@ public class Integration implements java.io.Serializable {
 		return this.projectId;
 	}
 
-	public void setProjectId(Integer projectId) {
+	public void setProjectId(final Integer projectId) {
 		this.projectId = projectId;
 	}
 
@@ -89,7 +90,7 @@ public class Integration implements java.io.Serializable {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
+	public void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
@@ -98,7 +99,7 @@ public class Integration implements java.io.Serializable {
 		return this.personId;
 	}
 
-	public void setPersonId(Integer personId) {
+	public void setPersonId(final Integer personId) {
 		this.personId = personId;
 	}
 
@@ -108,7 +109,7 @@ public class Integration implements java.io.Serializable {
 		return this.whenStarted;
 	}
 
-	public void setWhenStarted(Date whenStarted) {
+	public void setWhenStarted(final Date whenStarted) {
 		this.whenStarted = whenStarted;
 	}
 
@@ -118,7 +119,7 @@ public class Integration implements java.io.Serializable {
 		return this.whenRequested;
 	}
 
-	public void setWhenRequested(Date whenRequested) {
+	public void setWhenRequested(final Date whenRequested) {
 		this.whenRequested = whenRequested;
 	}
 
@@ -128,7 +129,7 @@ public class Integration implements java.io.Serializable {
 		return this.whenComplete;
 	}
 
-	public void setWhenComplete(Date whenComplete) {
+	public void setWhenComplete(final Date whenComplete) {
 		this.whenComplete = whenComplete;
 	}
 
@@ -137,7 +138,7 @@ public class Integration implements java.io.Serializable {
 		return this.state;
 	}
 
-	public void setState(Character state) {
+	public void setState(final Character state) {
 		this.state = state;
 	}
 
@@ -146,7 +147,7 @@ public class Integration implements java.io.Serializable {
 		return this.comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(final String comments) {
 		this.comments = comments;
 	}
 

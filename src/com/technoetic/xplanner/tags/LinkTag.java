@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,6 +16,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyTag;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -30,357 +31,381 @@ import org.apache.struts.util.ResponseUtils;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
-    private Logger log = Logger.getLogger(getClass());
-    // ------------------------------------------------------ Instance Vartables
-    /**
-     * The full HREF URL
-     */
-    private StringBuffer hrefURL = new StringBuffer();
+	private final Logger log = Logger.getLogger(this.getClass());
+	// ------------------------------------------------------ Instance Vartables
+	/**
+	 * The full HREF URL
+	 */
+	private StringBuffer hrefURL = new StringBuffer();
 
-    /**
-     * Tag ID
-     */
-    private String id;
+	/**
+	 * Tag ID
+	 */
+	private String id;
 
-    /**
-     * Foreign Key for returnto link
-     */
-    private int fkey;
+	/**
+	 * Foreign Key for returnto link
+	 */
+	private int fkey;
 
-    /**
-     * Flag for determining if projectId parameter is included.
-     */
-    private boolean includeProjectId = true;
+	/**
+	 * Flag for determining if projectId parameter is included.
+	 */
+	private boolean includeProjectId = true;
 
-   //DEBT: rename useReturnto to useReturnTo. Eventually will be returnToUrl when Domain object actions/views refactoring is complete
-    private boolean useReturnto = false;
+	// DEBT: rename useReturnto to useReturnTo. Eventually will be returnToUrl
+	// when Domain object actions/views refactoring is complete
+	private boolean useReturnto = false;
 
-    private boolean removeQuotes = false;
-    private char accessKey;
+	private boolean removeQuotes = false;
 
-    // ------------------------------------------------------------- Properties
+	// ------------------------------------------------------------- Properties
 
+	// --------------------------------------------------------- Public Methods
 
-    //--------------------------------------------------------- Public Methods
+	@Override
+	public void setId(final String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	@Override
+	public String getId() {
+		return this.id;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setUseReturnto(final boolean useReturnto) {
+		this.useReturnto = useReturnto;
+	}
 
-   public void setUseReturnto(boolean useReturnto)
-   {
-      this.useReturnto = useReturnto;
-   }
+	/**
+	 * Intialize the hyperlink.
+	 * 
+	 * @throws JspException
+	 *             if a JSP exception has occurred
+	 */
+	@Override
+	public int doStartTag() throws JspException {
 
-    /**
-     * Intialize the hyperlink.
-     *
-     * @throws JspException if a JSP exception has occurred
-     */
-    public int doStartTag() throws JspException {
+		// Special case for name anchors
+		if (this.linkName != null) {
+			final StringBuffer results = new StringBuffer("<a name=\"");
+			results.append(this.linkName);
+			results.append("\">");
+			return BodyTag.EVAL_BODY_BUFFERED;
+		}
 
-        // Special case for name anchors
-        if (linkName != null) {
-            StringBuffer results = new StringBuffer("<a name=\"");
-            results.append(linkName);
-            results.append("\">");
-            return (EVAL_BODY_BUFFERED);
-        }
+		// Generate the hyperlink URL
+		Map params = RequestUtils.computeParameters(this.pageContext,
+				this.paramId, this.paramName, this.paramProperty,
+				this.paramScope, this.name, this.property, this.scope,
+				this.transaction);
+		params = this.addNavigationParameters(params);
+		String url = null;
+		try {
+			url = RequestUtils.computeURL(this.pageContext, this.forward,
+					this.href, this.page, params, this.anchor, false);
+		} catch (final MalformedURLException e) {
+			RequestUtils.saveException(this.pageContext, e);
+			throw new JspException(LinkTag.messages.getMessage("rewrite.url",
+					e.toString()));
+		}
 
-        // Generate the hyperlink URL
-        Map params = RequestUtils.computeParameters
-            (pageContext, paramId, paramName, paramProperty, paramScope,
-             name, property, scope, transaction);
-        params = addNavigationParameters(params);
-        String url = null;
-        try {
-            url = RequestUtils.computeURL(pageContext, forward, href,
-                                          page, params, anchor, false);
-        } catch (MalformedURLException e) {
-            RequestUtils.saveException(pageContext, e);
-            throw new JspException
-                (messages.getMessage("rewrite.url", e.toString()));
-        }
+		// Generate the opening anchor element
+		this.hrefURL = new StringBuffer("<a href=\"");
+		this.hrefURL.append(url);
 
-        // Generate the opening anchor element
-        hrefURL = new StringBuffer("<a href=\"");
-        hrefURL.append(url);
+		if (this.log.isDebugEnabled()) {
+			this.log.debug("hrefURL = '" + this.hrefURL.toString());
+		}
 
-        if (log.isDebugEnabled()) log.debug("hrefURL = '" + hrefURL.toString());
+		// Evaluate the body of this tag
+		this.text = null;
+		return BodyTag.EVAL_BODY_BUFFERED;
+	}
 
-        // Evaluate the body of this tag
-        this.text = null;
-        return (EVAL_BODY_BUFFERED);
-    }
+	private Map addNavigationParameters(Map parameters) throws JspTagException {
+		final HttpServletRequest request = (HttpServletRequest) this.pageContext
+				.getRequest();
+		if (parameters == null) {
+			parameters = new HashMap();
+		}
+		String returnToUri = null;
+		if (this.useReturnto) {
+			returnToUri = request.getParameter("returnto");
+			if (returnToUri == null) {
+				returnToUri = "/do/view/projects";
+			}
+		} else {
+			final ActionMapping mapping = (ActionMapping) request
+					.getAttribute(Globals.MAPPING_KEY);
+			if (mapping == null) {
+				// throw new
+				// JspTagException("can't find ActionMapping in request");
+				returnToUri = ((ServletRequestAttributes) request
+						.getAttribute("org.springframework.web.context.request.RequestContextListener.REQUEST_ATTRIBUTES"))
+						.getRequest().getRequestURI();
+			} else {
+				returnToUri = "/do" + mapping.getPath();
+				final String oid = request.getParameter("oid");
+				if (oid != null) {
+					returnToUri += "?oid=" + oid;
+					parameters.put("fkey",
+							this.fkey == 0 ? oid : Integer.toString(this.fkey));
+				}
+				if (this.includeProjectId) {
+					final DomainContext context = DomainContext.get(request);
+					if (context != null) {
+						int projectId = context.getProjectId();
+						final String projectIdParam = request
+								.getParameter("projectId");
+						if (projectId == 0 && projectIdParam != null) {
+							projectId = Integer.parseInt(projectIdParam);
+						}
+						parameters.put("projectId", new Integer(projectId));
+					}
+				}
+			}
+		}
+		parameters.put("returnto", returnToUri);
+		return parameters;
+	}
 
-    private Map addNavigationParameters(Map parameters) throws JspTagException {
-        HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        if (parameters == null) {
-           parameters = new HashMap();
-        }
-        String returnToUri = null;
-        if (useReturnto){
-          returnToUri = request.getParameter("returnto");
-          if (returnToUri == null)
-             returnToUri = "/do/view/projects";
-        }
-        else
-        {
-           ActionMapping mapping = (ActionMapping) request.getAttribute(Globals.MAPPING_KEY);
-           if (mapping == null){
-        	   //              throw new JspTagException("can't find ActionMapping in request");
-        	   returnToUri = ((ServletRequestAttributes)request.getAttribute("org.springframework.web.context.request.RequestContextListener.REQUEST_ATTRIBUTES")).getRequest().getRequestURI();
-           }else {
-        	   returnToUri = "/do" + mapping.getPath();
-        	   String oid = request.getParameter("oid");
-        	   if (oid != null){
-        		   returnToUri += "?oid=" + oid;
-        		   parameters.put("fkey", fkey == 0 ? oid : Integer.toString(fkey));
-        	   }
-        	   if (includeProjectId){
-        		   DomainContext context = DomainContext.get(request);
-        		   if (context != null){
-        			   int projectId = context.getProjectId();
-        			   String projectIdParam = request.getParameter("projectId");
-        			   if (projectId == 0 && projectIdParam != null){
-        				   projectId = Integer.parseInt(projectIdParam);
-        			   }
-        			   parameters.put("projectId", new Integer(projectId));
-        		   }
-        	   }
-           }
-        }
-        parameters.put("returnto", returnToUri);
-        return parameters;
-    }
+	/**
+	 * Add a new parameter to the request
+	 * 
+	 * @param name
+	 *            the name of the request parameter
+	 * @param value
+	 *            the value of the request parameter
+	 */
+	public void addRequestParameter(final String name, final String value) {
+		if (this.log.isDebugEnabled()) {
+			this.log.debug("Adding '" + name + "' with value '" + value + "'");
+		}
 
-    /**
-     * Add a new parameter to the request
-     *
-     * @param name  the name of the request parameter
-     * @param value the value of the request parameter
-     */
-    public void addRequestParameter(String name, String value) {
-        if (log.isDebugEnabled()) log.debug("Adding '" + name + "' with value '" + value + "'");
+		final boolean question = this.hrefURL.toString().indexOf('?') >= 0;
 
-        boolean question = (hrefURL.toString().indexOf('?') >= 0);
+		if (question) { // There are request parameter already
+			this.hrefURL.append('&');
+		} else {
+			this.hrefURL.append('?');
+		}
 
-        if (question) { // There are request parameter already
-            hrefURL.append('&');
-        } else {
-            hrefURL.append('?');
-        }
+		this.hrefURL.append(name);
+		this.hrefURL.append('=');
+		try {
+			this.hrefURL.append(URLEncoder.encode(value, "UTF-8"));
+		} catch (final UnsupportedEncodingException ex) {
+		}
 
-        hrefURL.append(name);
-        hrefURL.append('=');
-        try {
-            hrefURL.append(URLEncoder.encode(value, "UTF-8"));
-        } catch (UnsupportedEncodingException ex) {
-        }
+		if (this.log.isDebugEnabled()) {
+			this.log.debug("hrefURL = '" + this.hrefURL.toString() + "'");
+		}
+	}
 
-        if (log.isDebugEnabled()) log.debug("hrefURL = '" + hrefURL.toString() + "'");
-    }
+	/**
+	 * Render the href reference
+	 * 
+	 * @throws JspException
+	 *             if a JSP exception has occurred
+	 */
+	@Override
+	public int doEndTag() throws JspException {
 
-    /**
-     * Render the href reference
-     *
-     * @throws JspException if a JSP exception has occurred
-     */
-    public int doEndTag() throws JspException {
+		this.hrefURL.append("\"");
+		if (this.target != null) {
+			this.hrefURL.append(" target=\"");
+			this.hrefURL.append(this.target);
+			this.hrefURL.append("\"");
+		}
 
-        hrefURL.append("\"");
-        if (target != null) {
-            hrefURL.append(" target=\"");
-            hrefURL.append(target);
-            hrefURL.append("\"");
-        }
+		if (this.id != null) {
+			this.hrefURL.append(" id=\"");
+			this.hrefURL.append(this.id);
+			this.hrefURL.append("\"");
+		}
 
-        if (id != null) {
-            hrefURL.append(" id=\"");
-            hrefURL.append(id);
-            hrefURL.append("\"");
-        }
+		this.hrefURL.append(AccessKeyTransformer.getHtml(this.text));
+		this.hrefURL.append(this.prepareStyles());
+		this.hrefURL.append(this.prepareEventHandlers());
+		this.hrefURL.append(">");
 
-        hrefURL.append(AccessKeyTransformer.getHtml(text));
-        hrefURL.append(prepareStyles());
-        hrefURL.append(prepareEventHandlers());
-        hrefURL.append(">");
+		this.hrefURL.append(AccessKeyTransformer
+				.removeMnemonicMarkers(this.text));
 
-        hrefURL.append(AccessKeyTransformer.removeMnemonicMarkers(text));
+		this.hrefURL.append("</a>");
 
-        hrefURL.append("</a>");
+		if (this.log.isDebugEnabled()) {
+			this.log.debug("Total request is = '" + this.hrefURL.toString()
+					+ "'");
+		}
 
-        if (log.isDebugEnabled()) log.debug("Total request is = '" + hrefURL.toString() + "'");
+		// Print this element to our output writer
+		String url = this.hrefURL.toString();
+		if (this.removeQuotes) {
+			url = url.replaceAll("\"", "");
+		}
+		ResponseUtils.write(this.pageContext, url);
+		return Tag.EVAL_PAGE;
+	}
 
-        // Print this element to our output writer
-        String url = hrefURL.toString();
-        if (removeQuotes) {
-            url = url.replaceAll("\"", "");
-        }
-        ResponseUtils.write(pageContext, url);
-        return (EVAL_PAGE);
-    }
+	/**
+	 * Release any acquired resources.
+	 */
+	@Override
+	public void release() {
 
+		super.release();
+		this.forward = null;
+		this.href = null;
+		this.name = null;
+		this.property = null;
+		this.target = null;
+		this.fkey = 0;
+		this.includeProjectId = false;
+		this.removeQuotes = false;
+	}
 
-    /**
-     * Release any acquired resources.
-     */
-    public void release() {
+	// ----------------------------------------------------- Protected Methods
 
-        super.release();
-        forward = null;
-        href = null;
-        name = null;
-        property = null;
-        target = null;
-        fkey = 0;
-        includeProjectId = false;
-        removeQuotes = false;
-    }
+	/**
+	 * Return the specified hyperlink, modified as necessary with optional
+	 * request parameters.
+	 * 
+	 * @throws JspException
+	 *             if an error occurs preparing the hyperlink
+	 */
+	protected String hyperlink() throws JspException {
 
+		String href = this.href;
 
-    // ----------------------------------------------------- Protected Methods
+		// If "forward" was specified, compute the "href" to forward to
+		if (this.forward != null) {
+			final ModuleConfig moduleConfig = TagUtils.getInstance()
+					.getModuleConfig(this.pageContext);
 
-    /**
-     * Return the specified hyperlink, modified as necessary with optional
-     * request parameters.
-     *
-     * @throws JspException if an error occurs preparing the hyperlink
-     */
-    protected String hyperlink() throws JspException {
+			if (moduleConfig == null) {
+				throw new JspException(
+						LinkTag.messages.getMessage("linkTag.forwards"));
+			}
+			final ForwardConfig forward = moduleConfig
+					.findForwardConfig(this.forward);
+			;
+			if (forward == null) {
+				throw new JspException(
+						LinkTag.messages.getMessage("linkTag.forward"));
+			}
+			final HttpServletRequest request = (HttpServletRequest) this.pageContext
+					.getRequest();
+			href = request.getContextPath() + forward.getPath();
+		}
 
-        String href = this.href;
+		// Just return the "href" attribute if there is no bean to look up
+		if (this.property != null && this.name == null) {
+			throw new JspException(LinkTag.messages.getMessage("getter.name"));
+		}
+		if (this.name == null) {
+			return href;
+		}
 
-        // If "forward" was specified, compute the "href" to forward to
-        if (forward != null) {
-            ModuleConfig moduleConfig = TagUtils.getInstance().getModuleConfig(pageContext);
+		// Look up the map we will be using
+		final Object bean = this.pageContext.findAttribute(this.name);
+		if (bean == null) {
+			throw new JspException(LinkTag.messages.getMessage("getter.bean",
+					this.name));
+		}
+		Map map = null;
+		if (this.property == null) {
+			try {
+				map = (Map) bean;
+			} catch (final ClassCastException e) {
+				throw new JspException(
+						LinkTag.messages.getMessage("linkTag.type"));
+			}
+		} else {
+			try {
+				map = (Map) PropertyUtils.getProperty(bean, this.property);
+				if (map == null) {
+					throw new JspException(LinkTag.messages.getMessage(
+							"getter.property", this.property));
+				}
+			} catch (final IllegalAccessException e) {
+				throw new JspException(LinkTag.messages.getMessage(
+						"getter.access", this.property, this.name));
+			} catch (final InvocationTargetException e) {
+				final Throwable t = e.getTargetException();
+				throw new JspException(LinkTag.messages.getMessage(
+						"getter.result", this.property, t.toString()));
+			} catch (final ClassCastException e) {
+				throw new JspException(
+						LinkTag.messages.getMessage("linkTag.type"));
+			} catch (final NoSuchMethodException e) {
+				throw new JspException(LinkTag.messages.getMessage(
+						"getter.method", this.property, this.name));
+			}
+		}
 
-            if (moduleConfig== null) {
-                throw new JspException
-                    (messages.getMessage("linkTag.forwards"));
-            }
-            ForwardConfig forward = moduleConfig.findForwardConfig(this.forward);;
-            if (forward == null) {
-                throw new JspException
-                    (messages.getMessage("linkTag.forward"));
-            }
-            HttpServletRequest request =
-                (HttpServletRequest) pageContext.getRequest();
-            href = request.getContextPath() + forward.getPath();
-        }
+		// Append the required query parameters
+		final StringBuffer sb = new StringBuffer(href);
+		boolean question = href.indexOf("?") >= 0;
+		final Iterator keys = map.keySet().iterator();
+		while (keys.hasNext()) {
+			final String key = (String) keys.next();
+			final Object value = map.get(key);
+			if (value instanceof String[]) {
+				final String values[] = (String[]) value;
+				for (int i = 0; i < values.length; i++) {
+					if (question) {
+						sb.append('&');
+					} else {
+						sb.append('?');
+						question = true;
+					}
+					sb.append(key);
+					sb.append('=');
+					try {
+						sb.append(URLEncoder.encode(values[i], "UTF-8"));
+					} catch (final UnsupportedEncodingException ex) {
+					}
+				}
+			} else {
+				if (question) {
+					sb.append('&');
+				} else {
+					sb.append('?');
+					question = true;
+				}
+				sb.append(key);
+				sb.append('=');
+				try {
+					sb.append(URLEncoder.encode(value.toString(), "UTF-8"));
+				} catch (final UnsupportedEncodingException ex) {
+				}
+			}
+		}
 
-        // Just return the "href" attribute if there is no bean to look up
-        if ((property != null) && (name == null)) {
-            throw new JspException
-                (messages.getMessage("getter.name"));
-        }
-        if (name == null) {
-            return (href);
-        }
+		// Return the final result
+		return sb.toString();
 
-        // Look up the map we will be using
-        Object bean = pageContext.findAttribute(name);
-        if (bean == null) {
-            throw new JspException
-                (messages.getMessage("getter.bean", name));
-        }
-        Map map = null;
-        if (property == null) {
-            try {
-                map = (Map) bean;
-            } catch (ClassCastException e) {
-                throw new JspException
-                    (messages.getMessage("linkTag.type"));
-            }
-        } else {
-            try {
-                map = (Map) PropertyUtils.getProperty(bean, property);
-                if (map == null) {
-                    throw new JspException
-                        (messages.getMessage("getter.property", property));
-                }
-            } catch (IllegalAccessException e) {
-                throw new JspException
-                    (messages.getMessage("getter.access", property, name));
-            } catch (InvocationTargetException e) {
-                Throwable t = e.getTargetException();
-                throw new JspException
-                    (messages.getMessage("getter.result",
-                                         property, t.toString()));
-            } catch (ClassCastException e) {
-                throw new JspException
-                    (messages.getMessage("linkTag.type"));
-            } catch (NoSuchMethodException e) {
-                throw new JspException
-                    (messages.getMessage("getter.method", property, name));
-            }
-        }
+	}
 
-        // Append the required query parameters
-        StringBuffer sb = new StringBuffer(href);
-        boolean question = (href.indexOf("?") >= 0);
-        Iterator keys = map.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            Object value = map.get(key);
-            if (value instanceof String[]) {
-                String values[] = (String[]) value;
-                for (int i = 0; i < values.length; i++) {
-                    if (question) {
-                        sb.append('&');
-                    } else {
-                        sb.append('?');
-                        question = true;
-                    }
-                    sb.append(key);
-                    sb.append('=');
-                    try {
-                        sb.append(URLEncoder.encode(values[i], "UTF-8"));
-                    } catch (UnsupportedEncodingException ex) {
-                    }
-                }
-            } else {
-                if (question) {
-                    sb.append('&');
-                } else {
-                    sb.append('?');
-                    question = true;
-                }
-                sb.append(key);
-                sb.append('=');
-                try {
-                    sb.append(URLEncoder.encode(value.toString(), "UTF-8"));
-                } catch (UnsupportedEncodingException ex) {
-                }
-            }
-        }
+	public int getFkey() {
+		return this.fkey;
+	}
 
-        // Return the final result
-        return (sb.toString());
+	public void setFkey(final int fkey) {
+		this.fkey = fkey;
+	}
 
-    }
+	public String isIncludeProjectId() {
+		return new Boolean(this.includeProjectId).toString();
+	}
 
-    public int getFkey() {
-        return fkey;
-    }
+	public void setIncludeProjectId(final String includeProjectId) {
+		this.includeProjectId = new Boolean(includeProjectId).booleanValue();
+	}
 
-    public void setFkey(int fkey) {
-        this.fkey = fkey;
-    }
-
-    public String isIncludeProjectId() {
-        return new Boolean(includeProjectId).toString();
-    }
-
-    public void setIncludeProjectId(String includeProjectId) {
-        this.includeProjectId = new Boolean(includeProjectId).booleanValue();
-    }
-
-    public void setRemoveQuotes(boolean removeQuotes) {
-        this.removeQuotes = removeQuotes;
-    }
+	public void setRemoveQuotes(final boolean removeQuotes) {
+		this.removeQuotes = removeQuotes;
+	}
 }

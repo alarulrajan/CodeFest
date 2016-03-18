@@ -7,62 +7,72 @@ import org.apache.log4j.Logger;
 import com.technoetic.xplanner.util.LogUtil;
 
 public class AuthenticatorImpl implements Authenticator {
-   private static Logger LOG = LogUtil.getLogger();
-   public static final String LOGIN_CONTEXT_SESSION_KEY = "LOGIN_CONTEXT";
-   static final String GUESTS_KEY = "xplanner.security.guests";
+	private static Logger LOG = LogUtil.getLogger();
+	public static final String LOGIN_CONTEXT_SESSION_KEY = "LOGIN_CONTEXT";
+	static final String GUESTS_KEY = "xplanner.security.guests";
 
-   private LoginContext loginContext;
-   public int NO_PARENT = 0;
+	private LoginContext loginContext;
+	public int NO_PARENT = 0;
 
-   public AuthenticatorImpl(LoginContext loginContext) {
-      this.loginContext = loginContext;
-   }
+	public AuthenticatorImpl(final LoginContext loginContext) {
+		this.loginContext = loginContext;
+	}
 
-   public AuthenticatorImpl() {
-   }
+	public AuthenticatorImpl() {
+	}
 
-   public void authenticate(HttpServletRequest request, String userId, String password)
-         throws AuthenticationException {
-      LoginContext loginContext = getLoginContext();
-      if (SecurityHelper.isUserAuthenticated(request)) {
-         loginContext.logout(request);
-      }
-      loginContext.authenticate(userId, password);
-      SecurityHelper.setSubject(request, loginContext.getSubject());
+	@Override
+	public void authenticate(final HttpServletRequest request,
+			final String userId, final String password)
+			throws AuthenticationException {
+		final LoginContext loginContext = this.getLoginContext();
+		if (SecurityHelper.isUserAuthenticated(request)) {
+			loginContext.logout(request);
+		}
+		loginContext.authenticate(userId, password);
+		SecurityHelper.setSubject(request, loginContext.getSubject());
 
-      setLoginContext(request, loginContext);
-   }
+		AuthenticatorImpl.setLoginContext(request, loginContext);
+	}
 
-   public LoginContext getLoginContext() {
-      return loginContext;
-   }
+	public LoginContext getLoginContext() {
+		return this.loginContext;
+	}
 
-   public static LoginContext getLoginContext(HttpServletRequest request) {
-      return (LoginContext) request.getSession().getAttribute(LOGIN_CONTEXT_SESSION_KEY);
-   }
+	public static LoginContext getLoginContext(final HttpServletRequest request) {
+		return (LoginContext) request.getSession().getAttribute(
+				AuthenticatorImpl.LOGIN_CONTEXT_SESSION_KEY);
+	}
 
-   public static void setLoginContext(HttpServletRequest request, LoginContext context) {
-      request.getSession().setAttribute(LOGIN_CONTEXT_SESSION_KEY, context);
-   }
+	public static void setLoginContext(final HttpServletRequest request,
+			final LoginContext context) {
+		request.getSession().setAttribute(
+				AuthenticatorImpl.LOGIN_CONTEXT_SESSION_KEY, context);
+	}
 
-   public static LoginModule getLoginModule(HttpServletRequest request) {
-      LoginContext context = getLoginContext(request);
-      if (context == null) return null;
-      LoginModule loginModule = null;
-      try {
-         loginModule = context.getLoginModule();
-      } catch (RuntimeException e) {
-         LOG.error(e);
-      }
-      return loginModule;
-   }
+	public static LoginModule getLoginModule(final HttpServletRequest request) {
+		final LoginContext context = AuthenticatorImpl.getLoginContext(request);
+		if (context == null) {
+			return null;
+		}
+		LoginModule loginModule = null;
+		try {
+			loginModule = context.getLoginModule();
+		} catch (final RuntimeException e) {
+			AuthenticatorImpl.LOG.error(e);
+		}
+		return loginModule;
+	}
 
-   public void logout(HttpServletRequest request, int principalId) throws AuthenticationException {
-      LoginModule loginModule = getLoginModule(request);
-      if (loginModule != null) {
-         loginModule.logout(request);
-      }
+	@Override
+	public void logout(final HttpServletRequest request, final int principalId)
+			throws AuthenticationException {
+		final LoginModule loginModule = AuthenticatorImpl
+				.getLoginModule(request);
+		if (loginModule != null) {
+			loginModule.logout(request);
+		}
 
-   }
+	}
 
 }

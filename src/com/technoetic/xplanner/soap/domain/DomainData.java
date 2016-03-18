@@ -6,22 +6,23 @@ import java.util.Calendar;
 import com.technoetic.xplanner.domain.Identifiable;
 
 public abstract class DomainData implements Identifiable, Serializable {
-    private Calendar lastUpdateTime;
-    private int id;
+	private Calendar lastUpdateTime;
+	private int id;
 
-    public Calendar getLastUpdateTime() {
-        return lastUpdateTime;
-    }
+	public Calendar getLastUpdateTime() {
+		return this.lastUpdateTime;
+	}
 
-    public void setLastUpdateTime(Calendar lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
+	public void setLastUpdateTime(final Calendar lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
 
-    public int getId() {
-        return id;
-    }
+	@Override
+	public int getId() {
+		return this.id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(final int id) {
+		this.id = id;
+	}
 }

@@ -5,146 +5,143 @@ import java.util.Calendar;
 import net.sf.xplanner.domain.Iteration;
 
 public class IterationData extends DomainData {
-    private int projectId;
-    private String name;
-    private String description;
-    private Calendar startDate;
-    private Calendar endDate;
-    private double daysWorked;
-    private double adjustedEstimatedHours = 0;
-    private double remainingHours;
-    private double estimatedHours;
-    private double actualHours;
-    private double underestimatedHours;
-    private double overestimatedHours;
-    private double addedHours;
-    private double postponedHours;
-    private String statusKey;
+	private int projectId;
+	private String name;
+	private String description;
+	private Calendar startDate;
+	private Calendar endDate;
+	private double daysWorked;
+	private double adjustedEstimatedHours = 0;
+	private double remainingHours;
+	private double estimatedHours;
+	private double actualHours;
+	private double underestimatedHours;
+	private double overestimatedHours;
+	private double addedHours;
+	private double postponedHours;
+	private String statusKey;
 
+	public void setName(final String name) {
+		this.name = name;
+	}
 
+	public String getName() {
+		return this.name;
+	}
 
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setStartDate(final Calendar startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public Calendar getStartDate() {
+		return this.startDate;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setEndDate(final Calendar endDate) {
+		this.endDate = endDate;
+	}
 
-    public void setStartDate(Calendar startDate) {
-        this.startDate = startDate;
-    }
+	public Calendar getEndDate() {
+		return this.endDate;
+	}
 
-    public Calendar getStartDate() {
-        return startDate;
-    }
+	public void setProjectId(final int projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setEndDate(Calendar endDate) {
-        this.endDate = endDate;
-    }
+	public int getProjectId() {
+		return this.projectId;
+	}
 
-    public Calendar getEndDate() {
-        return endDate;
-    }
+	public double getEstimatedHours() {
+		return this.estimatedHours;
+	}
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
+	public void setEstimatedHours(final double estimatedHours) {
+		this.estimatedHours = estimatedHours;
+	}
 
-    public int getProjectId() {
-        return projectId;
-    }
+	public double getActualHours() {
+		return this.actualHours;
+	}
 
-    public double getEstimatedHours() {
-        return estimatedHours;
-    }
+	public void setActualHours(final double actualHours) {
+		this.actualHours = actualHours;
+	}
 
-    public void setEstimatedHours(double estimatedHours) {
-        this.estimatedHours = estimatedHours;
-    }
+	public double getAdjustedEstimatedHours() {
+		return this.adjustedEstimatedHours;
+	}
 
-    public double getActualHours() {
-        return actualHours;
-    }
+	public void setAdjustedEstimatedHours(final double adjustedEstimatedHours) {
+		this.adjustedEstimatedHours = adjustedEstimatedHours;
+	}
 
-    public void setActualHours(double actualHours) {
-        this.actualHours = actualHours;
-    }
+	public double getRemainingHours() {
+		return this.remainingHours;
+	}
 
-    public double getAdjustedEstimatedHours() {
-        return adjustedEstimatedHours;
-    }
+	public void setRemainingHours(final double remainingHours) {
+		this.remainingHours = remainingHours;
+	}
 
-    public void setAdjustedEstimatedHours(double adjustedEstimatedHours) {
-        this.adjustedEstimatedHours = adjustedEstimatedHours;
-    }
+	public double getUnderestimatedHours() {
+		return this.underestimatedHours;
+	}
 
-    public double getRemainingHours() {
-        return remainingHours;
-    }
+	public void setUnderestimatedHours(final double underestimatedHours) {
+		this.underestimatedHours = underestimatedHours;
+	}
 
-    public void setRemainingHours(double remainingHours) {
-        this.remainingHours = remainingHours;
-    }
+	public double getOverestimatedHours() {
+		return this.overestimatedHours;
+	}
 
-    public double getUnderestimatedHours() {
-        return underestimatedHours;
-    }
+	public void setOverestimatedHours(final double overestimatedHours) {
+		this.overestimatedHours = overestimatedHours;
+	}
 
-    public void setUnderestimatedHours(double underestimatedHours) {
-        this.underestimatedHours = underestimatedHours;
-    }
+	public double getAddedHours() {
+		return this.addedHours;
+	}
 
-    public double getOverestimatedHours() {
-        return overestimatedHours;
-    }
+	public void setAddedHours(final double addedHours) {
+		this.addedHours = addedHours;
+	}
 
-    public void setOverestimatedHours(double overestimatedHours) {
-        this.overestimatedHours = overestimatedHours;
-    }
+	public double getPostponedHours() {
+		return this.postponedHours;
+	}
 
-    public double getAddedHours() {
-        return addedHours;
-    }
+	public void setPostponedHours(final double postponedHours) {
+		this.postponedHours = postponedHours;
+	}
 
-    public void setAddedHours(double addedHours) {
-        this.addedHours = addedHours;
-    }
+	public static Class getInternalClass() {
+		return Iteration.class;
+	}
 
-    public double getPostponedHours() {
-        return postponedHours;
-    }
+	public String getStatusKey() {
+		return this.statusKey;
+	}
 
-    public void setPostponedHours(double postponedHours) {
-        this.postponedHours = postponedHours;
-    }
+	public void setStatusKey(final String statusKey) {
+		this.statusKey = statusKey;
+	}
 
-    public static Class getInternalClass() {
-        return Iteration.class;
-    }
+	public double getDaysWorked() {
+		return this.daysWorked;
+	}
 
-    public String getStatusKey() {
-        return statusKey;
-    }
-
-    public void setStatusKey(String statusKey) {
-        this.statusKey = statusKey;
-    }
-
-    public double getDaysWorked() {
-        return daysWorked;
-    }
-
-    public void setDaysWorked(double daysWorked) {
-        this.daysWorked = daysWorked;
-    }
+	public void setDaysWorked(final double daysWorked) {
+		this.daysWorked = daysWorked;
+	}
 }

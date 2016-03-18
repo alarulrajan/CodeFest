@@ -4,96 +4,98 @@ and open the template in the editor.
 -->
 <!doctype html>
 <html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-1.4.4.js"></script>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://code.jquery.com/jquery-1.4.4.js"></script>
 
-        <style>
-        *{
-            padding:0px;
-            margin:0px;
-        }
-        html,body, #container{
-            height:100%;
-            -webkit-user-select: none;
-        }
-        #left, #mid, #right {
-            width:33%;
-            border: 1px solid red;
-            float:left;
-            height:100%;
-        }
-        .ticket{
-            width:200px;
-            height:150px;
-            background-color: green;
-            cursor: pointer;
-            float:left;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            margin:0px 5px 10px 2px;    
-        }
-        .transit{
+<style>
+* {
+	padding: 0px;
+	margin: 0px;
+}
 
-        }
-        .dragable{
-            position:absolute;
-            background-color: red;
-        }
+html,body,#container {
+	height: 100%;
+	-webkit-user-select: none;
+}
+
+#left,#mid,#right {
+	width: 33%;
+	border: 1px solid red;
+	float: left;
+	height: 100%;
+}
+
+.ticket {
+	width: 200px;
+	height: 150px;
+	background-color: green;
+	cursor: pointer;
+	float: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	margin: 0px 5px 10px 2px;
+}
+
+.transit {
+	
+}
+
+.dragable {
+	position: absolute;
+	background-color: red;
+}
+</style>
+</head>
+<body>
+	<div id="container">
+		<div id="left">
+			<div class="ticket">
+				<p>111111111111111Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+			<div class="ticket">
+				<p>22222222222222222Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+			<div class="ticket">
+				<p>333333333333333333333Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+			<div class="ticket">
+				<p>44444444444444444Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+			<div class="ticket">
+				<p>5555555555555555Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+		</div>
+		<div id="mid">
+			<div class="ticket">
+				<p>11111____22Name</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+		</div>
+		<div id="right">
+			<div class="ticket">
+				<p>###3333333333333333333</p>
+				<p>Name</p>
+				<p>Name</p>
+			</div>
+		</div>
+	</div>
 
 
 
-        </style>
-    </head>
-    <body>
-        <div id="container">
-            <div id ="left">
-                <div class="ticket">
-                    <p>111111111111111Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>     
-                <div class="ticket">
-                    <p>22222222222222222Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-                <div class="ticket">
-                    <p>333333333333333333333Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-                <div class="ticket">
-                    <p>44444444444444444Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-                <div class="ticket">
-                    <p>5555555555555555Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-            </div>
-            <div id ="mid">
-                <div class="ticket">
-                    <p>11111____22Name</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-            </div>
-            <div id ="right">
-                <div class="ticket">
-                    <p>###3333333333333333333</p>
-                    <p>Name</p>
-                    <p>Name</p>
-                </div>  
-            </div>
-        </div> 
-
-
-
-        <script>
+	<script>
 
 
 
@@ -245,5 +247,5 @@ and open the template in the editor.
             }
             
         </script>
-    </body>
+</body>
 </html>

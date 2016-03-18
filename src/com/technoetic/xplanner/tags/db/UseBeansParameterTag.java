@@ -4,49 +4,46 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.hibernate.Hibernate;
-import org.hibernate.type.BasicTypeRegistry;
 import org.hibernate.type.Type;
-import org.hibernate.type.TypeFactory;
-import org.hibernate.type.TypeHelper;
 import org.hibernate.type.TypeResolver;
 
 public class UseBeansParameterTag extends TagSupport {
-    private static final TypeResolver TYPE_RESOLVER = new TypeResolver();
+	private static final TypeResolver TYPE_RESOLVER = new TypeResolver();
 	private String name;
-    private Object value;
-    private Type type;
+	private Object value;
+	private Type type;
 
-    public void setValue(Object value) {
-        this.value = value;
-    }
+	public void setValue(final Object value) {
+		this.value = value;
+	}
 
-    public void setType(String type) {
-       this.type = TYPE_RESOLVER.basic(type);
-    }
+	public void setType(final String type) {
+		this.type = UseBeansParameterTag.TYPE_RESOLVER.basic(type);
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    @Override
+	@Override
 	public int doEndTag() throws JspException {
-        Tag parent = getParent();
-        if (parent instanceof UseBeansTag) {
-            if (name == null) {
-                ((UseBeansTag)parent).addParameter(value, type);
-            } else {
-                ((UseBeansTag)parent).addParameter(name, value, type);
-            }
-        }
-        return EVAL_PAGE;
-    }
+		final Tag parent = this.getParent();
+		if (parent instanceof UseBeansTag) {
+			if (this.name == null) {
+				((UseBeansTag) parent).addParameter(this.value, this.type);
+			} else {
+				((UseBeansTag) parent).addParameter(this.name, this.value,
+						this.type);
+			}
+		}
+		return Tag.EVAL_PAGE;
+	}
 
-    @Override
+	@Override
 	public void release() {
-        name = null;
-        value = null;
-        type = null;
-        super.release();
-    }
+		this.name = null;
+		this.value = null;
+		this.type = null;
+		super.release();
+	}
 }

@@ -1,23 +1,29 @@
-<%@ page contentType = "text/html;charset=UTF-8"%>
-<%@ page import="com.technoetic.xplanner.domain.Integration,
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page
+	import="com.technoetic.xplanner.domain.Integration,
                  com.technoetic.xplanner.format.DecimalFormat,
-                 org.apache.struts.Globals" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://xplanner.org/xplanner-taglib" prefix="xplanner" %>
-<%@ taglib uri="http://xplanner.org/xplanner-db-taglib" prefix="db" %>
-<%@ taglib uri="http://xplanner.org/displaytag.sf.net" prefix="dt" %>
+                 org.apache.struts.Globals"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
+	prefix="logic"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
+	prefix="html"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
+	prefix="bean"%>
+<%@ taglib uri="http://xplanner.org/xplanner-taglib" prefix="xplanner"%>
+<%@ taglib uri="http://xplanner.org/xplanner-db-taglib" prefix="db"%>
+<%@ taglib uri="http://xplanner.org/displaytag.sf.net" prefix="dt"%>
 
 
-<bean:parameter id="iterationId" name="iterationId"/>
+<bean:parameter id="iterationId" name="iterationId" />
 
 <xplanner:content>
-    <xplanner:contentTitle titleKey="integrations.title"/>
-    <xplanner:navigation oid='<%= Integer.parseInt(iterationId) %>' type="net.sf.xplanner.domain.Iteration"/>
-<script src="<html:rewrite page="/js/jquery.jqote2.js"/>" type="text/javascript"></script>
+	<xplanner:contentTitle titleKey="integrations.title" />
+	<xplanner:navigation oid='<%= Integer.parseInt(iterationId) %>'
+		type="net.sf.xplanner.domain.Iteration" />
+	<script src="<html:rewrite page="/js/jquery.jqote2.js"/>"
+		type="text/javascript"></script>
 
-<style type="text/css">
+	<style type="text/css">
 html,body {
 	height: 100%;
 	width: 100%;
@@ -33,13 +39,14 @@ html,body,.container {
 	-webkit-user-select: none;
 	clear: both;
 }
+
 .container {
-	height:25px;
-	line-height:25px;
-	background:#CCC;
-	border-radius:3px;
-	padding-left:10px;
-	margin-bottom:3px;
+	height: 25px;
+	line-height: 25px;
+	background: #CCC;
+	border-radius: 3px;
+	padding-left: 10px;
+	margin-bottom: 3px;
 }
 
 .leftColumn,.midColumn,.rightColumn {
@@ -47,7 +54,7 @@ html,body,.container {
 	float: left;
 	height: 170px;
 	display: table;
-	margin-top:5px;
+	margin-top: 5px;
 }
 
 .leftColumnTitle,.midColumnTitle,.rightColumnTitle {
@@ -55,10 +62,11 @@ html,body,.container {
 	float: left;
 	text-align: center;
 	height: 30px;
-	line-height:30px;	
+	line-height: 30px;
 }
 
 .transit {
+	
 }
 
 .animated {
@@ -79,9 +87,9 @@ html,body,.container {
 }
 </style>
 
-<div id="test"> </div>
+	<div id="test"></div>
 
-<script type="text/html" class="my_tmpl">
+	<script type="text/html" class="my_tmpl">
   <![CDATA[
  <div class='ticket' style='width:<*=this.width*>px'>
     <div class='ticketHeader'><strong><*= this.name *>  ID=<*= this.id *> </strong></div> 
@@ -89,7 +97,7 @@ html,body,.container {
   </div>
   ]]>
 </script>
-<script type="text/html" id="userStoryTemplate">
+	<script type="text/html" id="userStoryTemplate">
   <![CDATA[
 	<div class='container'><span class='title'>User Story: </span><h1> <a class='storyHeader' href='#'><*= this.name *> ID=<*= this.id *></a></h1></div>
 	<div class='taskb<*= this.id *>'>
@@ -98,18 +106,22 @@ html,body,.container {
   ]]>
 </script>
 
-<div class="leftColumnTitle"><span class="title"> not started</span></div>
-<div class="midColumnTitle"><span class="title"> in progress</span></div>
-<div class="rightColumnTitle"><span class="title"> done</span></div>
+	<div class="leftColumnTitle">
+		<span class="title"> not started</span>
+	</div>
+	<div class="midColumnTitle">
+		<span class="title"> in progress</span>
+	</div>
+	<div class="rightColumnTitle">
+		<span class="title"> done</span>
+	</div>
 
-<div id="dash">
- 
-</div>
+	<div id="dash"></div>
 
-<div style="clear:both;"></div>
+	<div style="clear: both;"></div>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 'use_strict';
 var columns=[];
 (function(){

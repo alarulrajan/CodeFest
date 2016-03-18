@@ -16,86 +16,86 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hibernate.classic.Session;
 
-import com.technoetic.xplanner.domain.repository.ObjectRepository;
 import com.technoetic.xplanner.forms.ProjectEditorForm;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Dec 30, 2004
- * Time: 10:43:51 AM
+ * User: Mateusz Prokopowicz Date: Dec 30, 2004 Time: 10:43:51 AM
  */
 public class UpdateTimeNotificationReceivers extends AbstractAction {
-    public static final String ADD = "addTimeNotification";
-    public static final String DELETE = "delTimeNotification";
-    private static final Logger log = Logger.getLogger("UpdateTimeAction");
+	public static final String ADD = "addTimeNotification";
+	public static final String DELETE = "delTimeNotification";
+	private static final Logger log = Logger.getLogger("UpdateTimeAction");
 
-    @Override
-	protected ActionForward doExecute(ActionMapping mapping,
-                                      ActionForm actionForm,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) throws Exception {
-        ProjectEditorForm form = (ProjectEditorForm) actionForm;
-        try {
-            Session session = getSession(request);
-            try {
-                ActionForward forward = null;
-                if (!form.isSubmitted()) {
-                    forward = new ActionForward(mapping.getInput());
-                } else {
-                    forward = doAction(session, form, request, mapping);
-                }
-                populateForm(session, form, request);
-                return forward;
-            } catch (Exception ex) {
-                session.connection().rollback();
-                log.error("error", ex);
-                throw new ServletException(ex);
-            }
-        } catch (ServletException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            log.error("error", ex);
-            throw new ServletException(ex);
-        }
-    }
+	@Override
+	protected ActionForward doExecute(final ActionMapping mapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		final ProjectEditorForm form = (ProjectEditorForm) actionForm;
+		try {
+			final Session session = this.getSession(request);
+			try {
+				ActionForward forward = null;
+				if (!form.isSubmitted()) {
+					forward = new ActionForward(mapping.getInput());
+				} else {
+					forward = this.doAction(session, form, request, mapping);
+				}
+				this.populateForm(session, form, request);
+				return forward;
+			} catch (final Exception ex) {
+				session.connection().rollback();
+				UpdateTimeNotificationReceivers.log.error("error", ex);
+				throw new ServletException(ex);
+			}
+		} catch (final ServletException ex) {
+			throw ex;
+		} catch (final Exception ex) {
+			UpdateTimeNotificationReceivers.log.error("error", ex);
+			throw new ServletException(ex);
+		}
+	}
 
+	private ActionForward doAction(final Session session,
+			final ProjectEditorForm form, final HttpServletRequest request,
+			final ActionMapping actionMapping) throws Exception {
+		final Project project = (Project) this.getCommonDao().getById(
+				Project.class, Integer.parseInt(form.getOid()));
+		final List<Person> receivers = project.getNotificationReceivers();
+		if (form.getAction().equals(UpdateTimeNotificationReceivers.ADD)) {
+			if (form.getPersonToAddId() != null
+					&& !form.getPersonToAddId().equals("0")) {
+				final Person person = (Person) this.getCommonDao()
+						.getById(Person.class,
+								Integer.parseInt(form.getPersonToAddId()));
+				receivers.add(person);
+				project.setNotificationReceivers(receivers);
+				form.setPersonToAddId("0");
+			}
+		} else if (form.getAction().equals(
+				UpdateTimeNotificationReceivers.DELETE)) {
+			if (form.getPersonToDelete() != null) {
+				final String personToDelId = form.getPersonToDelete();
+				final Person person = (Person) this.getCommonDao().getById(
+						Person.class, Integer.parseInt(personToDelId));
+				receivers.remove(person);
+				form.setPersonToDelete(null);
+			}
+		} else {
+			throw new ServletException("Unknown action: " + form.getAction());
+		}
+		return new ActionForward(actionMapping.getInput());
+	}
 
-    private ActionForward doAction(Session session, ProjectEditorForm form,
-                                   HttpServletRequest request, ActionMapping actionMapping)
-        throws Exception {
-        Project project = (Project) getCommonDao().getById(Project.class, Integer.parseInt(form.getOid()));
-        List<Person> receivers = project.getNotificationReceivers();
-        if (form.getAction().equals(ADD)) {
-            if (form.getPersonToAddId() != null && !form.getPersonToAddId().equals("0")) {
-                Person person = (Person)  getCommonDao().getById(Person.class, 
-                    Integer.parseInt(form.getPersonToAddId()));
-                receivers.add(person);
-                project.setNotificationReceivers(receivers);
-                form.setPersonToAddId("0");
-            }
-        } else if (form.getAction().equals(DELETE)) {
-            if (form.getPersonToDelete() != null) {
-                String personToDelId = form.getPersonToDelete();
-                Person person = (Person) getCommonDao().getById(Person.class, Integer.parseInt(personToDelId));
-                receivers.remove(person);
-                form.setPersonToDelete(null);
-            }
-        } else {
-            throw new ServletException("Unknown action: " + form.getAction());
-        }
-        return new ActionForward(actionMapping.getInput());
-    }
-
-    private void populateForm(Session session, ProjectEditorForm form,
-                              HttpServletRequest request) throws Exception {
-        Project project = (Project) session.load(Project.class, new Integer(form.getOid()));
-        Iterator itr = project.getNotificationReceivers().iterator();
-        while (itr.hasNext()) {
-            Person person = (Person) itr.next();
-            form.addPersonInfo("" + person.getId(),
-                               person.getUserId(),
-                               person.getInitials(),
-                               person.getName());
-        }
-    }
+	private void populateForm(final Session session,
+			final ProjectEditorForm form, final HttpServletRequest request)
+			throws Exception {
+		final Project project = (Project) session.load(Project.class,
+				new Integer(form.getOid()));
+		final Iterator itr = project.getNotificationReceivers().iterator();
+		while (itr.hasNext()) {
+			final Person person = (Person) itr.next();
+			form.addPersonInfo("" + person.getId(), person.getUserId(),
+					person.getInitials(), person.getName());
+		}
+	}
 }

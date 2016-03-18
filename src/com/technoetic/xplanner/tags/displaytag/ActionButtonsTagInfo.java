@@ -11,16 +11,17 @@ import com.technoetic.xplanner.views.ActionRenderer;
 
 public class ActionButtonsTagInfo extends TagExtraInfo {
 
-    public ActionButtonsTagInfo() {
-    }
+	public ActionButtonsTagInfo() {
+	}
 
-    public VariableInfo[] getVariableInfo(TagData data) {
-        List<VariableInfo> variables = new ArrayList<VariableInfo>(4);
-        Object tagId = data.getAttributeString("id");
-        if (tagId != null) {
-            variables.add(
-                new VariableInfo(tagId.toString(), ActionRenderer.class.getName(), true, 0));
-        }
-        return variables.toArray(new VariableInfo[0]);
-    }
+	@Override
+	public VariableInfo[] getVariableInfo(final TagData data) {
+		final List<VariableInfo> variables = new ArrayList<VariableInfo>(4);
+		final Object tagId = data.getAttributeString("id");
+		if (tagId != null) {
+			variables.add(new VariableInfo(tagId.toString(),
+					ActionRenderer.class.getName(), true, 0));
+		}
+		return variables.toArray(new VariableInfo[0]);
+	}
 }

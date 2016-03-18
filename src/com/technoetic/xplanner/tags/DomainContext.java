@@ -17,7 +17,6 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
-import com.technoetic.xplanner.db.IdSearchHelper;
 import com.technoetic.xplanner.db.OLDIdSearchHelper;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.domain.Feature;
@@ -25,249 +24,254 @@ import com.technoetic.xplanner.domain.Feature;
 // todo - Get rid of this once we have a true object model with relationships
 
 public class DomainContext {
-    public static final String REQUEST_KEY = "domainContext";
+	public static final String REQUEST_KEY = "domainContext";
 
-    private String projectName;
-    private int projectId;
-    private String iterationName;
-    private int iterationId;
-    private String storyName;
-    private int storyId;
-    private String taskName;
-    private int taskId;
-    private String featureName;
-    private int featureId;
-    private Object targetObject;
-    private ActionMapping actionMapping;
-    private static OLDIdSearchHelper idSearchHelper = new OLDIdSearchHelper();
+	private String projectName;
+	private int projectId;
+	private String iterationName;
+	private int iterationId;
+	private String storyName;
+	private int storyId;
+	private String taskName;
+	private int taskId;
+	private String featureName;
+	private int featureId;
+	private Object targetObject;
+	private ActionMapping actionMapping;
+	private static OLDIdSearchHelper idSearchHelper = new OLDIdSearchHelper();
 
-   public ActionMapping getActionMapping() {
-       return actionMapping;
-   }
+	public ActionMapping getActionMapping() {
+		return this.actionMapping;
+	}
 
-    public void setActionMapping(ActionMapping actionMapping) {
-        this.actionMapping = actionMapping;
-    }
+	public void setActionMapping(final ActionMapping actionMapping) {
+		this.actionMapping = actionMapping;
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public String getProjectName() {
+		return this.projectName;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+	public void setProjectName(final String projectName) {
+		this.projectName = projectName;
+	}
 
-    public int getProjectId() {
-        return projectId;
-    }
+	public int getProjectId() {
+		return this.projectId;
+	}
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
+	public void setProjectId(final int projectId) {
+		this.projectId = projectId;
+	}
 
-    public String getIterationName() {
-        return iterationName;
-    }
+	public String getIterationName() {
+		return this.iterationName;
+	}
 
-    public void setIterationName(String iterationName) {
-        this.iterationName = iterationName;
-    }
+	public void setIterationName(final String iterationName) {
+		this.iterationName = iterationName;
+	}
 
-    public int getIterationId() {
-        return iterationId;
-    }
+	public int getIterationId() {
+		return this.iterationId;
+	}
 
-    public void setIterationId(int iterationId) {
-        this.iterationId = iterationId;
-    }
+	public void setIterationId(final int iterationId) {
+		this.iterationId = iterationId;
+	}
 
-    public String getStoryName() {
-        return storyName;
-    }
+	public String getStoryName() {
+		return this.storyName;
+	}
 
-    public void setStoryName(String storyName) {
-        this.storyName = storyName;
-    }
+	public void setStoryName(final String storyName) {
+		this.storyName = storyName;
+	}
 
-    public int getStoryId() {
-        return storyId;
-    }
+	public int getStoryId() {
+		return this.storyId;
+	}
 
-    public void setStoryId(int storyId) {
-        this.storyId = storyId;
-    }
+	public void setStoryId(final int storyId) {
+		this.storyId = storyId;
+	}
 
-    public String getTaskName() {
-        return taskName;
-    }
+	public String getTaskName() {
+		return this.taskName;
+	}
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
+	public void setTaskName(final String taskName) {
+		this.taskName = taskName;
+	}
 
-    public int getTaskId() {
-        return taskId;
-    }
+	public int getTaskId() {
+		return this.taskId;
+	}
 
-    public String getFeatureName() {
-        return featureName;
-    }
+	public String getFeatureName() {
+		return this.featureName;
+	}
 
-    public void setFeatureName(String featureName) {
-        this.featureName = featureName;
-    }
+	public void setFeatureName(final String featureName) {
+		this.featureName = featureName;
+	}
 
-    public int getFeatureId() {
-        return featureId;
-    }
+	public int getFeatureId() {
+		return this.featureId;
+	}
 
-    public void setFeatureId(int featureId) {
-        this.featureId = featureId;
-    }
+	public void setFeatureId(final int featureId) {
+		this.featureId = featureId;
+	}
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
+	public void setTaskId(final int taskId) {
+		this.taskId = taskId;
+	}
 
+	public Object getTargetObject() {
+		return this.targetObject;
+	}
 
-    public Object getTargetObject() {
-        return targetObject;
-    }
+	public void populate(final Object object) throws Exception {
+		final Session session = ThreadSession.get();
+		this.targetObject = object;
+		if (object instanceof Project) {
+			this.populate((Project) object);
+		} else if (object instanceof Iteration) {
+			this.populate(session, (Iteration) object);
+		} else if (object instanceof UserStory) {
+			this.populate(session, (UserStory) object);
+		} else if (object instanceof Task) {
+			this.populate(session, (Task) object);
+		} else if (object instanceof Feature) {
+			this.populate(session, (Feature) object);
+		} else if (object instanceof Note) {
+			this.populate((Note) object);
+		} else if (object instanceof TimeEntry) {
+			this.populate(session, (TimeEntry) object);
+		}
+	}
 
-    public void populate(Object object) throws Exception {
-        Session session = ThreadSession.get();
-        targetObject = object;
-        if (object instanceof Project) {
-            populate((Project)object);
-        } else if (object instanceof Iteration) {
-            populate(session, (Iteration)object);
-        } else if (object instanceof UserStory) {
-            populate(session, (UserStory)object);
-        } else if (object instanceof Task) {
-            populate(session, (Task)object);
-        } else if (object instanceof Feature) {
-            populate(session, (Feature)object);                
-        } else if (object instanceof Note) {
-            populate((Note)object);
-        } else if (object instanceof TimeEntry) {
-            populate(session, (TimeEntry)object);
-        }
-    }
+	private void populate(final Project project) throws Exception {
+		this.setProjectName(project.getName());
+		this.setProjectId(project.getId());
+	}
 
-    private void populate(Project project) throws Exception {
-        setProjectName(project.getName());
-        setProjectId(project.getId());
-    }
+	private void populate(final Session session, final Iteration iteration)
+			throws Exception {
+		final Project project = (Project) session.load(Project.class,
+				new Integer(iteration.getProject().getId()));
+		this.populate(project);
+		this.setIterationName(iteration.getName());
+		this.setIterationId(iteration.getId());
+	}
 
-    private void populate(Session session, Iteration iteration) throws Exception {
-        Project project = (Project)session.load(Project.class, new Integer(iteration.getProject().getId()));
-        populate(project);
-        setIterationName(iteration.getName());
-        setIterationId(iteration.getId());
-    }
+	private void populate(final Session session, final UserStory story)
+			throws Exception {
+		final List results = session.find("select p.name, p.id, i.name, i.id "
+				+ "from net.sf.xplanner.domain.Project as p, "
+				+ "net.sf.xplanner.domain.Iteration as i, "
+				+ "net.sf.xplanner.domain.UserStory as s  "
+				+ "where s.id = ? and  s.iteration = i and i.project = p",
+				new Integer(story.getId()), Hibernate.INTEGER);
+		if (results.size() > 0) {
+			final Object[] result = (Object[]) results.iterator().next();
+			this.setProjectName((String) result[0]);
+			this.setProjectId(((Integer) result[1]).intValue());
+			this.setIterationName((String) result[2]);
+			this.setIterationId(((Integer) result[3]).intValue());
+		}
+		this.setStoryName(story.getName());
+		this.setStoryId(story.getId());
+	}
 
-    private void populate(Session session, UserStory story) throws Exception {
-        List results = session.find(
-                "select p.name, p.id, i.name, i.id " +
-                "from net.sf.xplanner.domain.Project as p, " +
-                "net.sf.xplanner.domain.Iteration as i, " +
-                "net.sf.xplanner.domain.UserStory as s  " +
-                "where s.id = ? and  s.iteration = i and i.project = p",
-                new Integer(story.getId()), Hibernate.INTEGER);
-        if (results.size() > 0) {
-            Object[] result = (Object[])results.iterator().next();
-            setProjectName((String)result[0]);
-            setProjectId(((Integer)result[1]).intValue());
-            setIterationName((String)result[2]);
-            setIterationId(((Integer)result[3]).intValue());
-        }
-        setStoryName(story.getName());
-        setStoryId(story.getId());
-    }
+	private void populate(final Session session, final Task task)
+			throws Exception {
+		final List results = session
+				.find("select p.name, p.id, i.name, i.id, s.name, s.id "
+						+ "from net.sf.xplanner.domain.Project as p, "
+						+ "net.sf.xplanner.domain.Iteration as i, "
+						+ "net.sf.xplanner.domain.UserStory as s, "
+						+ "net.sf.xplanner.domain.Task as t "
+						+ "where t.id = ? and t.userStory.id = s.id and s.iteration = i and i.project = p",
+						new Integer(task.getId()), Hibernate.INTEGER);
+		if (results.size() > 0) {
+			final Object[] result = (Object[]) results.iterator().next();
+			this.setProjectName((String) result[0]);
+			this.setProjectId(((Integer) result[1]).intValue());
+			this.setIterationName((String) result[2]);
+			this.setIterationId(((Integer) result[3]).intValue());
+			this.setStoryName((String) result[4]);
+			this.setStoryId(((Integer) result[5]).intValue());
+		}
+		this.setTaskName(task.getName());
+		this.setTaskId(task.getId());
+	}
 
-    private void populate(Session session, Task task) throws Exception {
-        List results = session.find(
-                "select p.name, p.id, i.name, i.id, s.name, s.id " +
-                "from net.sf.xplanner.domain.Project as p, " +
-                "net.sf.xplanner.domain.Iteration as i, " +
-                "net.sf.xplanner.domain.UserStory as s, " +
-                "net.sf.xplanner.domain.Task as t " +
-                "where t.id = ? and t.userStory.id = s.id and s.iteration = i and i.project = p",
-                new Integer(task.getId()), Hibernate.INTEGER);
-        if (results.size() > 0) {
-            Object[] result = (Object[])results.iterator().next();
-            setProjectName((String)result[0]);
-            setProjectId(((Integer)result[1]).intValue());
-            setIterationName((String)result[2]);
-            setIterationId(((Integer)result[3]).intValue());
-            setStoryName((String)result[4]);
-            setStoryId(((Integer)result[5]).intValue());
-        }
-        setTaskName(task.getName());
-        setTaskId(task.getId());
-    }
+	private void populate(final Session session, final TimeEntry timeEntry)
+			throws Exception {
+		final List results = session
+				.find("select p.name, p.id, i.name, i.id, s.name, s.id, t.name "
+						+ "from net.sf.xplanner.domain.Project as p, "
+						+ "net.sf.xplanner.domain.Iteration as i, "
+						+ "net.sf.xplanner.domain.UserStory as s, "
+						+ "net.sf.xplanner.domain.Task as t "
+						+ "where t.id = ? and t.userStory.id = s.id and s.iteration = i and i.project = p",
+						new Integer(timeEntry.getTask().getId()),
+						Hibernate.INTEGER);
+		if (results.size() > 0) {
+			final Object[] result = (Object[]) results.iterator().next();
+			this.setProjectName((String) result[0]);
+			this.setProjectId(((Integer) result[1]).intValue());
+			this.setIterationName((String) result[2]);
+			this.setIterationId(((Integer) result[3]).intValue());
+			this.setStoryName((String) result[4]);
+			this.setStoryId(((Integer) result[5]).intValue());
+			this.setTaskName((String) result[6]);
+		}
+		this.setTaskId(timeEntry.getId());
+	}
 
-    private void populate(Session session, TimeEntry timeEntry) throws Exception {
-        List results = session.find(
-                "select p.name, p.id, i.name, i.id, s.name, s.id, t.name " +
-                "from net.sf.xplanner.domain.Project as p, " +
-                "net.sf.xplanner.domain.Iteration as i, " +
-                "net.sf.xplanner.domain.UserStory as s, " +
-                "net.sf.xplanner.domain.Task as t " +
-                "where t.id = ? and t.userStory.id = s.id and s.iteration = i and i.project = p",
-                new Integer(timeEntry.getTask().getId()), Hibernate.INTEGER);
-        if (results.size() > 0) {
-            Object[] result = (Object[])results.iterator().next();
-            setProjectName((String)result[0]);
-            setProjectId(((Integer)result[1]).intValue());
-            setIterationName((String)result[2]);
-            setIterationId(((Integer)result[3]).intValue());
-            setStoryName((String)result[4]);
-            setStoryId(((Integer)result[5]).intValue());
-            setTaskName(((String)result[6]));
-        }
-        setTaskId(timeEntry.getId());
-    }
+	private void populate(final Session session, final Feature feature)
+			throws Exception {
+		final List results = session
+				.find("select p.name, p.id, i.name, i.id, s.name, s.id "
+						+ "from net.sf.xplanner.domain.Project as p, "
+						+ "net.sf.xplanner.domain.Iteration as i, "
+						+ "net.sf.xplanner.domain.UserStory as s, "
+						+ "net.sf.xplanner.domain.Feature as f "
+						+ "where f.id = ? and f.userStory.id = s.id and s.iteration = i and i.project = p",
+						new Integer(feature.getId()), Hibernate.INTEGER);
+		if (results.size() > 0) {
+			final Object[] result = (Object[]) results.iterator().next();
+			this.setProjectName((String) result[0]);
+			this.setProjectId(((Integer) result[1]).intValue());
+			this.setIterationName((String) result[2]);
+			this.setIterationId(((Integer) result[3]).intValue());
+			this.setStoryName((String) result[4]);
+			this.setStoryId(((Integer) result[5]).intValue());
+		}
+		this.setFeatureName(feature.getName());
+		this.setFeatureId(feature.getId());
+	}
 
-    private void populate(Session session, Feature feature) throws Exception {
-        List results = session.find(
-                "select p.name, p.id, i.name, i.id, s.name, s.id " +
-                "from net.sf.xplanner.domain.Project as p, " +
-                "net.sf.xplanner.domain.Iteration as i, " +
-                "net.sf.xplanner.domain.UserStory as s, " +
-                "net.sf.xplanner.domain.Feature as f " +
-                "where f.id = ? and f.userStory.id = s.id and s.iteration = i and i.project = p",
-                new Integer(feature.getId()), Hibernate.INTEGER);
-        if (results.size() > 0) {
-            Object[] result = (Object[])results.iterator().next();
-            setProjectName((String)result[0]);
-            setProjectId(((Integer)result[1]).intValue());
-            setIterationName((String)result[2]);
-            setIterationId(((Integer)result[3]).intValue());
-            setStoryName((String)result[4]);
-            setStoryId(((Integer)result[5]).intValue());
-        }
-        setFeatureName(feature.getName());
-        setFeatureId(feature.getId());
-    }
+	private void populate(final Note note) throws Exception {
+		this.populate(DomainContext.getNoteTarget(note.getAttachedToId()));
+	}
 
-    private void populate(Note note) throws Exception {
-        populate(getNoteTarget(note.getAttachedToId()));
-    }
+	public static DomainObject getNoteTarget(final int attachedToId) {
+		try {
+			return DomainContext.idSearchHelper.search(attachedToId);
+		} catch (final HibernateException e) {
+			return null;
+		}
+	}
 
-    public static DomainObject getNoteTarget(int attachedToId) {
-       try {
-          return idSearchHelper.search(attachedToId);
-       } catch (HibernateException e) {
-          return null;
-       }
-    }
+	public void save(final ServletRequest request) {
+		request.setAttribute(DomainContext.REQUEST_KEY, this);
+	}
 
-    public void save(ServletRequest request) {
-        request.setAttribute(REQUEST_KEY, this);
-    }
-
-    public static DomainContext get(ServletRequest request) {
-        return (DomainContext)request.getAttribute(REQUEST_KEY);
-    }
+	public static DomainContext get(final ServletRequest request) {
+		return (DomainContext) request.getAttribute(DomainContext.REQUEST_KEY);
+	}
 }

@@ -6,65 +6,63 @@ import java.util.List;
 import java.util.Map;
 
 public class DomainClass {
-   private Class javaClass;
-   private String typeName;
-   private String parentProperty;
-   private Class parentClass;
-   private String childrenProperty;
-   private Map actionByName = new HashMap();
-   private List actions = new ArrayList();
+	private final Class javaClass;
+	private final String typeName;
+	private String parentProperty;
+	private Class parentClass;
+	private String childrenProperty;
+	private Map actionByName = new HashMap();
+	private final List actions = new ArrayList();
 
-   public DomainClass(String typeName, Class myClass) {
-      this.javaClass = myClass;
-      this.typeName = typeName;
-   }
+	public DomainClass(final String typeName, final Class myClass) {
+		this.javaClass = myClass;
+		this.typeName = typeName;
+	}
 
-   public DomainClass(String typeName,
-                      Class myClass,
-                      String parentProperty,
-                      Class parentClass,
-                      String childrenProperty) {
-      this(typeName, myClass);
-      this.parentProperty = parentProperty;
-      this.parentClass = parentClass;
-      this.childrenProperty = childrenProperty;
-   }
+	public DomainClass(final String typeName, final Class myClass,
+			final String parentProperty, final Class parentClass,
+			final String childrenProperty) {
+		this(typeName, myClass);
+		this.parentProperty = parentProperty;
+		this.parentClass = parentClass;
+		this.childrenProperty = childrenProperty;
+	}
 
-   public String getParentProperty() {
-      return parentProperty;
-   }
+	public String getParentProperty() {
+		return this.parentProperty;
+	}
 
-   public String getChildrenProperty() {
-      return childrenProperty;
-   }
+	public String getChildrenProperty() {
+		return this.childrenProperty;
+	}
 
-   public String getTypeName() {
-      return typeName;
-   }
+	public String getTypeName() {
+		return this.typeName;
+	}
 
-   public Class getParentClass() {
-      return parentClass;
-   }
+	public Class getParentClass() {
+		return this.parentClass;
+	}
 
-   public Class getJavaClass() {
-      return javaClass;
-   }
+	public Class getJavaClass() {
+		return this.javaClass;
+	}
 
-   public List getActions() {
-      return actions;
-   }
+	public List getActions() {
+		return this.actions;
+	}
 
-   public Map getActionByName() {
-      return actionByName;
-   }
+	public Map getActionByName() {
+		return this.actionByName;
+	}
 
-   public void setActionByName(Map actionByName) {
-      this.actionByName = actionByName;
-   }
+	public void setActionByName(final Map actionByName) {
+		this.actionByName = actionByName;
+	}
 
-   public void addMapping(ActionMapping action) {
-      this.actions.add(action);
-      this.actionByName.put(action.getName(), action);
-   }
+	public void addMapping(final ActionMapping action) {
+		this.actions.add(action);
+		this.actionByName.put(action.getName(), action);
+	}
 
 }

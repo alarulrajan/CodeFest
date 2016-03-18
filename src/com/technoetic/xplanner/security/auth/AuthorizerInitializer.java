@@ -1,13 +1,13 @@
 package com.technoetic.xplanner.security.auth;
 
 public class AuthorizerInitializer {
-    private Authorizer authorizer;
+	private final Authorizer authorizer;
 
-    public AuthorizerInitializer(Authorizer authorizer) {
-        this.authorizer = authorizer;
-    }
+	public AuthorizerInitializer(final Authorizer authorizer) {
+		this.authorizer = authorizer;
+	}
 
-    public void init(){
-        SystemAuthorizer.set(authorizer);
-    }
+	public void init() {
+		SystemAuthorizer.set(this.authorizer);
+	}
 }

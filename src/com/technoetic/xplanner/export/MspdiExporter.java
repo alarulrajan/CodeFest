@@ -13,40 +13,43 @@ import net.sf.xplanner.domain.Project;
 import org.hibernate.classic.Session;
 
 public class MspdiExporter extends MpxExporter {
-    @Override
-	public void initializeHeaders(HttpServletResponse response) {
-        response.setHeader("Content-type", "application/mspdi");
-        response.setHeader("Content-disposition", "inline; filename=export.xml");
-    }
+	@Override
+	public void initializeHeaders(final HttpServletResponse response) {
+		response.setHeader("Content-type", "application/mspdi");
+		response.setHeader("Content-disposition", "inline; filename=export.xml");
+	}
 
-    @Override
-	public byte[] export(Session session, Object object) throws ExportException {
-        try {
-        	ProjectFile file = new ProjectFile();
-            file.setAutoTaskID(true);
-            file.setAutoTaskUniqueID(true);
-            file.setAutoResourceID(true);
-            file.setAutoResourceUniqueID(true);
-            file.setAutoOutlineLevel(true);
-            file.setAutoOutlineNumber(true);
-            file.setAutoWBS(true);
-            // Add a default calendar called "Standard"
-//            file.addDefaultBaseCalendar();
+	@Override
+	public byte[] export(final Session session, final Object object)
+			throws ExportException {
+		try {
+			final ProjectFile file = new ProjectFile();
+			file.setAutoTaskID(true);
+			file.setAutoTaskUniqueID(true);
+			file.setAutoResourceID(true);
+			file.setAutoResourceUniqueID(true);
+			file.setAutoOutlineLevel(true);
+			file.setAutoOutlineNumber(true);
+			file.setAutoWBS(true);
+			// Add a default calendar called "Standard"
+			// file.addDefaultBaseCalendar();
 
-            ResourceRegistry resourceRegistry = new ResourceRegistry(session.find("from person in " + Person.class), file);
+			final ResourceRegistry resourceRegistry = new ResourceRegistry(
+					session.find("from person in " + Person.class), file);
 
-            if (object instanceof Project) {
-                exportProject(file, (Project) object, resourceRegistry);
-            } else if (object instanceof Iteration) {
-                exportIteration(file, null, (Iteration) object, resourceRegistry);
-            }
+			if (object instanceof Project) {
+				this.exportProject(file, (Project) object, resourceRegistry);
+			} else if (object instanceof Iteration) {
+				this.exportIteration(file, null, (Iteration) object,
+						resourceRegistry);
+			}
 
-            ByteArrayOutputStream data = new ByteArrayOutputStream();
-            MSPDIWriter writer = new MSPDIWriter();
-            writer.write(file,data);
-            return data.toByteArray();
-        } catch (Exception e) {
-            throw new ExportException("exception during export", e);
-        }
-    }
+			final ByteArrayOutputStream data = new ByteArrayOutputStream();
+			final MSPDIWriter writer = new MSPDIWriter();
+			writer.write(file, data);
+			return data.toByteArray();
+		} catch (final Exception e) {
+			throw new ExportException("exception during export", e);
+		}
+	}
 }

@@ -57,138 +57,173 @@ public abstract class Continuer {
 	protected Continuer() {
 	}
 
-	public final void init(Session session, MessageResources messageResources, int currentUserId) {
-		setHibernateSession(session);
-		setLinkFormatter(new DomainObjectWikiLinkFormatter());
-		setMessageResources(messageResources);
-		setCurrentUserId(currentUserId);
+	public final void init(final Session session,
+			final MessageResources messageResources, final int currentUserId) {
+		this.setHibernateSession(session);
+		this.setLinkFormatter(new DomainObjectWikiLinkFormatter());
+		this.setMessageResources(messageResources);
+		this.setCurrentUserId(currentUserId);
 	}
 
-	public void setMessageResources(MessageResources messageResources) {
-		toText = new MessageFormat(messageResources.getMessage(CONTINUED_FROM_DESCRIPTION_KEY));
-		fromText = new MessageFormat(messageResources.getMessage(CONTINUED_AS_DESCRIPTION_KEY));
-		fromParentText = new MessageFormat(messageResources.getMessage(CONTINUE_DESCRIPTION_FROM_PARENT_KEY));
-		toParentText = new MessageFormat(messageResources.getMessage(CONTINUE_DESCRIPTION_TO_PARENT_KEY));
+	public void setMessageResources(final MessageResources messageResources) {
+		this.toText = new MessageFormat(
+				messageResources
+						.getMessage(Continuer.CONTINUED_FROM_DESCRIPTION_KEY));
+		this.fromText = new MessageFormat(
+				messageResources
+						.getMessage(Continuer.CONTINUED_AS_DESCRIPTION_KEY));
+		this.fromParentText = new MessageFormat(
+				messageResources
+						.getMessage(Continuer.CONTINUE_DESCRIPTION_FROM_PARENT_KEY));
+		this.toParentText = new MessageFormat(
+				messageResources
+						.getMessage(Continuer.CONTINUE_DESCRIPTION_TO_PARENT_KEY));
 	}
 
-	public DomainObject continueObject(DomainObject fromObject, DomainObject fromParent, DomainObject toParent)
+	public DomainObject continueObject(final DomainObject fromObject,
+			final DomainObject fromParent, final DomainObject toParent)
 			throws HibernateException {
 
-		LOG.debug("hibernateSession used=" + getHibernateSession());
-		DomainObject toObject = createContinuingObject(fromObject, toParent);
+		Continuer.LOG.debug("hibernateSession used="
+				+ this.getHibernateSession());
+		final DomainObject toObject = this.createContinuingObject(fromObject,
+				toParent);
 
-		doContinueObject(fromObject, toParent, toObject);
+		this.doContinueObject(fromObject, toParent, toObject);
 
 		// FIXME The original iteration should not have container events of
 		// created action when continue a story in target targetIteration
 
-		updateDescriptionAndHistory(fromObject, fromParent, toObject, toParent);
+		this.updateDescriptionAndHistory(fromObject, fromParent, toObject,
+				toParent);
 
-		continueNotes((NoteAttachable) fromObject, (NoteAttachable) toObject);
+		this.continueNotes((NoteAttachable) fromObject,
+				(NoteAttachable) toObject);
 
-		getHibernateSession().update(fromObject);
-		getHibernateSession().update(toParent);
-		getHibernateSession().update(fromParent);
+		this.getHibernateSession().update(fromObject);
+		this.getHibernateSession().update(toParent);
+		this.getHibernateSession().update(fromParent);
 
 		return toObject;
 
 	}
 
-	public void setMetaDataRepository(DomainMetaDataRepository metaDataRepository) {
+	public void setMetaDataRepository(
+			final DomainMetaDataRepository metaDataRepository) {
 		this.metaDataRepository = metaDataRepository;
 	}
 
-	private DomainObject createContinuingObject(DomainObject fromObject, DomainObject toParent)
-			throws HibernateException {
-		DomainObject toObject = cloneObject(fromObject);
-		getHibernateSession().save(toObject);
-		metaDataRepository.setParent(toObject, toParent);
+	private DomainObject createContinuingObject(final DomainObject fromObject,
+			final DomainObject toParent) throws HibernateException {
+		final DomainObject toObject = this.cloneObject(fromObject);
+		this.getHibernateSession().save(toObject);
+		this.metaDataRepository.setParent(toObject, toParent);
 		return toObject;
 	}
 
-	private void updateDescriptionAndHistory(DomainObject fromObject, DomainObject fromParent, DomainObject toObject,
-			DomainObject toParent) {
-		Object[] parentDescriptionParams = new Object[] { linkFormatter.format(fromObject),
-				linkFormatter.format(fromParent), linkFormatter.format(toObject), linkFormatter.format(toParent) };
-		updateDescription((Describable) toObject, fromText, parentDescriptionParams);
-		updateDescription((Describable) fromObject, toText, parentDescriptionParams);
+	private void updateDescriptionAndHistory(final DomainObject fromObject,
+			final DomainObject fromParent, final DomainObject toObject,
+			final DomainObject toParent) {
+		final Object[] parentDescriptionParams = new Object[] {
+				this.linkFormatter.format(fromObject),
+				this.linkFormatter.format(fromParent),
+				this.linkFormatter.format(toObject),
+				this.linkFormatter.format(toParent) };
+		this.updateDescription((Describable) toObject, this.fromText,
+				parentDescriptionParams);
+		this.updateDescription((Describable) fromObject, this.toText,
+				parentDescriptionParams);
 
-		addHistoryEvent(History.CONTINUED, fromObject, toText.format(parentDescriptionParams));
-		addHistoryEvent(History.CONTINUED, toObject, fromText.format(parentDescriptionParams));
-		addHistoryEvent(History.CONTINUED, fromParent, toParentText.format(parentDescriptionParams));
-		addHistoryEvent(History.CONTINUED, toParent, fromParentText.format(parentDescriptionParams));
+		this.addHistoryEvent(History.CONTINUED, fromObject,
+				this.toText.format(parentDescriptionParams));
+		this.addHistoryEvent(History.CONTINUED, toObject,
+				this.fromText.format(parentDescriptionParams));
+		this.addHistoryEvent(History.CONTINUED, fromParent,
+				this.toParentText.format(parentDescriptionParams));
+		this.addHistoryEvent(History.CONTINUED, toParent,
+				this.fromParentText.format(parentDescriptionParams));
 	}
 
-	private DomainObject cloneObject(DomainObject fromObject) {
+	private DomainObject cloneObject(final DomainObject fromObject) {
 		try {
-			DomainObject toObject = createInstance(fromObject);
-			BeanUtils.copyProperties(fromObject, toObject, new String[] { "tasks" });
+			final DomainObject toObject = this.createInstance(fromObject);
+			BeanUtils.copyProperties(fromObject, toObject,
+					new String[] { "tasks" });
 			toObject.setId(0);
 			return toObject;
 
-		} catch (Exception e) {
-			LOG.error(e);
+		} catch (final Exception e) {
+			Continuer.LOG.error(e);
 		}
 		return null;
 	}
 
-	protected DomainObject createInstance(DomainObject fromObject) throws InstantiationException,
-			IllegalAccessException {
+	protected DomainObject createInstance(final DomainObject fromObject)
+			throws InstantiationException, IllegalAccessException {
 
 		if (ProxyObject.class.isAssignableFrom(fromObject.getClass())) {
-			return (DomainObject) fromObject.getClass().getSuperclass().newInstance();
+			return (DomainObject) fromObject.getClass().getSuperclass()
+					.newInstance();
 		}
-		return (DomainObject) fromObject.getClass().newInstance();
+		return fromObject.getClass().newInstance();
 	}
 
-	protected abstract void doContinueObject(DomainObject fromObject, DomainObject toParent, DomainObject toObject)
+	protected abstract void doContinueObject(DomainObject fromObject,
+			DomainObject toParent, DomainObject toObject)
 			throws HibernateException;
 
-	protected void addHistoryEvent(String type, DomainObject target, String description) {
-		historySupport.saveEvent(target, type, description, currentUserId, when);
+	protected void addHistoryEvent(final String type,
+			final DomainObject target, final String description) {
+		this.historySupport.saveEvent(target, type, description,
+				this.currentUserId, this.when);
 	}
 
-	private void updateDescription(Describable describable, MessageFormat direction, Object[] params) {
-		describable.setDescription(direction.format(params) + "\n\n" + describable.getDescription());
+	private void updateDescription(final Describable describable,
+			final MessageFormat direction, final Object[] params) {
+		describable.setDescription(direction.format(params) + "\n\n"
+				+ describable.getDescription());
 	}
 
-	public void continueNotes(NoteAttachable fromObject, NoteAttachable toObject) throws HibernateException {
-		Query query = getHibernateSession().getNamedQuery(Note.class.getName() + Note.ATTACHED_NOTES_QUERY);
+	public void continueNotes(final NoteAttachable fromObject,
+			final NoteAttachable toObject) throws HibernateException {
+		final Query query = this.getHibernateSession().getNamedQuery(
+				Note.class.getName() + Note.ATTACHED_NOTES_QUERY);
 		query.setString("attachedToId", String.valueOf(fromObject.getId()));
-		Iterator iterator = query.iterate();
+		final Iterator iterator = query.iterate();
 		while (iterator.hasNext()) {
-			Note note = (Note) iterator.next();
-			Note newNote = (Note) cloneObject(note);
+			final Note note = (Note) iterator.next();
+			final Note newNote = (Note) this.cloneObject(note);
 			newNote.setAttachedToId(toObject.getId());
 			newNote.setId(0);
-			getHibernateSession().save(newNote);
+			this.getHibernateSession().save(newNote);
 		}
 	}
 
 	public Session getHibernateSession() {
-		if (hibernateSession != ThreadSession.get()) {
-			LOG.error("hibernateSession mismatch " + hibernateSession + " and " + ThreadSession.get());
+		if (this.hibernateSession != ThreadSession.get()) {
+			Continuer.LOG.error("hibernateSession mismatch "
+					+ this.hibernateSession + " and " + ThreadSession.get());
 		}
-		return hibernateSession;
+		return this.hibernateSession;
 	}
 
-	public void setHibernateSession(Session hibernateSession) {
+	public void setHibernateSession(final Session hibernateSession) {
 		this.hibernateSession = hibernateSession;
 	}
 
-	public void setCurrentUserId(int currentUserId) {
+	public void setCurrentUserId(final int currentUserId) {
 		this.currentUserId = currentUserId;
 	}
 
-	public void setLinkFormatter(DomainObjectWikiLinkFormatter linkFormatter) {
+	public void setLinkFormatter(
+			final DomainObjectWikiLinkFormatter linkFormatter) {
 		this.linkFormatter = linkFormatter;
 	}
 
-
 	@Required
 	@Autowired
-	public void setHistorySupport(HistorySupport historySupport) {
+	public void setHistorySupport(final HistorySupport historySupport) {
 		this.historySupport = historySupport;
 	}
-	
+
 }

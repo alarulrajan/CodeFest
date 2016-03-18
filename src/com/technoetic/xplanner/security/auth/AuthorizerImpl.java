@@ -30,165 +30,181 @@ import com.technoetic.xplanner.forms.TaskEditorForm;
 import com.technoetic.xplanner.forms.UserStoryEditorForm;
 import com.technoetic.xplanner.security.AuthenticationException;
 
-
 public class AuthorizerImpl implements Authorizer {
-   private final Map<Class,String> resourceTypes = new HashMap<Class,String>();
-   public static final Integer ANY_PROJECT = new Integer(0);
-   private AuthorizerQueryHelper authorizerQueryHelper;
-   private PrincipalSpecificPermissionHelper principalSpecificPermissionHelper;
+	private final Map<Class, String> resourceTypes = new HashMap<Class, String>();
+	public static final Integer ANY_PROJECT = new Integer(0);
+	private AuthorizerQueryHelper authorizerQueryHelper;
+	private PrincipalSpecificPermissionHelper principalSpecificPermissionHelper;
 
-   public AuthorizerImpl() {
-      //TODO: Extract these constants
-      //DEBT(METADATA) Move these to the DomainMetaDataRepository
-      resourceTypes.put(Project.class, "system.project");
-      resourceTypes.put(Iteration.class, "system.project.iteration");
-      resourceTypes.put(UserStory.class, "system.project.iteration.story");
-      resourceTypes.put(Task.class, "system.project.iteration.story.task");
-      resourceTypes.put(Feature.class, "system.project.iteration.story.feature");
-      resourceTypes.put(TimeEntry.class, "system.project.iteration.story.task.time_entry");
-      resourceTypes.put(Integration.class, "system.project.integration");
-      resourceTypes.put(Person.class, "system.person");
-      resourceTypes.put(Note.class, "system.note");
-      resourceTypes.put(ProjectEditorForm.class, "system.project");
-      resourceTypes.put(IterationEditorForm.class, "system.project.iteration");
-      resourceTypes.put(UserStoryEditorForm.class, "system.project.iteration.story");
-      resourceTypes.put(TaskEditorForm.class, "system.project.iteration.story.task");
-      resourceTypes.put(FeatureEditorForm.class, "system.project.iteration.story.feature");
-      resourceTypes.put(PersonEditorForm.class, "system.person");
-      resourceTypes.put(Setting.class, "system.setting");
-   }
+	public AuthorizerImpl() {
+		// TODO: Extract these constants
+		// DEBT(METADATA) Move these to the DomainMetaDataRepository
+		this.resourceTypes.put(Project.class, "system.project");
+		this.resourceTypes.put(Iteration.class, "system.project.iteration");
+		this.resourceTypes.put(UserStory.class,
+				"system.project.iteration.story");
+		this.resourceTypes.put(Task.class,
+				"system.project.iteration.story.task");
+		this.resourceTypes.put(Feature.class,
+				"system.project.iteration.story.feature");
+		this.resourceTypes.put(TimeEntry.class,
+				"system.project.iteration.story.task.time_entry");
+		this.resourceTypes.put(Integration.class, "system.project.integration");
+		this.resourceTypes.put(Person.class, "system.person");
+		this.resourceTypes.put(Note.class, "system.note");
+		this.resourceTypes.put(ProjectEditorForm.class, "system.project");
+		this.resourceTypes.put(IterationEditorForm.class,
+				"system.project.iteration");
+		this.resourceTypes.put(UserStoryEditorForm.class,
+				"system.project.iteration.story");
+		this.resourceTypes.put(TaskEditorForm.class,
+				"system.project.iteration.story.task");
+		this.resourceTypes.put(FeatureEditorForm.class,
+				"system.project.iteration.story.feature");
+		this.resourceTypes.put(PersonEditorForm.class, "system.person");
+		this.resourceTypes.put(Setting.class, "system.setting");
+	}
 
-   //TODO resource should be a DomainObject
-   public boolean hasPermission(int projectId, int personId, Object resource, String permission)
-         throws AuthenticationException {
-      int id;
-      try {
-         id = ((Integer) PropertyUtils.getProperty(resource, "id")).intValue();
-      } catch (Exception e) {
-         throw new AuthenticationException(e);
-      }
-      return hasPermission(projectId, personId, getTypeOfResource(resource), id, permission);
-   }
+	// TODO resource should be a DomainObject
+	@Override
+	public boolean hasPermission(final int projectId, final int personId,
+			final Object resource, final String permission)
+			throws AuthenticationException {
+		int id;
+		try {
+			id = ((Integer) PropertyUtils.getProperty(resource, "id"))
+					.intValue();
+		} catch (final Exception e) {
+			throw new AuthenticationException(e);
+		}
+		return this.hasPermission(projectId, personId,
+				this.getTypeOfResource(resource), id, permission);
+	}
 
+	@Override
+	public boolean hasPermission(final int projectId, final int personId,
+			final String resourceType, final int resourceId,
+			final String permissionName) throws AuthenticationException {
+		try {
+			final Map permissionsByProjectMap = this.principalSpecificPermissionHelper
+					.getPermissionsForPrincipal(personId);
+			return this.permissionMatches(permissionName, resourceType,
+					resourceId,
+					(List) permissionsByProjectMap.get(new Integer(projectId)))
+					||
+					// For 0.7 only sysadmins have any project permissions
+					this.permissionMatches(permissionName, resourceType,
+							resourceId, (List) permissionsByProjectMap
+									.get(AuthorizerImpl.ANY_PROJECT));
+		} catch (final Exception e) {
+			throw new AuthenticationException(e);
+		}
+	}
 
-   public boolean hasPermission(int projectId,
-                                int personId,
-                                String resourceType,
-                                int resourceId,
-                                String permissionName) throws AuthenticationException {
-      try {
-         Map permissionsByProjectMap = principalSpecificPermissionHelper.getPermissionsForPrincipal(personId);
-         return permissionMatches(permissionName,
-                                  resourceType,
-                                  resourceId,
-                                  (List) permissionsByProjectMap.get(new Integer(projectId)))
-                ||
-                // For 0.7 only sysadmins have any project permissions
-                permissionMatches(permissionName,
-                                  resourceType,
-                                  resourceId,
-                                  (List) permissionsByProjectMap.get(ANY_PROJECT));
-      } catch (Exception e) {
-         throw new AuthenticationException(e);
-      }
-   }
+	@Override
+	public Collection getPeopleWithPermissionOnProject(final List allPeople,
+			final int projectId) throws AuthenticationException {
+		final Collection people = new ArrayList();
+		for (int i = 0; i < allPeople.size(); i++) {
+			final Person person = (Person) allPeople.get(i);
+			if (this.hasPermission(projectId, person.getId(), "system.project",
+					projectId, "edit")) {
+				people.add(person);
+			}
+		}
+		return people;
+	}
 
+	@Override
+	public Collection getRolesForPrincipalOnProject(final int principalId,
+			final int projectId, final boolean includeWildcardProject)
+			throws AuthenticationException {
+		try {
+			return this.authorizerQueryHelper.getRolesForPrincipalOnProject(
+					principalId, projectId, includeWildcardProject);
+		} catch (final DataAccessException e) {
+			throw new AuthenticationException(e);
+		}
+	}
 
-   public Collection getPeopleWithPermissionOnProject(List allPeople, int projectId) throws AuthenticationException {
-      Collection people = new ArrayList();
-      for (int i = 0; i < allPeople.size(); i++) {
-         Person person = (Person) allPeople.get(i);
-         if (hasPermission(projectId, person.getId(), "system.project", projectId, "edit")) {
-            people.add(person);
-         }
-      }
-      return people;
-   }
+	@Override
+	public boolean hasPermissionForSomeProject(final int personId,
+			final String resourceType, final int resourceId,
+			final String permission) throws AuthenticationException {
+		try {
+			final List projects = this.authorizerQueryHelper
+					.getAllUnhidenProjects();
+			return this.hasPermissionForSomeProject(projects, personId,
+					resourceType, resourceId, permission);
+		} catch (final AuthenticationException e) {
+			throw e;
+		} catch (final Exception e) {
+			throw new AuthenticationException(e);
+		}
+	}
 
-   public Collection getRolesForPrincipalOnProject(int principalId, int projectId, boolean includeWildcardProject)
-         throws AuthenticationException {
-      try {
-         return authorizerQueryHelper.getRolesForPrincipalOnProject(principalId, projectId, includeWildcardProject);
-      } catch (DataAccessException e) {
-         throw new AuthenticationException(e);
-      }
-   }
+	@Override
+	public boolean hasPermissionForSomeProject(final Collection projects,
+			final int personId, final String resourceType,
+			final int resourceId, final String permission)
+			throws AuthenticationException {
+		for (final Iterator iterator = projects.iterator(); iterator.hasNext();) {
+			final Project project = (Project) iterator.next();
+			if (this.hasPermission(project.getId(), personId, resourceType,
+					resourceId, permission)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-   public boolean hasPermissionForSomeProject(int personId,
-                                              String resourceType, int resourceId, String permission)
-         throws AuthenticationException {
-      try {
-         List projects =
-               authorizerQueryHelper.getAllUnhidenProjects();
-         return hasPermissionForSomeProject(projects, personId, resourceType, resourceId, permission);
-      } catch (AuthenticationException e) {
-         throw e;
-      } catch (Exception e) {
-         throw new AuthenticationException(e);
-      }
-   }
+	public String getTypeOfResource(final Object resource) {
+		final String keyClass = resource.getClass().getName();
+		for (final Object clazz : this.resourceTypes.keySet()) {
+			if (keyClass.startsWith(((Class) clazz).getName())) {
+				return this.resourceTypes.get(clazz);
+			}
+		}
+		return null;
+	}
 
-   public boolean hasPermissionForSomeProject(Collection projects,
-                                              int personId,
-                                              String resourceType,
-                                              int resourceId,
-                                              String permission)
-         throws AuthenticationException {
-      for (Iterator iterator = projects.iterator(); iterator.hasNext();) {
-         Project project = (Project) iterator.next();
-         if (hasPermission(project.getId(), personId, resourceType, resourceId, permission)) {
-            return true;
-         }
-      }
-      return false;
-   }
+	public void setPrincipalSpecificPermissionHelper(
+			final PrincipalSpecificPermissionHelper principalSpecificPermissionHelper) {
+		this.principalSpecificPermissionHelper = principalSpecificPermissionHelper;
+	}
 
-   public String getTypeOfResource(Object resource) {
-	   String keyClass = resource.getClass().getName();
-	   for (Object clazz : resourceTypes.keySet()) {
-		   	if (keyClass.startsWith(((Class) clazz).getName())) {
-	   			return (String) resourceTypes.get(clazz);
-	   		}
-   		}
-	   return null;
-   }
+	public void setAuthorizerQueryHelper(
+			final AuthorizerQueryHelper authorizerQueryHelper) {
+		this.authorizerQueryHelper = authorizerQueryHelper;
+	}
 
-   public void setPrincipalSpecificPermissionHelper(PrincipalSpecificPermissionHelper principalSpecificPermissionHelper) {
-      this.principalSpecificPermissionHelper = principalSpecificPermissionHelper;
-   }
+	private boolean isMatching(final String pattern, final String string) {
+		return pattern.endsWith("%") ? string.startsWith(pattern.substring(0,
+				pattern.length() - 1)) : string.equals(pattern);
+	}
 
-   public void setAuthorizerQueryHelper(AuthorizerQueryHelper authorizerQueryHelper) {
-      this.authorizerQueryHelper = authorizerQueryHelper;
-   }
-
-   private boolean isMatching(String pattern, String string) {
-      return pattern.endsWith("%")
-             ? string.startsWith(pattern.substring(0, pattern.length() - 1))
-             : string.equals(pattern);
-   }
-
-
-   private boolean permissionMatches(String permissionName,
-                                     String resourceType,
-                                     int resourceId,
-                                     List permissionsForProject) {
-      boolean hasNegativePermission = false;
-      boolean hasPositivePermission = false;
-      if (permissionsForProject != null) {
-         for (int i = 0; i < permissionsForProject.size(); i++) {
-            Permission permission = (Permission) permissionsForProject.get(i);
-            if (isMatching(permission.getResourceType(), resourceType) &&
-                (permission.getResourceId() == 0 || permission.getResourceId() == resourceId)) {
-               if (isMatching(permission.getName(), permissionName)) {
-                  if (permission.isPositive()) {
-                     hasPositivePermission = true;
-                  } else {
-                     hasNegativePermission = true;
-                  }
-               }
-            }
-         }
-      }
-      return hasPositivePermission && !hasNegativePermission;
-   }
+	private boolean permissionMatches(final String permissionName,
+			final String resourceType, final int resourceId,
+			final List permissionsForProject) {
+		boolean hasNegativePermission = false;
+		boolean hasPositivePermission = false;
+		if (permissionsForProject != null) {
+			for (int i = 0; i < permissionsForProject.size(); i++) {
+				final Permission permission = (Permission) permissionsForProject
+						.get(i);
+				if (this.isMatching(permission.getResourceType(), resourceType)
+						&& (permission.getResourceId() == 0 || permission
+								.getResourceId() == resourceId)) {
+					if (this.isMatching(permission.getName(), permissionName)) {
+						if (permission.isPositive()) {
+							hasPositivePermission = true;
+						} else {
+							hasNegativePermission = true;
+						}
+					}
+				}
+			}
+		}
+		return hasPositivePermission && !hasNegativePermission;
+	}
 }

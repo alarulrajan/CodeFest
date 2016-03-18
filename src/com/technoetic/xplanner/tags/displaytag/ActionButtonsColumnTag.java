@@ -2,6 +2,7 @@ package com.technoetic.xplanner.tags.displaytag;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,92 +11,96 @@ import org.displaytag.util.TagConstants;
 
 import com.technoetic.xplanner.tags.WritableTag;
 
-
 public class ActionButtonsColumnTag extends org.displaytag.tags.ColumnTag {
-   // TODO: why not use our ColumnTag instead for consistency?
-//public class ActionButtonsColumnTag extends com.technoetic.xplanner.tags.displaytag.ColumnTag {
-   private static Log log = LogFactory.getLog(ActionButtonsColumnTag.class);
-   ActionButtonsTag actionButtonsTag;
+	// TODO: why not use our ColumnTag instead for consistency?
+	// public class ActionButtonsColumnTag extends
+	// com.technoetic.xplanner.tags.displaytag.ColumnTag {
+	private static Log log = LogFactory.getLog(ActionButtonsColumnTag.class);
+	ActionButtonsTag actionButtonsTag;
 
-   public void setActionButtonsTag(ActionButtonsTag actionButtonsTag)
-   {
-      this.actionButtonsTag = actionButtonsTag;
-   }
+	public void setActionButtonsTag(final ActionButtonsTag actionButtonsTag) {
+		this.actionButtonsTag = actionButtonsTag;
+	}
 
-    public ActionButtonsColumnTag() {
-        setMedia(MediaTypeEnum.HTML.getName());
-        actionButtonsTag = new ActionButtonsTag();
-        actionButtonsTag.showOnlyActionWithIcon();
-    }
+	public ActionButtonsColumnTag() {
+		this.setMedia(MediaTypeEnum.HTML.getName());
+		this.actionButtonsTag = new ActionButtonsTag();
+		this.actionButtonsTag.showOnlyActionWithIcon();
+	}
 
-   public void setPageContext(PageContext context)
-   {
-      super.setPageContext(context);
-      actionButtonsTag.setPageContext(context);
-   }
+	@Override
+	public void setPageContext(final PageContext context) {
+		super.setPageContext(context);
+		this.actionButtonsTag.setPageContext(context);
+	}
 
-    public void setId(String s)
-    {
-        this.id = s;
-        actionButtonsTag.setId(s);
-    }
+	@Override
+	public void setId(final String s) {
+		this.id = s;
+		this.actionButtonsTag.setId(s);
+	}
 
-   public String getName() {
-        return actionButtonsTag.getName();
-    }
+	public String getName() {
+		return this.actionButtonsTag.getName();
+	}
 
-    public void setName(String name) {
-       actionButtonsTag.setName(name);
-    }
+	public void setName(final String name) {
+		this.actionButtonsTag.setName(name);
+	}
 
-    public String getScope() {
-        return actionButtonsTag.getScope();
-    }
+	public String getScope() {
+		return this.actionButtonsTag.getScope();
+	}
 
-    public void setScope(String scope) {
-       actionButtonsTag.setScope(scope);
-    }
+	public void setScope(final String scope) {
+		this.actionButtonsTag.setScope(scope);
+	}
 
-    public int doStartTag() throws JspException {
-        try {
-            WritableTag parentTable = (WritableTag) this.getParent();
-            if (!parentTable.isWritable()) {
-                return SKIP_BODY;
-            }
-            if (!getAttributeMap().containsKey(TagConstants.ATTRIBUTE_NOWRAP))
-                getAttributeMap().put(TagConstants.ATTRIBUTE_NOWRAP, "true");
+	@Override
+	public int doStartTag() throws JspException {
+		try {
+			final WritableTag parentTable = (WritableTag) this.getParent();
+			if (!parentTable.isWritable()) {
+				return Tag.SKIP_BODY;
+			}
+			if (!this.getAttributeMap().containsKey(
+					TagConstants.ATTRIBUTE_NOWRAP)) {
+				this.getAttributeMap().put(TagConstants.ATTRIBUTE_NOWRAP,
+						"true");
+			}
 
-            int status = super.doStartTag();
-            if (status != SKIP_BODY) {
-               return actionButtonsTag.doStartTag();
-            }
-            return status;
-        } catch (Exception e) {
-            throw new JspException(e);
-        }
-    }
+			final int status = super.doStartTag();
+			if (status != Tag.SKIP_BODY) {
+				return this.actionButtonsTag.doStartTag();
+			}
+			return status;
+		} catch (final Exception e) {
+			throw new JspException(e);
+		}
+	}
 
+	@Override
+	public int doAfterBody() throws JspException {
+		return this.actionButtonsTag.doAfterBody();
+	}
 
-   public int doAfterBody() throws JspException {
-       return actionButtonsTag.doAfterBody();
-    }
+	@Override
+	public int doEndTag() throws JspException {
+		this.actionButtonsTag.doEndTag();
+		try {
+			final WritableTag parentTable = (WritableTag) this.getParent();
+			if (!parentTable.isWritable()) {
+				return Tag.SKIP_BODY;
+			} else {
+				return super.doEndTag();
+			}
+		} catch (final Exception e) {
+			throw new JspException(e);
+		}
+	}
 
-    public int doEndTag() throws JspException {
-        actionButtonsTag.doEndTag();
-        try {
-            WritableTag parentTable = (WritableTag) this.getParent();
-            if (!parentTable.isWritable()) {
-                return SKIP_BODY;
-            } else {
-                return super.doEndTag();
-            }
-        } catch (Exception e) {
-            throw new JspException(e);
-        }
-    }
-
-    public void release() {
-      actionButtonsTag.release();
-    }
+	@Override
+	public void release() {
+		this.actionButtonsTag.release();
+	}
 }
-

@@ -19,149 +19,174 @@ import org.hibernate.HibernateException;
  * @author James Beard
  * @see    com.technoetic.xplanner.db.TaskQueryHelper
  */
-public class TaskRepositoryHibernate extends HibernateObjectRepository implements TaskRepository {
-   public static final String EMAIL_TO_LEADS_QUERY = "net.sf.xplanner.domain.TimeEntryEmailNotificationToProjectSpecificLeads";
-   public static final String EMAIL_TO_ACCEPTORS_QUERY = "net.sf.xplanner.domain.TimeEntryEmailNotificationToAcceptors";
+public class TaskRepositoryHibernate extends HibernateObjectRepository
+		implements TaskRepository {
+	public static final String EMAIL_TO_LEADS_QUERY = "net.sf.xplanner.domain.TimeEntryEmailNotificationToProjectSpecificLeads";
+	public static final String EMAIL_TO_ACCEPTORS_QUERY = "net.sf.xplanner.domain.TimeEntryEmailNotificationToAcceptors";
 
-   /*
-    * A implementation of the Predicate interface to filter
-    * collections of tasks based on whether they are completed
-    * and/or active.
-    * 
-    * @author James Beard
-    */
-   private class TaskStatusFilter implements Predicate {
-      Boolean isCompleted;
-      Boolean isActive;
+	/*
+	 * A implementation of the Predicate interface to filter collections of
+	 * tasks based on whether they are completed and/or active.
+	 * 
+	 * @author James Beard
+	 */
+	private class TaskStatusFilter implements Predicate {
+		Boolean isCompleted;
+		Boolean isActive;
 
-      public TaskStatusFilter(Boolean isCompleted, Boolean isActive) {
-         this.isCompleted = isCompleted;
-         this.isActive = isActive;
-      }
+		public TaskStatusFilter(final Boolean isCompleted,
+				final Boolean isActive) {
+			this.isCompleted = isCompleted;
+			this.isActive = isActive;
+		}
 
-      public boolean evaluate(Object o) {
-         final Task task = (Task) o;
-         return (isCompleted == null || isCompleted.booleanValue() == task.isCompleted()) &&
-                (isActive == null || isActive.booleanValue() == task.getTimeEntries().size() > 0);
-      }
-   }
+		@Override
+		public boolean evaluate(final Object o) {
+			final Task task = (Task) o;
+			return (this.isCompleted == null || this.isCompleted.booleanValue() == task
+					.isCompleted())
+					&& (this.isActive == null || this.isActive.booleanValue() == task
+							.getTimeEntries().size() > 0);
+		}
+	}
 
-   public TaskRepositoryHibernate() throws HibernateException {
-       super(Task.class);
-   }
-   
-   /*
-    * Returns a collection of tasks in current iterations where personId 
-    * is the acceptor, and the task has been started.
-    * 
-    * @param  personId    the id of the acceptor
-    * @return             the collection of tasks
-    */
-   public Collection getCurrentActiveTasksForPerson(int personId) {
-      return getCurrentActiveTasks(getCurrentTasksForPerson(personId));
-   }
-   
-   /*
-    * Filters a collection of tasks for those in current iterations
-    * that have been started.
-    * 
-    * Can be used to further filter a cached Collection of all the tasks for
-    * a particular person.
-    * 
-    * @param tasks the collection of tasks
-    * @return      the filtered collection of tasks
-    */
-   public Collection getCurrentActiveTasks(Collection tasks) {
-       return CollectionUtils.select(tasks,
-               new TaskStatusFilter(Boolean.FALSE, Boolean.TRUE));
-   }
+	public TaskRepositoryHibernate() throws HibernateException {
+		super(Task.class);
+	}
 
-   /*
-    * Returns a collection of tasks in current iterations where personId 
-    * is the acceptor, and the task hasn't been started yet.
-    * 
-    * @param  personId    the id of the acceptor
-    * @return             the collection of tasks
-    */
-   public Collection getCurrentPendingTasksForPerson(int personId) {
-      return getCurrentPendingTasks(getCurrentTasksForPerson(personId));
-   }
+	/*
+	 * Returns a collection of tasks in current iterations where personId is the
+	 * acceptor, and the task has been started.
+	 * 
+	 * @param personId the id of the acceptor
+	 * 
+	 * @return the collection of tasks
+	 */
+	@Override
+	public Collection getCurrentActiveTasksForPerson(final int personId) {
+		return this.getCurrentActiveTasks(this
+				.getCurrentTasksForPerson(personId));
+	}
 
-   /*
-    * Filters a collection of tasks for those in current iterations
-    * that haven't been started yet.
-    * 
-    * Can be used to further filter a cached Collection of all the tasks for
-    * a particular person. 
-    * 
-    * @param tasks the collection of tasks
-    * @return      the filtered collection of tasks
-    */
-   public Collection getCurrentPendingTasks(Collection tasks) {
-       return CollectionUtils.select(tasks,
-               new TaskStatusFilter(Boolean.FALSE, Boolean.FALSE));
-   }
+	/*
+	 * Filters a collection of tasks for those in current iterations that have
+	 * been started.
+	 * 
+	 * Can be used to further filter a cached Collection of all the tasks for a
+	 * particular person.
+	 * 
+	 * @param tasks the collection of tasks
+	 * 
+	 * @return the filtered collection of tasks
+	 */
+	@Override
+	public Collection getCurrentActiveTasks(final Collection tasks) {
+		return CollectionUtils.select(tasks, new TaskStatusFilter(
+				Boolean.FALSE, Boolean.TRUE));
+	}
 
-   /*
-    * Returns a collection of tasks in current iterations where personId 
-    * is the acceptor, and the task has already been completed.
-    * 
-    * @param  personId    the id of the acceptor
-    * @return             the collection of tasks
-    */
-   public Collection getCurrentCompletedTasksForPerson(int personId) {
-      return getCurrentCompletedTasks(getCurrentTasksForPerson(personId));
-   }
+	/*
+	 * Returns a collection of tasks in current iterations where personId is the
+	 * acceptor, and the task hasn't been started yet.
+	 * 
+	 * @param personId the id of the acceptor
+	 * 
+	 * @return the collection of tasks
+	 */
+	@Override
+	public Collection getCurrentPendingTasksForPerson(final int personId) {
+		return this.getCurrentPendingTasks(this
+				.getCurrentTasksForPerson(personId));
+	}
 
-   /*
-    * Filters a collection of tasks for those in current iterations
-    * that have already been completed.
-    * 
-    * Can be used to further filter a cached Collection of all the tasks for
-    * a particular person. 
-    * 
-    * @param tasks the collection of tasks
-    * @return      the filtered collection of tasks
-    */
-   public Collection getCurrentCompletedTasks(Collection tasks) {
-       return CollectionUtils.select(tasks,
-               new TaskStatusFilter(Boolean.TRUE, null));
-   }
+	/*
+	 * Filters a collection of tasks for those in current iterations that
+	 * haven't been started yet.
+	 * 
+	 * Can be used to further filter a cached Collection of all the tasks for a
+	 * particular person.
+	 * 
+	 * @param tasks the collection of tasks
+	 * 
+	 * @return the filtered collection of tasks
+	 */
+	@Override
+	public Collection getCurrentPendingTasks(final Collection tasks) {
+		return CollectionUtils.select(tasks, new TaskStatusFilter(
+				Boolean.FALSE, Boolean.FALSE));
+	}
 
-   /*
-    * Returns a collection of tasks in future iterations where personId 
-    * is the acceptor, and the task has not been completed.
-    * 
-    * @param  personId    the id of the acceptor
-    * @return             the collection of tasks
-    */
-   public Collection getFutureTasksForPerson(int personId) {
-      return queryTasks("tasks.planned.future", personId);
-   }
+	/*
+	 * Returns a collection of tasks in current iterations where personId is the
+	 * acceptor, and the task has already been completed.
+	 * 
+	 * @param personId the id of the acceptor
+	 * 
+	 * @return the collection of tasks
+	 */
+	@Override
+	public Collection getCurrentCompletedTasksForPerson(final int personId) {
+		return this.getCurrentCompletedTasks(this
+				.getCurrentTasksForPerson(personId));
+	}
 
-   public Collection getProjectLeadsEmailNotification(Date date) {
-      return getHibernateTemplate().findByNamedQuery(EMAIL_TO_LEADS_QUERY, date);
-   }
+	/*
+	 * Filters a collection of tasks for those in current iterations that have
+	 * already been completed.
+	 * 
+	 * Can be used to further filter a cached Collection of all the tasks for a
+	 * particular person.
+	 * 
+	 * @param tasks the collection of tasks
+	 * 
+	 * @return the filtered collection of tasks
+	 */
+	@Override
+	public Collection getCurrentCompletedTasks(final Collection tasks) {
+		return CollectionUtils.select(tasks, new TaskStatusFilter(Boolean.TRUE,
+				null));
+	}
 
-   /*
-    * Returns a collection of tasks in current iterations where personId 
-    * is the acceptor.
-    * 
-    * @param  personId    the id of the acceptor
-    * @return             the collection of tasks
-    */
-   public Collection getCurrentTasksForPerson(int personId) {
-      Collection currentTasks = queryTasks("tasks.current.accepted", personId);
-      currentTasks.addAll(queryTasks("tasks.current.worked", personId));
-      
-      return currentTasks;
-   }
+	/*
+	 * Returns a collection of tasks in future iterations where personId is the
+	 * acceptor, and the task has not been completed.
+	 * 
+	 * @param personId the id of the acceptor
+	 * 
+	 * @return the collection of tasks
+	 */
+	@Override
+	public Collection getFutureTasksForPerson(final int personId) {
+		return this.queryTasks("tasks.planned.future", personId);
+	}
 
-   private List queryTasks(String queryName, int personId) {
-      return getHibernateTemplate().findByNamedQueryAndNamedParam(
-            queryName,
-            new String[]{"now", "personId"},
-            new Object[]{new Date(), new Integer(personId)});
-   }
+	@Override
+	public Collection getProjectLeadsEmailNotification(final Date date) {
+		return this.getHibernateTemplate().findByNamedQuery(
+				TaskRepositoryHibernate.EMAIL_TO_LEADS_QUERY, date);
+	}
+
+	/*
+	 * Returns a collection of tasks in current iterations where personId is the
+	 * acceptor.
+	 * 
+	 * @param personId the id of the acceptor
+	 * 
+	 * @return the collection of tasks
+	 */
+	@Override
+	public Collection getCurrentTasksForPerson(final int personId) {
+		final Collection currentTasks = this.queryTasks(
+				"tasks.current.accepted", personId);
+		currentTasks.addAll(this.queryTasks("tasks.current.worked", personId));
+
+		return currentTasks;
+	}
+
+	private List queryTasks(final String queryName, final int personId) {
+		return this.getHibernateTemplate().findByNamedQueryAndNamedParam(
+				queryName, new String[] { "now", "personId" },
+				new Object[] { new Date(), new Integer(personId) });
+	}
 
 }

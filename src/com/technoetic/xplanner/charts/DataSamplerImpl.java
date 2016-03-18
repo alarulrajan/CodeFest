@@ -32,95 +32,101 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 	private Properties properties;
 	private DataSampleDao dataSampleDao;
 
-	public void setProperties(Properties properties) {
+	public void setProperties(final Properties properties) {
 		this.properties = properties;
 	}
 
-	private void generateDataSamples(Iteration iteration, Date date) {
-		saveSamples(date, iteration);
-		extendIterationEndDateIfNeeded(iteration, date);
+	private void generateDataSamples(final Iteration iteration, final Date date) {
+		this.saveSamples(date, iteration);
+		this.extendIterationEndDateIfNeeded(iteration, date);
 	}
 
-	public void generateDataSamples(Iteration iteration) {
-		Date todayMidnight = timeGenerator.getTodaysMidnight();
-		Date tomorrowMidnight = TimeGenerator.shiftDate(todayMidnight,
+	@Override
+	public void generateDataSamples(final Iteration iteration) {
+		final Date todayMidnight = this.timeGenerator.getTodaysMidnight();
+		final Date tomorrowMidnight = TimeGenerator.shiftDate(todayMidnight,
 				Calendar.DATE, 1);
-		generateDataSamples(iteration, tomorrowMidnight);
+		this.generateDataSamples(iteration, tomorrowMidnight);
 	}
 
-	public void generateOpeningDataSamples(Iteration iteration) {
-		Date date = timeGenerator.getTodaysMidnight();
-		generateDataSamples(iteration, date);
+	@Override
+	public void generateOpeningDataSamples(final Iteration iteration) {
+		final Date date = this.timeGenerator.getTodaysMidnight();
+		this.generateDataSamples(iteration, date);
 	}
 
-	public void generateClosingDataSamples(Iteration iteration) {
-		if (iteration.getEndDate().before(timeGenerator.getCurrentTime())) {
-			Date todayMidnight = timeGenerator.getTodaysMidnight();
-			generateDataSamples(iteration, todayMidnight);
+	@Override
+	public void generateClosingDataSamples(final Iteration iteration) {
+		if (iteration.getEndDate().before(this.timeGenerator.getCurrentTime())) {
+			final Date todayMidnight = this.timeGenerator.getTodaysMidnight();
+			this.generateDataSamples(iteration, todayMidnight);
 		} else {
-			generateDataSamples(iteration);
+			this.generateDataSamples(iteration);
 		}
 	}
 
-	public void setTimeGenerator(TimeGenerator timeGenerator) {
+	@Override
+	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
 	public HibernateOperations getHibernateOperations() {
-		if (hibernateOperations != null) {
-			return hibernateOperations;
+		if (this.hibernateOperations != null) {
+			return this.hibernateOperations;
 		}
-		return getHibernateTemplate();
+		return this.getHibernateTemplate();
 	}
 
-	public void setHibernateOperations(HibernateOperations hibernateOperations) {
+	public void setHibernateOperations(
+			final HibernateOperations hibernateOperations) {
 		this.hibernateOperations = hibernateOperations;
 	}
 
-	protected void extendIterationEndDateIfNeeded(Iteration iteration,
-			Date midnight) {
-		boolean automaticallyExtendEndDate = Boolean.valueOf(
-				properties.getProperty(AUTOMATICALLY_EXTEND_END_DATE_PROP,
+	protected void extendIterationEndDateIfNeeded(final Iteration iteration,
+			final Date midnight) {
+		final boolean automaticallyExtendEndDate = Boolean.valueOf(
+				this.properties.getProperty(
+						DataSamplerImpl.AUTOMATICALLY_EXTEND_END_DATE_PROP,
 						"false")).booleanValue();
 		if (automaticallyExtendEndDate
-				&& (IterationStatus.ACTIVE.toInt() == iteration.getStatus())
+				&& IterationStatus.ACTIVE.toInt() == iteration.getStatus()
 				&& iteration.getEndDate().compareTo(midnight) < 0) {
-			LOG.debug("Extend iteration end day to " + midnight);
+			this.LOG.debug("Extend iteration end day to " + midnight);
 			iteration.setEndDate(midnight);
-			getHibernateOperations().save(iteration);
+			this.getHibernateOperations().save(iteration);
 		}
 	}
 
-	protected void saveSamples(Date date, Iteration iteration) {
-		saveSample(date, iteration, "estimatedHours", iteration
-				.getEstimatedHours());
-		saveSample(date, iteration, "actualHours", iteration
-				.getCachedActualHours());
-		saveSample(date, iteration, "remainingHours", iteration
-				.getTaskRemainingHours());
+	protected void saveSamples(final Date date, final Iteration iteration) {
+		this.saveSample(date, iteration, "estimatedHours",
+				iteration.getEstimatedHours());
+		this.saveSample(date, iteration, "actualHours",
+				iteration.getCachedActualHours());
+		this.saveSample(date, iteration, "remainingHours",
+				iteration.getTaskRemainingHours());
 	}
 
-	protected void saveSample(Date date, Iteration iteration, String aspect,
-			double value) {
+	protected void saveSample(final Date date, final Iteration iteration,
+			final String aspect, final double value) {
 		DataSample sample;
 
-		List<DataSample> samples = dataSampleDao.getDataSamples(date, iteration, aspect);
-		
+		final List<DataSample> samples = this.dataSampleDao.getDataSamples(
+				date, iteration, aspect);
+
 		if (!samples.isEmpty()) {
 			sample = samples.get(0);
 			sample.setValue(value);
-			dataSampleDao.save(sample);
-			LOG.debug("update existing datasample");
+			this.dataSampleDao.save(sample);
+			this.LOG.debug("update existing datasample");
 		} else {
 			sample = new DataSample(date, iteration.getId(), aspect, value);
-			dataSampleDao.save(sample);
-			LOG.debug("Generated a new sample:" + sample);
+			this.dataSampleDao.save(sample);
+			this.LOG.debug("Generated a new sample:" + sample);
 		}
 	}
 
-	public void setDataSampleDao(DataSampleDao dataSampleDao) {
+	public void setDataSampleDao(final DataSampleDao dataSampleDao) {
 		this.dataSampleDao = dataSampleDao;
 	}
 
-	
 }

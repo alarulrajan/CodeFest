@@ -8,36 +8,40 @@ import org.apache.struts.taglib.tiles.InsertTag;
 import org.apache.struts.tiles.DirectStringAttribute;
 
 public class ContentTag extends InsertTag implements BodyTag {
-    private BodyContent bodyContent;
+	private BodyContent bodyContent;
 
-    @Override
+	@Override
 	public int doStartTag() throws JspException {
-        if (PrintLinkTag.isInPrintMode(pageContext)) {
-            definitionName = "tiles:print";
-        } else if (definitionName == null || definitionName=="tiles:print") {
-            definitionName = "tiles:default";
-        }
-        super.doStartTag();
-        return EVAL_BODY_BUFFERED;
-    }
+		if (PrintLinkTag.isInPrintMode(this.pageContext)) {
+			this.definitionName = "tiles:print";
+		} else if (this.definitionName == null
+				|| this.definitionName == "tiles:print") {
+			this.definitionName = "tiles:default";
+		}
+		super.doStartTag();
+		return BodyTag.EVAL_BODY_BUFFERED;
+	}
 
-    public void doInitBody() throws JspException {
-        // empty
-    }
+	@Override
+	public void doInitBody() throws JspException {
+		// empty
+	}
 
-    public void setBodyContent(BodyContent bodyContent) {
-        this.bodyContent = bodyContent;
-    }
+	@Override
+	public void setBodyContent(final BodyContent bodyContent) {
+		this.bodyContent = bodyContent;
+	}
 
-    @Override
+	@Override
 	public int doEndTag() throws JspException {
-        putAttribute("body", new DirectStringAttribute(bodyContent.getString()));
-        return super.doEndTag();
-    }
+		this.putAttribute("body",
+				new DirectStringAttribute(this.bodyContent.getString()));
+		return super.doEndTag();
+	}
 
-    @Override
+	@Override
 	public void release() {
-        bodyContent = null;
-        super.release();
-    }
+		this.bodyContent = null;
+		super.release();
+	}
 }

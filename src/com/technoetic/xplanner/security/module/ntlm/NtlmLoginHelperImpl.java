@@ -11,40 +11,43 @@ import jcifs.smb.SmbSession;
 
 import org.apache.log4j.Priority;
 
-import com.technoetic.xplanner.security.util.Base64;
-
 public class NtlmLoginHelperImpl implements NtlmLoginHelper {
-   private final SecureRandom secureRandom = new SecureRandom();
+	private final SecureRandom secureRandom = new SecureRandom();
 
-   public void setLoggingPriority(Priority loggingPriority) {
-   }
+	@Override
+	public void setLoggingPriority(final Priority loggingPriority) {
+	}
 
-   public void authenticate(String userId, String password, String domainController, String domain)
-         throws UnknownHostException, SmbException {
-      UniAddress dc = UniAddress.getByName(domainController, true);
+	@Override
+	public void authenticate(final String userId, final String password,
+			final String domainController, final String domain)
+			throws UnknownHostException, SmbException {
+		final UniAddress dc = UniAddress.getByName(domainController, true);
 
-      NtlmPasswordAuthentication ntlm =
-            new NtlmPasswordAuthentication(domain, userId, password);
+		final NtlmPasswordAuthentication ntlm = new NtlmPasswordAuthentication(
+				domain, userId, password);
 
-      SmbSession.logon(dc, ntlm);
-   }
+		SmbSession.logon(dc, ntlm);
+	}
 
-   public String encodePassword(String password, byte[] salt) throws Exception {
-      if (salt == null) {
-         salt = new byte[12];
-         secureRandom.nextBytes(salt);
-      }
+	@Override
+	public String encodePassword(final String password, byte[] salt)
+			throws Exception {
+		if (salt == null) {
+			salt = new byte[12];
+			this.secureRandom.nextBytes(salt);
+		}
 
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      md.update(salt);
-      md.update(password.getBytes("UTF8"));
-      byte[] digest = md.digest();
-      byte[] storedPassword = new byte[digest.length + 12];
+		final MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(salt);
+		md.update(password.getBytes("UTF8"));
+		final byte[] digest = md.digest();
+		final byte[] storedPassword = new byte[digest.length + 12];
 
-      System.arraycopy(salt, 0, storedPassword, 0, 12);
-      System.arraycopy(digest, 0, storedPassword, 12, digest.length);
+		System.arraycopy(salt, 0, storedPassword, 0, 12);
+		System.arraycopy(digest, 0, storedPassword, 12, digest.length);
 
-      return new String(Base64.encode(storedPassword));
-   }
+		return new String(
+				com.sabre.security.jndi.util.Base64.encode(storedPassword));
+	}
 }
-

@@ -18,84 +18,91 @@ import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.auth.Authorizer;
 
 /**
- * Generic dispatcher to ActionForwards.
- * Original Author: Ted Husted
- * Source: http://husted.com/about/scaffolding/catalog.htm
+ * Generic dispatcher to ActionForwards. Original Author: Ted Husted Source:
+ * http://husted.com/about/scaffolding/catalog.htm
  */
 public final class DispatchForward extends Action {
-    private Logger log = Logger.getLogger(getClass());
-    private boolean isAuthorizationRequired = true;
-    private Authorizer authorizer;
+	private final Logger log = Logger.getLogger(this.getClass());
+	private boolean isAuthorizationRequired = true;
+	private Authorizer authorizer;
 
-    /**
-     * Forward request to "cancel", {forward}, or "error" mapping, where {forward}
-     * is an action path given in the parameter mapping or in the request as
-     * "forward=actionPath".
-     *
-     * @param mapping The ActionMapping used to select this instance
-     * @param form The optional ActionForm bean for this request (if any)
-     * @param request The HTTP request we are processing
-     * @param response The HTTP response we are creating
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet exception occurs
-     */
-    public ActionForward execute(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (isSecure(mapping)) {
-            int projectId = 0;
-            String projectIdParameter = request.getParameter("projectId");
-            if (projectIdParameter != null) {
-                projectId = Integer.parseInt(request.getParameter("projectId"));
-            }
-            if (projectId == 0) {
-                log.error("no project identifier supplied for secure access");
-                return mapping.findForward("security/notAuthorized");
-            }
-            if (!authorizer.hasPermission(
-                    projectId, SecurityHelper.getRemoteUserId(request),
-                    "system.project", projectId, "read")) {
-                return mapping.findForward("security/notAuthorized");
-            }
-        }
+	/**
+	 * Forward request to "cancel", {forward}, or "error" mapping, where
+	 * {forward} is an action path given in the parameter mapping or in the
+	 * request as "forward=actionPath".
+	 * 
+	 * @param mapping
+	 *            The ActionMapping used to select this instance
+	 * @param form
+	 *            The optional ActionForm bean for this request (if any)
+	 * @param request
+	 *            The HTTP request we are processing
+	 * @param response
+	 *            The HTTP response we are creating
+	 * 
+	 * @exception IOException
+	 *                if an input/output error occurs
+	 * @exception ServletException
+	 *                if a servlet exception occurs
+	 */
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		if (this.isSecure(mapping)) {
+			int projectId = 0;
+			final String projectIdParameter = request.getParameter("projectId");
+			if (projectIdParameter != null) {
+				projectId = Integer.parseInt(request.getParameter("projectId"));
+			}
+			if (projectId == 0) {
+				this.log.error("no project identifier supplied for secure access");
+				return mapping.findForward("security/notAuthorized");
+			}
+			if (!this.authorizer.hasPermission(projectId,
+					SecurityHelper.getRemoteUserId(request), "system.project",
+					projectId, "read")) {
+				return mapping.findForward("security/notAuthorized");
+			}
+		}
 
-        // -- Locals
-        ActionForward thisForward = null;
-        String wantForward = null;
+		// -- Locals
+		ActionForward thisForward = null;
+		String wantForward = null;
 
-        // -- Check internal parameter for forward
-        wantForward = mapping.getParameter();
+		// -- Check internal parameter for forward
+		wantForward = mapping.getParameter();
 
-        // -- If found, consult mappings
-        if (wantForward != null)
-            thisForward = mapping.findForward(wantForward);
+		// -- If found, consult mappings
+		if (wantForward != null) {
+			thisForward = mapping.findForward(wantForward);
+		}
 
-        // -- If anything not found, dispatch error
-        if (thisForward == null) {
-            thisForward = mapping.findForward("error");
-            ActionErrors errors = new ActionErrors();
-            errors.add(ActionErrors.GLOBAL_ERROR,
-                    new ActionError("action.missing.parameter"));
-            saveErrors(request, errors);
-        }
+		// -- If anything not found, dispatch error
+		if (thisForward == null) {
+			thisForward = mapping.findForward("error");
+			final ActionErrors errors = new ActionErrors();
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+					"action.missing.parameter"));
+			this.saveErrors(request, errors);
+		}
 
-        return thisForward;
+		return thisForward;
 
-    }
+	}
 
-    public void setAuthorizationRequired(boolean authorizationRequired) {
-        isAuthorizationRequired = authorizationRequired;
-    }
+	public void setAuthorizationRequired(final boolean authorizationRequired) {
+		this.isAuthorizationRequired = authorizationRequired;
+	}
 
-    public void setAuthorizer(Authorizer authorizer) {
-        this.authorizer = authorizer;
-    }
+	public void setAuthorizer(final Authorizer authorizer) {
+		this.authorizer = authorizer;
+	}
 
-    private boolean isSecure(ActionMapping mapping) {
-        return mapping.findForward("@secure") != null
-            ? Boolean.valueOf(mapping.findForward("@secure").getPath()) != Boolean.FALSE
-            : isAuthorizationRequired;
-    }
+	private boolean isSecure(final ActionMapping mapping) {
+		return mapping.findForward("@secure") != null ? Boolean.valueOf(mapping
+				.findForward("@secure").getPath()) != Boolean.FALSE
+				: this.isAuthorizationRequired;
+	}
 
 }
-

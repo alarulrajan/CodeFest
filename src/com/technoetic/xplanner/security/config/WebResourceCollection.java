@@ -9,43 +9,51 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 
 public class WebResourceCollection {
-    private ArrayList urlPatterns = new ArrayList();
-    private String name;
+	private final ArrayList urlPatterns = new ArrayList();
+	private String name;
 
-    public void addUrlPattern(String pattern) {
-        urlPatterns.add(pattern);
-    }
+	public void addUrlPattern(final String pattern) {
+		this.urlPatterns.add(pattern);
+	}
 
-    public Collection getUrlPatterns() {
-        return urlPatterns;
-    }
+	public Collection getUrlPatterns() {
+		return this.urlPatterns;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public boolean matches(HttpServletRequest request) {
-        Iterator urlPatterns = getUrlPatterns().iterator();
-        while (urlPatterns.hasNext()) {
-            String urlPattern = (String)urlPatterns.next();
-            if (isMatchingPathInfo(request, urlPattern)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public boolean matches(final HttpServletRequest request) {
+		final Iterator urlPatterns = this.getUrlPatterns().iterator();
+		while (urlPatterns.hasNext()) {
+			final String urlPattern = (String) urlPatterns.next();
+			if (this.isMatchingPathInfo(request, urlPattern)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    private boolean isMatchingPathInfo(HttpServletRequest request, String urlPattern) {
-        String path = request.getServletPath() +
-                (request.getPathInfo() == null ? "" : request.getPathInfo());
-        return (urlPattern.equals("/") && (path.equals("/"))) ||
-                (urlPattern.length() > 2 && urlPattern.startsWith("*.") && path != null && path.endsWith(urlPattern.substring(2))) ||
-                (urlPattern.endsWith("*") && path != null && path.startsWith(urlPattern.substring(0, urlPattern.length() - 1))) ||
-                (StringUtils.equals(urlPattern, path));
-    }
+	private boolean isMatchingPathInfo(final HttpServletRequest request,
+			final String urlPattern) {
+		final String path = request.getServletPath()
+				+ (request.getPathInfo() == null ? "" : request.getPathInfo());
+		return urlPattern.equals("/")
+				&& path.equals("/")
+				|| urlPattern.length() > 2
+				&& urlPattern.startsWith("*.")
+				&& path != null
+				&& path.endsWith(urlPattern.substring(2))
+				|| urlPattern.endsWith("*")
+				&& path != null
+				&& path.startsWith(urlPattern.substring(0,
+						urlPattern.length() - 1))
+				|| StringUtils.equals(urlPattern, path);
+	}
 
 }

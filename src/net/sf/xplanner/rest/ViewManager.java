@@ -8,19 +8,17 @@ import net.sf.xplanner.domain.view.UserStoryView;
 
 public class ViewManager {
 	private ViewDao viewDao;
-	
-	public ProjectView getProject(Integer id) {
-		return (ProjectView) viewDao.getById(ProjectView.class, id);
-	}
-	
 
-	public void setViewDao(ViewDao viewDao) {
+	public ProjectView getProject(final Integer id) {
+		return (ProjectView) this.viewDao.getById(ProjectView.class, id);
+	}
+
+	public void setViewDao(final ViewDao viewDao) {
 		this.viewDao = viewDao;
 	}
 
-
-	public List<UserStoryView> getUserStories(Integer id) {
-		return viewDao.getUserStories(id);
+	public List<UserStoryView> getUserStories(final Integer id) {
+		return this.viewDao.getUserStories(id);
 	}
 
 }

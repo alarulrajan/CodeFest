@@ -7,46 +7,47 @@ import javax.security.auth.Subject;
 
 public interface JNDIAuthenticator {
 
-   String MESSAGE_COMMUNICATION_ERROR_KEY = "authentication.module.message.communicationError";
-   String MESSAGE_AUTHENTICATION_FAILED_KEY = "authentication.module.message.authenticationFailed";
+	String MESSAGE_COMMUNICATION_ERROR_KEY = "authentication.module.message.communicationError";
+	String MESSAGE_AUTHENTICATION_FAILED_KEY = "authentication.module.message.authenticationFailed";
 
-   Subject authenticate(String username, String credentials) throws AuthenticationException;
+	Subject authenticate(String username, String credentials)
+			throws AuthenticationException;
 
-   void setOptions(Map options);
+	void setOptions(Map options);
 
-   void setDigest(String algorithm) throws NoSuchAlgorithmException;
+	void setDigest(String algorithm) throws NoSuchAlgorithmException;
 
-   void setUserSubtree(String userSubtree);
+	void setUserSubtree(String userSubtree);
 
-   void setRoleSubtree(String roleSubtree);
+	void setRoleSubtree(String roleSubtree);
 
-   void setContextFactory(String contextFactory);
+	void setContextFactory(String contextFactory);
 
-   void setAuthentication(String authentication);
+	void setAuthentication(String authentication);
 
-   void setConnectionUser(String connectionUser);
+	void setConnectionUser(String connectionUser);
 
-   void setConnectionPassword(String connectionPassword);
+	void setConnectionPassword(String connectionPassword);
 
-   void setConnectionURL(String connectionURL);
+	void setConnectionURL(String connectionURL);
 
-   void setProtocol(String protocol);
+	void setProtocol(String protocol);
 
-   void setReferrals(String referrals);
+	void setReferrals(String referrals);
 
-   void setUserBase(String userBase);
+	void setUserBase(String userBase);
 
-   void setUserSearch(String userSearch);
+	void setUserSearch(String userSearch);
 
-   void setUserPassword(String userPassword);
+	void setUserPassword(String userPassword);
 
-   void setUserPattern(String userPattern);
+	void setUserPattern(String userPattern);
 
-   void setRoleBase(String roleBase);
+	void setRoleBase(String roleBase);
 
-   void setUserRoleName(String userRoleName);
+	void setUserRoleName(String userRoleName);
 
-   void setRoleName(String roleName);
+	void setRoleName(String roleName);
 
-   void setRoleSearch(String roleSearch);
+	void setRoleSearch(String roleSearch);
 }

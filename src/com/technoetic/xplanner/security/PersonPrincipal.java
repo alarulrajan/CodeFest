@@ -6,17 +6,18 @@ import java.security.Principal;
 import net.sf.xplanner.domain.Person;
 
 public class PersonPrincipal implements Principal, Serializable {
-    private Person person;
+	private final Person person;
 
-    public PersonPrincipal(Person person) {
-        this.person = person;
-    }
+	public PersonPrincipal(final Person person) {
+		this.person = person;
+	}
 
-    public String getName() {
-        return person.getUserId();
-    }
+	@Override
+	public String getName() {
+		return this.person.getUserId();
+	}
 
-    public Person getPerson() {
-        return person;
-    }
+	public Person getPerson() {
+		return this.person;
+	}
 }

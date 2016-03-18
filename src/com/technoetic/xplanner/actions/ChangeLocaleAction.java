@@ -14,29 +14,28 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Aug 2, 2005
- * Time: 12:29:23 PM
+ * User: Mateusz Prokopowicz Date: Aug 2, 2005 Time: 12:29:23 PM
  */
 public class ChangeLocaleAction extends Action {
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm form,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      String language = request.getParameter("language");
-      String returnto = request.getParameter(EditObjectAction.RETURNTO_PARAM);
-      Locale locale;
-      if (!StringUtils.isEmpty(language)) {
-         locale = new Locale(language);
-      } else {
-         locale = Locale.getDefault();
-      }
-      HttpSession session = request.getSession();
-      session.setAttribute(Globals.LOCALE_KEY, locale);
-      if (StringUtils.isEmpty(returnto)) {
-         return mapping.findForward("view/projects");
-      } else {
-         return new ActionForward(returnto, true);
-      }
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		final String language = request.getParameter("language");
+		final String returnto = request
+				.getParameter(EditObjectAction.RETURNTO_PARAM);
+		Locale locale;
+		if (!StringUtils.isEmpty(language)) {
+			locale = new Locale(language);
+		} else {
+			locale = Locale.getDefault();
+		}
+		final HttpSession session = request.getSession();
+		session.setAttribute(Globals.LOCALE_KEY, locale);
+		if (StringUtils.isEmpty(returnto)) {
+			return mapping.findForward("view/projects");
+		} else {
+			return new ActionForward(returnto, true);
+		}
+	}
 }

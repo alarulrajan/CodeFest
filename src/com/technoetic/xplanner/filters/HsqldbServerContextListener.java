@@ -20,29 +20,38 @@ import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.db.hsqldb.HsqlServer;
 import com.technoetic.xplanner.util.LogUtil;
 
-public class HsqldbServerContextListener  implements ServletContextListener {
-   protected static final Logger LOG = LogUtil.getLogger();
-   protected static final String HSQLDB_DATABASE_TYPE = "hsqldb";
+public class HsqldbServerContextListener implements ServletContextListener {
+	protected static final Logger LOG = LogUtil.getLogger();
+	protected static final String HSQLDB_DATABASE_TYPE = "hsqldb";
 
-   public void contextInitialized(ServletContextEvent event) {
-      String databaseType = new XPlannerProperties().getProperty(XPlannerProperties.PATCH_DATABASE_TYPE_KEY);
-      if (HSQLDB_DATABASE_TYPE.equalsIgnoreCase(databaseType)) {
-         try {
-            HsqlServer.start(getWebappRoot(event.getServletContext()));
-         } catch (Throwable e) {
-            LOG.error("Problem during the start up of the in-process HSQLDB", e);
-         }
-      } else {
-         LOG.debug("HSQL: " + XPlannerProperties.PATCH_DATABASE_TYPE_KEY + " is not defined or is not set to " + HSQLDB_DATABASE_TYPE);
-      }
-   }
+	@Override
+	public void contextInitialized(final ServletContextEvent event) {
+		final String databaseType = new XPlannerProperties()
+				.getProperty(XPlannerProperties.PATCH_DATABASE_TYPE_KEY);
+		if (HsqldbServerContextListener.HSQLDB_DATABASE_TYPE
+				.equalsIgnoreCase(databaseType)) {
+			try {
+				HsqlServer.start(this.getWebappRoot(event.getServletContext()));
+			} catch (final Exception e) {
+				HsqldbServerContextListener.LOG.error(
+						"Problem during the start up of the in-process HSQLDB",
+						e);
+			}
+		} else {
+			HsqldbServerContextListener.LOG.debug("HSQL: "
+					+ XPlannerProperties.PATCH_DATABASE_TYPE_KEY
+					+ " is not defined or is not set to "
+					+ HsqldbServerContextListener.HSQLDB_DATABASE_TYPE);
+		}
+	}
 
-   private String getWebappRoot(ServletContext servletContext) {
-         return servletContext.getRealPath("/");
-   }
+	private String getWebappRoot(final ServletContext servletContext) {
+		return servletContext.getRealPath("/");
+	}
 
-   public void contextDestroyed(ServletContextEvent event) {
-      HsqlServer.shutdown();
-   }
+	@Override
+	public void contextDestroyed(final ServletContextEvent event) {
+		HsqlServer.shutdown();
+	}
 
 }

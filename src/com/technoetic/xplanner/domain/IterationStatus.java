@@ -5,43 +5,44 @@ public enum IterationStatus {
 	ACTIVE(new Short("0")), INACTIVE(new Short("1"));
 	protected final short code;
 
-    public static final String ACTIVE_KEY = "active";
-    public static final String INACTIVE_KEY = "inactive";
+	public static final String ACTIVE_KEY = "active";
+	public static final String INACTIVE_KEY = "inactive";
 
-    public static final String[] KEYS = {ACTIVE_KEY, INACTIVE_KEY};
+	public static final String[] KEYS = { IterationStatus.ACTIVE_KEY,
+			IterationStatus.INACTIVE_KEY };
 
-    private IterationStatus(short code){
-        this.code = code;
-    }
+	private IterationStatus(final short code) {
+		this.code = code;
+	}
 
-    public String getKey (){
-        return KEYS[code];
-    }
+	public String getKey() {
+		return IterationStatus.KEYS[this.code];
+	}
 
-    public short toInt() {
-       return code;
-    }
+	public short toInt() {
+		return this.code;
+	}
 
+	public static IterationStatus fromKey(final String key) {
+		if (key == null) {
+			return INACTIVE;
+		} else if (IterationStatus.ACTIVE_KEY.equals(key)) {
+			return ACTIVE;
+		} else if (IterationStatus.INACTIVE_KEY.equals(key)) {
+			return INACTIVE;
+		} else {
+			throw new RuntimeException("Unknown iteration status key");
+		}
+	}
 
-    public static IterationStatus fromKey(String key) {
-       if (key == null) {
-          return INACTIVE;
-       } else if (ACTIVE_KEY.equals(key)) {
-          return ACTIVE;
-       } else if (INACTIVE_KEY.equals(key)) {
-          return INACTIVE;
-       } else {
-          throw new RuntimeException("Unknown iteration status key");
-       }
-    }
+	@Override
+	public String toString() {
+		return this.getKey();
+	}
 
-	   public String toString() {
-	      return getKey();
-	   }
-
-	public static IterationStatus fromInt(Short statusShort) {
-		for (IterationStatus iterationStatus : values()) {
-			if(iterationStatus.code == statusShort){
+	public static IterationStatus fromInt(final Short statusShort) {
+		for (final IterationStatus iterationStatus : IterationStatus.values()) {
+			if (iterationStatus.code == statusShort) {
 				return iterationStatus;
 			}
 		}

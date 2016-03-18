@@ -17,96 +17,100 @@ import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
 public class RoleEditorForm extends AbstractEditorForm {
-    private ArrayList personIds = new ArrayList();
-    private ArrayList personRoles = new ArrayList();
+	private final ArrayList personIds = new ArrayList();
+	private final ArrayList personRoles = new ArrayList();
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
-        return errors;
-    }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
+		return errors;
+	}
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-    }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+	}
 
-    public void reset() {
+	public void reset() {
 
-    }
+	}
 
-    public int getPersonCount() {
-        return personIds.size();
-    }
+	public int getPersonCount() {
+		return this.personIds.size();
+	}
 
+	public String getPersonId(final int index) {
+		return (String) this.personIds.get(index);
+	}
 
-    public String getPersonId(int index) {
-        return (String)personIds.get(index);
-    }
+	public int getPersonIdAsInt(final int index) {
+		if (this.getPersonId(index) == null) {
+			return -1;
+		} else {
+			return Integer.parseInt(this.getPersonId(index));
+		}
+	}
 
-    public int getPersonIdAsInt(int index) {
-        if (getPersonId(index) == null) {
-            return -1;
-        } else
-            return Integer.parseInt(getPersonId(index));
-    }
+	public void setPersonId(final int index, final String personId) {
+		AbstractEditorForm.ensureSize(this.personIds, index + 1);
+		this.personIds.set(index, personId);
 
-    public void setPersonId(int index, String personId) {
-        ensureSize(personIds, index + 1);
-        personIds.set(index, personId);
+	}
 
-    }
+	/* D�finir le r�le d'une personne */
+	public void setPersonRole(final int index, final String role) {
+		AbstractEditorForm.ensureSize(this.personRoles, index + 1);
+		this.personRoles.set(index, role);
+	}
 
-    /* D�finir le r�le d'une personne*/
-    public void setPersonRole(int index, String role) {
-        ensureSize(personRoles, index + 1);
-        personRoles.set(index, role);
-    }
+	/* Renvoi du r�le d'une personne */
+	public String getPersonRole(final int index) {
+		return (String) this.personRoles.get(index);
+	}
 
-    /* Renvoi du r�le d'une personne*/
-    public String getPersonRole(int index) {
-        return (String)personRoles.get(index);
-    }
+	private boolean hasRole(final Collection roles, final String name) {
+		for (final Iterator iterator = roles.iterator(); iterator.hasNext();) {
+			final Role role = (Role) iterator.next();
+			if (role.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	private String getEffectiveRole(final Collection roles) {
+		if (this.hasRole(roles, "admin")) {
+			return "admin";
+		} else if (this.hasRole(roles, "editor")) {
+			return "editor";
+		} else if (this.hasRole(roles, "viewer")) {
+			return "viewer";
+		} else {
+			return "none";
+		}
+	}
 
-    private boolean hasRole(Collection roles, String name) {
-        for (Iterator iterator = roles.iterator(); iterator.hasNext();) {
-            Role role = (Role)iterator.next();
-            if (role.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public String isRoleSelected(final String role, final int personId)
+			throws AuthenticationException {
+		return this.getEffectiveRole(this.getRoles(personId)).equals(role) ? "selected='selected'"
+				: "";
+	}
 
+	public Collection getRoles(final int personId)
+			throws AuthenticationException {
+		return SystemAuthorizer.get().getRolesForPrincipalOnProject(personId,
+				this.getId(), false);
+	}
 
-    private String getEffectiveRole(Collection roles) {
-        if (hasRole(roles, "admin")) {
-            return "admin";
-        } else if (hasRole(roles, "editor")) {
-            return "editor";
-        } else if (hasRole(roles, "viewer")) {
-            return "viewer";
-        } else {
-            return "none";
-        }
-    }
-
-
-    public String isRoleSelected(String role, int personId) throws AuthenticationException {
-        return getEffectiveRole(getRoles(personId)).equals(role) ? "selected='selected'" : "";
-    }
-
-    public Collection getRoles(int personId) throws AuthenticationException {
-        return SystemAuthorizer.get().getRolesForPrincipalOnProject(personId, getId(),false);
-    }
-
-
-    public boolean isSysAdmin() throws AuthenticationException {
-        return CollectionUtils.find(getRoles(0), new Predicate() {
-            public boolean evaluate(Object o) {
-                return (((Role)o).getName().equals("sysadmin"));
-            }
-        }) != null;
-    }
-
+	public boolean isSysAdmin() throws AuthenticationException {
+		return CollectionUtils.find(this.getRoles(0), new Predicate() {
+			@Override
+			public boolean evaluate(final Object o) {
+				return ((Role) o).getName().equals("sysadmin");
+			}
+		}) != null;
+	}
 
 }

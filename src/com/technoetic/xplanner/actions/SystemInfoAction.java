@@ -19,13 +19,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 public class SystemInfoAction extends Action {
-   public static final String IS_SYSTEM_INFO_KEY = "isSystemInfo";
+	public static final String IS_SYSTEM_INFO_KEY = "isSystemInfo";
 
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm form,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      request.setAttribute(IS_SYSTEM_INFO_KEY, Boolean.TRUE);
-      return mapping.findForward("success");
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		request.setAttribute(SystemInfoAction.IS_SYSTEM_INFO_KEY, Boolean.TRUE);
+		return mapping.findForward("success");
+	}
 }

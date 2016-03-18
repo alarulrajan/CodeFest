@@ -4,28 +4,34 @@ import net.sf.xplanner.domain.Task;
 
 import com.technoetic.xplanner.domain.TaskStatus;
 
-public class TaskOrdering implements Comparable
-{
-    public TaskStatus status;
-    public int orderNo;
-    public String storyName;
-    public String taskName;
+public class TaskOrdering implements Comparable {
+	public TaskStatus status;
+	public int orderNo;
+	public String storyName;
+	public String taskName;
 
-    public TaskOrdering(Task task)
-    {
-        status = task.getStatus();
-        orderNo = task.getUserStory().getOrderNo();
-        storyName = task.getUserStory().getName();
-        taskName = task.getName();
-    }
+	public TaskOrdering(final Task task) {
+		this.status = task.getStatus();
+		this.orderNo = task.getUserStory().getOrderNo();
+		this.storyName = task.getUserStory().getName();
+		this.taskName = task.getName();
+	}
 
-    public int compareTo(Object o)
-    {
-        TaskOrdering order = (TaskOrdering) o;
-        if (!status.equals(order.status)) return status.compareTo(order.status);
-        if (orderNo != order.orderNo) return orderNo - order.orderNo;
-        if (!storyName.equals(order.storyName)) return storyName.compareTo(order.storyName);
-        if (!taskName.equals(order.taskName)) return taskName.compareTo(order.taskName);
-        return 0;
-    }
+	@Override
+	public int compareTo(final Object o) {
+		final TaskOrdering order = (TaskOrdering) o;
+		if (!this.status.equals(order.status)) {
+			return this.status.compareTo(order.status);
+		}
+		if (this.orderNo != order.orderNo) {
+			return this.orderNo - order.orderNo;
+		}
+		if (!this.storyName.equals(order.storyName)) {
+			return this.storyName.compareTo(order.storyName);
+		}
+		if (!this.taskName.equals(order.taskName)) {
+			return this.taskName.compareTo(order.taskName);
+		}
+		return 0;
+	}
 }

@@ -10,102 +10,110 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 public class NoteEditorForm extends AbstractEditorForm {
-    private int authorId;
-    private String subject;
-    private String body;
-    private FormFile formFile;
-    private String attachedToType;
-    private int attachedToId;
-    private int attachmentId;
-    private File file;
+	private int authorId;
+	private String subject;
+	private String body;
+	private FormFile formFile;
+	private String attachedToType;
+	private int attachedToId;
+	private int attachmentId;
+	private File file;
 
-    public String getContainerId() {
-        return Integer.toString(getAttachedToId());
-    }
+	public String getContainerId() {
+		return Integer.toString(this.getAttachedToId());
+	}
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
-        if (isSubmitted()) {
-            require(errors, subject, "note.editor.missing_subject");
-            require(errors, authorId, "note.editor.missing_author");
-            if (formFile == null || StringUtils.isEmpty(formFile.getFileName())) {
-                require(errors, body, "note.editor.missing_body");
-            }
-        }
-        return errors;
-    }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
+		if (this.isSubmitted()) {
+			AbstractEditorForm.require(errors, this.subject,
+					"note.editor.missing_subject");
+			AbstractEditorForm.require(errors, this.authorId,
+					"note.editor.missing_author");
+			if (this.formFile == null
+					|| StringUtils.isEmpty(this.formFile.getFileName())) {
+				AbstractEditorForm.require(errors, this.body,
+						"note.editor.missing_body");
+			}
+		}
+		return errors;
+	}
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        subject = null;
-        body = null;
-        formFile = null;
-        authorId = 0;
-        attachedToId = 0;
-        attachedToType = null;
-    }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.subject = null;
+		this.body = null;
+		this.formFile = null;
+		this.authorId = 0;
+		this.attachedToId = 0;
+		this.attachedToType = null;
+	}
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
+	public void setAuthorId(final int authorId) {
+		this.authorId = authorId;
+	}
 
-    public int getAuthorId() {
-        return authorId;
-    }
+	public int getAuthorId() {
+		return this.authorId;
+	}
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+	public void setSubject(final String subject) {
+		this.subject = subject;
+	}
 
-    public String getSubject() {
-        return subject;
-    }
+	public String getSubject() {
+		return this.subject;
+	}
 
-    public void setBody(String body) {
-        this.body = body;
-    }
+	public void setBody(final String body) {
+		this.body = body;
+	}
 
-    public String getBody() {
-        return body;
-    }
+	public String getBody() {
+		return this.body;
+	}
 
-    public void setFormFile(FormFile formFile) {
-        this.formFile = formFile;
-    }
+	public void setFormFile(final FormFile formFile) {
+		this.formFile = formFile;
+	}
 
-    public FormFile getFormFile() {
-        return formFile;
-    }
+	public FormFile getFormFile() {
+		return this.formFile;
+	}
 
-    public void setAttachedToType(String attachedToType) {
-        this.attachedToType = attachedToType;
-    }
+	public void setAttachedToType(final String attachedToType) {
+		this.attachedToType = attachedToType;
+	}
 
-    public String getAttachedToType() {
-        return attachedToType;
-    }
+	public String getAttachedToType() {
+		return this.attachedToType;
+	}
 
-    public void setAttachedToId(int attachedToId) {
-        this.attachedToId = attachedToId;
-    }
+	public void setAttachedToId(final int attachedToId) {
+		this.attachedToId = attachedToId;
+	}
 
-    public int getAttachedToId() {
-        return attachedToId;
-    }
+	public int getAttachedToId() {
+		return this.attachedToId;
+	}
 
-    public int getAttachmentId() {
-        return attachmentId;
-    }
+	public int getAttachmentId() {
+		return this.attachmentId;
+	}
 
-    public void setAttachmentId(int attachmentId) {
-        this.attachmentId = attachmentId;
-    }
+	public void setAttachmentId(final int attachmentId) {
+		this.attachmentId = attachmentId;
+	}
 
-    public File getAttachedFile() {
-        return file;
-    }
+	public File getAttachedFile() {
+		return this.file;
+	}
 
-    public void setFile(File file) {
-        this.file = file;
-    }
+	public void setFile(final File file) {
+		this.file = file;
+	}
 }

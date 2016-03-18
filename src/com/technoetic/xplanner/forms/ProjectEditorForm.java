@@ -14,174 +14,189 @@ import com.technoetic.xplanner.actions.UpdateTimeNotificationReceivers;
 public class ProjectEditorForm extends AbstractEditorForm {
 	private static final long serialVersionUID = -1575902032643150244L;
 	private String name;
-    private String description;
-    private boolean hidden;
-    private boolean sendemail;
-    private boolean optEscapeBrackets;
-    private String wikiUrl;
-    private String personToDelete;
-    private String personToAddId;
-    private List<PersonInfo> people = new ArrayList<PersonInfo>();
+	private String description;
+	private boolean hidden;
+	private boolean sendemail;
+	private boolean optEscapeBrackets;
+	private String wikiUrl;
+	private String personToDelete;
+	private String personToAddId;
+	private final List<PersonInfo> people = new ArrayList<PersonInfo>();
 
+	public String getWikiUrl() {
+		return this.wikiUrl;
+	}
 
-    public String getWikiUrl() {
-        return this.wikiUrl;
-    }
+	public void setWikiUrl(final String wikiUrl) {
+		this.wikiUrl = wikiUrl;
+	}
 
-    public void setWikiUrl(String wikiUrl) {
-        this.wikiUrl = wikiUrl;
-    }
+	public boolean isSendingMissingTimeEntryReminderToAcceptor() {
+		return this.sendemail;
+	}
 
-    public boolean isSendingMissingTimeEntryReminderToAcceptor() {
-        return sendemail;
-    }
+	public void setSendemail(final boolean sendemail) {
+		this.sendemail = sendemail;
+	}
 
-    public void setSendemail(boolean sendemail) {
-        this.sendemail = sendemail;
-    }
+	public boolean isOptEscapeBrackets() {
+		return this.optEscapeBrackets;
+	}
 
-    public boolean isOptEscapeBrackets() {
-        return optEscapeBrackets;
-    }
+	public void setOptEscapeBrackets(final boolean optEscapeBrackets) {
+		this.optEscapeBrackets = optEscapeBrackets;
+	}
 
-    public void setOptEscapeBrackets(boolean optEscapeBrackets) {
-        this.optEscapeBrackets = optEscapeBrackets;
-    }
+	public String getContainerId() {
+		return null;
+	}
 
-    public String getContainerId() {
-        return null;
-    }
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
+		if (this.isSubmitted()
+				&& !this.getAction()
+						.equals(UpdateTimeNotificationReceivers.ADD)
+				&& !this.getAction().equals(
+						UpdateTimeNotificationReceivers.DELETE)) {
+			AbstractEditorForm.require(errors, this.name,
+					"project.editor.missing_name");
+		}
+		return errors;
+	}
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
-        if (isSubmitted() &&
-            !getAction().equals(UpdateTimeNotificationReceivers.ADD) &&
-            !getAction().equals(UpdateTimeNotificationReceivers.DELETE))
-        {
-            require(errors, name, "project.editor.missing_name");
-        }
-        return errors;
-    }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.name = null;
+		this.description = null;
+		this.wikiUrl = null;
+		this.people.clear();
+		this.personToDelete = null;
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        name = null;
-        description = null;
-        wikiUrl = null;
-        people.clear();
-        personToDelete = null;
+		this.hidden = false;
+		this.sendemail = false;
+		this.optEscapeBrackets = false;
+	}
 
-        hidden = false;
-        sendemail = false;
-        optEscapeBrackets = false;
-    }
+	public void reset() {
 
-    public void reset() {
+	}
 
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public boolean isHidden() {
+		return this.hidden;
+	}
 
-    public boolean isHidden() {
-        return hidden;
-    }
+	public void setHidden(final boolean hidden) {
+		this.hidden = hidden;
+	}
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
+	public String getPersonToDelete() {
+		return this.personToDelete;
+	}
 
-    public String getPersonToDelete() {
-        return personToDelete;
-    }
+	public void setPersonToDelete(final String personToDelete) {
+		this.personToDelete = personToDelete;
+	}
 
-    public void setPersonToDelete(String personToDelete) {
-        this.personToDelete = personToDelete;
-    }
+	public String getPersonToAddId() {
+		return this.personToAddId;
+	}
 
-    public String getPersonToAddId() {
-        return personToAddId;
-    }
+	public void setPersonToAddId(final String personToAddId) {
+		this.personToAddId = personToAddId;
+	}
 
-    public void setPersonToAddId(String personToAddId) {
-        this.personToAddId = personToAddId;
-    }
+	public List<PersonInfo> getPeople() {
+		return this.people;
+	}
 
-    public List<PersonInfo> getPeople() {
-        return people;
-    }
+	public void addPersonInfo(final String id, final String userId,
+			final String initials, final String personName) {
+		final PersonInfo personInfo = this.new PersonInfo();
+		personInfo.setId(id);
+		personInfo.setUserId(userId);
+		personInfo.setName(personName);
+		personInfo.setInitials(initials);
+		this.people.add(personInfo);
+	}
 
-    public void addPersonInfo(String id, String userId, String initials, String personName) {
-        PersonInfo personInfo = this.new PersonInfo();
-        personInfo.setId(id);
-        personInfo.setUserId(userId);
-        personInfo.setName(personName);
-        personInfo.setInitials(initials);
-        people.add(personInfo);
-    }
+	public void removePersonInfo(final int rowNbr) {
+		this.people.remove(rowNbr);
+	}
 
-    public void removePersonInfo(int rowNbr) {
-        people.remove(rowNbr);
-    }
-
-    public class PersonInfo implements Serializable {
+	public class PersonInfo implements Serializable {
 		private static final long serialVersionUID = -5782893977075679811L;
 		private String id;
 		private String userId;
-        private String initials;
-        private String personName;
+		private String initials;
+		private String personName;
 
-        public String getId() {
-            return id;
-        }
+		public String getId() {
+			return this.id;
+		}
 
-        public void setId(String id) {
-            this.id = id;
-        }
+		public void setId(final String id) {
+			this.id = id;
+		}
 
-        public String getUserId() {
-            return userId;
-        }
+		public String getUserId() {
+			return this.userId;
+		}
 
-        public void setUserId(String userId) {
-            this.userId = userId;
-        }
+		public void setUserId(final String userId) {
+			this.userId = userId;
+		}
 
-        public String getInitials() {
-            return initials;
-        }
+		public String getInitials() {
+			return this.initials;
+		}
 
-        public void setInitials(String initials) {
-            this.initials = initials;
-        }
+		public void setInitials(final String initials) {
+			this.initials = initials;
+		}
 
-        public String getName() {
-            return personName;
-        }
+		public String getName() {
+			return this.personName;
+		}
 
-        public void setName(String name) {
-            this.personName = name;
-        }
+		public void setName(final String name) {
+			this.personName = name;
+		}
 
-        public boolean equals(Object obj) {
-            if (!(obj instanceof PersonInfo)) {
-                return false;
-            }
-            return this.id.equals(((PersonInfo) obj).getId());
-        }
-    }
+		@Override
+		public int hashCode() {
+			if (this.id == null) {
+				throw new RuntimeException("Person Info id is missing");
+			}
+			return this.id.hashCode();
+		}
+
+		@Override
+		public boolean equals(final Object obj) {
+			if (!(obj instanceof PersonInfo)) {
+				return false;
+			}
+			return this.id.equals(((PersonInfo) obj).getId());
+		}
+	}
 
 }

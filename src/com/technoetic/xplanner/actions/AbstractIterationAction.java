@@ -13,13 +13,15 @@ package com.technoetic.xplanner.actions;
 import com.technoetic.xplanner.charts.DataSampler;
 import com.technoetic.xplanner.domain.Identifiable;
 
-public abstract class AbstractIterationAction<T extends Identifiable> extends AbstractAction<T> {
-   protected DataSampler dataSampler;
-   public void setDataSampler(DataSampler dataSampler) {
+public abstract class AbstractIterationAction<T extends Identifiable> extends
+		AbstractAction<T> {
+	protected DataSampler dataSampler;
+
+	public void setDataSampler(final DataSampler dataSampler) {
 		this.dataSampler = dataSampler;
 	}
 
 	public DataSampler getDataSampler() {
-		return dataSampler;
+		return this.dataSampler;
 	}
 }

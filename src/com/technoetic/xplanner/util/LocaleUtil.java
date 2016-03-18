@@ -17,16 +17,16 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.Globals;
 
 public class LocaleUtil {
-   public static Locale getLocale(HttpSession session) {
-      Locale locale = null;
-      try {
-          locale = (Locale)session.getAttribute(Globals.LOCALE_KEY);
-      } catch (IllegalStateException e) {	// Invalidated session
-          locale = null;
-      }
-      if (locale == null) {
-          locale = Locale.getDefault();
-      }
-      return locale;
-   }
+	public static Locale getLocale(final HttpSession session) {
+		Locale locale = null;
+		try {
+			locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
+		} catch (final IllegalStateException e) { // Invalidated session
+			locale = null;
+		}
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		return locale;
+	}
 }

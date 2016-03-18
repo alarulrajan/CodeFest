@@ -1,7 +1,7 @@
 package com.technoetic.xplanner.domain.repository;
 
 public interface MetaRepository {
-    ObjectRepository  getRepository(Class objectClass);
+	ObjectRepository getRepository(Class objectClass);
 
-    void setRepository(Class objectClass, ObjectRepository repository);
+	void setRepository(Class objectClass, ObjectRepository repository);
 }

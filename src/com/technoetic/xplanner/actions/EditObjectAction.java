@@ -34,101 +34,119 @@ public class EditObjectAction<T extends Identifiable> extends AbstractAction<T> 
 
 	public static final String RETURNTO_PARAM = "returnto";
 	public static final String MERGE_PARAM = "merge";
-	
+
 	@Override
-	protected ActionForward doExecute(ActionMapping actionMapping, ActionForm actionForm,
-			HttpServletRequest request, HttpServletResponse reply) throws Exception {
-		AbstractEditorForm form = (AbstractEditorForm) actionForm;
+	protected ActionForward doExecute(final ActionMapping actionMapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse reply) throws Exception {
+		final AbstractEditorForm form = (AbstractEditorForm) actionForm;
 		if (form.isSubmitted()) {
-			saveForm(form, actionMapping, request);
-			setCookies(form, actionMapping, request, reply);
-			String returnto = request.getParameter(RETURNTO_PARAM);
-			return returnto != null ? new ActionForward(returnto, true) : actionMapping
-					.findForward("view/projects");
+			this.saveForm(form, actionMapping, request);
+			this.setCookies(form, actionMapping, request, reply);
+			final String returnto = request
+					.getParameter(EditObjectAction.RETURNTO_PARAM);
+			return returnto != null ? new ActionForward(returnto, true)
+					: actionMapping.findForward("view/projects");
 		} else {
-			populateForm(form, actionMapping, request);
+			this.populateForm(form, actionMapping, request);
 			return new ActionForward(actionMapping.getInput());
 		}
 	}
 
-	protected void setCookies(AbstractEditorForm form, ActionMapping mapping,
-			HttpServletRequest request, HttpServletResponse response) {
+	protected void setCookies(final AbstractEditorForm form,
+			final ActionMapping mapping, final HttpServletRequest request,
+			final HttpServletResponse response) {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void saveForm(AbstractEditorForm form, ActionMapping actionMapping,
-			HttpServletRequest request) throws Exception {
-		String oid = form.getOid();
-		Class<? extends T> objectClass = getObjectType(actionMapping, request);
+	protected void saveForm(final AbstractEditorForm form,
+			final ActionMapping actionMapping, final HttpServletRequest request)
+			throws Exception {
+		final String oid = form.getOid();
+		final Class<? extends T> objectClass = this.getObjectType(
+				actionMapping, request);
 		T object;
-		String action = form.getAction();
-		if (action.equals(UPDATE_ACTION)) {
-			object = updateObject(oid, request, form);
-		} else if (action.equals(CREATE_ACTION)) {
-			object = createObject(objectClass, request, form);
+		final String action = form.getAction();
+		if (action.equals(EditObjectAction.UPDATE_ACTION)) {
+			object = this.updateObject(oid, request, form);
+		} else if (action.equals(EditObjectAction.CREATE_ACTION)) {
+			object = this.createObject(objectClass, request, form);
 		} else {
 			throw new ServletException("Unknown editor action: " + action);
 		}
-		setTargetObject(request, object);
+		this.setTargetObject(request, object);
 		form.setAction(null);
 	}
 
-	protected T updateObject(String oid, HttpServletRequest request, AbstractEditorForm form)
+	protected T updateObject(final String oid,
+			final HttpServletRequest request, final AbstractEditorForm form)
 			throws Exception {
-		T object = getCommonDao().getById(domainClass, Integer.parseInt(oid));
-		getEventBus().publishUpdateEvent(form, (Nameable) object, getLoggedInUser(request));
-		populateObject(request, object, form);
-		getCommonDao().save(object);
+		final T object = this.getCommonDao().getById(this.domainClass,
+				Integer.parseInt(oid));
+		this.getEventBus().publishUpdateEvent(form, (Nameable) object,
+				this.getLoggedInUser(request));
+		this.populateObject(request, object, form);
+		this.getCommonDao().save(object);
 		return object;
 	}
 
-	protected final T createObject(Class<? extends T> objectClass, HttpServletRequest request,
-			AbstractEditorForm form) throws Exception {
-		T object = objectClass.newInstance();
+	protected final T createObject(final Class<? extends T> objectClass,
+			final HttpServletRequest request, final AbstractEditorForm form)
+			throws Exception {
+		final T object = objectClass.newInstance();
 
-		populateObject(request, object, form);
-		int savedObjectId = getCommonDao().save(object);
+		this.populateObject(request, object, form);
+		final int savedObjectId = this.getCommonDao().save(object);
 		form.setId(savedObjectId);
-		getEventBus().publishCreateEvent(object, getLoggedInUser(request));
+		this.getEventBus().publishCreateEvent(object,
+				this.getLoggedInUser(request));
 		return object;
 	}
 
-	protected void populateForm(AbstractEditorForm form, ActionMapping actionMapping,
-			HttpServletRequest request) throws Exception {
-		String oid = form.getOid();
+	protected void populateForm(final AbstractEditorForm form,
+			final ActionMapping actionMapping, final HttpServletRequest request)
+			throws Exception {
+		final String oid = form.getOid();
 		if (oid != null) {
-			DomainObject object = (DomainObject) getCommonDao().getById(domainClass,	Integer.parseInt(oid));
-			populateForm(form, object);
+			final DomainObject object = (DomainObject) this.getCommonDao()
+					.getById(this.domainClass, Integer.parseInt(oid));
+			this.populateForm(form, object);
 		}
 	}
 
-	protected void populateForm(AbstractEditorForm form, DomainObject object) throws Exception {
-		copyProperties(form, object);
-		populateManyToOneIds(form, object);
+	protected void populateForm(final AbstractEditorForm form,
+			final DomainObject object) throws Exception {
+		this.copyProperties(form, object);
+		this.populateManyToOneIds(form, object);
 	}
 
-	protected final void copyProperties(Object destination, Object source) throws Exception {
-		BeanInfo info = Introspector.getBeanInfo(source.getClass());
-		PropertyDescriptor[] properties = info.getPropertyDescriptors();
+	protected final void copyProperties(final Object destination,
+			final Object source) throws Exception {
+		final BeanInfo info = Introspector.getBeanInfo(source.getClass());
+		final PropertyDescriptor[] properties = info.getPropertyDescriptors();
 		for (int i = 0; i < properties.length; i++) {
-			PropertyDescriptor sourceProperty = properties[i];
-			PropertyDescriptor destinationProperty = findProperty(destination,
-					sourceProperty.getName());
-			if (destinationProperty != null && destinationProperty.getWriteMethod() != null
+			final PropertyDescriptor sourceProperty = properties[i];
+			final PropertyDescriptor destinationProperty = this.findProperty(
+					destination, sourceProperty.getName());
+			if (destinationProperty != null
+					&& destinationProperty.getWriteMethod() != null
 					&& sourceProperty.getReadMethod() != null) {
-				Object value = sourceProperty.getReadMethod().invoke(source, new Object[0]);
-				log.debug("  " + destinationProperty.getName() + "=" + value);
-				destinationProperty.getWriteMethod().invoke(destination, new Object[] { value });
+				final Object value = sourceProperty.getReadMethod().invoke(
+						source, new Object[0]);
+				EditObjectAction.log.debug("  " + destinationProperty.getName()
+						+ "=" + value);
+				destinationProperty.getWriteMethod().invoke(destination,
+						new Object[] { value });
 			}
 		}
 	}
 
-	private PropertyDescriptor findProperty(Object object, String name)
-			throws IntrospectionException {
-		BeanInfo info = Introspector.getBeanInfo(object.getClass());
-		PropertyDescriptor[] properties = info.getPropertyDescriptors();
+	private PropertyDescriptor findProperty(final Object object,
+			final String name) throws IntrospectionException {
+		final BeanInfo info = Introspector.getBeanInfo(object.getClass());
+		final PropertyDescriptor[] properties = info.getPropertyDescriptors();
 		for (int i = 0; i < properties.length; i++) {
-			PropertyDescriptor property = properties[i];
+			final PropertyDescriptor property = properties[i];
 			if (property.getName().equals(name)) {
 				return property;
 			}
@@ -136,36 +154,40 @@ public class EditObjectAction<T extends Identifiable> extends AbstractAction<T> 
 		return null;
 	}
 
-	protected void populateManyToOneIds(ActionForm form, DomainObject object)
-			throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-		Collection mappings = RelationshipMappingRegistry.getInstance().getRelationshipMappings(
-				object);
-		for (Iterator iterator = mappings.iterator(); iterator.hasNext();) {
-			RelationshipConvertor convertor = (RelationshipConvertor) iterator.next();
+	protected void populateManyToOneIds(final ActionForm form,
+			final DomainObject object) throws IllegalAccessException,
+			NoSuchMethodException, InvocationTargetException {
+		final Collection mappings = RelationshipMappingRegistry.getInstance()
+				.getRelationshipMappings(object);
+		for (final Iterator iterator = mappings.iterator(); iterator.hasNext();) {
+			final RelationshipConvertor convertor = (RelationshipConvertor) iterator
+					.next();
 			convertor.populateAdapter(form, object);
 		}
 	}
 
-	protected void populateObject(HttpServletRequest request, Object object, ActionForm form)
-			throws Exception {
-		log.debug("Populating object " + object.getClass().getName() + " "
+	protected void populateObject(final HttpServletRequest request,
+			final Object object, final ActionForm form) throws Exception {
+		EditObjectAction.log.debug("Populating object "
+				+ object.getClass().getName() + " "
 				+ ((DomainObject) object).getId());
-		if ("true".equals(request.getParameter(MERGE_PARAM))) {
+		if ("true".equals(request.getParameter(EditObjectAction.MERGE_PARAM))) {
 			RequestUtils.populate(object, request);
 			// TODO: should we populate many-to-one rels in this mode?
 		} else {
-			copyProperties(object, form);
-			populateManyToOneRelationships((DomainObject) object, form);
+			this.copyProperties(object, form);
+			this.populateManyToOneRelationships((DomainObject) object, form);
 		}
 	}
 
-	protected void populateManyToOneRelationships(DomainObject object, ActionForm form)
-			throws Exception {
-		Collection mappings = RelationshipMappingRegistry.getInstance().getRelationshipMappings(
-				object);
-		for (Iterator iterator = mappings.iterator(); iterator.hasNext();) {
-			RelationshipConvertor convertor = (RelationshipConvertor) iterator.next();
-			convertor.populateDomainObject(object, form, getCommonDao());
+	protected void populateManyToOneRelationships(final DomainObject object,
+			final ActionForm form) throws Exception {
+		final Collection mappings = RelationshipMappingRegistry.getInstance()
+				.getRelationshipMappings(object);
+		for (final Iterator iterator = mappings.iterator(); iterator.hasNext();) {
+			final RelationshipConvertor convertor = (RelationshipConvertor) iterator
+					.next();
+			convertor.populateDomainObject(object, form, this.getCommonDao());
 		}
 	}
 

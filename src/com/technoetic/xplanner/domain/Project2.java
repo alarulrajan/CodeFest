@@ -9,81 +9,83 @@ import net.sf.xplanner.domain.Iteration;
 
 import com.technoetic.xplanner.domain.repository.IterationRepository;
 
-public class Project2 extends DomainObject implements Nameable, NoteAttachable, Describable {
-    private String name;
-    private Collection iterations = new HashSet();
-    private Collection notificationReceivers = new TreeSet();
-    private String description;
-    private boolean hidden;
-    //private boolean sendemail;
-    //private boolean optEscapeBrackets;
+public class Project2 extends DomainObject implements Nameable, NoteAttachable,
+		Describable {
+	private String name;
+	private Collection iterations = new HashSet();
+	private Collection notificationReceivers = new TreeSet();
+	private String description;
+	private boolean hidden;
 
-//    public boolean isSendingMissingTimeEntryReminderToAcceptor() {
-//        return sendemail;
-//    }
-//
-//    public void setSendemail(boolean newSendemail) {
-//        sendemail = newSendemail;
-//    }
+	// private boolean sendemail;
+	// private boolean optEscapeBrackets;
 
-//    public boolean isOptEscapeBrackets() {
-//        return optEscapeBrackets;
-//    }
-//
-//    public void setOptEscapeBrackets(boolean optEscapeBrackets) {
-//        this.optEscapeBrackets = optEscapeBrackets;
-//    }
+	// public boolean isSendingMissingTimeEntryReminderToAcceptor() {
+	// return sendemail;
+	// }
+	//
+	// public void setSendemail(boolean newSendemail) {
+	// sendemail = newSendemail;
+	// }
 
-    public String getName() {
-        return name;
-    }
+	// public boolean isOptEscapeBrackets() {
+	// return optEscapeBrackets;
+	// }
+	//
+	// public void setOptEscapeBrackets(boolean optEscapeBrackets) {
+	// this.optEscapeBrackets = optEscapeBrackets;
+	// }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@Override
+	public String getName() {
+		return this.name;
+	}
 
-    public Collection getIterations() {
-        return iterations;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setIterations(Collection iterations) {
-        this.iterations = iterations;
-    }
+	public Collection getIterations() {
+		return this.iterations;
+	}
 
-    public Iteration getCurrentIteration() {
-        return IterationRepository.getCurrentIteration(getId());
-    }
+	public void setIterations(final Collection iterations) {
+		this.iterations = iterations;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public Iteration getCurrentIteration() {
+		return IterationRepository.getCurrentIteration(this.getId());
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	@Override
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public boolean isHidden() {
-        return hidden;
-    }
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
 
-    public void setHidden(boolean flag) {
-        hidden = flag;
-    }
+	public boolean isHidden() {
+		return this.hidden;
+	}
 
-    public Collection getNotificationReceivers() {
-        return notificationReceivers;
-    }
+	public void setHidden(final boolean flag) {
+		this.hidden = flag;
+	}
 
-    public void setNotificationReceivers(Collection notificationReceivers) {
-        this.notificationReceivers = notificationReceivers;
-    }
+	public Collection getNotificationReceivers() {
+		return this.notificationReceivers;
+	}
 
+	public void setNotificationReceivers(final Collection notificationReceivers) {
+		this.notificationReceivers = notificationReceivers;
+	}
 
-   @Override
-public String toString() {
-      return "Project{" +
-             "id='" + getId() + ", " +
-             "name='" + name + "'" +
-             "}";
-   }
+	@Override
+	public String toString() {
+		return "Project{" + "id='" + this.getId() + ", " + "name='" + this.name
+				+ "'" + "}";
+	}
 }

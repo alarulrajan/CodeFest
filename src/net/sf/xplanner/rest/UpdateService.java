@@ -16,17 +16,20 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class UpdateService {
 	private UpdateManager updateManager;
-	
+
 	@Autowired
-	public void setUpdateManager(UpdateManager updateManager) {
+	public void setUpdateManager(final UpdateManager updateManager) {
 		this.updateManager = updateManager;
 	}
 
 	@POST
-    @Path("/task/{taskId}/status")
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces({"application/xml", "application/json"})
-    public Result post(@PathParam("taskId") int id, @FormParam("status") String status, @FormParam("originalEstimate") double originalEstimate) {
-		return updateManager.updateTaskStatus(id, status, originalEstimate);
-    }
+	@Path("/task/{taskId}/status")
+	@Consumes("application/x-www-form-urlencoded")
+	@Produces({ "application/xml", "application/json" })
+	public Result post(@PathParam("taskId") final int id,
+			@FormParam("status") final String status,
+			@FormParam("originalEstimate") final double originalEstimate) {
+		return this.updateManager
+				.updateTaskStatus(id, status, originalEstimate);
+	}
 }

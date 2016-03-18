@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-  <query name="iterationHoursWorkedQuery">
+	<query name="iterationHoursWorkedQuery">
     <![CDATA[
     select timeEntry.person1Id, timeEntry.person2Id,
     timeEntry.startTime, timeEntry.endTime, timeEntry.duration, task.acceptorId from
@@ -16,83 +16,70 @@
     where timeEntry.task.id = task.id and task.userStory.id = story.id and
     story.iteration.id = iteration.id and iteration.id = :iterationId
   ]]>
-  </query>
-<!-- 
-  <query name="acceptedTaskInStoryQuery">
-    <![CDATA[
-    select person.name, person.id, sum(task.estimatedHours) from
-    task in class net.sf.xplanner.domain.Task
-    person in class net.sf.xplanner.domain.Person
-    story in class net.sf.xplanner.domain.UserStory
-    where story.id = :storyId and task.userStory.id = story.id and task.acceptorId = person.id
-    group by person.id, person.name
- ]]>
-  </query>
-
-  <query name="storyHoursWorkedQuery">
-    <![CDATA[
-    select timeEntry.person1Id, timeEntry.person2Id
-    timeEntry.startTime, timeEntry.endTime, task.acceptorId, timeEntry.duration from
-    story in class net.sf.xplanner.domain.UserStory
-    task in class net.sf.xplanner.domain.Task
-    timeEntry in class net.sf.xplanner.domain.TimeEntry
-    where timeEntry.task.id = task.id and task.userStory.id = story.id and story.id = :storyId
-  ]]>
-  </query>
- -->
-  <query name="namesQuery">
+	</query>
+	<!-- <query name="acceptedTaskInStoryQuery"> <![CDATA[ select person.name, 
+		person.id, sum(task.estimatedHours) from task in class net.sf.xplanner.domain.Task 
+		person in class net.sf.xplanner.domain.Person story in class net.sf.xplanner.domain.UserStory 
+		where story.id = :storyId and task.userStory.id = story.id and task.acceptorId 
+		= person.id group by person.id, person.name ]]> </query> <query name="storyHoursWorkedQuery"> 
+		<![CDATA[ select timeEntry.person1Id, timeEntry.person2Id timeEntry.startTime, 
+		timeEntry.endTime, task.acceptorId, timeEntry.duration from story in class 
+		net.sf.xplanner.domain.UserStory task in class net.sf.xplanner.domain.Task 
+		timeEntry in class net.sf.xplanner.domain.TimeEntry where timeEntry.task.id 
+		= task.id and task.userStory.id = story.id and story.id = :storyId ]]> </query> -->
+	<query name="namesQuery">
     <![CDATA[
     select person.name, person.id from person in
     class net.sf.xplanner.domain.Person
     where person.hidden = false
   ]]>
-  </query>
-  
-  <!-- DataSample -->
-  <query name="com.technoetic.xplanner.domain.IterationToSample">
+	</query>
+
+	<!-- DataSample -->
+	<query name="com.technoetic.xplanner.domain.IterationToSample">
 	  <![CDATA[
 	    select iteration from iteration in class net.sf.xplanner.domain.Iteration
 	    where :samplingDate >= iteration.startDate and :prevSamplingDate <= iteration.endDate and iteration.status = 0
 	  ]]>
-  </query>
-  
-    <query name="net.sf.xplanner.domain.IterationSearchQuery">
+	</query>
+
+	<query name="net.sf.xplanner.domain.IterationSearchQuery">
     <![CDATA[
       select iteration from
       iteration in class net.sf.xplanner.domain.Iteration
       where iteration.name like :contents or
       iteration.description like :contents
   ]]>
-  </query>
-   <query name="com.technoetic.xplanner.domain.IterationRestrictedSearchQuery">
+	</query>
+	<query name="com.technoetic.xplanner.domain.IterationRestrictedSearchQuery">
     <![CDATA[
       select iteration from
       iteration in class net.sf.xplanner.domain.Iteration
       where iteration.project.id = :projectId and (iteration.name like :contents or
       iteration.description like :contents)
   ]]>
-  </query>
-  <query name="com.technoetic.xplanner.domain.GetCurrentIterationQuery">
+	</query>
+	<query name="com.technoetic.xplanner.domain.GetCurrentIterationQuery">
      <![CDATA[
       select iteration from iteration in class net.sf.xplanner.domain.Iteration
       where iteration.project.id = ? and ? between iteration.startDate and iteration.endDate
      ]]>
-  </query>
-  <query name="com.technoetic.xplanner.domain.GetEditableIterationQuery">
+	</query>
+	<query name="com.technoetic.xplanner.domain.GetEditableIterationQuery">
      <![CDATA[
       select i from net.sf.xplanner.domain.Iteration i, net.sf.xplanner.domain.Project p
       where p.hidden = false and i.project = p order by p.name, i.startDate
      ]]>
-  </query>
-  <query name="net.sf.xplanner.domain.NoteSearchQuery">
+	</query>
+	<query name="net.sf.xplanner.domain.NoteSearchQuery">
     <![CDATA[
       select note from
       note in class net.sf.xplanner.domain.Note
       where note.subject like :contents or
       note.body like :contents
   ]]>
-  </query>
-   <query name="com.technoetic.xplanner.domain.NoteRestrictedSearchQuery">
+	</query>
+	<query name="com.technoetic.xplanner.domain.NoteRestrictedSearchQuery">
     <![CDATA[
       select distinct note from
          net.sf.xplanner.domain.Note note,
@@ -104,17 +91,17 @@
          note.attachedToId = story.id or note.attachedToId = task.id) and (note.subject like :contents or
       note.body like :contents)
   ]]>
-  </query>
-  <query name="net.sf.xplanner.domain.NoteAttachedNotesQuery">
+	</query>
+	<query name="net.sf.xplanner.domain.NoteAttachedNotesQuery">
     <![CDATA[
       select note from
       note in class net.sf.xplanner.domain.Note
       where attachedTo_id=:attachedToId
   ]]>
-  </query>
-  
-  <!-- Note: These queries do not use an "IN" clause because it breaks HSQL -->
-  <query name="security.roles">
+	</query>
+
+	<!-- Note: These queries do not use an "IN" clause because it breaks HSQL -->
+	<query name="security.roles">
     <![CDATA[
         select r2 from
            net.sf.xplanner.domain.Role r1,
@@ -125,15 +112,17 @@
            pr.id.personId = :personId and pr.id.roleId = r1.id and
            (pr.id.projectId = :projectId or (:includeWildcardProject = 1 and pr.id.projectId = 0))
   ]]>
-  </query>
+	</query>
 
-  <!--  The following query:-->
-  <!--  r1 has the role id of the person whose permission we look for-->
-  <!--  r2 will be any roles with less permission than r1 when the permission is a positive permission-->
-  <!--  person_role (pr) should have a row matching the person-->
-  <!--  person_role (pr) will return the project id-->
-  <!--  permission (p) either has the permission for this person, any role weaker than his role has -->
-  <query name="security.role.permissions">
+	<!-- The following query: -->
+	<!-- r1 has the role id of the person whose permission we look for -->
+	<!-- r2 will be any roles with less permission than r1 when the permission 
+		is a positive permission -->
+	<!-- person_role (pr) should have a row matching the person -->
+	<!-- person_role (pr) will return the project id -->
+	<!-- permission (p) either has the permission for this person, any role 
+		weaker than his role has -->
+	<query name="security.role.permissions">
     <![CDATA[
         select distinct pr.id.personId, pr.id.projectId, p, r2.left from
             net.sf.xplanner.domain.Role r1,
@@ -147,9 +136,9 @@
         order by
            pr.id.personId, pr.id.projectId desc, r2.left desc
   ]]>
-  </query>
+	</query>
 
-  <query name="security.personal.permissions">
+	<query name="security.personal.permissions">
     <![CDATA[
         select distinct pr.id.personId, pr.id.projectId, p from
             net.sf.xplanner.domain.PersonRole pr,
@@ -159,41 +148,41 @@
         order by
            pr.id.personId, pr.id.projectId desc
   ]]>
-  </query>
+	</query>
 
-  <query name="security.person.permissions">
+	<query name="security.person.permissions">
     <![CDATA[
         select p.principal, p from
             net.sf.xplanner.domain.Permission p
         where
            p.resourceType='system.person'
   ]]>
-  </query>
-  
-   <query name="com.technoetic.xplanner.domain.CheckPersonUniquenessQuery">
+	</query>
+
+	<query name="com.technoetic.xplanner.domain.CheckPersonUniquenessQuery">
     <![CDATA[
       select person from Person person where id<>? and userId=?
     ]]>
-   </query>
-     <query name="net.sf.xplanner.domain.ProjectSearchQuery">
+	</query>
+	<query name="net.sf.xplanner.domain.ProjectSearchQuery">
     <![CDATA[
       select project from
       project in class net.sf.xplanner.domain.Project
       where project.name like :contents or
       project.description like :contents
   ]]>
-  </query>
+	</query>
 
-   <query name="com.technoetic.xplanner.domain.ProjectRestrictedSearchQuery">
+	<query name="com.technoetic.xplanner.domain.ProjectRestrictedSearchQuery">
     <![CDATA[
       select project from
       project in class net.sf.xplanner.domain.Project
       where project.id = :projectId and (project.name like :contents or
       project.description like :contents)
   ]]>
-  </query>
-  
-    <query name="tasks.current.accepted">
+	</query>
+
+	<query name="tasks.current.accepted">
     <![CDATA[
         select distinct task  from
             task in class net.sf.xplanner.domain.Task,
@@ -205,9 +194,9 @@
             (iteration.startDate <= :now and iteration.endDate >= :now)
             and person.id = :personId
   ]]>
-  </query>
+	</query>
 
-  <query name="tasks.current.worked">
+	<query name="tasks.current.worked">
     <![CDATA[
         select distinct task  from
             task in class net.sf.xplanner.domain.Task,
@@ -222,9 +211,9 @@
             (iteration.startDate <= :now and iteration.endDate >= :now) and
             person.id = :personId
   ]]>
-  </query>
+	</query>
 
-  <query name="tasks.planned.future">
+	<query name="tasks.planned.future">
     <![CDATA[
         select distinct task
         from task in class net.sf.xplanner.domain.Task,
@@ -234,18 +223,18 @@
         iteration.startDate > :now and
         task.acceptorId =  :personId and task.completed = false
   ]]>
-  </query>
+	</query>
 
-  <query name="net.sf.xplanner.domain.TaskSearchQuery">
+	<query name="net.sf.xplanner.domain.TaskSearchQuery">
     <![CDATA[
       select task from
       task in class net.sf.xplanner.domain.Task
       where task.name like :contents or
       task.description like :contents
   ]]>
-  </query>
+	</query>
 
-   <query name="com.technoetic.xplanner.domain.TaskRestrictedSearchQuery">
+	<query name="com.technoetic.xplanner.domain.TaskRestrictedSearchQuery">
     <![CDATA[
       select task from
          net.sf.xplanner.domain.Iteration as iteration
@@ -254,9 +243,10 @@
       where iteration.project.id = :projectId and (task.name like :contents or
       task.description like :contents)
   ]]>
-  </query>
+	</query>
 
-  <query name="com.technoetic.xplanner.domain.TimeEntryEmailNotificationToProjectSpecificLeads">
+	<query
+		name="com.technoetic.xplanner.domain.TimeEntryEmailNotificationToProjectSpecificLeads">
       <![CDATA[
       select task, story, receiver, acceptor
       from Project as project
@@ -274,9 +264,10 @@
       having max(timeEntry.reportDate) < ?
       order by receiver.id, acceptor.name, project.name, iteration.name, story.name, task.name
   ]]>
-   </query>
+	</query>
 
-   <query name="com.technoetic.xplanner.domain.TimeEntryEmailNotificationToAcceptors">
+	<query
+		name="com.technoetic.xplanner.domain.TimeEntryEmailNotificationToAcceptors">
       <![CDATA[
       select task, story, project
       from Project as project
@@ -293,17 +284,17 @@
       having max(timeEntry.reportDate) < ? 
       order by task.acceptorId, project.name, iteration.name, story.name, task.name
   ]]>
-   </query>
-   
-  <query name="net.sf.xplanner.domain.UserStorySearchQuery">
+	</query>
+
+	<query name="net.sf.xplanner.domain.UserStorySearchQuery">
     <![CDATA[
       select story from
       story in class net.sf.xplanner.domain.UserStory
       where story.name like :contents or
       story.description like :contents
   ]]>
-  </query>
-   <query name="com.technoetic.xplanner.domain.UserStoryRestrictedSearchQuery">
+	</query>
+	<query name="com.technoetic.xplanner.domain.UserStoryRestrictedSearchQuery">
     <![CDATA[
       select story from
       net.sf.xplanner.domain.Iteration as iteration
@@ -311,8 +302,9 @@
       where iteration.project.id = :projectId and (story.name like :contents or
       story.description like :contents)
   ]]>
-  </query>
-  <query name="com.technoetic.xplanner.domain.StoriesOfCurrentAndFutureIterationOfAllVisibleProjects">
+	</query>
+	<query
+		name="com.technoetic.xplanner.domain.StoriesOfCurrentAndFutureIterationOfAllVisibleProjects">
       <![CDATA[
      select u from
          net.sf.xplanner.domain.UserStory u,
@@ -323,5 +315,5 @@
            (:currentDate between i.startDate and i.endDate or i.startDate >= :currentDate)
          order by p.name, i.startDate, u.name
   ]]>
-  </query>
+	</query>
 </hibernate-mapping>

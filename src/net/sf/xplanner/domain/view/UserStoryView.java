@@ -25,64 +25,83 @@ public class UserStoryView extends NamedObject {
 	private List<TaskView> tasks = new ArrayList<TaskView>();
 
 	public double getEstimatedHours() {
-		return estimatedHours;
+		return this.estimatedHours;
 	}
-	public void setEstimatedHours(double estimatedHours) {
+
+	public void setEstimatedHours(final double estimatedHours) {
 		this.estimatedHours = estimatedHours;
 	}
+
 	public int getPriority() {
-		return priority;
+		return this.priority;
 	}
-	public void setPriority(int priority) {
+
+	public void setPriority(final int priority) {
 		this.priority = priority;
 	}
+
 	public char getStatus() {
-		return status;
+		return this.status;
 	}
-	public void setStatus(char status) {
+
+	public void setStatus(final char status) {
 		this.status = status;
 	}
+
 	public Double getOriginalEstimatedHours() {
-		return originalEstimatedHours;
+		return this.originalEstimatedHours;
 	}
-	public void setOriginalEstimatedHours(Double originalEstimatedHours) {
+
+	public void setOriginalEstimatedHours(final Double originalEstimatedHours) {
 		this.originalEstimatedHours = originalEstimatedHours;
 	}
+
 	public char getDispositionCode() {
-		return dispositionCode;
+		return this.dispositionCode;
 	}
-	public void setDispositionCode(char dispositionCode) {
+
+	public void setDispositionCode(final char dispositionCode) {
 		this.dispositionCode = dispositionCode;
 	}
+
 	public double getPostponedHours() {
-		return postponedHours;
+		return this.postponedHours;
 	}
-	public void setPostponedHours(double postponedHours) {
+
+	public void setPostponedHours(final double postponedHours) {
 		this.postponedHours = postponedHours;
 	}
+
 	public int getOrderNo() {
-		return orderNo;
+		return this.orderNo;
 	}
-	public void setOrderNo(int orderNo) {
+
+	public void setOrderNo(final int orderNo) {
 		this.orderNo = orderNo;
 	}
+
 	public double getActualHours() {
-		return actualHours;
+		return this.actualHours;
 	}
-	public void setActualHours(double actualHours) {
+
+	public void setActualHours(final double actualHours) {
 		this.actualHours = actualHours;
 	}
-	@XmlElement(name="task")
+
+	@XmlElement(name = "task")
 	public List<TaskView> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
-	public void setTasks(List<TaskView> tasks) {
+
+	public void setTasks(final List<TaskView> tasks) {
 		this.tasks = tasks;
 	}
+
 	public int getTrackerId() {
-		return trackerId;
+		return this.trackerId;
 	}
-	public void setTrackerId(int trackerId) {
+
+	public void setTrackerId(final int trackerId) {
 		this.trackerId = trackerId;
 	}
 }

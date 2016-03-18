@@ -18,7 +18,7 @@ public class DataSampleId implements Serializable {
 		return this.sampleTime;
 	}
 
-	public void setSampleTime(Date sampleTime) {
+	public void setSampleTime(final Date sampleTime) {
 		this.sampleTime = sampleTime;
 	}
 
@@ -27,7 +27,7 @@ public class DataSampleId implements Serializable {
 		return this.referenceId;
 	}
 
-	public void setReferenceId(int referenceId) {
+	public void setReferenceId(final int referenceId) {
 		this.referenceId = referenceId;
 	}
 
@@ -36,10 +36,8 @@ public class DataSampleId implements Serializable {
 		return this.aspect;
 	}
 
-	public void setAspect(String aspect) {
+	public void setAspect(final String aspect) {
 		this.aspect = aspect;
 	}
-	
-	
 
 }

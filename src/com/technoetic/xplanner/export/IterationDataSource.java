@@ -21,101 +21,118 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
-public class IterationDataSource implements JRDataSource
-{
-   private Iterator iterator = null;
-   private Task task = null;
-   private UserStory story = null;
-   private String acceptor = null;
-   private Session session = null;
+public class IterationDataSource implements JRDataSource {
+	private Iterator iterator = null;
+	private Task task = null;
+	private UserStory story = null;
+	private String acceptor = null;
+	private Session session = null;
 
-   public IterationDataSource(Iteration iteration, Session session) throws HibernateException
-   {
+	public IterationDataSource(final Iteration iteration, final Session session)
+			throws HibernateException {
 
-      List data = session.find(  "select story, task"
-                                 + " from " + UserStory.class.getName() + " story"
-                                 + " left join story.tasks as task"
-                                 + " where story.iteration.id = ? order by story.priority, story.name, task.name",
-                                 new Integer(iteration.getId()), Hibernate.INTEGER);
-      this.session = session;
-      if (data != null) { iterator = data.iterator(); }
-   }
+		final List data = session
+				.find("select story, task"
+						+ " from "
+						+ UserStory.class.getName()
+						+ " story"
+						+ " left join story.tasks as task"
+						+ " where story.iteration.id = ? order by story.priority, story.name, task.name",
+						new Integer(iteration.getId()), Hibernate.INTEGER);
+		this.session = session;
+		if (data != null) {
+			this.iterator = data.iterator();
+		}
+	}
 
-   public boolean next() throws JRException
-   {
-      if (iterator == null || !iterator.hasNext()) { return false; }
+	@Override
+	public boolean next() throws JRException {
+		if (this.iterator == null || !this.iterator.hasNext()) {
+			return false;
+		}
 
-      Object[] result = (Object[])iterator.next();
+		final Object[] result = (Object[]) this.iterator.next();
 
-      story = (UserStory)result[0];
-      task = (Task)result[1];
-      if (task != null)
-          acceptor = PdfReportExporter.getPersonName(session, new Integer(task.getAcceptorId()));
-      return true;
-   }
+		this.story = (UserStory) result[0];
+		this.task = (Task) result[1];
+		if (this.task != null) {
+			this.acceptor = PdfReportExporter.getPersonName(this.session,
+					new Integer(this.task.getAcceptorId()));
+		}
+		return true;
+	}
 
-   public Object getFieldValue(JRField field) throws JRException
-   {
-       return getFieldValue(field.getName());
-   }
+	@Override
+	public Object getFieldValue(final JRField field) throws JRException {
+		return this.getFieldValue(field.getName());
+	}
 
-    public Object getFieldValue(String fieldName) throws JRException {
-        if ("StoryName".equals(fieldName)) {
-           return story.getName();
-        }
+	public Object getFieldValue(final String fieldName) throws JRException {
+		if ("StoryName".equals(fieldName)) {
+			return this.story.getName();
+		}
 
-        if ("StoryCustomerName".equals(fieldName)) {
-           Person cust = story.getCustomer();
-           return (cust != null) ? cust.getName() : "<no customer>";
-        }
+		if ("StoryCustomerName".equals(fieldName)) {
+			final Person cust = this.story.getCustomer();
+			return cust != null ? cust.getName() : "<no customer>";
+		}
 
-        if ("StoryEstimatedHours".equals(fieldName)) {
-           return new Double(story.getEstimatedHours());
-        }
+		if ("StoryEstimatedHours".equals(fieldName)) {
+			return new Double(this.story.getEstimatedHours());
+		}
 
-            if ("TaskName".equals(fieldName)) {
-                if (task == null)
-                    return "No Tasks Defined";
-               return task.getName();
-            }
+		if ("TaskName".equals(fieldName)) {
+			if (this.task == null) {
+				return "No Tasks Defined";
+			}
+			return this.task.getName();
+		}
 
-            if ("TaskPercentage".equals(fieldName)) {
-                if (task == null)
-                    return new Integer(0);
-               double actual = task.getActualHours();
-               return new Integer((int)((actual * 100) / (actual + task.getRemainingHours())));
-            }
+		if ("TaskPercentage".equals(fieldName)) {
+			if (this.task == null) {
+				return new Integer(0);
+			}
+			final double actual = this.task.getActualHours();
+			return new Integer(
+					(int) (actual * 100 / (actual + this.task
+							.getRemainingHours())));
+		}
 
-            if ("TaskDisposition".equals(fieldName)) {
-                if (task == null)
-                    return "";
-               return task.getDispositionName();
-            }
+		if ("TaskDisposition".equals(fieldName)) {
+			if (this.task == null) {
+				return "";
+			}
+			return this.task.getDispositionName();
+		}
 
-            if ("TaskType".equals(fieldName)) {
-                if (task == null)
-                    return "";
-               return task.getType();
-            }
+		if ("TaskType".equals(fieldName)) {
+			if (this.task == null) {
+				return "";
+			}
+			return this.task.getType();
+		}
 
-            if ("TaskEstimate".equals(fieldName)) {
-                if (task == null)
-                    return new Double(0.0);
-               return new Double(task.getEstimatedHours());
-            }
+		if ("TaskEstimate".equals(fieldName)) {
+			if (this.task == null) {
+				return new Double(0.0);
+			}
+			return new Double(this.task.getEstimatedHours());
+		}
 
-            if ("TaskCompleted".equals(fieldName)) {
-                if (task == null)
-                    return new Boolean(false);
-               return new Boolean(task.isCompleted());
-            }
+		if ("TaskCompleted".equals(fieldName)) {
+			if (this.task == null) {
+				return new Boolean(false);
+			}
+			return new Boolean(this.task.isCompleted());
+		}
 
-        if ("TaskAcceptor".equals(fieldName)) {
-            if (task == null)
-                return null;
-           return acceptor;
-        }
+		if ("TaskAcceptor".equals(fieldName)) {
+			if (this.task == null) {
+				return null;
+			}
+			return this.acceptor;
+		}
 
-        throw new JRException("Unexpected field name '" + fieldName + "'");
-    }
+		throw new JRException("Unexpected field name '" + fieldName + "'");
+	}
 }

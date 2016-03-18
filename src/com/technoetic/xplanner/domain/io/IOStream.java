@@ -33,113 +33,124 @@ import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
 
 public class IOStream {
 
-  public class Document {
-    public DomainObject domainObject;
-    public Person[] persons;
-  }
+	public class Document {
+		public DomainObject domainObject;
+		public Person[] persons;
+	}
 
+	public String toXML(final Object object) {
+		final XStream stream = this.newXStream();
+		return stream.toXML(object);
+	}
 
-  public String toXML(Object object) {
-    XStream stream = newXStream();
-    return stream.toXML(object);
-  }
+	public Object fromXML(final String xml) {
+		final XStream stream = this.newXStream();
+		return stream.fromXML(xml);
+	}
 
-  public Object fromXML(String xml) {
-    XStream stream = newXStream();
-    return stream.fromXML(xml);
-  }
+	private XStream newXStream() {
+		final XStream stream = new XStream();
+		stream.setMode(XStream.ID_REFERENCES);
+		final Map metadataByTypeName = DomainMetaDataRepository.getInstance()
+				.getMetadataByTypeName();
+		final Iterator iterator = metadataByTypeName.entrySet().iterator();
+		while (iterator.hasNext()) {
+			final Entry e = (Entry) iterator.next();
+			final DomainClass domainClass = (DomainClass) e.getValue();
+			stream.alias((String) e.getKey(), domainClass.getJavaClass());
+		}
+		stream.registerConverter(new IterationStatusConverter());
+		stream.registerConverter(new CharacterEnumConverter(StoryStatus.class));
+		stream.registerConverter(new CharacterEnumConverter(
+				TaskDisposition.class));
+		stream.registerConverter(new CharacterEnumConverter(
+				StoryDisposition.class));
+		stream.alias("status", IterationStatus.class,
+				IterationStatusPersistent.class);
+		stream.addImmutableType(IterationStatusPersistent.class);
+		stream.addImmutableType(StoryStatus.class);
+		stream.addImmutableType(TaskDisposition.class);
+		stream.addImmutableType(StoryDisposition.class);
+		stream.addImmutableType(Date.class);
+		return stream;
+	}
 
-  private XStream newXStream() {
-    XStream stream = new XStream();
-    stream.setMode(XStream.ID_REFERENCES);
-    Map metadataByTypeName = DomainMetaDataRepository.getInstance().getMetadataByTypeName();
-    Iterator iterator = metadataByTypeName.entrySet().iterator();
-    while (iterator.hasNext()) {
-      Entry e = (Entry) iterator.next();
-      DomainClass domainClass = (DomainClass) e.getValue();
-      stream.alias((String) e.getKey(), domainClass.getJavaClass());
-    }
-    stream.registerConverter(new IterationStatusConverter());
-    stream.registerConverter(new CharacterEnumConverter(StoryStatus.class));
-    stream.registerConverter(new CharacterEnumConverter(TaskDisposition.class));
-    stream.registerConverter(new CharacterEnumConverter(StoryDisposition.class));
-    stream.alias("status", IterationStatus.class, IterationStatusPersistent.class);
-    stream.addImmutableType(IterationStatusPersistent.class);
-    stream.addImmutableType(StoryStatus.class);
-    stream.addImmutableType(TaskDisposition.class);
-    stream.addImmutableType(StoryDisposition.class);
-    stream.addImmutableType(Date.class);
-    return stream;
-  }
+	class IterationStatusConverter extends AbstractBasicConverter {
 
-  class IterationStatusConverter extends AbstractBasicConverter {
+		@Override
+		protected Object fromString(final String str) {
+			return IterationStatus.fromKey(str);
+		}
 
-    protected Object fromString(String str) {
-      return IterationStatus.fromKey(str);
-    }
+		@Override
+		protected String toString(final Object obj) {
+			return ((IterationStatus) obj).getKey();
+		}
 
-    protected String toString(Object obj) {
-      return ((IterationStatus) obj).getKey();
-    }
+		@Override
+		public boolean canConvert(final Class type) {
+			return IterationStatus.class.isAssignableFrom(type);
+		}
 
-    public boolean canConvert(Class type) {
-      return IterationStatus.class.isAssignableFrom(type);
-    }
+	}
 
-  }
+	class CharacterEnumConverter extends AbstractBasicConverter {
+		Class enumClass;
+		Method fromName;
 
-  class CharacterEnumConverter extends AbstractBasicConverter {
-    Class enumClass;
-    Method fromName;
+		protected CharacterEnumConverter(final Class enumClass) {
+			this.enumClass = enumClass;
+			try {
+				this.fromName = enumClass.getMethod("fromName",
+						new Class[] { String.class });
+			} catch (final NoSuchMethodException e) {
+				throw new IllegalArgumentException(enumClass.getName()
+						+ " does not have a method fromName()");
+			}
+		}
 
-    protected CharacterEnumConverter(Class enumClass) {
-      this.enumClass = enumClass;
-      try {
-        fromName = enumClass.getMethod("fromName", new Class[]{String.class});
-      } catch (NoSuchMethodException e) {
-        throw new IllegalArgumentException(enumClass.getName() + " does not have a method fromName()");
-      }
-    }
+		@Override
+		protected String toString(final Object obj) {
+			return ((CharacterEnum) obj).getName();
+		}
 
-    protected String toString(Object obj) {
-      return ((CharacterEnum) obj).getName();
-    }
+		@Override
+		protected Object fromString(final String str) {
+			try {
+				return this.fromName.invoke(null, new Object[] { str });
+			} catch (final IllegalAccessException e) {
+				throw new RuntimeException(e);
+			} catch (final InvocationTargetException e) {
+				throw new RuntimeException(e.getCause());
+			}
+		}
 
-    protected Object fromString(String str) {
-      try {
-        return fromName.invoke(null, new Object[]{str});
-      } catch (IllegalAccessException e) {
-        throw new RuntimeException(e);
-      } catch (InvocationTargetException e) {
-        throw new RuntimeException(e.getCause());
-      }
-    }
+		@Override
+		public boolean canConvert(final Class type) {
+			return this.enumClass.isAssignableFrom(type);
+		}
 
-    public boolean canConvert(Class type) {
-      return enumClass.isAssignableFrom(type);
-    }
+	}
 
-  }
+	class ReferencedPersonList extends ArrayList {
+		public ReferencedPersonList(final DomainObject object) {
+			this.init(object);
+		}
 
-  class ReferencedPersonList extends ArrayList {
-    public ReferencedPersonList(DomainObject object) {
-      init(object);
-    }
+		private void init(final DomainObject object) {
+			try {
+				final List fields = ClassUtil.getAllFields(object);
+				for (int i = 0; i < fields.size(); i++) {
+					final Field field = (Field) fields.get(i);
+					if (Person.class.isAssignableFrom(field.getType())) {
+						this.add(field.get(object));
+					}
 
-    private void init(DomainObject object) {
-      try {
-        List fields = ClassUtil.getAllFields(object);
-        for (int i = 0; i < fields.size(); i++) {
-          Field field = (Field) fields.get(i);
-          if (Person.class.isAssignableFrom(field.getType())) {
-            add(field.get(object));
-          }
-
-        }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
+				}
+			} catch (final Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 
 }

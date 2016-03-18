@@ -1,6 +1,5 @@
 package net.sf.xplanner.domain;
 
-
 import java.util.Date;
 
 import javax.persistence.AttributeOverride;
@@ -14,41 +13,42 @@ import javax.persistence.Transient;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "datasample")
 public class DataSample implements java.io.Serializable, Identifiable {
-	public static final String SAMPLE_TIME="id.sampleTime";
-    public static final String REFERENCE_ID="id.referenceId";
-    public static final String ASPECT="id.aspect";
+	public static final String SAMPLE_TIME = "id.sampleTime";
+	public static final String REFERENCE_ID = "id.referenceId";
+	public static final String ASPECT = "id.aspect";
 	private static final long serialVersionUID = 7180535099586780565L;
 	private double value;
 	private DataSampleId dataSampleId = new DataSampleId();
-	
+
 	public DataSample() {
 	}
 
-	public DataSample(Date midnight, int id, String aspect, double value) {
-		setSampleTime(midnight);
-		setReferenceId(id);
-		setAspect(aspect);
+	public DataSample(final Date midnight, final int id, final String aspect,
+			final double value) {
+		this.setSampleTime(midnight);
+		this.setReferenceId(id);
+		this.setAspect(aspect);
 		this.value = value;
 	}
 
@@ -57,50 +57,51 @@ public class DataSample implements java.io.Serializable, Identifiable {
 		return this.value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(final double value) {
 		this.value = value;
 	}
 
 	@EmbeddedId
-	@AttributeOverrides( {
+	@AttributeOverrides({
 			@AttributeOverride(name = "sampleTime", column = @Column(name = "sampleTime", nullable = false)),
 			@AttributeOverride(name = "referenceId", column = @Column(name = "referenceId", nullable = false)),
 			@AttributeOverride(name = "aspect", column = @Column(name = "aspect", nullable = false)) })
 	public DataSampleId getDataSampleId() {
-		return dataSampleId;
+		return this.dataSampleId;
 	}
 
-	public void setDataSampleId(DataSampleId dataSampleId) {
+	public void setDataSampleId(final DataSampleId dataSampleId) {
 		this.dataSampleId = dataSampleId;
 	}
 
 	@Transient
 	public Date getSampleTime() {
-		return dataSampleId.getSampleTime();
+		return this.dataSampleId.getSampleTime();
 	}
 
-	public void setSampleTime(Date sampleTime) {
+	public void setSampleTime(final Date sampleTime) {
 		this.dataSampleId.setSampleTime(sampleTime);
 	}
 
 	@Transient
 	public int getReferenceId() {
-		return dataSampleId.getReferenceId();
+		return this.dataSampleId.getReferenceId();
 	}
 
-	public void setReferenceId(int referenceId) {
-		dataSampleId.setReferenceId(referenceId);
+	public void setReferenceId(final int referenceId) {
+		this.dataSampleId.setReferenceId(referenceId);
 	}
 
 	@Transient
 	public String getAspect() {
-		return dataSampleId.getAspect();
+		return this.dataSampleId.getAspect();
 	}
 
-	public void setAspect(String aspect) {
-		dataSampleId.setAspect(aspect);
+	public void setAspect(final String aspect) {
+		this.dataSampleId.setAspect(aspect);
 	}
 
+	@Override
 	@Transient
 	public int getId() {
 		return 0;

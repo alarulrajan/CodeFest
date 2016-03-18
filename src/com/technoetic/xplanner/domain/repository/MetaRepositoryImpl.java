@@ -4,17 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MetaRepositoryImpl implements MetaRepository {
-    private Map repositories = new HashMap();
+	private Map repositories = new HashMap();
 
-   public void setRepositories(Map repositories) {
-      this.repositories = repositories;
-   }
+	public void setRepositories(final Map repositories) {
+		this.repositories = repositories;
+	}
 
-   public ObjectRepository getRepository(Class objectClass) {
-        return (ObjectRepository)repositories.get(objectClass);
-    }
+	@Override
+	public ObjectRepository getRepository(final Class objectClass) {
+		return (ObjectRepository) this.repositories.get(objectClass);
+	}
 
-    public void setRepository(Class objectClass, ObjectRepository repository) {
-        repositories.put(objectClass, repository);
-    }
+	@Override
+	public void setRepository(final Class objectClass,
+			final ObjectRepository repository) {
+		this.repositories.put(objectClass, repository);
+	}
 }

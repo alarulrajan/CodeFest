@@ -19,9 +19,10 @@ public class IdSearchAction extends AbstractAction {
 
 	private DomainMetaDataRepository metaDataRepository;
 
-	protected ActionForward doExecute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	@Override
+	protected ActionForward doExecute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
 		AbstractEditorForm.initConverters(request); // DEBT(SPRING) Extract the
 													// convert methods out of
 													// the AbstractEditorForm
@@ -30,31 +31,40 @@ public class IdSearchAction extends AbstractAction {
 													// spring loaded using the
 													// message bundle from
 													// spring
-		String searchedIdString = request.getParameter("searchedId");
-		if (StringUtils.isEmpty(searchedIdString))
-			return getGeneralErrorForward(mapping, request, "idsearch.error.missingId");
+		final String searchedIdString = request.getParameter("searchedId");
+		if (StringUtils.isEmpty(searchedIdString)) {
+			return this.getGeneralErrorForward(mapping, request,
+					"idsearch.error.missingId");
+		}
 
-		Number integer = AbstractEditorForm.convertToInt(searchedIdString);
-		if (integer == null)
-			return getGeneralErrorForward(mapping, request,	"idsearch.error.badId", searchedIdString);
+		final Number integer = AbstractEditorForm
+				.convertToInt(searchedIdString);
+		if (integer == null) {
+			return this.getGeneralErrorForward(mapping, request,
+					"idsearch.error.badId", searchedIdString);
+		}
 
-		int oid = integer.intValue();
-		DomainObject object = idSearchHelper.search(oid);
-		if (object == null)
-			return getGeneralErrorForward(mapping, request,	"idsearch.error.idNotFound", new Integer(oid));
+		final int oid = integer.intValue();
+		final DomainObject object = this.idSearchHelper.search(oid);
+		if (object == null) {
+			return this.getGeneralErrorForward(mapping, request,
+					"idsearch.error.idNotFound", new Integer(oid));
+		}
 
 		// DEBT(SPRING): DomainMetaDataRep should be made an instance and spring
 		// injected
-		String objectType = metaDataRepository.classToTypeName(object.getClass());
-		return new ActionForward("/do/view/" + objectType + "?oid="	+ object.getId(), true);
+		final String objectType = this.metaDataRepository
+				.classToTypeName(object.getClass());
+		return new ActionForward("/do/view/" + objectType + "?oid="
+				+ object.getId(), true);
 	}
 
 	public void setMetaDataRepository(
-			DomainMetaDataRepository metaDataRepository) {
+			final DomainMetaDataRepository metaDataRepository) {
 		this.metaDataRepository = metaDataRepository;
 	}
 
-	public void setIdSearchHelper(IdSearchHelper idSearchHelper) {
+	public void setIdSearchHelper(final IdSearchHelper idSearchHelper) {
 		this.idSearchHelper = idSearchHelper;
 	}
 }

@@ -15,27 +15,28 @@ import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.domain.Nameable;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "time_entry")
-public class TimeEntry extends DomainObject implements java.io.Serializable, Nameable {
+public class TimeEntry extends DomainObject implements java.io.Serializable,
+		Nameable {
 	private static final long serialVersionUID = -3275141598175122473L;
 	private Date startTime;
 	private Date endTime;
@@ -55,7 +56,7 @@ public class TimeEntry extends DomainObject implements java.io.Serializable, Nam
 		return this.startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(final Date startTime) {
 		this.startTime = startTime;
 	}
 
@@ -65,19 +66,19 @@ public class TimeEntry extends DomainObject implements java.io.Serializable, Nam
 		return this.endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(final Date endTime) {
 		this.endTime = endTime;
 	}
 
 	@Column(name = "duration", precision = 22, scale = 0)
 	public double getDuration() {
-		if (startTime != null && endTime != null) {
-            duration = (endTime.getTime() - startTime.getTime()) / 3600000.0;
-        }
-        return duration;
+		if (this.startTime != null && this.endTime != null) {
+			this.duration = (this.endTime.getTime() - this.startTime.getTime()) / 3600000.0;
+		}
+		return this.duration;
 	}
 
-	public void setDuration(double duration) {
+	public void setDuration(final double duration) {
 		this.duration = duration;
 	}
 
@@ -86,7 +87,7 @@ public class TimeEntry extends DomainObject implements java.io.Serializable, Nam
 		return this.person1Id;
 	}
 
-	public void setPerson1Id(int person1Id) {
+	public void setPerson1Id(final int person1Id) {
 		this.person1Id = person1Id;
 	}
 
@@ -95,17 +96,17 @@ public class TimeEntry extends DomainObject implements java.io.Serializable, Nam
 		return this.person2Id;
 	}
 
-	public void setPerson2Id(int person2Id) {
+	public void setPerson2Id(final int person2Id) {
 		this.person2Id = person2Id;
 	}
 
 	@ManyToOne
-	@JoinColumn(name="task_id")
+	@JoinColumn(name = "task_id")
 	public Task getTask() {
 		return this.task;
 	}
 
-	public void setTask(Task task) {
+	public void setTask(final Task task) {
 		this.task = task;
 	}
 
@@ -115,39 +116,46 @@ public class TimeEntry extends DomainObject implements java.io.Serializable, Nam
 		return this.reportDate;
 	}
 
-	public void setReportDate(Date reportDate) {
+	public void setReportDate(final Date reportDate) {
 		this.reportDate = reportDate;
 	}
-	
-    /**
-     * The classic way for XPlanner to calculate "effort" is in idea wall clock time or
-     * pair-programming hours. Some teams would like to do labor tracking using XPlanner
-     * and want to double the effort measured for a paired time entry.
-     *
-     * This behavior is configurable in xplanner.properties.
-     * @return measured effort
-     */
+
+	/**
+	 * The classic way for XPlanner to calculate "effort" is in idea wall clock
+	 * time or pair-programming hours. Some teams would like to do labor
+	 * tracking using XPlanner and want to double the effort measured for a
+	 * paired time entry.
+	 * 
+	 * This behavior is configurable in xplanner.properties.
+	 * 
+	 * @return measured effort
+	 */
 	@Transient
 	@Deprecated
-    public double getEffort() {
-       boolean adjustHoursForPairing = "double".equalsIgnoreCase(new XPlannerProperties().getProperty("xplanner.pairprogramming", "single"));
-        boolean isPairedEntry = person1Id != 0 && person2Id != 0;
-        return (adjustHoursForPairing && isPairedEntry) ? getDuration() * 2 : getDuration();
-    }
+	public double getEffort() {
+		final boolean adjustHoursForPairing = "double"
+				.equalsIgnoreCase(new XPlannerProperties().getProperty(
+						"xplanner.pairprogramming", "single"));
+		final boolean isPairedEntry = this.person1Id != 0
+				&& this.person2Id != 0;
+		return adjustHoursForPairing && isPairedEntry ? this.getDuration() * 2
+				: this.getDuration();
+	}
 
 	@Deprecated
-	   public boolean isCurrentlyActive(int personId) {
-		    return startTime != null && endTime == null && duration == 0
-		        && (personId == person1Id || personId == person2Id);
-		  }
-	
-	
+	public boolean isCurrentlyActive(final int personId) {
+		return this.startTime != null && this.endTime == null
+				&& this.duration == 0
+				&& (personId == this.person1Id || personId == this.person2Id);
+	}
+
+	@Override
 	@Column(name = "description", length = 65535)
 	public String getDescription() {
 		return this.description;
 	}
-	
-	public void setDescription(String description) {
+
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 

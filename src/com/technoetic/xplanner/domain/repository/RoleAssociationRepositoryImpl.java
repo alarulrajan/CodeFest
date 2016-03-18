@@ -8,36 +8,53 @@ import net.sf.xplanner.domain.Role;
 import org.hibernate.HibernateException;
 
 public class RoleAssociationRepositoryImpl extends HibernateObjectRepository
-        implements RoleAssociationRepository {
-    private RoleRepository roleRepository;
+		implements RoleAssociationRepository {
+	private RoleRepository roleRepository;
 
-    public RoleAssociationRepositoryImpl() throws HibernateException {
-        super(PersonRole.class);
-    }
+	public RoleAssociationRepositoryImpl() throws HibernateException {
+		super(PersonRole.class);
+	}
 
-    public void deleteAllForPersonOnProject(int personId, int projectId) throws RepositoryException {
-    	List list = getHibernateTemplate().find("select assoc from assoc in " + PersonRole.class +
-                                     " where assoc.id.personId = ? and assoc.id.projectId = ?", new Object[]{new Integer(personId), new Integer(projectId)});
-    	getHibernateTemplate().deleteAll(list);
-   }
+	@Override
+	public void deleteAllForPersonOnProject(final int personId,
+			final int projectId) throws RepositoryException {
+		final List list = this
+				.getHibernateTemplate()
+				.find("select assoc from assoc in "
+						+ PersonRole.class
+						+ " where assoc.id.personId = ? and assoc.id.projectId = ?",
+						new Object[] { new Integer(personId),
+								new Integer(projectId) });
+		this.getHibernateTemplate().deleteAll(list);
+	}
 
-    public void deleteForPersonOnProject(String roleName, int personId, int projectId) throws RepositoryException {
-    	Role role = roleRepository.findRoleByName(roleName);
-    	List list = getHibernateTemplate().find("select assoc from assoc in " + PersonRole.class +
-                " where assoc.id.personId = ? and assoc.id.projectId = ? and assoc.id.roleId = ?", new Object[]{new Integer(personId), new Integer(projectId), new Integer(role.getId())});
-    	getHibernateTemplate().deleteAll(list);
+	@Override
+	public void deleteForPersonOnProject(final String roleName,
+			final int personId, final int projectId) throws RepositoryException {
+		final Role role = this.roleRepository.findRoleByName(roleName);
+		final List list = this
+				.getHibernateTemplate()
+				.find("select assoc from assoc in "
+						+ PersonRole.class
+						+ " where assoc.id.personId = ? and assoc.id.projectId = ? and assoc.id.roleId = ?",
+						new Object[] { new Integer(personId),
+								new Integer(projectId),
+								new Integer(role.getId()) });
+		this.getHibernateTemplate().deleteAll(list);
 
-    }
+	}
 
-    public void insertForPersonOnProject(String roleName, int personId, int projectId)
-            throws RepositoryException {
-        Role role = roleRepository.findRoleByName(roleName);
-        if (role != null) {
-           getHibernateTemplate().save(new PersonRole(projectId, personId, role.getId()));
-        }
-    }
+	@Override
+	public void insertForPersonOnProject(final String roleName,
+			final int personId, final int projectId) throws RepositoryException {
+		final Role role = this.roleRepository.findRoleByName(roleName);
+		if (role != null) {
+			this.getHibernateTemplate().save(
+					new PersonRole(projectId, personId, role.getId()));
+		}
+	}
 
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+	public void setRoleRepository(final RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
+	}
 }

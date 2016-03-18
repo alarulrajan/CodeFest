@@ -13,44 +13,51 @@ import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetHeaderConfigurati
 import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetStoryFilter;
 import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetStoryReader;
 
-public class SpreadsheetStoryImporter
-{
-   private final SpreadsheetStoryFactory spreadsheetStoryFactory;
+public class SpreadsheetStoryImporter {
+	private final SpreadsheetStoryFactory spreadsheetStoryFactory;
 
-   public SpreadsheetStoryImporter(SpreadsheetStoryFactory spreadsheetStoryFactory)
-   {
-      this.spreadsheetStoryFactory = spreadsheetStoryFactory;
-   }
+	public SpreadsheetStoryImporter(
+			final SpreadsheetStoryFactory spreadsheetStoryFactory) {
+		this.spreadsheetStoryFactory = spreadsheetStoryFactory;
+	}
 
-   public List importStories(Iteration iteration, SpreadsheetHeaderConfiguration headerConfiguration,
-                             InputStream inputStream, boolean onlyUncompleted) throws IOException
-   {
-      List newStories = new ArrayList();
-      List stories = readStoriesFromSpreadsheet(headerConfiguration, inputStream);
-      SpreadsheetStoryFilter storyFilter = new SpreadsheetStoryFilter(iteration.getStartDate(),
-                                                                      iteration.getEndDate());
-      for (Iterator iterator = stories.iterator(); iterator.hasNext();)
-      {
-         SpreadsheetStory spreadsheetStory = (SpreadsheetStory) iterator.next();
-         if (!storyFilter.matches(spreadsheetStory) || (onlyUncompleted && spreadsheetStory.getStatus().equalsIgnoreCase("C")))
-            continue;
-         UserStory userStory = new UserStory();
-         if (spreadsheetStory.getTitle() == null || "".equals(spreadsheetStory.getTitle().trim()))
-            throw new MissingFieldSpreadsheetImporterException("name", "missing field");
-         userStory.setName(spreadsheetStory.getTitle());
-         userStory.setEstimatedHoursField(spreadsheetStory.getEstimate());
-         userStory.setIteration(iteration);
-         userStory.setPriority(spreadsheetStory.getPriority());
-         iteration.getUserStories().add(userStory);
-         userStory.setIteration(iteration);
-         newStories.add(userStory);
-      }
-      return newStories;
-   }
+	public List importStories(final Iteration iteration,
+			final SpreadsheetHeaderConfiguration headerConfiguration,
+			final InputStream inputStream, final boolean onlyUncompleted)
+			throws IOException {
+		final List newStories = new ArrayList();
+		final List stories = this.readStoriesFromSpreadsheet(
+				headerConfiguration, inputStream);
+		final SpreadsheetStoryFilter storyFilter = new SpreadsheetStoryFilter(
+				iteration.getStartDate(), iteration.getEndDate());
+		for (final Iterator iterator = stories.iterator(); iterator.hasNext();) {
+			final SpreadsheetStory spreadsheetStory = (SpreadsheetStory) iterator
+					.next();
+			if (!storyFilter.matches(spreadsheetStory) || onlyUncompleted
+					&& spreadsheetStory.getStatus().equalsIgnoreCase("C")) {
+				continue;
+			}
+			final UserStory userStory = new UserStory();
+			if (spreadsheetStory.getTitle() == null
+					|| "".equals(spreadsheetStory.getTitle().trim())) {
+				throw new MissingFieldSpreadsheetImporterException("name",
+						"missing field");
+			}
+			userStory.setName(spreadsheetStory.getTitle());
+			userStory.setEstimatedHoursField(spreadsheetStory.getEstimate());
+			userStory.setIteration(iteration);
+			userStory.setPriority(spreadsheetStory.getPriority());
+			iteration.getUserStories().add(userStory);
+			userStory.setIteration(iteration);
+			newStories.add(userStory);
+		}
+		return newStories;
+	}
 
-   protected List readStoriesFromSpreadsheet(SpreadsheetHeaderConfiguration headerConfiguration,
-                                             InputStream inputStream) throws IOException
-   {
-      return new SpreadsheetStoryReader(spreadsheetStoryFactory).readStories(headerConfiguration, inputStream);
-   }
+	protected List readStoriesFromSpreadsheet(
+			final SpreadsheetHeaderConfiguration headerConfiguration,
+			final InputStream inputStream) throws IOException {
+		return new SpreadsheetStoryReader(this.spreadsheetStoryFactory)
+				.readStories(headerConfiguration, inputStream);
+	}
 }

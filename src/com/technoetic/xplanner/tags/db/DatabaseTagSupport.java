@@ -7,6 +7,6 @@ import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 
 public abstract class DatabaseTagSupport extends RequestContextAwareTag {
 	protected Session getSession() throws Exception {
-		return HibernateHelper.getSession(pageContext.getRequest());
+		return HibernateHelper.getSession(this.pageContext.getRequest());
 	}
 }

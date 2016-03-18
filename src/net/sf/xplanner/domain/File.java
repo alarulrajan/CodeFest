@@ -10,23 +10,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "xfile")
@@ -46,7 +46,7 @@ public class File extends DomainObject implements java.io.Serializable {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -55,17 +55,17 @@ public class File extends DomainObject implements java.io.Serializable {
 		return this.contentType;
 	}
 
-	public void setContentType(String contentType) {
+	public void setContentType(final String contentType) {
 		this.contentType = contentType;
 	}
 
 	@Lob
-	@Column(name = "data", length=1000000000)
+	@Column(name = "data", length = 1000000000)
 	public Blob getData() {
 		return this.data;
 	}
 
-	public void setData(Blob data) {
+	public void setData(final Blob data) {
 		this.data = data;
 	}
 
@@ -74,18 +74,18 @@ public class File extends DomainObject implements java.io.Serializable {
 		return this.fileSize;
 	}
 
-	public void setFileSize(long fileSize) {
+	public void setFileSize(final long fileSize) {
 		this.fileSize = fileSize;
 	}
 
 	@ManyToOne
-	@JoinColumn(name="dir_id")
-	public Directory getDirectory(){
+	@JoinColumn(name = "dir_id")
+	public Directory getDirectory() {
 		return this.directory;
 	}
-	public void setDirectory(Directory directory) {
+
+	public void setDirectory(final Directory directory) {
 		this.directory = directory;
 	}
-
 
 }

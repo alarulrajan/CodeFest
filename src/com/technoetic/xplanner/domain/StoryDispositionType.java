@@ -2,12 +2,14 @@ package com.technoetic.xplanner.domain;
 
 public class StoryDispositionType extends CharacterEnumType {
 
-   public Class returnedClass() {
-      return StoryDisposition.class;
-   }
+	@Override
+	public Class returnedClass() {
+		return StoryDisposition.class;
+	}
 
-   protected CharacterEnum getType(String code) {
-      return StoryDisposition.fromCode(code.charAt(0));
-   }
+	@Override
+	protected CharacterEnum getType(final String code) {
+		return StoryDisposition.fromCode(code.charAt(0));
+	}
 
 }

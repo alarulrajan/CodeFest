@@ -11,71 +11,55 @@ import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.tags.PageHelper;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Feb 15, 2005
- * Time: 11:08:59 AM
+ * User: Mateusz Prokopowicz Date: Feb 15, 2005 Time: 11:08:59 AM
  */
-public class AuthorizationHelper
-{
+public class AuthorizationHelper {
 
-    public static boolean hasPermissionToAny(String[] permissionArray,
-                                             Collection objectCollection,
-                                             ServletRequest request)
-        throws AuthenticationException
-    {
-        return hasPermissionToAny(permissionArray, objectCollection, request, 0);
-    }
+	public static boolean hasPermissionToAny(final String[] permissionArray,
+			final Collection objectCollection, final ServletRequest request)
+			throws AuthenticationException {
+		return AuthorizationHelper.hasPermissionToAny(permissionArray,
+				objectCollection, request, 0);
+	}
 
-    public static boolean hasPermissionToAny(String[] permissionArray,
-                                             Collection objectCollection,
-                                             ServletRequest request,
-                                             int projectId)
-        throws AuthenticationException
-    {
-        boolean isAuthorized = false;
-        int remoteUserId = SecurityHelper.getRemoteUserId((HttpServletRequest) request);
-        for (Iterator iterator = objectCollection.iterator(); !isAuthorized && iterator.hasNext();)
-        {
-            Object resource = iterator.next();
-            projectId = PageHelper.getProjectId(resource, request);
-            for (int i = 0; i < permissionArray.length; i++)
-            {
-                String permission = permissionArray[i];
-                if (SystemAuthorizer.get().hasPermission(projectId,
-                                                         remoteUserId,
-                                                         resource, permission))
-                {
-                    isAuthorized = true;
-                    break;
-                }
-            }
-        }
-        return isAuthorized;
-    }
+	public static boolean hasPermissionToAny(final String[] permissionArray,
+			final Collection objectCollection, final ServletRequest request,
+			int projectId) throws AuthenticationException {
+		boolean isAuthorized = false;
+		final int remoteUserId = SecurityHelper
+				.getRemoteUserId((HttpServletRequest) request);
+		for (final Iterator iterator = objectCollection.iterator(); !isAuthorized
+				&& iterator.hasNext();) {
+			final Object resource = iterator.next();
+			projectId = PageHelper.getProjectId(resource, request);
+			for (int i = 0; i < permissionArray.length; i++) {
+				final String permission = permissionArray[i];
+				if (SystemAuthorizer.get().hasPermission(projectId,
+						remoteUserId, resource, permission)) {
+					isAuthorized = true;
+					break;
+				}
+			}
+		}
+		return isAuthorized;
+	}
 
-    public static boolean hasPermission(int projectId,
-                                        int principalId,
-                                        int resourceId,
-                                        String resourceType,
-                                        String permission,
-                                        Object resource,
-                                        ServletRequest request) throws AuthenticationException
-    {
-        boolean hasPermission;
-        if (principalId == 0)
-        {
-            principalId = SecurityHelper.getRemoteUserId((HttpServletRequest) request);
-        }
-        if (resourceType != null)
-        {
-            hasPermission = !SystemAuthorizer.get().
-                hasPermission(projectId, principalId, resourceType, resourceId, permission);
-        }
-        else
-        {
-            hasPermission = !SystemAuthorizer.get().
-                hasPermission(projectId, principalId, resource, permission);
-        }
-        return hasPermission;
-    }
+	public static boolean hasPermission(final int projectId, int principalId,
+			final int resourceId, final String resourceType,
+			final String permission, final Object resource,
+			final ServletRequest request) throws AuthenticationException {
+		boolean hasPermission;
+		if (principalId == 0) {
+			principalId = SecurityHelper
+					.getRemoteUserId((HttpServletRequest) request);
+		}
+		if (resourceType != null) {
+			hasPermission = !SystemAuthorizer.get().hasPermission(projectId,
+					principalId, resourceType, resourceId, permission);
+		} else {
+			hasPermission = !SystemAuthorizer.get().hasPermission(projectId,
+					principalId, resource, permission);
+		}
+		return hasPermission;
+	}
 }

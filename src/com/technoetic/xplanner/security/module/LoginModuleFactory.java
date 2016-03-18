@@ -8,5 +8,5 @@ import java.util.Map;
 import com.technoetic.xplanner.security.LoginModule;
 
 public interface LoginModuleFactory {
-   LoginModule newInstance(Map options) throws ConfigurationException;
+	LoginModule newInstance(Map options) throws ConfigurationException;
 }

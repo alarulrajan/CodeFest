@@ -2,8 +2,6 @@ package net.sf.xplanner.dao.impl;
 
 import java.io.Serializable;
 
-import net.sf.xplanner.domain.Task;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,15 +12,16 @@ import com.technoetic.xplanner.domain.Identifiable;
 public class CommonDao<E extends Identifiable> {
 	private SessionFactory sessionFactory;
 
-	public <T> T getById(Class<T> clazz, Serializable id) {
-		return (T) getSession().get(clazz, id);
-	}
-	
-	protected final Session getSession(){
-		return SessionFactoryUtils.getSession(sessionFactory, Boolean.FALSE);
+	public <T> T getById(final Class<T> clazz, final Serializable id) {
+		return (T) this.getSession().get(clazz, id);
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	protected final Session getSession() {
+		return SessionFactoryUtils.getSession(this.sessionFactory,
+				Boolean.FALSE);
+	}
+
+	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -30,22 +29,22 @@ public class CommonDao<E extends Identifiable> {
 		return null;
 	}
 
-	public int save(E object) {
-		getSession().save(object);
+	public int save(final E object) {
+		this.getSession().save(object);
 		return object.getId();
 	}
 
-	public void delete(Object object) {
-		getSession().delete(object);
+	public void delete(final Object object) {
+		this.getSession().delete(object);
 	}
 
 	public void flush() {
-		getSession().flush();
+		this.getSession().flush();
 	}
 
 	public void rollback() {
-		if(getSession().isOpen() && getSession().isDirty()){
-			getSession().getTransaction().rollback();
+		if (this.getSession().isOpen() && this.getSession().isDirty()) {
+			this.getSession().getTransaction().rollback();
 		}
 	}
 }

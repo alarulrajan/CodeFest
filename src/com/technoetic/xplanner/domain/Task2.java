@@ -1,4 +1,5 @@
 package com.technoetic.xplanner.domain;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -13,284 +14,318 @@ import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
 // TODO management of original/current estimate should be done through a status
-public class Task2 extends NamedObject implements Nameable, NoteAttachable, Describable {
-// ------------------------------ FIELDS ------------------------------
+public class Task2 extends NamedObject implements Nameable, NoteAttachable,
+		Describable {
+	// ------------------------------ FIELDS ------------------------------
 
-   private int acceptorId;
-   private int completionFlag;
-   private String type;
-   private TaskDisposition disposition = TaskDisposition.PLANNED;
-   private double estimatedOriginalHours;
-   private double estimatedHours;
-   private double postponedHours;
-   private Date createdDate;
-   private UserStory story;
-   private Collection timeEntries = new HashSet();
-   public static final String ADDED_ORIGINAL_HOURS = getValidProperty("addedOriginalHours");
-   public static final String ESTIMATED_ORIGINAL_HOURS = getValidProperty("estimatedOriginalHours");
-   public static final String ITERATION_START_ESTIMATED_HOURS = getValidProperty("iterationStartEstimatedHours");
+	private int acceptorId;
+	private int completionFlag;
+	private String type;
+	private TaskDisposition disposition = TaskDisposition.PLANNED;
+	private double estimatedOriginalHours;
+	private double estimatedHours;
+	private double postponedHours;
+	private Date createdDate;
+	private UserStory story;
+	private Collection timeEntries = new HashSet();
+	public static final String ADDED_ORIGINAL_HOURS = Task2
+			.getValidProperty("addedOriginalHours");
+	public static final String ESTIMATED_ORIGINAL_HOURS = Task2
+			.getValidProperty("estimatedOriginalHours");
+	public static final String ITERATION_START_ESTIMATED_HOURS = Task2
+			.getValidProperty("iterationStartEstimatedHours");
 
-   private static String getValidProperty(String property) { return getValidProperty(Task.class, property); }
+	private static String getValidProperty(final String property) {
+		return Task2.getValidProperty(Task.class, property);
+	}
 
-// --------------------- GETTER / SETTER METHODS ---------------------
+	// --------------------- GETTER / SETTER METHODS ---------------------
 
-   public int getAcceptorId() {
-      return acceptorId;
-   }
+	public int getAcceptorId() {
+		return this.acceptorId;
+	}
 
-   public void setAcceptorId(int acceptorId) {
-      this.acceptorId = acceptorId;
-   }
+	public void setAcceptorId(final int acceptorId) {
+		this.acceptorId = acceptorId;
+	}
 
-   public double getActualHours() {
-      double actualHours = 0.0;
-      if (timeEntries != null && timeEntries.size() > 0) {
-         Iterator itr = timeEntries.iterator();
-         while (itr.hasNext()) {
-            TimeEntry2 entry = (TimeEntry2) itr.next();
-            actualHours += entry.getEffort();
-         }
-      }
-      return actualHours;
-   }
+	public double getActualHours() {
+		double actualHours = 0.0;
+		if (this.timeEntries != null && this.timeEntries.size() > 0) {
+			final Iterator itr = this.timeEntries.iterator();
+			while (itr.hasNext()) {
+				final TimeEntry2 entry = (TimeEntry2) itr.next();
+				actualHours += entry.getEffort();
+			}
+		}
+		return actualHours;
+	}
 
-   public Date getCreatedDate() {
-      return createdDate;
-   }
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
 
-   public void setCreatedDate(java.util.Date createdDate) {
-      this.createdDate = createdDate;
-   }
+	public void setCreatedDate(final java.util.Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-   public TaskDisposition getDisposition() {
-      return disposition;
-   }
+	public TaskDisposition getDisposition() {
+		return this.disposition;
+	}
 
-   public void setDisposition(TaskDisposition disposition) {
-      this.disposition = disposition;
-   }
+	public void setDisposition(final TaskDisposition disposition) {
+		this.disposition = disposition;
+	}
 
-   public double getEstimatedHours() {
-      return estimatedHours;
-   }
+	public double getEstimatedHours() {
+		return this.estimatedHours;
+	}
 
-   public void setEstimatedHours(double estimatedHours) {
-      this.estimatedHours = estimatedHours;
-   }
+	public void setEstimatedHours(final double estimatedHours) {
+		this.estimatedHours = estimatedHours;
+	}
 
-   public TaskStatus getStatus() {
-      TaskStatus status;
-      if (isCompleted()) {
-         status = TaskStatus.COMPLETED;
-      } else if (getActualHours() > 0.0) {
-         status = TaskStatus.STARTED;
-      } else {
-         status = TaskStatus.NON_STARTED;
-      }
-      return status;
-   }
+	public TaskStatus getStatus() {
+		TaskStatus status;
+		if (this.isCompleted()) {
+			status = TaskStatus.COMPLETED;
+		} else if (this.getActualHours() > 0.0) {
+			status = TaskStatus.STARTED;
+		} else {
+			status = TaskStatus.NON_STARTED;
+		}
+		return status;
+	}
 
-   public boolean isCompleted() {
-      return completionFlag == 1;
-   }
+	public boolean isCompleted() {
+		return this.completionFlag == 1;
+	}
 
-   public UserStory getUserStory() {
-      return story;
-   }
+	public UserStory getUserStory() {
+		return this.story;
+	}
 
-   // TODO: add management of the inverse relationship tasks
-   public void setStory(UserStory story) {
-      this.story = story;
-   }
+	// TODO: add management of the inverse relationship tasks
+	public void setStory(final UserStory story) {
+		this.story = story;
+	}
 
-   public Collection getTimeEntries() {
-      return timeEntries;
-   }
+	public Collection getTimeEntries() {
+		return this.timeEntries;
+	}
 
-   public void setTimeEntries(Collection timeEntries) {
-      this.timeEntries = timeEntries;
-   }
+	public void setTimeEntries(final Collection timeEntries) {
+		this.timeEntries = timeEntries;
+	}
 
-   public String getType() {
-      return type;
-   }
+	public String getType() {
+		return this.type;
+	}
 
-   public void setType(String type) {
-      this.type = type;
-   }
+	public void setType(final String type) {
+		this.type = type;
+	}
 
-   public void setEstimatedOriginalHours(double estimatedOriginalHours) {
-      this.estimatedOriginalHours = estimatedOriginalHours;
-   }
+	public void setEstimatedOriginalHours(final double estimatedOriginalHours) {
+		this.estimatedOriginalHours = estimatedOriginalHours;
+	}
 
-// ------------------------ CANONICAL METHODS ------------------------
+	// ------------------------ CANONICAL METHODS ------------------------
 
-   public String toString() {
-      return "Task(id=" + this.getId() +
-             ", userStoryId=" + (this.getUserStory()==null?"null":""+this.getUserStory().getId()) +
-             ", name=" + this.getName() +
-             ", acceptorId=" + this.getAcceptorId() +
-             ", createDate=" + this.getCreatedDate() +
-             ", desc=" + this.getDescription() +
-             ", title=" + this.getName();
-   }
+	@Override
+	public String toString() {
+		return "Task(id="
+				+ this.getId()
+				+ ", userStoryId="
+				+ (this.getUserStory() == null ? "null" : ""
+						+ this.getUserStory().getId()) + ", name="
+				+ this.getName() + ", acceptorId=" + this.getAcceptorId()
+				+ ", createDate=" + this.getCreatedDate() + ", desc="
+				+ this.getDescription() + ", title=" + this.getName();
+	}
 
-// -------------------------- OTHER METHODS --------------------------
+	// -------------------------- OTHER METHODS --------------------------
 
-   public String getDispositionName() {
-      return disposition != null ? disposition.getName() : null;
-   }
+	public String getDispositionName() {
+		return this.disposition != null ? this.disposition.getName() : null;
+	}
 
-   public void setDispositionName(String dispositionName) {
-       this.disposition = TaskDisposition.fromName(dispositionName);
-    }
+	public void setDispositionName(final String dispositionName) {
+		this.disposition = TaskDisposition.fromName(dispositionName);
+	}
 
-   public double getAddedHours() { return isAdded() ? getEstimatedHours() : 0; }
+	public double getAddedHours() {
+		return this.isAdded() ? this.getEstimatedHours() : 0;
+	}
 
-   private boolean isAdded() {return getDisposition().equals(TaskDisposition.ADDED);}
+	private boolean isAdded() {
+		return this.getDisposition().equals(TaskDisposition.ADDED);
+	}
 
-   public double getAdjustedEstimatedHours() {
-      if (isCompleted()) {
-         return getActualHours();
-      } else {
-         return Math.max(getEstimatedHours(), getActualHours());
-      }
-   }
+	public double getAdjustedEstimatedHours() {
+		if (this.isCompleted()) {
+			return this.getActualHours();
+		} else {
+			return Math.max(this.getEstimatedHours(), this.getActualHours());
+		}
+	}
 
-   public double getCompletedHours() {return isCompleted() ? getActualHours() : 0;}
+	public double getCompletedHours() {
+		return this.isCompleted() ? this.getActualHours() : 0;
+	}
 
-   public double getEstimatedHoursBasedOnActuals() {
-      return getActualHours() + getRemainingHours();
-   }
+	public double getEstimatedHoursBasedOnActuals() {
+		return this.getActualHours() + this.getRemainingHours();
+	}
 
-   public double getCompletedRemainingHours() {
-      return isCompleted() ? 0.0 : getEstimatedOriginalHours();
-   }
+	public double getCompletedRemainingHours() {
+		return this.isCompleted() ? 0.0 : this.getEstimatedOriginalHours();
+	}
 
-   public double getRemainingHours() {
-      return isCompleted() ? 0.0 :
-             Math.max(getEstimatedHours() - getActualHours() - getPostponedHours(), 0.0);
-   }
+	public double getRemainingHours() {
+		return this.isCompleted() ? 0.0 : Math.max(this.getEstimatedHours()
+				- this.getActualHours() - this.getPostponedHours(), 0.0);
+	}
 
-   public double getAddedOriginalHours() { return getDisposition().isOriginal() ? 0 : getEstimatedOriginalHours(); }
+	public double getAddedOriginalHours() {
+		return this.getDisposition().isOriginal() ? 0 : this
+				.getEstimatedOriginalHours();
+	}
 
-   public double getEstimatedOriginalHours() {
-      if (isStarted())
-         return estimatedOriginalHours;
-      else
-         return getEstimatedHours();
-   }
+	public double getEstimatedOriginalHours() {
+		if (this.isStarted()) {
+			return this.estimatedOriginalHours;
+		} else {
+			return this.getEstimatedHours();
+		}
+	}
 
-   public void setEstimatedOriginalHoursField(double estimatedOriginalHours){
-      this.estimatedOriginalHours = estimatedOriginalHours;
-   }
+	public void setEstimatedOriginalHoursField(
+			final double estimatedOriginalHours) {
+		this.estimatedOriginalHours = estimatedOriginalHours;
+	}
 
-   public double getEstimatedOriginalHoursField(){
-      return estimatedOriginalHours;
-   }
+	public double getEstimatedOriginalHoursField() {
+		return this.estimatedOriginalHours;
+	}
 
-   public double getCompletedOriginalHours() {return isCompleted() ? getEstimatedOriginalHours() : 0;}
+	public double getCompletedOriginalHours() {
+		return this.isCompleted() ? this.getEstimatedOriginalHours() : 0;
+	}
 
-   public double getOverestimatedOriginalHours() {
-      if (isOverestimated(getEstimatedOriginalHours())) {
-          return getEstimatedOriginalHours() - getActualHours();
-      }
-      return 0.0;
-   }
+	public double getOverestimatedOriginalHours() {
+		if (this.isOverestimated(this.getEstimatedOriginalHours())) {
+			return this.getEstimatedOriginalHours() - this.getActualHours();
+		}
+		return 0.0;
+	}
 
-   private boolean isOverestimated(double estimatedHours) {return isCompleted() && getActualHours() < estimatedHours;}
+	private boolean isOverestimated(final double estimatedHours) {
+		return this.isCompleted() && this.getActualHours() < estimatedHours;
+	}
 
-   public double getUnderestimatedOriginalHours() {
-      return isUnderestimated(getEstimatedOriginalHours()) ? getActualHours() - getEstimatedOriginalHours() : 0.0;
-   }
+	public double getUnderestimatedOriginalHours() {
+		return this.isUnderestimated(this.getEstimatedOriginalHours()) ? this
+				.getActualHours() - this.getEstimatedOriginalHours() : 0.0;
+	}
 
-   private boolean isUnderestimated(double estimatedHours) {return getActualHours() > estimatedHours;}
+	private boolean isUnderestimated(final double estimatedHours) {
+		return this.getActualHours() > estimatedHours;
+	}
 
-   public double getOverestimatedHours() {
-      return isOverestimated(getEstimatedHours()) ? getEstimatedHours() - getActualHours() : 0.0;
-   }
+	public double getOverestimatedHours() {
+		return this.isOverestimated(this.getEstimatedHours()) ? this
+				.getEstimatedHours() - this.getActualHours() : 0.0;
+	}
 
-  public double getUnderestimatedHours() {
-    if (isDiscovered()) {
-       double result = isCompleted() ? 0.0 :
-                       Math.max(getEstimatedHours() - getActualHours(), 0.0);
-       return getActualHours() + result;
-    }
-    return isUnderestimated(getEstimatedHours()) ? getActualHours() - getEstimatedHours() : 0.0;
-  }
+	public double getUnderestimatedHours() {
+		if (this.isDiscovered()) {
+			final double result = this.isCompleted() ? 0.0 : Math.max(
+					this.getEstimatedHours() - this.getActualHours(), 0.0);
+			return this.getActualHours() + result;
+		}
+		return this.isUnderestimated(this.getEstimatedHours()) ? this
+				.getActualHours() - this.getEstimatedHours() : 0.0;
+	}
 
+	public double getIterationStartEstimatedHours() {
+		if (!this.disposition.isOriginal()) {
+			return 0;
+		}
+		return this.getEstimatedOriginalHours();
+	}
 
+	private boolean isDiscovered() {
+		return TaskDisposition.DISCOVERED.equals(this.getDisposition());
+	}
 
-   public double getIterationStartEstimatedHours() {
-      if (!disposition.isOriginal()) return 0;
-      return getEstimatedOriginalHours();
-   }
+	public boolean isCurrentlyActive(final int personId) {
+		if (this.timeEntries != null && this.timeEntries.size() > 0) {
+			final Iterator itr = this.timeEntries.iterator();
+			while (itr.hasNext()) {
+				final TimeEntry2 entry = (TimeEntry2) itr.next();
+				if (entry.isCurrentlyActive(personId)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-    private boolean isDiscovered() {
-        return TaskDisposition.DISCOVERED.equals(getDisposition());
-    }
+	public void setCompleted(final boolean flag) {
+		this.completionFlag = flag ? 1 : 0;
+	}
 
-    public boolean isCurrentlyActive(int personId) {
-       if (timeEntries != null && timeEntries.size() > 0) {
-          Iterator itr = timeEntries.iterator();
-          while (itr.hasNext()) {
-             TimeEntry2 entry = (TimeEntry2) itr.next();
-             if (entry.isCurrentlyActive(personId)) {
-                return true;
-             }
-          }
-       }
-       return false;
-    }
+	public double getPostponedHours() {
+		return this.postponedHours;
+	}
 
-   public void setCompleted(boolean flag) {
-      completionFlag = flag ? 1 : 0;
-   }
+	public void setPostponedHours(final double postponedHours) {
+		this.postponedHours = postponedHours;
+	}
 
-   public double getPostponedHours() {
-      return postponedHours;
-   }
+	public void postponeRemainingHours() {
+		this.setPostponedHours(this.getRemainingHours());
+	}
 
-   public void setPostponedHours(double postponedHours) {
-      this.postponedHours = postponedHours;
-   }
+	public void postpone() {
+		this.postponeRemainingHours();
+		this.setCompleted(false);
+	}
 
-  public void postponeRemainingHours() {setPostponedHours(getRemainingHours());}
+	public void start() {
+		if (!this.isStarted()) {
+			this.setEstimatedOriginalHours(this.getEstimatedHours());
+		}
+	}
 
-  public void postpone() {
-    postponeRemainingHours();
-    setCompleted(false);
-  }
+	public boolean isStarted() {
+		return this.estimatedOriginalHours > 0;
+	}
 
-   public void start() {
-      if (!isStarted()){
-         setEstimatedOriginalHours(getEstimatedHours());
-      }
-   }
+	protected static String getValidProperty(final Class beanClass,
+			final String property) {
+		BeanInfo beanInfo;
+		try {
+			beanInfo = Introspector.getBeanInfo(beanClass);
+		} catch (final IntrospectionException e) {
+			throw new RuntimeException("could not introspect " + beanClass, e);
+		}
+		final PropertyDescriptor[] properties = beanInfo
+				.getPropertyDescriptors();
+		boolean found = false;
+		for (int i = 0; i < properties.length; i++) {
+			if (properties[i].getName().equals(property)) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			throw new RuntimeException("Could not find property " + property
+					+ " in " + beanClass);
+		}
 
-   public boolean isStarted() {
-      return estimatedOriginalHours > 0;
-   }
-   protected static String getValidProperty(Class beanClass, String property) {
-	      BeanInfo beanInfo;
-	      try {
-	         beanInfo = Introspector.getBeanInfo(beanClass);
-	      } catch (IntrospectionException e) {
-	         throw new RuntimeException("could not introspect " + beanClass, e);
-	      }
-	      PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
-	      boolean found = false;
-	      for (int i = 0; i < properties.length; i++) {
-	         if (properties[i].getName().equals(property)) {
-	            found = true;
-	            break;
-	         }
-	      }
-	      if (!found) {
-	         throw new RuntimeException("Could not find property " + property + " in " + beanClass);
-	      }
+		return property;
 
-	      return property;
-
-	   }
+	}
 }

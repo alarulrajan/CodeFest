@@ -13,178 +13,189 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
 public class TaskEditorForm extends AbstractEditorForm {
-    private static SimpleDateFormat dateConverter;
-    private String name;
-    private String description;
-    private Date createdDate;
-    private String createdDateString;
-    private int userStoryId;
-    private int targetStoryId;
-    private int acceptorId;
-    private double estimatedHours;
-    private double actualHours;
-    private String type;
-    private String dispositionName;
-    private boolean completed;
+	private static SimpleDateFormat dateConverter;
+	private String name;
+	private String description;
+	private Date createdDate;
+	private String createdDateString;
+	private int userStoryId;
+	private int targetStoryId;
+	private int acceptorId;
+	private double estimatedHours;
+	private double actualHours;
+	private String type;
+	private String dispositionName;
+	private boolean completed;
 
-    public String getContainerId() {
-        return Integer.toString(getUserStoryId());
-    }
+	public String getContainerId() {
+		return Integer.toString(this.getUserStoryId());
+	}
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
+	@Override
+	public ActionErrors validate(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		final ActionErrors errors = new ActionErrors();
 
-        if (dateConverter == null) {
-            String format = getResources(request).getMessage("format.date");
-            dateConverter = new SimpleDateFormat(format);
-        }
+		if (TaskEditorForm.dateConverter == null) {
+			final String format = AbstractEditorForm.getResources(request)
+					.getMessage("format.date");
+			TaskEditorForm.dateConverter = new SimpleDateFormat(format);
+		}
 
-        // Set created date to be now
-        //        if (createdDate == null) {
-        //            setCreatedDate(new Date());
-        //        }
+		// Set created date to be now
+		// if (createdDate == null) {
+		// setCreatedDate(new Date());
+		// }
 
-        if (isSubmitted()) {
-            if (createdDateString != null) {
-                createdDate = null;
-                try {
-                    createdDate = dateConverter.parse(createdDateString);
-                } catch (ParseException ex) {
-                    errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("task.editor.bad_created_date"));
-                }
-            }
+		if (this.isSubmitted()) {
+			if (this.createdDateString != null) {
+				this.createdDate = null;
+				try {
+					this.createdDate = TaskEditorForm.dateConverter
+							.parse(this.createdDateString);
+				} catch (final ParseException ex) {
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
+							"task.editor.bad_created_date"));
+				}
+			}
 
-            if (!isMerge()) {
-                require(errors, name, "task.editor.missing_name");
-                require(errors, estimatedHours >= 0.0, "task.editor.negative_estimated_hours");
-            }
-        }
-        return errors;
-    }
+			if (!this.isMerge()) {
+				AbstractEditorForm.require(errors, this.name,
+						"task.editor.missing_name");
+				AbstractEditorForm.require(errors, this.estimatedHours >= 0.0,
+						"task.editor.negative_estimated_hours");
+			}
+		}
+		return errors;
+	}
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        name = null;
-        description = null;
-        userStoryId = 0;
-        targetStoryId = 0;
-        completed = false;
-        acceptorId = 0;
-        estimatedHours = 0;
-        actualHours = 0;
-        type = null;
-        dispositionName = null;
-    }
+	@Override
+	public void reset(final ActionMapping mapping,
+			final HttpServletRequest request) {
+		super.reset(mapping, request);
+		this.name = null;
+		this.description = null;
+		this.userStoryId = 0;
+		this.targetStoryId = 0;
+		this.completed = false;
+		this.acceptorId = 0;
+		this.estimatedHours = 0;
+		this.actualHours = 0;
+		this.type = null;
+		this.dispositionName = null;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public void setUserStoryId(int storyId) {
-        if (targetStoryId == 0) {
-            targetStoryId = storyId;
-        }
-        this.userStoryId = storyId;
-    }
+	public void setUserStoryId(final int storyId) {
+		if (this.targetStoryId == 0) {
+			this.targetStoryId = storyId;
+		}
+		this.userStoryId = storyId;
+	}
 
-    public int getUserStoryId() {
-        return userStoryId;
-    }
+	public int getUserStoryId() {
+		return this.userStoryId;
+	}
 
-    public void setUserStory(UserStory story) {
-        this.userStoryId = story==null?0:story.getId();
-    }
-    public void setEstimatedHours(double estimatedHours) {
-        this.estimatedHours = estimatedHours;
-    }
+	public void setUserStory(final UserStory story) {
+		this.userStoryId = story == null ? 0 : story.getId();
+	}
 
-    public double getEstimatedHours() {
-        return estimatedHours;
-    }
+	public void setEstimatedHours(final double estimatedHours) {
+		this.estimatedHours = estimatedHours;
+	}
 
-    public void setActualHours(double actualHours) {
-        this.actualHours = actualHours;
-    }
+	public double getEstimatedHours() {
+		return this.estimatedHours;
+	}
 
-    public double getActualHours() {
-        return actualHours;
-    }
+	public void setActualHours(final double actualHours) {
+		this.actualHours = actualHours;
+	}
 
-    public void setAcceptorId(int acceptorId) {
-        this.acceptorId = acceptorId;
-    }
+	public double getActualHours() {
+		return this.actualHours;
+	}
 
-    public int getAcceptorId() {
-        return acceptorId;
-    }
+	public void setAcceptorId(final int acceptorId) {
+		this.acceptorId = acceptorId;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public int getAcceptorId() {
+		return this.acceptorId;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setType(final String type) {
+		this.type = type;
+	}
 
-    public void setDispositionName(String dispositionName) {
-        this.dispositionName = dispositionName;
-    }
+	public String getType() {
+		return this.type;
+	}
 
-    public String getDispositionName() {
-        return dispositionName;
-    }
+	public void setDispositionName(final String dispositionName) {
+		this.dispositionName = dispositionName;
+	}
 
-    public void setCompleted(boolean flag) {
-        this.completed = flag;
-    }
+	public String getDispositionName() {
+		return this.dispositionName;
+	}
 
-    public boolean isCompleted() {
-        return completed;
-    }
+	public void setCompleted(final boolean flag) {
+		this.completed = flag;
+	}
 
-    public void setCreatedDateString(String createdDateString) {
-        this.createdDateString = createdDateString;
-    }
+	public boolean isCompleted() {
+		return this.completed;
+	}
 
-    public String getCreatedDateString() {
-        return createdDateString;
-    }
+	public void setCreatedDateString(final String createdDateString) {
+		this.createdDateString = createdDateString;
+	}
 
-    public Date getCreatedDate() {
-        if (createdDate == null) {
-            setCreatedDate(new Date());
-        }
+	public String getCreatedDateString() {
+		return this.createdDateString;
+	}
 
-        return createdDate;
-    }
+	public Date getCreatedDate() {
+		if (this.createdDate == null) {
+			this.setCreatedDate(new Date());
+		}
 
-    public void setCreatedDate(Date createdDate) {
-        if (createdDate == null) {
-            createdDate = new Date();
-        }
+		return this.createdDate;
+	}
 
-        this.createdDate = createdDate;
-        createdDateString = dateConverter.format(createdDate);
-    }
+	public void setCreatedDate(Date createdDate) {
+		if (createdDate == null) {
+			createdDate = new Date();
+		}
 
-    public int getTargetStoryId() {
-        return targetStoryId;
-    }
+		this.createdDate = createdDate;
+		this.createdDateString = TaskEditorForm.dateConverter
+				.format(createdDate);
+	}
 
-    public void setTargetStoryId(int targetStoryId) {
-        this.targetStoryId = targetStoryId;
-    }
+	public int getTargetStoryId() {
+		return this.targetStoryId;
+	}
+
+	public void setTargetStoryId(final int targetStoryId) {
+		this.targetStoryId = targetStoryId;
+	}
 
 }

@@ -4,10 +4,10 @@ import java.util.Hashtable;
 
 import com.technoetic.xplanner.db.IterationStatisticsQuery;
 
-public class TaskDispositionEstimatedHoursData extends XplannerPieChartData{
+public class TaskDispositionEstimatedHoursData extends XplannerPieChartData {
 
-   protected Hashtable getData(IterationStatisticsQuery statistics)
-   {
-      return statistics.getTaskEstimatedHoursByDisposition();
-   }
+	@Override
+	protected Hashtable getData(final IterationStatisticsQuery statistics) {
+		return statistics.getTaskEstimatedHoursByDisposition();
+	}
 }

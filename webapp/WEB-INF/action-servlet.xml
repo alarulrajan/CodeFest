@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<beans default-autowire="byName" default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
+<beans default-autowire="byName" default-lazy-init="true"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<bean name="/changeLocale" class="com.technoetic.xplanner.actions.ChangeLocaleAction" />
-	
+
 	<bean name="/systemInfo" class="com.technoetic.xplanner.actions.SystemInfoAction" />
 
 	<bean name="/login" class="com.technoetic.xplanner.actions.AuthenticationAction" />
@@ -15,12 +15,9 @@
 
 	<bean name="/logout" class="com.technoetic.xplanner.actions.LogoutAction" />
 
-	<!--
-		<bean name="/logout" parameter="security/logout"
-		class="com.technoetic.xplanner.actions.DispatchForward"> <bean>
-		<property name="authorizationRequired"> <value>false</value>
-		</property> </bean> </bean>
-	-->
+	<!-- <bean name="/logout" parameter="security/logout" class="com.technoetic.xplanner.actions.DispatchForward"> 
+		<bean> <property name="authorizationRequired"> <value>false</value> </property> 
+		</bean> </bean> -->
 
 	<bean name="/view/twikiformat" class="com.technoetic.xplanner.actions.DispatchForward">
 		<property name="authorizationRequired" value="false" />
@@ -111,7 +108,8 @@
 		</property>
 	</bean>
 
-	<bean name="/view/iteration/metrics" class="com.technoetic.xplanner.actions.ViewIterationMetricsAction">
+	<bean name="/view/iteration/metrics"
+		class="com.technoetic.xplanner.actions.ViewIterationMetricsAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Iteration</value>
 		</property>
@@ -186,7 +184,7 @@
 		</property>
 	</bean>
 
-	<!-- DEBT: Why having the editIterationStatus.jsp for close?-->
+	<!-- DEBT: Why having the editIterationStatus.jsp for close? -->
 	<bean name="/close/iteration" class="com.technoetic.xplanner.actions.CloseIterationAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Iteration</value>
@@ -223,13 +221,15 @@
 		</property>
 	</bean>
 
-	<bean name="/move/continue/userstory" class="com.technoetic.xplanner.actions.MoveContinueStoryAction">
+	<bean name="/move/continue/userstory"
+		class="com.technoetic.xplanner.actions.MoveContinueStoryAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.UserStory</value>
 		</property>
 	</bean>
 
-	<bean name="/continue/unfinished/stories" class="com.technoetic.xplanner.actions.ContinueUnfinishedStoriesAction">
+	<bean name="/continue/unfinished/stories"
+		class="com.technoetic.xplanner.actions.ContinueUnfinishedStoriesAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Iteration</value>
 		</property>
@@ -271,7 +271,8 @@
 		</property>
 	</bean>
 
-	<bean name="/move/continue/task" class="com.technoetic.xplanner.actions.MoveContinueTaskAction">
+	<bean name="/move/continue/task"
+		class="com.technoetic.xplanner.actions.MoveContinueTaskAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Task</value>
 		</property>
@@ -318,7 +319,8 @@
 		</property>
 	</bean>
 
-	<bean name="/download/attachment" class="com.technoetic.xplanner.actions.DownloadAttachmentAction">
+	<bean name="/download/attachment"
+		class="com.technoetic.xplanner.actions.DownloadAttachmentAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Note</value>
 		</property>
@@ -355,7 +357,7 @@
 		</property>
 	</bean>
 
-	<!--      Todo Move importPeople.jsp to import/people.jsp-->
+	<!-- Todo Move importPeople.jsp to import/people.jsp -->
 	<bean name="/import/people" class="com.technoetic.xplanner.actions.ImportPeopleAction" />
 
 	<bean name="/import/stories" class="com.technoetic.xplanner.actions.ImportStoriesAction">
@@ -373,29 +375,33 @@
 		</property>
 	</bean>
 
-	<bean name="/edit/time" class="com.technoetic.xplanner.actions.UpdateTimeAction" >
-	   <property name="taskDao" ref="taskDao" />
+	<bean name="/edit/time" class="com.technoetic.xplanner.actions.UpdateTimeAction">
+		<property name="taskDao" ref="taskDao" />
 	</bean>
 
 	<bean name="/edit/reorderstories" class="com.technoetic.xplanner.actions.ReorderStoriesAction" />
 
 	<bean name="/move/userstories" class="com.technoetic.xplanner.actions.MoveStoriesAction" />
 
-	<bean name="/edit/project/notification" class="com.technoetic.xplanner.actions.UpdateTimeNotificationReceivers" />
+	<bean name="/edit/project/notification"
+		class="com.technoetic.xplanner.actions.UpdateTimeNotificationReceivers" />
 
 	<bean name="/view/timesheet" class="com.technoetic.xplanner.actions.ViewTimesheetAction" />
 
-	<bean name="/view/aggregateTimesheet" class="com.technoetic.xplanner.actions.ViewAggregateTimesheetAction" />
+	<bean name="/view/aggregateTimesheet"
+		class="com.technoetic.xplanner.actions.ViewAggregateTimesheetAction" />
 
 	<bean name="/view/integrations" class="com.technoetic.xplanner.actions.DispatchForward" />
 
-	<bean name="/edit/integrations" class="com.technoetic.xplanner.actions.IntegrationAction" init-method="init" />
+	<bean name="/edit/integrations" class="com.technoetic.xplanner.actions.IntegrationAction"
+		init-method="init" />
 
 	<bean name="/view/history" class="com.technoetic.xplanner.actions.ViewObjectAction" />
 
 	<bean name="/view/directory" class="com.technoetic.xplanner.actions.FileManagerAction" />
 
-	<bean name="/admin/reload-tiles" class="org.apache.struts.tiles.actions.ReloadDefinitionsAction" />
+	<bean name="/admin/reload-tiles"
+		class="org.apache.struts.tiles.actions.ReloadDefinitionsAction" />
 
 	<bean name="/edit/roles" class="com.technoetic.xplanner.actions.EditRoleAction">
 		<property name="type">
@@ -403,20 +409,20 @@
 		</property>
 	</bean>
 
-	<bean name="/search/id" class="com.technoetic.xplanner.actions.IdSearchAction" >
+	<bean name="/search/id" class="com.technoetic.xplanner.actions.IdSearchAction">
 		<property name="idSearchHelper" ref="idSearchHelper" />
 	</bean>
 
 	<bean name="/search/content" class="com.technoetic.xplanner.actions.ContentSearchAction" />
 
-  <bean name="/view/settings" class="com.technoetic.xplanner.actions.DispatchForward">
-    <property name="authorizationRequired" value="false" />
-  </bean>
-	
-	<bean name="/view/dashboard" class="com.technoetic.xplanner.actions.DispatchForward" >
+	<bean name="/view/settings" class="com.technoetic.xplanner.actions.DispatchForward">
 		<property name="authorizationRequired" value="false" />
 	</bean>
-	
+
+	<bean name="/view/dashboard" class="com.technoetic.xplanner.actions.DispatchForward">
+		<property name="authorizationRequired" value="false" />
+	</bean>
+
 	<bean name="/edit/setting" class="com.technoetic.xplanner.actions.EditObjectAction">
 		<property name="type">
 			<value>net.sf.xplanner.domain.Setting</value>

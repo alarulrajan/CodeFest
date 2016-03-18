@@ -64,13 +64,14 @@
 package com.technoetic.xplanner.security.util;
 
 /**
- * This class provides encode/decode for RFC 2045 Base64x as defined by
- * RFC 2045, N. Freed and N. Borenstein.  <a
- * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>:
- * Multipurpose Internet Mail Extensions (MIME) Part One: Format of
- * Internet Message Bodies. Reference 1996
- *
+ * This class provides encode/decode for RFC 2045 Base64x as defined by RFC
+ * 2045, N. Freed and N. Borenstein. <a
+ * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>: Multipurpose
+ * Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies.
+ * Reference 1996
+ * 
  * @author Jeffrey Rodriguez
  * @version $Id: Base64.java 889 2006-01-03 08:49:44Z jacmorel $
  */
-public final class Base64 extends com.sabre.security.jndi.util.Base64 {}
+public final class Base64 extends com.sabre.security.jndi.util.Base64 {
+}

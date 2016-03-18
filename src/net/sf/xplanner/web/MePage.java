@@ -24,36 +24,43 @@ public class MePage extends BasePage<Person> {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	
-	
 	@RequestMapping("/me/status/{id}")
-	public ModelAndView list(@PathVariable Integer id) {
-		ModelAndView modelAndView = getModelAndView("view/meStatus", id);
+	public ModelAndView list(@PathVariable final Integer id) {
+		final ModelAndView modelAndView = this.getModelAndView("view/meStatus",
+				id);
 		// grab a list of all active tasks
-		List<Task> tasks = taskDao.getCurrentTasksForPerson(id);
+		final List<Task> tasks = this.taskDao.getCurrentTasksForPerson(id);
 
-		modelAndView.addObject("currentActiveTasksForPerson", taskRepository.getCurrentActiveTasks(tasks));
-		modelAndView.addObject("currentPendingTasksForPerson", taskRepository.getCurrentPendingTasks(tasks));
-		modelAndView.addObject("currentCompletedTasksForPerson", taskRepository.getCurrentCompletedTasks(tasks));
-		modelAndView.addObject("futureTasksForPerson", taskRepository.getFutureTasksForPerson(id));
-		modelAndView.addObject("storiesForCustomer", userStoryDao.getStoriesForPersonWhereCustomer(id));
-		modelAndView.addObject("storiesForTracker", userStoryDao.getStoriesForPersonWhereTracker(id));
+		modelAndView.addObject("currentActiveTasksForPerson",
+				this.taskRepository.getCurrentActiveTasks(tasks));
+		modelAndView.addObject("currentPendingTasksForPerson",
+				this.taskRepository.getCurrentPendingTasks(tasks));
+		modelAndView.addObject("currentCompletedTasksForPerson",
+				this.taskRepository.getCurrentCompletedTasks(tasks));
+		modelAndView.addObject("futureTasksForPerson",
+				this.taskRepository.getFutureTasksForPerson(id));
+		modelAndView.addObject("storiesForCustomer",
+				this.userStoryDao.getStoriesForPersonWhereCustomer(id));
+		modelAndView.addObject("storiesForTracker",
+				this.userStoryDao.getStoriesForPersonWhereTracker(id));
 		return modelAndView;
 	}
 
-	public void setTaskRepository(TaskRepository taskRepository) {
+	public void setTaskRepository(final TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
 	}
-	public void setTaskDao(TaskDao taskDao) {
+
+	public void setTaskDao(final TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
 
-	public void setUserStoryDao(UserStoryDao userStoryDao) {
+	public void setUserStoryDao(final UserStoryDao userStoryDao) {
 		this.userStoryDao = userStoryDao;
 	}
-//	@RequestMapping("/{objectType}/edit/{objectId}")
-//	public String edit(@PathVariable String objectType, @PathVariable Integer objectId){
-//		System.out.println(objectType);
-//		return objectType;
-//	}
+	// @RequestMapping("/{objectType}/edit/{objectId}")
+	// public String edit(@PathVariable String objectType, @PathVariable Integer
+	// objectId){
+	// System.out.println(objectType);
+	// return objectType;
+	// }
 }

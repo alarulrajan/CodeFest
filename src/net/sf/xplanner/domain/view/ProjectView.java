@@ -14,45 +14,52 @@ import net.sf.xplanner.domain.Person;
 //@Loader(namedQuery="project.loadView")
 //@NamedQuery(name="project.loadView", query="select project.id as id,project.name as name from project in class net.sf.xplanner.domain.Project where project.id=?")
 @XmlRootElement
-public class ProjectView extends NamedObject{
+public class ProjectView extends NamedObject {
 	private Boolean hidden;
-    private List<Person> notificationReceivers;
+	private List<Person> notificationReceivers;
 	private List<Note> notes;
 	private Iteration currentIteration;
-	
+
 	public Boolean getHidden() {
-		return hidden;
+		return this.hidden;
 	}
-	public void setHidden(Boolean hidden) {
+
+	public void setHidden(final Boolean hidden) {
 		this.hidden = hidden;
 	}
 
-//	@OneToMany()
-//    @JoinTable(name="notification_receivers", joinColumns=@JoinColumn(name="attachedTo_id"))
+	// @OneToMany()
+	// @JoinTable(name="notification_receivers",
+	// joinColumns=@JoinColumn(name="attachedTo_id"))
 	@XmlTransient
 	public List<Person> getNotificationReceivers() {
-		return notificationReceivers;
+		return this.notificationReceivers;
 	}
-	public void setNotificationReceivers(List<Person> notificationReceivers) {
+
+	public void setNotificationReceivers(
+			final List<Person> notificationReceivers) {
 		this.notificationReceivers = notificationReceivers;
 	}
 
-//	@ManyToMany()
-//    @JoinTable(name="note", joinColumns=@JoinColumn(name="project_id"), inverseJoinColumns=@JoinColumn(name="person_id"))
+	// @ManyToMany()
+	// @JoinTable(name="note", joinColumns=@JoinColumn(name="project_id"),
+	// inverseJoinColumns=@JoinColumn(name="person_id"))
 	@XmlTransient
 	public List<Note> getNotes() {
-		return notes;
+		return this.notes;
 	}
-	public void setNotes(List<Note> notes) {
+
+	public void setNotes(final List<Note> notes) {
 		this.notes = notes;
 	}
-	
+
 	@XmlTransient
 	public Iteration getCurrentIteration() {
-		return currentIteration;
+		return this.currentIteration;
 	}
-	public void setCurrentIteration(Iteration currentIteration) {
+
+	public void setCurrentIteration(final Iteration currentIteration) {
 		this.currentIteration = currentIteration;
 	}
-	
+
 }

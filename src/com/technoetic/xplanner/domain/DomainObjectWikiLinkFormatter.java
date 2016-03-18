@@ -15,29 +15,30 @@ import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
 public class DomainObjectWikiLinkFormatter {
-   String fromText;
-   String toText;
+	String fromText;
+	String toText;
 
-   Map schemeByClass = new HashMap();
+	Map schemeByClass = new HashMap();
 
-   public DomainObjectWikiLinkFormatter() {
-      initSchemeByClassMap();
-   }
+	public DomainObjectWikiLinkFormatter() {
+		this.initSchemeByClassMap();
+	}
 
-   private void initSchemeByClassMap() {
-      schemeByClass.put(Project.class, "project");
-      schemeByClass.put(Iteration.class, "iteration");
-//      schemeByClass.put(Feature.class, "feature");
-      schemeByClass.put(UserStory.class, "story");
-      schemeByClass.put(Task.class, "task");
-   }
+	private void initSchemeByClassMap() {
+		this.schemeByClass.put(Project.class, "project");
+		this.schemeByClass.put(Iteration.class, "iteration");
+		// schemeByClass.put(Feature.class, "feature");
+		this.schemeByClass.put(UserStory.class, "story");
+		this.schemeByClass.put(Task.class, "task");
+	}
 
-   public String format(net.sf.xplanner.domain.DomainObject object) {
-      String link = "";
-      if (object != null) {
-         String scheme = (String) schemeByClass.get(object.getClass());
-         link = scheme + ":" + object.getId();
-      }
-      return link;
-   }
+	public String format(final net.sf.xplanner.domain.DomainObject object) {
+		String link = "";
+		if (object != null) {
+			final String scheme = (String) this.schemeByClass.get(object
+					.getClass());
+			link = scheme + ":" + object.getId();
+		}
+		return link;
+	}
 }

@@ -13,20 +13,19 @@ import org.hibernate.SessionFactory;
 import com.technoetic.xplanner.util.LogUtil;
 
 public class InvalidateHibernateCacheAction extends Action {
-    private static final Logger log = LogUtil.getLogger();
-    SessionFactory sessionFactory;
+	private static final Logger log = LogUtil.getLogger();
+	SessionFactory sessionFactory;
 
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm form,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      sessionFactory.evictQueries();
-      log.info("hibernate cache cleared");
-      return null;
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		this.sessionFactory.evictQueries();
+		InvalidateHibernateCacheAction.log.info("hibernate cache cleared");
+		return null;
+	}
 
-
-   public void setSessionFactory(SessionFactory sessionFactory) {
-      this.sessionFactory = sessionFactory;
-   }
+	public void setSessionFactory(final SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 }

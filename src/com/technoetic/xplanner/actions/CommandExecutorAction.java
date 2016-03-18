@@ -15,27 +15,25 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.Command;
 
 /**
- * User: mprokopowicz
- * Date: Feb 3, 2006
- * Time: 11:32:41 AM
+ * User: mprokopowicz Date: Feb 3, 2006 Time: 11:32:41 AM
  */
 public class CommandExecutorAction extends Action {
-   private Command command;
+	private Command command;
 
+	public void setTask(final Command command) {
+		this.command = command;
+	}
 
-   public void setTask(Command command) {
-      this.command = command;
-   }
-
-   public ActionForward execute(ActionMapping mapping,
-                                ActionForm form,
-                                HttpServletRequest request,
-                                HttpServletResponse response) throws Exception {
-      command.execute();
-      String returnto = request.getParameter(EditObjectAction.RETURNTO_PARAM);
-      if (returnto != null) {
-         return new ActionForward(returnto, true);
-      }
-      return mapping.findForward("view/projects");
-   }
+	@Override
+	public ActionForward execute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		this.command.execute();
+		final String returnto = request
+				.getParameter(EditObjectAction.RETURNTO_PARAM);
+		if (returnto != null) {
+			return new ActionForward(returnto, true);
+		}
+		return mapping.findForward("view/projects");
+	}
 }

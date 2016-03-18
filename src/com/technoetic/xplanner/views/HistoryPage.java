@@ -11,6 +11,6 @@
 package com.technoetic.xplanner.views;
 
 public interface HistoryPage {
-   String EVENT_TABLE_ID = "historyEvents";
-   String CONTAINER_EVENT_TABLE_ID = "containerEvents";
+	String EVENT_TABLE_ID = "historyEvents";
+	String CONTAINER_EVENT_TABLE_ID = "containerEvents";
 }

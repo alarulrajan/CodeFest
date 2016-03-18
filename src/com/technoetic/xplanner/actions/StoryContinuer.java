@@ -21,59 +21,70 @@ import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.SecurityHelper;
 
 public class StoryContinuer extends Continuer {
-   private TaskContinuer taskContinuer;
+	private TaskContinuer taskContinuer;
 
-   //DEBT 3LAYERCONTEXT remove dependency on request and move this class into the session context.
-   public void init(Session session, HttpServletRequest request) throws AuthenticationException {
-      init(session,
-           (MessageResources) request.getAttribute(Globals.MESSAGES_KEY),
-           SecurityHelper.getRemoteUserId(request));
-      taskContinuer.init(session, (MessageResources) request.getAttribute(Globals.MESSAGES_KEY), currentUserId);
-   }
+	// DEBT 3LAYERCONTEXT remove dependency on request and move this class into
+	// the session context.
+	public void init(final Session session, final HttpServletRequest request)
+			throws AuthenticationException {
+		this.init(session,
+				(MessageResources) request.getAttribute(Globals.MESSAGES_KEY),
+				SecurityHelper.getRemoteUserId(request));
+		this.taskContinuer.init(session,
+				(MessageResources) request.getAttribute(Globals.MESSAGES_KEY),
+				this.currentUserId);
+	}
 
-   protected void doContinueObject(DomainObject fromObject, DomainObject toParent, DomainObject toObject)
-         throws HibernateException {
+	@Override
+	protected void doContinueObject(final DomainObject fromObject,
+			final DomainObject toParent, final DomainObject toObject)
+			throws HibernateException {
 
-      UserStory fromStory = (UserStory) fromObject;
-      Iteration toIteration = (Iteration) toParent;
-      UserStory toStory = (UserStory) toObject;
+		final UserStory fromStory = (UserStory) fromObject;
+		final Iteration toIteration = (Iteration) toParent;
+		final UserStory toStory = (UserStory) toObject;
 
-      fromStory.postponeRemainingHours();
+		fromStory.postponeRemainingHours();
 
-      toStory.setIteration(toIteration);
-      toStory.setEstimatedHoursField(fromStory.getTaskBasedRemainingHours());
-      toStory.setDisposition(determineContinuedStoryDisposition(toIteration));
-      toStory.setEstimatedOriginalHours(0);
-      toStory.setTasks(new ArrayList<Task>());
-      continueTasks(fromStory, toStory, determineTaskDisposition(toIteration));
-   }
+		toStory.setIteration(toIteration);
+		toStory.setEstimatedHoursField(fromStory.getTaskBasedRemainingHours());
+		toStory.setDisposition(this
+				.determineContinuedStoryDisposition(toIteration));
+		toStory.setEstimatedOriginalHours(0);
+		toStory.setTasks(new ArrayList<Task>());
+		this.continueTasks(fromStory, toStory,
+				this.determineTaskDisposition(toIteration));
+	}
 
-   private TaskDisposition determineTaskDisposition(Iteration iteration) {
-      return iteration.isActive() ? TaskDisposition.ADDED : TaskDisposition.CARRIED_OVER;
-   }
+	private TaskDisposition determineTaskDisposition(final Iteration iteration) {
+		return iteration.isActive() ? TaskDisposition.ADDED
+				: TaskDisposition.CARRIED_OVER;
+	}
 
-   private void continueTasks(UserStory fromStory, UserStory toStory, TaskDisposition taskDisposition)
-         throws HibernateException {
-      Iterator taskIterator = fromStory.getTasks().iterator();
-      taskContinuer.setDispositionOfContinuedTasks(taskDisposition);
-      while (taskIterator.hasNext()) {
-         Task task = (Task) taskIterator.next();
-         if (!task.isCompleted()) {
-            taskContinuer.continueObject(task, fromStory, toStory);
-         }
-      }
-   }
+	private void continueTasks(final UserStory fromStory,
+			final UserStory toStory, final TaskDisposition taskDisposition)
+			throws HibernateException {
+		final Iterator taskIterator = fromStory.getTasks().iterator();
+		this.taskContinuer.setDispositionOfContinuedTasks(taskDisposition);
+		while (taskIterator.hasNext()) {
+			final Task task = (Task) taskIterator.next();
+			if (!task.isCompleted()) {
+				this.taskContinuer.continueObject(task, fromStory, toStory);
+			}
+		}
+	}
 
+	public StoryDisposition determineContinuedStoryDisposition(
+			final Iteration iteration) {
+		return iteration.isActive() ? StoryDisposition.ADDED
+				: StoryDisposition.CARRIED_OVER;
+	}
 
-   public StoryDisposition determineContinuedStoryDisposition(Iteration iteration) {
-      return iteration.isActive() ? StoryDisposition.ADDED : StoryDisposition.CARRIED_OVER;
-   }
+	public void setTaskContinuer(final TaskContinuer taskContinuer) {
+		this.taskContinuer = taskContinuer;
+	}
 
-   public void setTaskContinuer(TaskContinuer taskContinuer) {
-      this.taskContinuer = taskContinuer;
-   }
-
-   public TaskContinuer getTaskContinuer() {
-      return taskContinuer;
-   }
+	public TaskContinuer getTaskContinuer() {
+		return this.taskContinuer;
+	}
 }

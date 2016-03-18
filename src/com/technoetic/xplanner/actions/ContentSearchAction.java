@@ -27,64 +27,75 @@ import com.technoetic.xplanner.security.SecurityHelper;
  * @noinspection UnusedAssignment
  */
 public class ContentSearchAction extends AbstractAction {
-   public static final String SEARCH_CRITERIA_KEY = "searchedContent";
-   private ContentSearchHelper searchHelper;
-   private IdSearchHelper idSearchHelper;
-   
-   protected static final String RESTRICTED_PROJECT_ID_KEY = "restrictToProjectId";
+	public static final String SEARCH_CRITERIA_KEY = "searchedContent";
+	private ContentSearchHelper searchHelper;
+	private IdSearchHelper idSearchHelper;
 
-   
-   protected ActionForward doExecute(ActionMapping mapping, ActionForm form,
-                                     HttpServletRequest request, HttpServletResponse response)
-         throws Exception {
-      int remoteUserId = SecurityHelper.getRemoteUserId(request);
-      String searchCriteria = request.getParameter(SEARCH_CRITERIA_KEY);
-      if (StringUtils.isEmpty(searchCriteria)) {
-         request.setAttribute("exception", produceException(request));
-         return mapping.findForward("error");
-      }
-      XPlannerProperties xPlannerProperties = new XPlannerProperties();
-      Boolean isGlobalSearchScope = Boolean.valueOf(xPlannerProperties.getProperty("search.content.globalScopeEnable"));
-      int projectId = 0;
-      if (!isGlobalSearchScope.booleanValue())
-         projectId = Integer.parseInt(request.getParameter(RESTRICTED_PROJECT_ID_KEY));
-      List results = search(searchCriteria, remoteUserId, projectId);
-      if(NumberUtils.toInt(searchCriteria)!=0 && projectId==0){
-    	  DomainObject domainObject = idSearchHelper.search(NumberUtils.toInt(searchCriteria));
-    	  if(domainObject instanceof Nameable){
-    		  results.add(0, searchHelper.convertToSearchResult((Nameable)domainObject, searchCriteria));
-    	  }
-      }
-      request.setAttribute("searchResults", results);
-      request.setAttribute(SEARCH_CRITERIA_KEY, searchCriteria);
+	protected static final String RESTRICTED_PROJECT_ID_KEY = "restrictToProjectId";
 
-      return mapping.findForward("success");
-   }
+	@Override
+	protected ActionForward doExecute(final ActionMapping mapping,
+			final ActionForm form, final HttpServletRequest request,
+			final HttpServletResponse response) throws Exception {
+		final int remoteUserId = SecurityHelper.getRemoteUserId(request);
+		final String searchCriteria = request
+				.getParameter(ContentSearchAction.SEARCH_CRITERIA_KEY);
+		if (StringUtils.isEmpty(searchCriteria)) {
+			request.setAttribute("exception", this.produceException(request));
+			return mapping.findForward("error");
+		}
+		final XPlannerProperties xPlannerProperties = new XPlannerProperties();
+		final Boolean isGlobalSearchScope = Boolean.valueOf(xPlannerProperties
+				.getProperty("search.content.globalScopeEnable"));
+		int projectId = 0;
+		if (!isGlobalSearchScope.booleanValue()) {
+			projectId = Integer
+					.parseInt(request
+							.getParameter(ContentSearchAction.RESTRICTED_PROJECT_ID_KEY));
+		}
+		final List results = this.search(searchCriteria, remoteUserId,
+				projectId);
+		if (NumberUtils.toInt(searchCriteria) != 0 && projectId == 0) {
+			final DomainObject domainObject = this.idSearchHelper
+					.search(NumberUtils.toInt(searchCriteria));
+			if (domainObject instanceof Nameable) {
+				results.add(0, this.searchHelper.convertToSearchResult(
+						(Nameable) domainObject, searchCriteria));
+			}
+		}
+		request.setAttribute("searchResults", results);
+		request.setAttribute(ContentSearchAction.SEARCH_CRITERIA_KEY,
+				searchCriteria);
 
-   protected List search(String searchCriteria, int userId, int restrictedProjectId) throws RepositoryException {
-      searchHelper.search(searchCriteria, userId, restrictedProjectId);
-      return searchHelper.getSearchResults();
-   }
+		return mapping.findForward("success");
+	}
 
-   private Exception produceException(HttpServletRequest request) {
-      return produceException(((MessageResources) request.getAttribute(Globals.MESSAGES_KEY)),
-                              request.getLocale(),
-                              "missing content");
-   }
+	protected List search(final String searchCriteria, final int userId,
+			final int restrictedProjectId) throws RepositoryException {
+		this.searchHelper.search(searchCriteria, userId, restrictedProjectId);
+		return this.searchHelper.getSearchResults();
+	}
 
-   private Exception produceException(MessageResources messageResources,
-                                      Locale locale,
-                                      String message) {
-      String invalidMessage = messageResources.getMessage(locale, "contentsearch.invalid_id");
-      String exceptionMessage = invalidMessage + (message != null ? ": " + message : message);
-      return new Exception(exceptionMessage);
-   }
+	private Exception produceException(final HttpServletRequest request) {
+		return this.produceException(
+				(MessageResources) request.getAttribute(Globals.MESSAGES_KEY),
+				request.getLocale(), "missing content");
+	}
 
-	public void setContentSearchHelper(ContentSearchHelper searchHelper) {
+	private Exception produceException(final MessageResources messageResources,
+			final Locale locale, final String message) {
+		final String invalidMessage = messageResources.getMessage(locale,
+				"contentsearch.invalid_id");
+		final String exceptionMessage = invalidMessage
+				+ (message != null ? ": " + message : message);
+		return new Exception(exceptionMessage);
+	}
+
+	public void setContentSearchHelper(final ContentSearchHelper searchHelper) {
 		this.searchHelper = searchHelper;
 	}
 
-	public void setIdSearchHelper(IdSearchHelper idSearchHelper) {
+	public void setIdSearchHelper(final IdSearchHelper idSearchHelper) {
 		this.idSearchHelper = idSearchHelper;
 	}
 }

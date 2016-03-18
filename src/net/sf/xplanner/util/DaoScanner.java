@@ -11,21 +11,20 @@ import org.springframework.context.ApplicationContext;
 
 public class DaoScanner {
 	private ApplicationContext applicationContext;
-	
-	public void init(){
-		Map<String, Dao> beansOfType = applicationContext.getBeansOfType(Dao.class);
-		Set<String> keySet = beansOfType.keySet();
-		for (String key : keySet) {
+
+	public void init() {
+		final Map<String, Dao> beansOfType = this.applicationContext
+				.getBeansOfType(Dao.class);
+		final Set<String> keySet = beansOfType.keySet();
+		for (final String key : keySet) {
 			System.out.println(key + "=" + beansOfType.get(key));
 		}
 	}
-	
-	
-	
-	
+
 	@Autowired
 	@Required
-	public void setApplicationContext(ApplicationContext applicationContext) {
+	public void setApplicationContext(
+			final ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 }

@@ -20,33 +20,36 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class ViewService {
 	private ViewManager viewManager;
-	
+
 	@Autowired
-    public void setViewManager(ViewManager viewManager) {
+	public void setViewManager(final ViewManager viewManager) {
 		this.viewManager = viewManager;
 	}
-	// The Java method will process HTTP GET requests
-    @GET
-    // The Java method will produce content identified by the MIME Media
-    // type "text/plain"
-    @Produces("text/plain")
-    public String getIt() {
-        return "Hi there!";
-    }
-    
-    @GET
-    @Produces({"application/xml", "application/json"})
-    @Path("/project/{projectId}")
-    public ProjectView getProject(@PathParam("projectId") Integer id) {
-        return viewManager.getProject(id);
-    }
 
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/iteration/{iterationId}/userstories")
-    public UserStoryView[] getUserStories(@PathParam("iterationId") Integer id) {
-        List<UserStoryView> userStories = viewManager.getUserStories(id);
+	// The Java method will process HTTP GET requests
+	@GET
+	// The Java method will produce content identified by the MIME Media
+	// type "text/plain"
+	@Produces("text/plain")
+	public String getIt() {
+		return "Hi there!";
+	}
+
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	@Path("/project/{projectId}")
+	public ProjectView getProject(@PathParam("projectId") final Integer id) {
+		return this.viewManager.getProject(id);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/iteration/{iterationId}/userstories")
+	public UserStoryView[] getUserStories(
+			@PathParam("iterationId") final Integer id) {
+		final List<UserStoryView> userStories = this.viewManager
+				.getUserStories(id);
 		return userStories.toArray(new UserStoryView[userStories.size()]);
-    }
-    
+	}
+
 }

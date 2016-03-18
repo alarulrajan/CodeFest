@@ -17,7 +17,7 @@ public class NotificationReceiversId implements java.io.Serializable {
 	public NotificationReceiversId() {
 	}
 
-	public NotificationReceiversId(int projectId, int personId) {
+	public NotificationReceiversId(final int projectId, final int personId) {
 		this.projectId = projectId;
 		this.personId = personId;
 	}
@@ -27,7 +27,7 @@ public class NotificationReceiversId implements java.io.Serializable {
 		return this.projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(final int projectId) {
 		this.projectId = projectId;
 	}
 
@@ -36,23 +36,28 @@ public class NotificationReceiversId implements java.io.Serializable {
 		return this.personId;
 	}
 
-	public void setPersonId(int personId) {
+	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
 			return true;
-		if ((other == null))
+		}
+		if (other == null) {
 			return false;
-		if (!(other instanceof NotificationReceiversId))
+		}
+		if (!(other instanceof NotificationReceiversId)) {
 			return false;
-		NotificationReceiversId castOther = (NotificationReceiversId) other;
+		}
+		final NotificationReceiversId castOther = (NotificationReceiversId) other;
 
-		return (this.getProjectId() == castOther.getProjectId())
-				&& (this.getPersonId() == castOther.getPersonId());
+		return this.getProjectId() == castOther.getProjectId()
+				&& this.getPersonId() == castOther.getPersonId();
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

@@ -19,38 +19,41 @@ public class MoveStoriesAction extends AbstractAction<UserStory> {
 
 	private MoveContinueStory moveContinueStory;
 
-	public void setMoveContinueStory(MoveContinueStory moveContinueStory) {
+	public void setMoveContinueStory(final MoveContinueStory moveContinueStory) {
 		this.moveContinueStory = moveContinueStory;
 	}
 
 	public MoveContinueStory getMoveContinueStory() {
-		return moveContinueStory;
+		return this.moveContinueStory;
 	}
 
 	@Override
-	protected ActionForward doExecute(ActionMapping actionMapping,
-			ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse reply) throws Exception {
+	protected ActionForward doExecute(final ActionMapping actionMapping,
+			final ActionForm actionForm, final HttpServletRequest request,
+			final HttpServletResponse reply) throws Exception {
 
-		MoveStoriesForm moveStoriesForm = (MoveStoriesForm) actionForm;
-		int targetIterationId = moveStoriesForm.getTargetIterationId();
+		final MoveStoriesForm moveStoriesForm = (MoveStoriesForm) actionForm;
+		final int targetIterationId = moveStoriesForm.getTargetIterationId();
 
 		if (targetIterationId > 0) {
-			Session session = getSession(request);
-			Iteration targetIteration = getIteration(targetIterationId);
-			Iteration iteration = getIteration(Integer.parseInt(moveStoriesForm.getIterationId()));
+			final Session session = this.getSession(request);
+			final Iteration targetIteration = this
+					.getIteration(targetIterationId);
+			final Iteration iteration = this.getIteration(Integer
+					.parseInt(moveStoriesForm.getIterationId()));
 
 			if (targetIteration.getId() != iteration.getId()) {
-				for (String storyId : moveStoriesForm.getStoryIds()) {
-					UserStory story = getStory(Integer.parseInt(storyId));
-					moveContinueStory.moveStory(story, targetIteration,
+				for (final String storyId : moveStoriesForm.getStoryIds()) {
+					final UserStory story = this.getStory(Integer
+							.parseInt(storyId));
+					this.moveContinueStory.moveStory(story, targetIteration,
 							iteration, request, session);
 				}
-				moveContinueStory.reorderIterationStories(iteration);
-				moveContinueStory.reorderIterationStories(targetIteration);
+				this.moveContinueStory.reorderIterationStories(iteration);
+				this.moveContinueStory.reorderIterationStories(targetIteration);
 			}
 
-			ActionForward actionForward = new ActionForward(
+			final ActionForward actionForward = new ActionForward(
 					"/do/view/iteration?oid=" + iteration.getId());
 			actionForward.setRedirect(true);
 			return actionForward;
@@ -59,7 +62,7 @@ public class MoveStoriesAction extends AbstractAction<UserStory> {
 		}
 	}
 
-	private UserStory getStory(int id) throws RepositoryException {
-		return getCommonDao().getById(UserStory.class, id);
+	private UserStory getStory(final int id) throws RepositoryException {
+		return this.getCommonDao().getById(UserStory.class, id);
 	}
 }

@@ -1,13 +1,13 @@
 package com.technoetic.xplanner.security.config;
 
 public class SecurityRole {
-    private String name;
+	private String name;
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 }

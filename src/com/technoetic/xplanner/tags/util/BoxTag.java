@@ -16,47 +16,51 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.struts.util.ResponseUtils;
 
 public class BoxTag extends BodyTagSupport {
-   private String id;
-   private String styleClass = "box";
-   private String title ;
+	private String id;
+	private String styleClass = "box";
+	private String title;
 
-   public int doEndTag() throws JspException {
-      String id = this.id;
-      if (id == null) id = title;
-      StringBuffer results = new StringBuffer();
-      results.append("<div class=\""+ styleClass + "\">");
-      results.append("<h3 style=\"border-bottom-width:0px\">");
-      results.append("<span class=\"boxIcon\">");
-      results.append("   <span class=\"boxIconText\" id=\""+id+"-switch\" onclick=\"toggle('"+id+"')\">[hide]</span>\n");
-      results.append("</span>");
-      results.append(title);
-      results.append("</h3>");
-      results.append("<div id=\""+id+"\" class=\"boxBody\">");
-      renderBody(results);
-      results.append("</div>");
-      results.append("</div>");
+	@Override
+	public int doEndTag() throws JspException {
+		String id = this.id;
+		if (id == null) {
+			id = this.title;
+		}
+		final StringBuffer results = new StringBuffer();
+		results.append("<div class=\"" + this.styleClass + "\">");
+		results.append("<h3 style=\"border-bottom-width:0px\">");
+		results.append("<span class=\"boxIcon\">");
+		results.append("   <span class=\"boxIconText\" id=\"" + id
+				+ "-switch\" onclick=\"toggle('" + id + "')\">[hide]</span>\n");
+		results.append("</span>");
+		results.append(this.title);
+		results.append("</h3>");
+		results.append("<div id=\"" + id + "\" class=\"boxBody\">");
+		this.renderBody(results);
+		results.append("</div>");
+		results.append("</div>");
 
-      ResponseUtils.write(pageContext, results.toString());
+		ResponseUtils.write(this.pageContext, results.toString());
 
-      return super.doEndTag();
-   }
+		return super.doEndTag();
+	}
 
-   protected void renderBody(StringBuffer results) {
-      if (bodyContent != null) {
-         results.append(bodyContent.getString());
-      }
-   }
+	protected void renderBody(final StringBuffer results) {
+		if (this.bodyContent != null) {
+			results.append(this.bodyContent.getString());
+		}
+	}
 
+	public void setStyleClass(final String styleClass) {
+		this.styleClass = styleClass;
+	}
 
-   public void setStyleClass(String styleClass) {
-      this.styleClass = styleClass;
-   }
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 
-   public void setTitle(String title) {
-      this.title = title;
-   }
-
-   public void setId(String id) {
-      this.id = id;
-   }
+	@Override
+	public void setId(final String id) {
+		this.id = id;
+	}
 }

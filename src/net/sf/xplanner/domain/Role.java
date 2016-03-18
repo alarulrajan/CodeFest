@@ -1,16 +1,12 @@
 package net.sf.xplanner.domain;
 
-
 import java.security.Principal;
-import java.util.Date;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -18,23 +14,23 @@ import org.hibernate.annotations.GenericGenerator;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
-*    XplannerPlus, agile planning software
-*    @author Maksym_Chyrkov. 
-*    Copyright (C) 2009  Maksym Chyrkov
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>
-* 	 
-*/
+ * XplannerPlus, agile planning software
+ * 
+ * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
+ *         free software: you can redistribute it and/or modify it under the
+ *         terms of the GNU General Public License as published by the Free
+ *         Software Foundation, either version 3 of the License, or (at your
+ *         option) any later version.
+ * 
+ *         This program is distributed in the hope that it will be useful, but
+ *         WITHOUT ANY WARRANTY; without even the implied warranty of
+ *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *         General Public License for more details.
+ * 
+ *         You should have received a copy of the GNU General Public License
+ *         along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ */
 
 @Entity
 @Table(name = "roles", uniqueConstraints = @UniqueConstraint(columnNames = "role"))
@@ -52,8 +48,8 @@ public class Role implements java.io.Serializable, Principal, Identifiable {
 	public Role() {
 	}
 
-	public Role(String name) {
-		setName(name);
+	public Role(final String name) {
+		this.setName(name);
 	}
 
 	@Column(name = "lft")
@@ -61,7 +57,7 @@ public class Role implements java.io.Serializable, Principal, Identifiable {
 		return this.left;
 	}
 
-	public void setLeft(Integer lft) {
+	public void setLeft(final Integer lft) {
 		this.left = lft;
 	}
 
@@ -70,30 +66,30 @@ public class Role implements java.io.Serializable, Principal, Identifiable {
 		return this.right;
 	}
 
-	public void setRight(Integer rgt) {
+	public void setRight(final Integer rgt) {
 		this.right = rgt;
 	}
-	
+
 	@Override
-	@Column(name="role", nullable=false)
+	@Column(name = "role", nullable = false)
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
+
 	@Id
-	@GeneratedValue(generator="commonId")
-	@GenericGenerator(name="commonId", strategy="com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
+	@GeneratedValue(generator = "commonId")
+	@GenericGenerator(name = "commonId", strategy = "com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
 	@Column(name = "id", unique = true, nullable = false)
 	@Override
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 

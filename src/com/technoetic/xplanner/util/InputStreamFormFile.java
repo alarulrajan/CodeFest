@@ -10,89 +10,109 @@ import java.util.Arrays;
 import org.apache.struts.upload.FormFile;
 
 public class InputStreamFormFile implements FormFile {
-    private byte[] fileData;
-    private String fileName;
-    private int fileSize;
-    private String contentType;
+	private byte[] fileData;
+	private String fileName;
+	private int fileSize;
+	private String contentType;
 
-    public InputStreamFormFile(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	public InputStreamFormFile(final InputStream inputStream)
+			throws IOException {
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        byte[] buffer = new byte[8192];
-        int bytesRead = 0;
-        while ((bytesRead = inputStream.read(buffer, 0, 8192)) != -1) {
-            baos.write(buffer, 0, bytesRead);
-        }
+		final byte[] buffer = new byte[8192];
+		int bytesRead = 0;
+		while ((bytesRead = inputStream.read(buffer, 0, 8192)) != -1) {
+			baos.write(buffer, 0, bytesRead);
+		}
 
-        fileData = baos.toByteArray();
-    }
+		this.fileData = baos.toByteArray();
+	}
 
-    public String getFileName() {
-        return fileName;
-    }
+	@Override
+	public String getFileName() {
+		return this.fileName;
+	}
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+	@Override
+	public void setFileName(final String fileName) {
+		this.fileName = fileName;
+	}
 
-    public int getFileSize() {
-        return fileSize;
-    }
+	@Override
+	public int getFileSize() {
+		return this.fileSize;
+	}
 
-    public void setFileSize(int fileSize) {
-        this.fileSize = fileSize;
-    }
+	@Override
+	public void setFileSize(final int fileSize) {
+		this.fileSize = fileSize;
+	}
 
-    public String getContentType() {
-        return contentType;
-    }
+	@Override
+	public String getContentType() {
+		return this.contentType;
+	}
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+	@Override
+	public void setContentType(final String contentType) {
+		this.contentType = contentType;
+	}
 
-    public byte[] getFileData() throws FileNotFoundException, IOException {
-        return fileData;
-    }
+	@Override
+	public byte[] getFileData() throws FileNotFoundException, IOException {
+		return this.fileData;
+	}
 
-    public InputStream getInputStream() throws FileNotFoundException, IOException {
-        return new ByteArrayInputStream(fileData);
-    }
+	@Override
+	public InputStream getInputStream() throws FileNotFoundException,
+			IOException {
+		return new ByteArrayInputStream(this.fileData);
+	}
 
-    public void destroy() {
-        fileName = null;
-        fileSize = -1;
-        contentType = null;
-        fileData = null;
-    }
+	@Override
+	public void destroy() {
+		this.fileName = null;
+		this.fileSize = -1;
+		this.contentType = null;
+		this.fileData = null;
+	}
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (this.getClass() != obj.getClass()) {
-            return false;
-        }
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
 
-        InputStreamFormFile that = (InputStreamFormFile)obj;
-        return ((fileData == null ? that.fileData == null : Arrays.equals(fileData, that.fileData))
-                && (fileName == null ? that.fileName == null : fileName.equals(that.fileName))
-                && (fileSize == that.fileSize)
-                && (contentType == null ? that.contentType == null : contentType.equals(that.contentType))
-                && true);
-    }
+		final InputStreamFormFile that = (InputStreamFormFile) obj;
+		return (this.fileData == null ? that.fileData == null : Arrays.equals(
+				this.fileData, that.fileData))
+				&& (this.fileName == null ? that.fileName == null
+						: this.fileName.equals(that.fileName))
+				&& this.fileSize == that.fileSize
+				&& (this.contentType == null ? that.contentType == null
+						: this.contentType.equals(that.contentType)) && true;
+	}
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("InputStreamFormFile - ");
-        sb.append("fileName: " + fileName + "\n");
-        sb.append("fileSize: " + fileSize + "\n");
-        sb.append("contentType: " + contentType + "\n");
-        sb.append("fileData: " + new String(fileData) + "\n");
-        return sb.toString();
-    }
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		final StringBuffer sb = new StringBuffer();
+		sb.append("InputStreamFormFile - ");
+		sb.append("fileName: " + this.fileName + "\n");
+		sb.append("fileSize: " + this.fileSize + "\n");
+		sb.append("contentType: " + this.contentType + "\n");
+		sb.append("fileData: " + new String(this.fileData) + "\n");
+		return sb.toString();
+	}
 
 }

@@ -7,7 +7,7 @@
 package com.technoetic.xplanner.views;
 
 public class IconConstants {
-   public static final String STATUS_COMPLETED_ICON = "/images/money.png";
-   public static final String STATUS_STARTED_ICON = "/images/started.png";
-   public static final String STATUS_OPEN_ICON = "/images/spacer.gif";
+	public static final String STATUS_COMPLETED_ICON = "/images/money.png";
+	public static final String STATUS_STARTED_ICON = "/images/started.png";
+	public static final String STATUS_OPEN_ICON = "/images/spacer.gif";
 }

@@ -61,15 +61,14 @@
  *
  */
 
-
 package com.technoetic.xplanner.security.util;
 
-
 /**
- * Library of utility methods useful in dealing with converting byte arrays
- * to and from strings of hexadecimal digits.
- *
+ * Library of utility methods useful in dealing with converting byte arrays to
+ * and from strings of hexadecimal digits.
+ * 
  * @author Craig R. McClanahan
  */
 
-public final class HexUtils extends com.sabre.security.jndi.util.HexUtils {}
+public final class HexUtils extends com.sabre.security.jndi.util.HexUtils {
+}
