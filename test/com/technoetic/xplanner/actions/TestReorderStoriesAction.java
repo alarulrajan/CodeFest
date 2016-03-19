@@ -74,8 +74,8 @@ public class TestReorderStoriesAction extends AbstractUnitTestCase {
      *             the exception
      */
    public void testDoExecute() throws Exception {
-	  Capture<int[][]> captureInt = new Capture<int[][]>();
-	  mockIteration.modifyStoryOrder(capture(captureInt));
+      Capture<int[][]> captureInt = new Capture<int[][]>();
+      mockIteration.modifyStoryOrder(capture(captureInt));
       expect(mockActionMapping.getInputForward()).andReturn(new ActionForward());
       replay();
       action.doExecute(mockActionMapping, mockReorderStoriesForm, null, null);

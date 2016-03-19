@@ -32,54 +32,54 @@ import com.technoetic.xplanner.util.LogUtil;
  * @see HsqldbServerContextEvent
  */
 public class HsqldbServerContextListener implements ServletContextListener {
-	
-	/** The Constant LOG. */
-	protected static final Logger LOG = LogUtil.getLogger();
-	
-	/** The Constant HSQLDB_DATABASE_TYPE. */
-	protected static final String HSQLDB_DATABASE_TYPE = "hsqldb";
+    
+    /** The Constant LOG. */
+    protected static final Logger LOG = LogUtil.getLogger();
+    
+    /** The Constant HSQLDB_DATABASE_TYPE. */
+    protected static final String HSQLDB_DATABASE_TYPE = "hsqldb";
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-	 */
-	@Override
-	public void contextInitialized(final ServletContextEvent event) {
-		final String databaseType = new XPlannerProperties()
-				.getProperty(XPlannerProperties.PATCH_DATABASE_TYPE_KEY);
-		if (HsqldbServerContextListener.HSQLDB_DATABASE_TYPE
-				.equalsIgnoreCase(databaseType)) {
-			try {
-				HsqlServer.start(this.getWebappRoot(event.getServletContext()));
-			} catch (final Exception e) {
-				HsqldbServerContextListener.LOG.error(
-						"Problem during the start up of the in-process HSQLDB",
-						e);
-			}
-		} else {
-			HsqldbServerContextListener.LOG.debug("HSQL: "
-					+ XPlannerProperties.PATCH_DATABASE_TYPE_KEY
-					+ " is not defined or is not set to "
-					+ HsqldbServerContextListener.HSQLDB_DATABASE_TYPE);
-		}
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+     */
+    @Override
+    public void contextInitialized(final ServletContextEvent event) {
+        final String databaseType = new XPlannerProperties()
+                .getProperty(XPlannerProperties.PATCH_DATABASE_TYPE_KEY);
+        if (HsqldbServerContextListener.HSQLDB_DATABASE_TYPE
+                .equalsIgnoreCase(databaseType)) {
+            try {
+                HsqlServer.start(this.getWebappRoot(event.getServletContext()));
+            } catch (final Exception e) {
+                HsqldbServerContextListener.LOG.error(
+                        "Problem during the start up of the in-process HSQLDB",
+                        e);
+            }
+        } else {
+            HsqldbServerContextListener.LOG.debug("HSQL: "
+                    + XPlannerProperties.PATCH_DATABASE_TYPE_KEY
+                    + " is not defined or is not set to "
+                    + HsqldbServerContextListener.HSQLDB_DATABASE_TYPE);
+        }
+    }
 
-	/**
+    /**
      * Gets the webapp root.
      *
      * @param servletContext
      *            the servlet context
      * @return the webapp root
      */
-	private String getWebappRoot(final ServletContext servletContext) {
-		return servletContext.getRealPath("/");
-	}
+    private String getWebappRoot(final ServletContext servletContext) {
+        return servletContext.getRealPath("/");
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-	 */
-	@Override
-	public void contextDestroyed(final ServletContextEvent event) {
-		HsqlServer.shutdown();
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+     */
+    @Override
+    public void contextDestroyed(final ServletContextEvent event) {
+        HsqlServer.shutdown();
+    }
 
 }

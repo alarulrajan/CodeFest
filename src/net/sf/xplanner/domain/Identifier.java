@@ -26,48 +26,48 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "identifier")
 public class Identifier implements java.io.Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -8577533926128326398L;
-	
-	/** The next id. */
-	private int nextId;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -8577533926128326398L;
+    
+    /** The next id. */
+    private int nextId;
 
-	/**
+    /**
      * Instantiates a new identifier.
      */
-	public Identifier() {
-	}
+    public Identifier() {
+    }
 
-	/**
+    /**
      * Instantiates a new identifier.
      *
      * @param nextId
      *            the next id
      */
-	public Identifier(final int nextId) {
-		this.nextId = nextId;
-	}
+    public Identifier(final int nextId) {
+        this.nextId = nextId;
+    }
 
-	/**
+    /**
      * Gets the next id.
      *
      * @return the next id
      */
-	@Id
-	@Column(name = "nextId", nullable = false)
-	public int getNextId() {
-		return this.nextId;
-	}
+    @Id
+    @Column(name = "nextId", nullable = false)
+    public int getNextId() {
+        return this.nextId;
+    }
 
-	/**
+    /**
      * Sets the next id.
      *
      * @param nextId
      *            the new next id
      */
-	public void setNextId(final int nextId) {
-		this.nextId = nextId;
-	}
+    public void setNextId(final int nextId) {
+        this.nextId = nextId;
+    }
 
 }

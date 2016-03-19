@@ -8,28 +8,28 @@ package com.technoetic.xplanner.tags.displaytag;
  * @version $Revision: 33 $ ($Author: sg0620641 $)
  */
 public class HeaderCell extends org.displaytag.model.HeaderCell {
-	/**
-	 * property name to look up in the bean.
-	 */
-	private String beanSortPropertyName;
+    /**
+     * property name to look up in the bean.
+     */
+    private String beanSortPropertyName;
 
-	/**
+    /**
      * Gets the bean sort property name.
      *
      * @return the bean sort property name
      */
-	public String getBeanSortPropertyName() {
-		return this.beanSortPropertyName != null ? this.beanSortPropertyName
-				: this.getBeanPropertyName();
-	}
+    public String getBeanSortPropertyName() {
+        return this.beanSortPropertyName != null ? this.beanSortPropertyName
+                : this.getBeanPropertyName();
+    }
 
-	/**
+    /**
      * Sets the bean sort property name.
      *
      * @param beanSortPropertyName
      *            the new bean sort property name
      */
-	public void setBeanSortPropertyName(final String beanSortPropertyName) {
-		this.beanSortPropertyName = beanSortPropertyName;
-	}
+    public void setBeanSortPropertyName(final String beanSortPropertyName) {
+        this.beanSortPropertyName = beanSortPropertyName;
+    }
 }

@@ -22,23 +22,23 @@ import org.springframework.context.ApplicationEvent;
  */
 @XplannerEvent
 public class ObjectUpdated extends ApplicationEvent {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -3793971624943472208L;
-	
-	/** The new value. */
-	private final ActionForm newValue;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -3793971624943472208L;
+    
+    /** The new value. */
+    private final ActionForm newValue;
 
-	/**
+    /**
      * Gets the new value.
      *
      * @return the new value
      */
-	public ActionForm getNewValue() {
-		return this.newValue;
-	}
+    public ActionForm getNewValue() {
+        return this.newValue;
+    }
 
-	/**
+    /**
      * Instantiates a new object updated.
      *
      * @param newValue
@@ -46,9 +46,9 @@ public class ObjectUpdated extends ApplicationEvent {
      * @param source
      *            the source
      */
-	public ObjectUpdated(final ActionForm newValue, final EventSource source) {
-		super(source);
-		this.newValue = newValue;
-	}
+    public ObjectUpdated(final ActionForm newValue, final EventSource source) {
+        super(source);
+        this.newValue = newValue;
+    }
 
 }

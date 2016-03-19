@@ -26,13 +26,13 @@ import net.sf.xplanner.domain.Task;
  */
 public interface TaskDao extends Dao<Task> {
 
-	/**
+    /**
      * Gets the current tasks for person.
      *
      * @param personId
      *            the person id
      * @return the current tasks for person
      */
-	List<Task> getCurrentTasksForPerson(int personId);
+    List<Task> getCurrentTasksForPerson(int personId);
 
 }

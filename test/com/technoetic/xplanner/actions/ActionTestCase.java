@@ -31,20 +31,20 @@ public class ActionTestCase<T extends Identifiable> extends AbstractUnitTestCase
    /** The support. */
    protected XPlannerTestSupport support;
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		setUpRepositories();
-		support = new XPlannerTestSupport();
-		action.setServlet(support.actionServlet);
-		if (action instanceof AbstractAction<?>) {
-			AbstractAction<T> abstractAction = (AbstractAction<T>) action;
-			abstractAction.setEventBus(eventBus);
-		}
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        setUpRepositories();
+        support = new XPlannerTestSupport();
+        action.setServlet(support.actionServlet);
+        if (action instanceof AbstractAction<?>) {
+            AbstractAction<T> abstractAction = (AbstractAction<T>) action;
+            abstractAction.setEventBus(eventBus);
+        }
+    }
 
    /** Creates the dyna action form.
      *

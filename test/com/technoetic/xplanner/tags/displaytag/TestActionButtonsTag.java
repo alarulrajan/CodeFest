@@ -113,7 +113,7 @@ public class TestActionButtonsTag extends TestCase {
       ActionMapping mapping1 = createAndAddMapping(domainClass, 1);
       ActionMapping invisibleMapping =
             new ActionMapping("action"+2, "actionKey"+2, "permission"+2, "iconPath"+2, "targetPage"+2, "domainType"+2, false){
-    	  	   @Override
+                 @Override
                public boolean isVisible(Nameable object) {
                   return false;
                }

@@ -29,30 +29,30 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "person_role")
 public class PersonRole implements java.io.Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 4005621505117736352L;
-	
-	/** The id. */
-	private PersonRoleId id;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 4005621505117736352L;
+    
+    /** The id. */
+    private PersonRoleId id;
 
-	/**
+    /**
      * Instantiates a new person role.
      */
-	public PersonRole() {
-	}
+    public PersonRole() {
+    }
 
-	/**
+    /**
      * Instantiates a new person role.
      *
      * @param id
      *            the id
      */
-	public PersonRole(final PersonRoleId id) {
-		this.id = id;
-	}
+    public PersonRole(final PersonRoleId id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Instantiates a new person role.
      *
      * @param projectId
@@ -62,62 +62,62 @@ public class PersonRole implements java.io.Serializable {
      * @param roleId
      *            the role id
      */
-	public PersonRole(final int projectId, final int personId, final int roleId) {
-		this.id = new PersonRoleId(roleId, personId, projectId);
-	}
+    public PersonRole(final int projectId, final int personId, final int roleId) {
+        this.id = new PersonRoleId(roleId, personId, projectId);
+    }
 
-	/**
+    /**
      * Gets the id.
      *
      * @return the id
      */
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "roleId", column = @Column(name = "role_id", nullable = false)),
-			@AttributeOverride(name = "personId", column = @Column(name = "person_id", nullable = false)),
-			@AttributeOverride(name = "projectId", column = @Column(name = "project_id", nullable = false)) })
-	public PersonRoleId getId() {
-		return this.id;
-	}
+    @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "roleId", column = @Column(name = "role_id", nullable = false)),
+            @AttributeOverride(name = "personId", column = @Column(name = "person_id", nullable = false)),
+            @AttributeOverride(name = "projectId", column = @Column(name = "project_id", nullable = false)) })
+    public PersonRoleId getId() {
+        return this.id;
+    }
 
-	/**
+    /**
      * Sets the id.
      *
      * @param id
      *            the new id
      */
-	public void setId(final PersonRoleId id) {
-		this.id = id;
-	}
+    public void setId(final PersonRoleId id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Gets the role id.
      *
      * @return the role id
      */
-	@Transient
-	public int getRoleId() {
-		return this.id.getRoleId();
-	}
+    @Transient
+    public int getRoleId() {
+        return this.id.getRoleId();
+    }
 
-	/**
+    /**
      * Gets the person id.
      *
      * @return the person id
      */
-	@Transient
-	public int getPersonId() {
-		return this.id.getPersonId();
-	}
+    @Transient
+    public int getPersonId() {
+        return this.id.getPersonId();
+    }
 
-	/**
+    /**
      * Gets the project id.
      *
      * @return the project id
      */
-	@Transient
-	public int getProjectId() {
-		return this.getProjectId();
-	}
+    @Transient
+    public int getProjectId() {
+        return this.getProjectId();
+    }
 
 }

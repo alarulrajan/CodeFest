@@ -18,42 +18,42 @@ import org.apache.struts.util.RequestUtils;
  * have access to the HTTP execution context.
  */
 public class ServletRequestFilter implements Filter {
-	
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
-	@Override
-	public void init(final FilterConfig filterConfig) throws ServletException {
-	}
+    
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     */
+    @Override
+    public void init(final FilterConfig filterConfig) throws ServletException {
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-	 */
-	@Override
-	public void doFilter(final ServletRequest request,
-			final ServletResponse response, final FilterChain filterChain)
-			throws IOException, ServletException {
-		try {
-			final HttpServletRequest servletRequest = (HttpServletRequest) request;
-			ThreadServletRequest.set(servletRequest);
-			final StringBuffer requestURL = servletRequest.getRequestURL();
-			if (StringUtils.isNotBlank(servletRequest.getQueryString())) {
-				requestURL.append("?").append(servletRequest.getQueryString());
-			}
-			request.setAttribute("currentPageUrl", requestURL);
-			request.setAttribute("appPath",
-					RequestUtils.absoluteURL(servletRequest, "/"));
-			filterChain.doFilter(request, response);
-		} finally {
-			ThreadServletRequest.set(null);
-		}
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     */
+    @Override
+    public void doFilter(final ServletRequest request,
+            final ServletResponse response, final FilterChain filterChain)
+            throws IOException, ServletException {
+        try {
+            final HttpServletRequest servletRequest = (HttpServletRequest) request;
+            ThreadServletRequest.set(servletRequest);
+            final StringBuffer requestURL = servletRequest.getRequestURL();
+            if (StringUtils.isNotBlank(servletRequest.getQueryString())) {
+                requestURL.append("?").append(servletRequest.getQueryString());
+            }
+            request.setAttribute("currentPageUrl", requestURL);
+            request.setAttribute("appPath",
+                    RequestUtils.absoluteURL(servletRequest, "/"));
+            filterChain.doFilter(request, response);
+        } finally {
+            ThreadServletRequest.set(null);
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#destroy()
-	 */
-	@Override
-	public void destroy() {
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#destroy()
+     */
+    @Override
+    public void destroy() {
+    }
 
 }

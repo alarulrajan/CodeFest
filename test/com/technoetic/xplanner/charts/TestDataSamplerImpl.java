@@ -259,9 +259,9 @@ protected void setUp() throws Exception {
    private void checkIfDataSamplesHaveNotBeenAlreadyGenerated(Date samplingDate, List estimatedHoursDataSamples,
                                                               List actualHoursDataSamples,
                                                               List remainingHoursDataSample) {
-	   expect(dataSampleDao.getDataSamples(samplingDate, iteration, "estimatedHours")).andReturn(estimatedHoursDataSamples).times(0, 1);
-	   expect(dataSampleDao.getDataSamples(samplingDate, iteration, "actualHours")).andReturn(actualHoursDataSamples).times(0, 1);
-	   expect(dataSampleDao.getDataSamples(samplingDate, iteration, "remainingHours")).andReturn(remainingHoursDataSample).times(0, 1);
+       expect(dataSampleDao.getDataSamples(samplingDate, iteration, "estimatedHours")).andReturn(estimatedHoursDataSamples).times(0, 1);
+       expect(dataSampleDao.getDataSamples(samplingDate, iteration, "actualHours")).andReturn(actualHoursDataSamples).times(0, 1);
+       expect(dataSampleDao.getDataSamples(samplingDate, iteration, "remainingHours")).andReturn(remainingHoursDataSample).times(0, 1);
    }
 
    /** Save data samples.
@@ -273,7 +273,7 @@ protected void setUp() throws Exception {
    /** Update data samples.
      */
    private void updateDataSamples() {
-	   expect(dataSampleDao.save((DataSample) anyObject())).andReturn(1).times(3);
+       expect(dataSampleDao.save((DataSample) anyObject())).andReturn(1).times(3);
    }
 
    /** Sets the automatically extend iteration end date.

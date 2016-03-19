@@ -18,22 +18,22 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 public class UpdateService {
-	
-	/** The update manager. */
-	private UpdateManager updateManager;
+    
+    /** The update manager. */
+    private UpdateManager updateManager;
 
-	/**
+    /**
      * Sets the update manager.
      *
      * @param updateManager
      *            the new update manager
      */
-	@Autowired
-	public void setUpdateManager(final UpdateManager updateManager) {
-		this.updateManager = updateManager;
-	}
+    @Autowired
+    public void setUpdateManager(final UpdateManager updateManager) {
+        this.updateManager = updateManager;
+    }
 
-	/**
+    /**
      * Post.
      *
      * @param id
@@ -44,14 +44,14 @@ public class UpdateService {
      *            the original estimate
      * @return the result
      */
-	@POST
-	@Path("/task/{taskId}/status")
-	@Consumes("application/x-www-form-urlencoded")
-	@Produces({ "application/xml", "application/json" })
-	public Result post(@PathParam("taskId") final int id,
-			@FormParam("status") final String status,
-			@FormParam("originalEstimate") final double originalEstimate) {
-		return this.updateManager
-				.updateTaskStatus(id, status, originalEstimate);
-	}
+    @POST
+    @Path("/task/{taskId}/status")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces({ "application/xml", "application/json" })
+    public Result post(@PathParam("taskId") final int id,
+            @FormParam("status") final String status,
+            @FormParam("originalEstimate") final double originalEstimate) {
+        return this.updateManager
+                .updateTaskStatus(id, status, originalEstimate);
+    }
 }

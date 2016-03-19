@@ -22,48 +22,48 @@ import com.technoetic.xplanner.forms.UserStoryEditorForm;
  * The Class TestEditStoryAction.
  */
 public class TestEditStoryAction extends AbstractActionTestCase {
-	
-	/** The iteration. */
-	private Iteration iteration;
-	
-	/** The stories. */
-	private List<UserStory> stories;
-	
-	/** The story. */
-	private UserStory story;
-	
-	/** The task1. */
-	private Task task1;
-	
-	/** The task2. */
-	private Task task2;
-	
-	/** The task3. */
-	private Task task3;
-	
-	/** The feature1. */
-	private Feature feature1;
-	
-	/** The feature2. */
-	private Feature feature2;
-	
-	/** The tasks. */
-	private List<Task> tasks;
-	
-	/** The features. */
-	private List<Feature> features;
-	
-	/** The Constant STORY_ID. */
-	public static final int STORY_ID = 111;
-	
-	/** The Constant ITERATION_ID. */
-	public static final int ITERATION_ID = 33;
+    
+    /** The iteration. */
+    private Iteration iteration;
+    
+    /** The stories. */
+    private List<UserStory> stories;
+    
+    /** The story. */
+    private UserStory story;
+    
+    /** The task1. */
+    private Task task1;
+    
+    /** The task2. */
+    private Task task2;
+    
+    /** The task3. */
+    private Task task3;
+    
+    /** The feature1. */
+    private Feature feature1;
+    
+    /** The feature2. */
+    private Feature feature2;
+    
+    /** The tasks. */
+    private List<Task> tasks;
+    
+    /** The features. */
+    private List<Feature> features;
+    
+    /** The Constant STORY_ID. */
+    public static final int STORY_ID = 111;
+    
+    /** The Constant ITERATION_ID. */
+    public static final int ITERATION_ID = 33;
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
-	 */
-	@Override
-	@Before
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+     */
+    @Override
+    @Before
    public void setUp() throws Exception {
       action = new EditStoryAction();
       super.setUp();
@@ -148,8 +148,8 @@ public class TestEditStoryAction extends AbstractActionTestCase {
         mockObjectRepository.update(story);
         mockSession.flush();
         
-    	expect(mockSession.load(Person.class, new Integer(1))).andReturn(person1);
-    	eventBus.publishUpdateEvent(form, story, null);
+        expect(mockSession.load(Person.class, new Integer(1))).andReturn(person1);
+        eventBus.publishUpdateEvent(form, story, null);
         replay();
         
         support.executeAction(action);
@@ -209,7 +209,7 @@ public class TestEditStoryAction extends AbstractActionTestCase {
         expectObjectRepositoryAccess(Iteration.class);
         expect(mockObjectRepository.load(iteration.getId())).andReturn(iteration);
         mockSession.flush();
-    	eventBus.publishUpdateEvent(form, story, null);
+        eventBus.publishUpdateEvent(form, story, null);
         replay();
         assertEquals(1,iteration.getUserStories().size());
         support.executeAction(action);

@@ -30,7 +30,7 @@ public class IterationDataSourceTestScript extends AbstractDatabaseTestScript {
      * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
      */
     @Override
-	public void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         Project project = newProject();

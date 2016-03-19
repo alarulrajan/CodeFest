@@ -136,7 +136,7 @@ protected void setUp() throws Exception
       return new SpreadsheetStoryImporter(null)
       {
          @Override
-		protected List readStoriesFromSpreadsheet(SpreadsheetHeaderConfiguration headerConfiguration,
+        protected List readStoriesFromSpreadsheet(SpreadsheetHeaderConfiguration headerConfiguration,
                                                    InputStream inputStream)
          {
             return storiesToReturn;

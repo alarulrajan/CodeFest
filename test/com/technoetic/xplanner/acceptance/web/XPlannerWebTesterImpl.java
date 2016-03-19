@@ -602,7 +602,7 @@ public class XPlannerWebTesterImpl extends net.sourceforge.jwebunit.junit.WebTes
  * @return the cell
  */
 private Cell getCell(int rowIndex, Table objectTable, int col) {
-	return ((Cell)((Row)objectTable.getRows().get(rowIndex)).getCells().get(col));
+    return ((Cell)((Row)objectTable.getRows().get(rowIndex)).getCells().get(col));
 }
 
    /** Assert value.
@@ -652,12 +652,12 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
    private int[] getRowNumbersWithText(Table objectTable, String text) {
       List rowNbrList = new ArrayList();
       for (int rowIndex = 0; rowIndex < objectTable.getRowCount(); rowIndex++) {
-    	Row row = (Row) objectTable.getRows().get(rowIndex);
-		for (Cell cell : ((List<Cell>)row.getCells())) {
-			if (cell.getValue().indexOf(text) != -1) {
-	               rowNbrList.add(new Integer(rowIndex));
-	            }
-		}
+        Row row = (Row) objectTable.getRows().get(rowIndex);
+        for (Cell cell : ((List<Cell>)row.getCells())) {
+            if (cell.getValue().indexOf(text) != -1) {
+                   rowNbrList.add(new Integer(rowIndex));
+                }
+        }
       }
 
       if (rowNbrList.isEmpty()) {
@@ -1216,7 +1216,7 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
 //      WebTable objectTable = getTable(editPage, tableId);
 //      int col = getFirstColNumberWithText(objectTable, 0, getMessage(columnName));
 //      return objectTable.getTableCell(rowIndex, col);
-	   return null;
+       return null;
    }
 
    /* (non-Javadoc)
@@ -1225,7 +1225,7 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
    public String getCurrentPageObjectId() {
 //      String query = getDialog().getResponse().getURL().getQuery();
 //      return retrieveIdFromUrl(query);
-	   return null;
+       return null;
    }
 
    /** Gets the first col number with text.
@@ -1371,7 +1371,7 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
     * @see com.technoetic.xplanner.acceptance.web.WebTester#isKeyPresent(java.lang.String)
     */
    public boolean isKeyPresent(String key) {
-	   return false;
+       return false;
 //      return getDialog().isTextInResponse(getMessage(key));
    }
 
@@ -1393,7 +1393,7 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
     * @see com.technoetic.xplanner.acceptance.web.WebTester#isTextPresent(java.lang.String)
     */
    public boolean isTextPresent(String text) {
-	   return false;
+       return false;
 //      return getDialog().isTextInResponse(text);
    }
 
@@ -1636,8 +1636,8 @@ private Cell getCell(int rowIndex, Table objectTable, int col) {
  */
 @Override
 public void assertFormElementNotPresentWithLabel(String formElementLabel) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1645,8 +1645,8 @@ public void assertFormElementNotPresentWithLabel(String formElementLabel) {
  */
 @Override
 public void assertFormElementPresentWithLabel(String formElementLabel) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1654,8 +1654,8 @@ public void assertFormElementPresentWithLabel(String formElementLabel) {
  */
 @Override
 public void assertOptionEquals(String selectName, String option) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1663,8 +1663,8 @@ public void assertOptionEquals(String selectName, String option) {
  */
 @Override
 public void assertOptionValuesEqual(String selectName, String[] expectedValues) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1672,8 +1672,8 @@ public void assertOptionValuesEqual(String selectName, String[] expectedValues) 
  */
 @Override
 public void assertOptionValuesNotEqual(String selectName, String[] optionValues) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1681,8 +1681,8 @@ public void assertOptionValuesNotEqual(String selectName, String[] optionValues)
  */
 @Override
 public void assertOptionsEqual(String selectName, String[] expectedOptions) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1690,8 +1690,8 @@ public void assertOptionsEqual(String selectName, String[] expectedOptions) {
  */
 @Override
 public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1699,8 +1699,8 @@ public void assertOptionsNotEqual(String selectName, String[] expectedOptions) {
  */
 @Override
 public void assertSubmitButtonValue(String buttonName, String expectedValue) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1708,8 +1708,8 @@ public void assertSubmitButtonValue(String buttonName, String expectedValue) {
  */
 @Override
 public void clickLinkWithTextAfterText(String linkText, String labelText) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1717,8 +1717,8 @@ public void clickLinkWithTextAfterText(String linkText, String labelText) {
  */
 @Override
 public void dumpCookies(PrintStream stream) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1726,8 +1726,8 @@ public void dumpCookies(PrintStream stream) {
  */
 @Override
 public void dumpResponse() {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1735,8 +1735,8 @@ public void dumpResponse() {
  */
 @Override
 public void dumpResponse(PrintStream stream) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1744,8 +1744,8 @@ public void dumpResponse(PrintStream stream) {
  */
 @Override
 public void dumpTable(String tableNameOrId, String[][] table) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1753,7 +1753,7 @@ public void dumpTable(String tableNameOrId, String[][] table) {
  */
 @Override
 public void dumpTable(String tableNameOrId, String[][] table, PrintStream stream) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 }

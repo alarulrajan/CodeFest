@@ -31,19 +31,19 @@ import org.hibernate.criterion.Restrictions;
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 public class DataSampleDaoImpl extends BaseDao<DataSample> implements
-		DataSampleDao {
+        DataSampleDao {
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.DataSampleDao#getDataSamples(java.util.Date, net.sf.xplanner.domain.Iteration, java.lang.String)
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<DataSample> getDataSamples(final Date date,
-			final Iteration iteration, final String aspect) {
-		final Criteria criteria = this.createCriteria();
-		criteria.add(Restrictions.eq(DataSample.SAMPLE_TIME, date));
-		criteria.add(Restrictions.eq(DataSample.REFERENCE_ID, iteration.getId()));
-		criteria.add(Restrictions.eq(DataSample.ASPECT, aspect));
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.DataSampleDao#getDataSamples(java.util.Date, net.sf.xplanner.domain.Iteration, java.lang.String)
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<DataSample> getDataSamples(final Date date,
+            final Iteration iteration, final String aspect) {
+        final Criteria criteria = this.createCriteria();
+        criteria.add(Restrictions.eq(DataSample.SAMPLE_TIME, date));
+        criteria.add(Restrictions.eq(DataSample.REFERENCE_ID, iteration.getId()));
+        criteria.add(Restrictions.eq(DataSample.ASPECT, aspect));
+        return criteria.list();
+    }
 }

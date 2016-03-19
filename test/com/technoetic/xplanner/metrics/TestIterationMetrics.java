@@ -50,7 +50,7 @@ public class TestIterationMetrics extends TestCase{
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         iterationMetrics = new FakeIterationMetrics(createTestIteration());
         iterationMetrics.getNamesMap(null);
         verifyTestNames();
@@ -95,7 +95,7 @@ public class TestIterationMetrics extends TestCase{
      *             the exception
      */
     public void testGetMetricsDataWithOnlyStoryHours() throws Exception {
-    	List<UserStory> stories = new ArrayList<UserStory>();
+        List<UserStory> stories = new ArrayList<UserStory>();
         UserStory story = new UserStory();
         story.setEstimatedHoursField(1.0);
         story.setTrackerId(PERSON2_ID);
@@ -317,7 +317,7 @@ public class TestIterationMetrics extends TestCase{
          * @see com.technoetic.xplanner.metrics.IterationMetrics#getIterationObject()
          */
         @Override
-		protected Iteration getIterationObject() {
+        protected Iteration getIterationObject() {
             return noHoursIteration;
         }
 
@@ -325,7 +325,7 @@ public class TestIterationMetrics extends TestCase{
          * @see com.technoetic.xplanner.metrics.IterationMetrics#getNamesMap(org.hibernate.classic.Session)
          */
         @Override
-		protected void getNamesMap(Session session) {
+        protected void getNamesMap(Session session) {
             names.put(new Integer(PERSON1_ID), PERSON1_NAME);
             names.put(new Integer(PERSON2_ID), PERSON2_NAME);
             addUnassignedName();

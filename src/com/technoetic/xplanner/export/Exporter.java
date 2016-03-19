@@ -8,8 +8,8 @@ import org.hibernate.classic.Session;
  * The Interface Exporter.
  */
 public interface Exporter {
-	
-	/**
+    
+    /**
      * Export.
      *
      * @param session
@@ -20,13 +20,13 @@ public interface Exporter {
      * @throws ExportException
      *             the export exception
      */
-	byte[] export(Session session, Object object) throws ExportException;
+    byte[] export(Session session, Object object) throws ExportException;
 
-	/**
+    /**
      * Initialize headers.
      *
      * @param response
      *            the response
      */
-	void initializeHeaders(HttpServletResponse response);
+    void initializeHeaders(HttpServletResponse response);
 }

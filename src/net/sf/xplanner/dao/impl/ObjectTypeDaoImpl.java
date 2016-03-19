@@ -7,5 +7,5 @@ import net.sf.xplanner.domain.ObjectType;
  * The Class ObjectTypeDaoImpl.
  */
 public class ObjectTypeDaoImpl extends BaseDao<ObjectType> implements
-		ObjectTypeDao {
+        ObjectTypeDao {
 }

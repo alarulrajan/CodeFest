@@ -20,34 +20,34 @@ import com.technoetic.xplanner.security.SecurityHelper;
  * The Class MoveContinueStory.
  */
 public class MoveContinueStory {
-	
-	/** The story continuer. */
-	private StoryContinuer storyContinuer;
-	
-	/** The history support. */
-	private HistorySupport historySupport;
+    
+    /** The story continuer. */
+    private StoryContinuer storyContinuer;
+    
+    /** The history support. */
+    private HistorySupport historySupport;
 
-	/**
+    /**
      * Sets the story continuer.
      *
      * @param storyContinuer
      *            the new story continuer
      */
-	public void setStoryContinuer(final StoryContinuer storyContinuer) {
-		this.storyContinuer = storyContinuer;
-	}
+    public void setStoryContinuer(final StoryContinuer storyContinuer) {
+        this.storyContinuer = storyContinuer;
+    }
 
-	/**
+    /**
      * Sets the history support.
      *
      * @param historySupport
      *            the new history support
      */
-	public void setHistorySupport(final HistorySupport historySupport) {
-		this.historySupport = historySupport;
-	}
+    public void setHistorySupport(final HistorySupport historySupport) {
+        this.historySupport = historySupport;
+    }
 
-	/**
+    /**
      * Move story.
      *
      * @param story
@@ -63,20 +63,20 @@ public class MoveContinueStory {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	public void moveStory(final UserStory story,
-			final Iteration targetIteration, final Iteration originalIteration,
-			final HttpServletRequest request, final Session session)
-			throws AuthenticationException {
+    public void moveStory(final UserStory story,
+            final Iteration targetIteration, final Iteration originalIteration,
+            final HttpServletRequest request, final Session session)
+            throws AuthenticationException {
 
-		originalIteration.getUserStories().remove(story);
-		story.moveTo(targetIteration);
-		this.updateStoryOrderNoInTargetIteration(story, originalIteration,
-				targetIteration);
-		this.saveMoveHistory(story, originalIteration, targetIteration,
-				session, SecurityHelper.getRemoteUserId(request));
-	}
+        originalIteration.getUserStories().remove(story);
+        story.moveTo(targetIteration);
+        this.updateStoryOrderNoInTargetIteration(story, originalIteration,
+                targetIteration);
+        this.saveMoveHistory(story, originalIteration, targetIteration,
+                session, SecurityHelper.getRemoteUserId(request));
+    }
 
-	/**
+    /**
      * Continue story.
      *
      * @param story
@@ -94,19 +94,19 @@ public class MoveContinueStory {
      * @throws HibernateException
      *             the hibernate exception
      */
-	public void continueStory(final UserStory story,
-			final Iteration originalIteration, final Iteration targetIteration,
-			final HttpServletRequest request, final Session session)
-			throws AuthenticationException, HibernateException {
+    public void continueStory(final UserStory story,
+            final Iteration originalIteration, final Iteration targetIteration,
+            final HttpServletRequest request, final Session session)
+            throws AuthenticationException, HibernateException {
 
-		this.storyContinuer.init(session, request);
-		final UserStory targetStory = (UserStory) this.storyContinuer
-				.continueObject(story, originalIteration, targetIteration);
-		this.updateStoryOrderNoInTargetIteration(targetStory,
-				originalIteration, targetIteration);
-	}
+        this.storyContinuer.init(session, request);
+        final UserStory targetStory = (UserStory) this.storyContinuer
+                .continueObject(story, originalIteration, targetIteration);
+        this.updateStoryOrderNoInTargetIteration(targetStory,
+                originalIteration, targetIteration);
+    }
 
-	/**
+    /**
      * Reorder iteration stories.
      *
      * @param iteration
@@ -114,14 +114,14 @@ public class MoveContinueStory {
      * @throws Exception
      *             the exception
      */
-	public void reorderIterationStories(final Iteration iteration)
-			throws Exception {
-		final Collection stories = iteration.getUserStories();
-		iteration.modifyStoryOrder(DomainOrderer
-				.buildStoryIdNewOrderArray(stories));
-	}
+    public void reorderIterationStories(final Iteration iteration)
+            throws Exception {
+        final Collection stories = iteration.getUserStories();
+        iteration.modifyStoryOrder(DomainOrderer
+                .buildStoryIdNewOrderArray(stories));
+    }
 
-	/**
+    /**
      * Update story order no in target iteration.
      *
      * @param story
@@ -131,18 +131,18 @@ public class MoveContinueStory {
      * @param targetIteration
      *            the target iteration
      */
-	private void updateStoryOrderNoInTargetIteration(final UserStory story,
-			final Iteration originalIteration, final Iteration targetIteration) {
+    private void updateStoryOrderNoInTargetIteration(final UserStory story,
+            final Iteration originalIteration, final Iteration targetIteration) {
 
-		if (originalIteration.getStartDate().compareTo(
-				targetIteration.getStartDate()) <= 0) {
-			story.setOrderNo(0);
-		} else {
-			story.setOrderNo(Integer.MAX_VALUE);
-		}
-	}
+        if (originalIteration.getStartDate().compareTo(
+                targetIteration.getStartDate()) <= 0) {
+            story.setOrderNo(0);
+        } else {
+            story.setOrderNo(Integer.MAX_VALUE);
+        }
+    }
 
-	/**
+    /**
      * Save move history.
      *
      * @param story
@@ -156,21 +156,21 @@ public class MoveContinueStory {
      * @param currentUserId
      *            the current user id
      */
-	private void saveMoveHistory(final UserStory story,
-			final Iteration originIteration, final Iteration targetIteration,
-			final Session session, final int currentUserId) {
+    private void saveMoveHistory(final UserStory story,
+            final Iteration originIteration, final Iteration targetIteration,
+            final Session session, final int currentUserId) {
 
-		final Date now = new Date();
-		this.historySupport.saveEvent(
-				story,
-				History.MOVED,
-				"from " + originIteration.getName() + " to "
-						+ targetIteration.getName(), currentUserId, now);
-		this.historySupport.saveEvent(originIteration, History.MOVED_OUT,
-				story.getName() + " to " + targetIteration.getName(),
-				currentUserId, now);
-		this.historySupport.saveEvent(targetIteration, History.MOVED_IN,
-				story.getName() + " from " + originIteration.getName(),
-				currentUserId, now);
-	}
+        final Date now = new Date();
+        this.historySupport.saveEvent(
+                story,
+                History.MOVED,
+                "from " + originIteration.getName() + " to "
+                        + targetIteration.getName(), currentUserId, now);
+        this.historySupport.saveEvent(originIteration, History.MOVED_OUT,
+                story.getName() + " to " + targetIteration.getName(),
+                currentUserId, now);
+        this.historySupport.saveEvent(targetIteration, History.MOVED_IN,
+                story.getName() + " from " + originIteration.getName(),
+                currentUserId, now);
+    }
 }

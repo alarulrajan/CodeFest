@@ -21,40 +21,40 @@ import com.technoetic.xplanner.XPlannerProperties;
  * @see ContextLoaderEvent
  */
 public class ContextLoaderListener implements ServletContextListener {
-	
-	/** The required web application context. */
-	@Deprecated
-	private static WebApplicationContext requiredWebApplicationContext;
+    
+    /** The required web application context. */
+    @Deprecated
+    private static WebApplicationContext requiredWebApplicationContext;
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-	 */
-	@Override
-	public void contextInitialized(final ServletContextEvent sce) {
-		sce.getServletContext().setAttribute("iterationTypes",
-				IterationType.getAllValues());
-		sce.getServletContext().setAttribute(
-				"appUrl",
-				new XPlannerProperties()
-						.getProperty(XPlannerProperties.APPLICATION_URL_KEY));
-		ContextLoaderListener.requiredWebApplicationContext = WebApplicationContextUtils
-				.getRequiredWebApplicationContext(sce.getServletContext());
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+     */
+    @Override
+    public void contextInitialized(final ServletContextEvent sce) {
+        sce.getServletContext().setAttribute("iterationTypes",
+                IterationType.getAllValues());
+        sce.getServletContext().setAttribute(
+                "appUrl",
+                new XPlannerProperties()
+                        .getProperty(XPlannerProperties.APPLICATION_URL_KEY));
+        ContextLoaderListener.requiredWebApplicationContext = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(sce.getServletContext());
 
-	}
+    }
 
-	/**
+    /**
      * Gets the context.
      *
      * @return the context
      */
-	public static WebApplicationContext getContext() {
-		return ContextLoaderListener.requiredWebApplicationContext;
-	}
+    public static WebApplicationContext getContext() {
+        return ContextLoaderListener.requiredWebApplicationContext;
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-	 */
-	@Override
-	public void contextDestroyed(final ServletContextEvent sce) {
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+     */
+    @Override
+    public void contextDestroyed(final ServletContextEvent sce) {
+    }
 }

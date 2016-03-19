@@ -22,18 +22,18 @@ import org.apache.struts.action.ActionMapping;
  * The Class SystemInfoAction.
  */
 public class SystemInfoAction extends Action {
-	
-	/** The Constant IS_SYSTEM_INFO_KEY. */
-	public static final String IS_SYSTEM_INFO_KEY = "isSystemInfo";
+    
+    /** The Constant IS_SYSTEM_INFO_KEY. */
+    public static final String IS_SYSTEM_INFO_KEY = "isSystemInfo";
 
-	/* (non-Javadoc)
-	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	public ActionForward execute(final ActionMapping mapping,
-			final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) throws Exception {
-		request.setAttribute(SystemInfoAction.IS_SYSTEM_INFO_KEY, Boolean.TRUE);
-		return mapping.findForward("success");
-	}
+    /* (non-Javadoc)
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(final ActionMapping mapping,
+            final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
+        request.setAttribute(SystemInfoAction.IS_SYSTEM_INFO_KEY, Boolean.TRUE);
+        return mapping.findForward("success");
+    }
 }

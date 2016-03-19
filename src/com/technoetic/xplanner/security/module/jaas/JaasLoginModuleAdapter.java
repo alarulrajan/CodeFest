@@ -22,42 +22,42 @@ import com.technoetic.xplanner.security.module.LoginSupport;
  * of a LoginModule implementation.
  */
 public class JaasLoginModuleAdapter implements LoginModule {
-	
-	/** The log. */
-	protected transient Logger log = Logger.getLogger(this.getClass());
-	
-	/** The Constant USERID. */
-	private static final String USERID = "javax.security.auth.login.name";
-	
-	/** The Constant PASSWORD. */
-	private static final String PASSWORD = "javax.security.auth.login.password";
+    
+    /** The log. */
+    protected transient Logger log = Logger.getLogger(this.getClass());
+    
+    /** The Constant USERID. */
+    private static final String USERID = "javax.security.auth.login.name";
+    
+    /** The Constant PASSWORD. */
+    private static final String PASSWORD = "javax.security.auth.login.password";
 
-	/** The principal class. */
-	private Class principalClass;
-	
-	/** The options. */
-	private Map options;
-	
-	/** The name. */
-	private String name;
-	
-	/** The jaas login module. */
-	private transient javax.security.auth.spi.LoginModule jaasLoginModule;
-	
-	/** The login support. */
-	private transient LoginSupport loginSupport;
+    /** The principal class. */
+    private Class principalClass;
+    
+    /** The options. */
+    private Map options;
+    
+    /** The name. */
+    private String name;
+    
+    /** The jaas login module. */
+    private transient javax.security.auth.spi.LoginModule jaasLoginModule;
+    
+    /** The login support. */
+    private transient LoginSupport loginSupport;
 
-	/**
+    /**
      * Instantiates a new jaas login module adapter.
      *
      * @param support
      *            the support
      */
-	public JaasLoginModuleAdapter(final LoginSupport support) {
-		this.loginSupport = support;
-	}
+    public JaasLoginModuleAdapter(final LoginSupport support) {
+        this.loginSupport = support;
+    }
 
-	/**
+    /**
      * Instantiates a new jaas login module adapter.
      *
      * @param support
@@ -69,134 +69,134 @@ public class JaasLoginModuleAdapter implements LoginModule {
      * @param options
      *            the options
      */
-	public JaasLoginModuleAdapter(final LoginSupport support,
-			final javax.security.auth.spi.LoginModule jaasLoginModule,
-			final Class principalClass, final Map options) {
-		this.options = options;
-		this.principalClass = principalClass;
-		this.jaasLoginModule = jaasLoginModule;
-		this.loginSupport = support;
-	}
+    public JaasLoginModuleAdapter(final LoginSupport support,
+            final javax.security.auth.spi.LoginModule jaasLoginModule,
+            final Class principalClass, final Map options) {
+        this.options = options;
+        this.principalClass = principalClass;
+        this.jaasLoginModule = jaasLoginModule;
+        this.loginSupport = support;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#setOptions(java.util.Map)
-	 */
-	@Override
-	public void setOptions(final Map options) {
-		this.options = options;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#setOptions(java.util.Map)
+     */
+    @Override
+    public void setOptions(final Map options) {
+        this.options = options;
+    }
 
-	/**
+    /**
      * Gets the JAAS login module.
      *
      * @return the JAAS login module
      */
-	public javax.security.auth.spi.LoginModule getJAASLoginModule() {
-		return this.jaasLoginModule;
-	}
+    public javax.security.auth.spi.LoginModule getJAASLoginModule() {
+        return this.jaasLoginModule;
+    }
 
-	/**
+    /**
      * Gets the principal class.
      *
      * @return the principal class
      */
-	public Class getPrincipalClass() {
-		return this.principalClass;
-	}
+    public Class getPrincipalClass() {
+        return this.principalClass;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#authenticate(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public Subject authenticate(final String userId, final String password)
-			throws AuthenticationException {
-		this.log.debug(LoginModule.ATTEMPTING_TO_AUTHENTICATE + this.getName()
-				+ " (" + userId + ")");
-		final Subject subject = this.loginSupport.createSubject();
-		final Map sharedState = new HashMap();
-		sharedState.put(JaasLoginModuleAdapter.USERID, userId);
-		sharedState
-				.put(JaasLoginModuleAdapter.PASSWORD, password.toCharArray());
-		this.jaasLoginModule.initialize(subject,
-				new UserIdAndPasswordCallbackHandler(userId, password),
-				sharedState, this.options);
-		try {
-			if (this.jaasLoginModule.login()) {
-				this.jaasLoginModule.commit();
-			} else {
-				throw new AuthenticationException(
-						LoginModule.MESSAGE_AUTHENTICATION_FAILED_KEY);
-			}
-		} catch (final FailedLoginException e) {
-			throw new AuthenticationException(
-					LoginModule.MESSAGE_AUTHENTICATION_FAILED_KEY);
-		} catch (final LoginException e) {
-			this.log.error("login error", e);
-			throw new AuthenticationException(
-					LoginModule.MESSAGE_SERVER_ERROR_KEY);
-		}
-		final Set principals = subject.getPrincipals(this.getPrincipalClass());
-		final Iterator principalIterator = principals.iterator();
-		if (principalIterator.hasNext()) {
-			final Principal jaasUserPrincipal = (Principal) principalIterator
-					.next();
-			this.loginSupport.populateSubjectPrincipalFromDatabase(subject,
-					jaasUserPrincipal.getName());
-		}
-		this.log.debug(LoginModule.AUTHENTICATION_SUCCESFULL + this.getName());
-		return subject;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#authenticate(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Subject authenticate(final String userId, final String password)
+            throws AuthenticationException {
+        this.log.debug(LoginModule.ATTEMPTING_TO_AUTHENTICATE + this.getName()
+                + " (" + userId + ")");
+        final Subject subject = this.loginSupport.createSubject();
+        final Map sharedState = new HashMap();
+        sharedState.put(JaasLoginModuleAdapter.USERID, userId);
+        sharedState
+                .put(JaasLoginModuleAdapter.PASSWORD, password.toCharArray());
+        this.jaasLoginModule.initialize(subject,
+                new UserIdAndPasswordCallbackHandler(userId, password),
+                sharedState, this.options);
+        try {
+            if (this.jaasLoginModule.login()) {
+                this.jaasLoginModule.commit();
+            } else {
+                throw new AuthenticationException(
+                        LoginModule.MESSAGE_AUTHENTICATION_FAILED_KEY);
+            }
+        } catch (final FailedLoginException e) {
+            throw new AuthenticationException(
+                    LoginModule.MESSAGE_AUTHENTICATION_FAILED_KEY);
+        } catch (final LoginException e) {
+            this.log.error("login error", e);
+            throw new AuthenticationException(
+                    LoginModule.MESSAGE_SERVER_ERROR_KEY);
+        }
+        final Set principals = subject.getPrincipals(this.getPrincipalClass());
+        final Iterator principalIterator = principals.iterator();
+        if (principalIterator.hasNext()) {
+            final Principal jaasUserPrincipal = (Principal) principalIterator
+                    .next();
+            this.loginSupport.populateSubjectPrincipalFromDatabase(subject,
+                    jaasUserPrincipal.getName());
+        }
+        this.log.debug(LoginModule.AUTHENTICATION_SUCCESFULL + this.getName());
+        return subject;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#isCapableOfChangingPasswords()
-	 */
-	@Override
-	public boolean isCapableOfChangingPasswords() {
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#isCapableOfChangingPasswords()
+     */
+    @Override
+    public boolean isCapableOfChangingPasswords() {
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#changePassword(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public void changePassword(final String userId, final String password)
-			throws AuthenticationException {
-		throw new UnsupportedOperationException("changePassword not supported");
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#changePassword(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void changePassword(final String userId, final String password)
+            throws AuthenticationException {
+        throw new UnsupportedOperationException("changePassword not supported");
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#logout(javax.servlet.http.HttpServletRequest)
-	 */
-	@Override
-	public void logout(final HttpServletRequest request)
-			throws AuthenticationException {
-		request.getSession().invalidate();
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#logout(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void logout(final HttpServletRequest request)
+            throws AuthenticationException {
+        request.getSession().invalidate();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#getName()
-	 */
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#getName()
+     */
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.security.LoginModule#setName(java.lang.String)
-	 */
-	@Override
-	public void setName(final String name) {
-		this.name = name;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.LoginModule#setName(java.lang.String)
+     */
+    @Override
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
+    /**
      * Sets the login support.
      *
      * @param loginSupport
      *            the new login support
      */
-	public void setLoginSupport(final LoginSupport loginSupport) {
-		this.loginSupport = loginSupport;
-	}
+    public void setLoginSupport(final LoginSupport loginSupport) {
+        this.loginSupport = loginSupport;
+    }
 
 }

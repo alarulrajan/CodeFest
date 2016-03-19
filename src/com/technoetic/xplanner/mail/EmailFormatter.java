@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public interface EmailFormatter {
 
-	/**
+    /**
      * Format email entry.
      *
      * @param bodyEntryList
@@ -19,14 +19,14 @@ public interface EmailFormatter {
      * @throws Exception
      *             the exception
      */
-	String formatEmailEntry(List bodyEntryList, Map<String, Object> params)
-			throws Exception;
+    String formatEmailEntry(List bodyEntryList, Map<String, Object> params)
+            throws Exception;
 
-	// void setVelocityEngine(VelocityEngine velocityEngine);
-	//
-	// void setHttpClient(HttpClient httpClient);
+    // void setVelocityEngine(VelocityEngine velocityEngine);
+    //
+    // void setHttpClient(HttpClient httpClient);
 
-	/**
+    /**
      * Format email entry.
      *
      * @param header
@@ -43,6 +43,6 @@ public interface EmailFormatter {
      * @throws Exception
      *             the exception
      */
-	String formatEmailEntry(String header, String footer, String storyLabel,
-			String taskLabel, List bodyEntryList) throws Exception;
+    String formatEmailEntry(String header, String footer, String storyLabel,
+            String taskLabel, List bodyEntryList) throws Exception;
 }

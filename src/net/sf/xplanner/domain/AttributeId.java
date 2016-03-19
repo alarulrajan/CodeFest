@@ -11,19 +11,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AttributeId implements java.io.Serializable {
 
-	/** The target id. */
-	private int targetId;
-	
-	/** The name. */
-	private String name;
+    /** The target id. */
+    private int targetId;
+    
+    /** The name. */
+    private String name;
 
-	/**
+    /**
      * Instantiates a new attribute id.
      */
-	public AttributeId() {
-	}
+    public AttributeId() {
+    }
 
-	/**
+    /**
      * Instantiates a new attribute id.
      *
      * @param targetId
@@ -31,84 +31,84 @@ public class AttributeId implements java.io.Serializable {
      * @param name
      *            the name
      */
-	public AttributeId(final int targetId, final String name) {
-		this.targetId = targetId;
-		this.name = name;
-	}
+    public AttributeId(final int targetId, final String name) {
+        this.targetId = targetId;
+        this.name = name;
+    }
 
-	/**
+    /**
      * Gets the target id.
      *
      * @return the target id
      */
-	@Column(name = "targetId", nullable = false)
-	public int getTargetId() {
-		return this.targetId;
-	}
+    @Column(name = "targetId", nullable = false)
+    public int getTargetId() {
+        return this.targetId;
+    }
 
-	/**
+    /**
      * Sets the target id.
      *
      * @param targetId
      *            the new target id
      */
-	public void setTargetId(final int targetId) {
-		this.targetId = targetId;
-	}
+    public void setTargetId(final int targetId) {
+        this.targetId = targetId;
+    }
 
-	/**
+    /**
      * Gets the name.
      *
      * @return the name
      */
-	@Column(name = "name", nullable = false)
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "name", nullable = false)
+    public String getName() {
+        return this.name;
+    }
 
-	/**
+    /**
      * Sets the name.
      *
      * @param name
      *            the new name
      */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (other == null) {
-			return false;
-		}
-		if (!(other instanceof AttributeId)) {
-			return false;
-		}
-		final AttributeId castOther = (AttributeId) other;
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof AttributeId)) {
+            return false;
+        }
+        final AttributeId castOther = (AttributeId) other;
 
-		return this.getTargetId() == castOther.getTargetId()
-				&& (this.getName() == castOther.getName() || this.getName() != null
-						&& castOther.getName() != null
-						&& this.getName().equals(castOther.getName()));
-	}
+        return this.getTargetId() == castOther.getTargetId()
+                && (this.getName() == castOther.getName() || this.getName() != null
+                        && castOther.getName() != null
+                        && this.getName().equals(castOther.getName()));
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int result = 17;
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
 
-		result = 37 * result + this.getTargetId();
-		result = 37 * result
-				+ (this.getName() == null ? 0 : this.getName().hashCode());
-		return result;
-	}
+        result = 37 * result + this.getTargetId();
+        result = 37 * result
+                + (this.getName() == null ? 0 : this.getName().hashCode());
+        return result;
+    }
 
 }

@@ -17,30 +17,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-text.xml"})
 public class SettingDaoImplTest {
-	
-	/** The setting dao. */
-	@Autowired
-	private SettingDao settingDao;
-	
-	/** The object type dao. */
-	@Autowired
-	private ObjectTypeDao objectTypeDao;
+    
+    /** The setting dao. */
+    @Autowired
+    private SettingDao settingDao;
+    
+    /** The object type dao. */
+    @Autowired
+    private ObjectTypeDao objectTypeDao;
 
-	/**
+    /**
      * Test save setting.
      */
-	@Test
-	public void testSaveSetting() {
-		ObjectType objectType = new ObjectType();
-		objectType.setName("project");
-		objectTypeDao.save(objectType);
-		Setting setting = new Setting();
-		setting.setName("test");
-		setting.setObjectType(objectType);
-		settingDao.save(setting);
-		System.out.println(setting.getId());
-		settingDao.delete(setting);
-		objectTypeDao.delete(objectType.getId());
-	}
-	
+    @Test
+    public void testSaveSetting() {
+        ObjectType objectType = new ObjectType();
+        objectType.setName("project");
+        objectTypeDao.save(objectType);
+        Setting setting = new Setting();
+        setting.setName("test");
+        setting.setObjectType(objectType);
+        settingDao.save(setting);
+        System.out.println(setting.getId());
+        settingDao.delete(setting);
+        objectTypeDao.delete(objectType.getId());
+    }
+    
 }

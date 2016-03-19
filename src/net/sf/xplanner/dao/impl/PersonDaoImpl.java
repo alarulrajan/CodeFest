@@ -26,17 +26,17 @@ import com.technoetic.xplanner.domain.repository.DuplicateUserIdException;
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 public class PersonDaoImpl extends BaseDao<Person> implements PersonDao {
-	
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.impl.BaseDao#save(com.technoetic.xplanner.domain.Identifiable)
-	 */
-	@Override
-	public int save(final Person person) {
-		final Person uniqueObject = this.getUniqueObject(Person.USER_ID,
-				person.getUserId());
-		if (uniqueObject == null) {
-			throw new DuplicateUserIdException();
-		}
-		return super.save(person);
-	}
+    
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.impl.BaseDao#save(com.technoetic.xplanner.domain.Identifiable)
+     */
+    @Override
+    public int save(final Person person) {
+        final Person uniqueObject = this.getUniqueObject(Person.USER_ID,
+                person.getUserId());
+        if (uniqueObject == null) {
+            throw new DuplicateUserIdException();
+        }
+        return super.save(person);
+    }
 }

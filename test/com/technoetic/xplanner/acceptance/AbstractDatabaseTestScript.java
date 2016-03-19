@@ -359,7 +359,7 @@ protected void tearDown() throws Exception {
      */
    public void setUpPersonRole(final Project project, final Person person, final String roleName)
          throws Exception {
-	 //FIXME: rewrite in spring     mom.setUpPersonRole(project, person, roleName);
+     //FIXME: rewrite in spring     mom.setUpPersonRole(project, person, roleName);
 
       requestServerCacheInvalidation();
    }

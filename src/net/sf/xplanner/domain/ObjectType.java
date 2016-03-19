@@ -33,59 +33,59 @@ import com.technoetic.xplanner.domain.Identifiable;
 @Entity
 @Table(name = "object_type")
 public class ObjectType extends DomainObject implements Identifiable {
-	
-	/** The name. */
-	@Column(unique = true, length = 32)
-	private String name;
+    
+    /** The name. */
+    @Column(unique = true, length = 32)
+    private String name;
 
-	/** The description. */
-	@Column(length = 255)
-	private String description;
+    /** The description. */
+    @Column(length = 255)
+    private String description;
 
-	/**
+    /**
      * Gets the description.
      *
      * @return the description
      */
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	/**
+    /**
      * Sets the description.
      *
      * @param description
      *            the new description
      */
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-	/**
+    /**
      * Gets the name.
      *
      * @return the name
      */
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	/**
+    /**
      * Sets the name.
      *
      * @param name
      *            the new name
      */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.domain.DomainObject#toString()
-	 */
-	@Override
-	public String toString() {
-		return "net.sf.xplanner.domain.ObjectType[name=" + this.name + "]";
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.domain.DomainObject#toString()
+     */
+    @Override
+    public String toString() {
+        return "net.sf.xplanner.domain.ObjectType[name=" + this.name + "]";
+    }
 
 }

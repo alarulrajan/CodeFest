@@ -6,8 +6,8 @@ import java.util.Properties;
  * The Interface SchemeHandler.
  */
 public interface SchemeHandler {
-	
-	/**
+    
+    /**
      * Translate.
      *
      * @param properties
@@ -20,6 +20,6 @@ public interface SchemeHandler {
      *            the link text
      * @return the string
      */
-	String translate(Properties properties, String scheme, String location,
-			String linkText);
+    String translate(Properties properties, String scheme, String location,
+            String linkText);
 }

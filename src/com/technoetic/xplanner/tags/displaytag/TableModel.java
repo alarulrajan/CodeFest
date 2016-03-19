@@ -15,86 +15,86 @@ import org.displaytag.properties.TableProperties;
  * @version $Revision: 408 $ ($Author: sg0897500 $)
  */
 public class TableModel extends org.displaytag.model.TableModel {
-	
-	/** The log. */
-	private static Log log = LogFactory
-			.getLog(org.displaytag.model.TableModel.class);
+    
+    /** The log. */
+    private static Log log = LogFactory
+            .getLog(org.displaytag.model.TableModel.class);
 
-	/** The id. */
-	String id;
+    /** The id. */
+    String id;
 
-	/**
+    /**
      * Instantiates a new table model.
      *
      * @param tableProperties
      *            the table properties
      */
-	public TableModel(final TableProperties tableProperties) {
-		super(tableProperties, null);
-	}
+    public TableModel(final TableProperties tableProperties) {
+        super(tableProperties, null);
+    }
 
-	/**
-	 * sorts the given list of Rows. The method is called internally by
-	 * sortFullList() and sortPageList().
-	 * 
-	 * @param list
-	 *            List
-	 */
-	private void sortRowList(final List list) {
-		if (this.isSorted()) {
-			final HeaderCell sortedHeaderCell = (HeaderCell) this
-					.getSortedColumnHeader();
+    /**
+     * sorts the given list of Rows. The method is called internally by
+     * sortFullList() and sortPageList().
+     * 
+     * @param list
+     *            List
+     */
+    private void sortRowList(final List list) {
+        if (this.isSorted()) {
+            final HeaderCell sortedHeaderCell = (HeaderCell) this
+                    .getSortedColumnHeader();
 
-			if (sortedHeaderCell != null) {
-				// If it is an explicit value, then sort by that, otherwise sort
-				// by the property...
-				final int sortedColumn = this.getSortedColumnNumber();
-				if (sortedHeaderCell.getBeanSortPropertyName() != null
-						|| sortedColumn != -1
-						&& sortedColumn < this.getHeaderCellList().size()) {
-					Collections.sort(
-							list,
-							new RowSorter(sortedColumn, sortedHeaderCell
-									.getBeanSortPropertyName(), this
-									.getTableDecorator(), this
-									.isSortOrderAscending()));
-				}
-			}
+            if (sortedHeaderCell != null) {
+                // If it is an explicit value, then sort by that, otherwise sort
+                // by the property...
+                final int sortedColumn = this.getSortedColumnNumber();
+                if (sortedHeaderCell.getBeanSortPropertyName() != null
+                        || sortedColumn != -1
+                        && sortedColumn < this.getHeaderCellList().size()) {
+                    Collections.sort(
+                            list,
+                            new RowSorter(sortedColumn, sortedHeaderCell
+                                    .getBeanSortPropertyName(), this
+                                    .getTableDecorator(), this
+                                    .isSortOrderAscending()));
+                }
+            }
 
-		}
+        }
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.displaytag.model.TableModel#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(final String tableId) {
-		this.id = tableId;
-		super.setId(tableId);
-	}
+    /* (non-Javadoc)
+     * @see org.displaytag.model.TableModel#setId(java.lang.String)
+     */
+    @Override
+    public void setId(final String tableId) {
+        this.id = tableId;
+        super.setId(tableId);
+    }
 
-	/**
-	 * sort the list displayed in page.
-	 */
-	@Override
-	public void sortPageList() {
-		if (TableModel.log.isDebugEnabled()) {
-			TableModel.log.debug("[" + this.id + "] sorting page list");
-		}
-		this.sortRowList(this.getRowListPage());
+    /**
+     * sort the list displayed in page.
+     */
+    @Override
+    public void sortPageList() {
+        if (TableModel.log.isDebugEnabled()) {
+            TableModel.log.debug("[" + this.id + "] sorting page list");
+        }
+        this.sortRowList(this.getRowListPage());
 
-	}
+    }
 
-	/**
-	 * sort the full list of data.
-	 */
-	@Override
-	public void sortFullList() {
-		if (TableModel.log.isDebugEnabled()) {
-			TableModel.log.debug("[" + this.id + "] sorting full data");
-		}
-		this.sortRowList(this.getRowListFull());
-	}
+    /**
+     * sort the full list of data.
+     */
+    @Override
+    public void sortFullList() {
+        if (TableModel.log.isDebugEnabled()) {
+            TableModel.log.debug("[" + this.id + "] sorting full data");
+        }
+        this.sortRowList(this.getRowListFull());
+    }
 
 }

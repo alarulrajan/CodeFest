@@ -6,8 +6,8 @@ import net.sf.xplanner.domain.Role;
  * The Interface RoleRepository.
  */
 public interface RoleRepository extends ObjectRepository {
-	
-	/**
+    
+    /**
      * Find role by name.
      *
      * @param name
@@ -16,5 +16,5 @@ public interface RoleRepository extends ObjectRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	Role findRoleByName(String name) throws RepositoryException;
+    Role findRoleByName(String name) throws RepositoryException;
 }

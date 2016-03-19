@@ -23,13 +23,13 @@ import org.junit.Test;
  */
 public class EmailPerChangeListenerTest {
 
-	/**
+    /**
      * Test on application event.
      */
-	@Test(expected=IllegalArgumentException.class)
-	public void testOnApplicationEvent() {
-		EmailPerChangeListener emailPerChangeListener = new EmailPerChangeListener();
-		emailPerChangeListener.onApplicationEvent(new ObjectCreated(null));
-	}
+    @Test(expected=IllegalArgumentException.class)
+    public void testOnApplicationEvent() {
+        EmailPerChangeListener emailPerChangeListener = new EmailPerChangeListener();
+        emailPerChangeListener.onApplicationEvent(new ObjectCreated(null));
+    }
 
 }

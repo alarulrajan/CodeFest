@@ -25,25 +25,25 @@ public class TestHibernateObjectRepository extends AbstractUnitTestCase {
    /** The domain object. */
    private NamedObject domainObject;
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		setUpThreadSession(false);
-		mockHibernateTemplate = createLocalMock(HibernateTemplate.class);
-		repository = new HibernateObjectRepository(Object.class) {
-			@Override
-			protected Session getSession2() {
-				return mockSession;
-			}
-		};
-		repository.setHibernateTemplate(mockHibernateTemplate);
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        setUpThreadSession(false);
+        mockHibernateTemplate = createLocalMock(HibernateTemplate.class);
+        repository = new HibernateObjectRepository(Object.class) {
+            @Override
+            protected Session getSession2() {
+                return mockSession;
+            }
+        };
+        repository.setHibernateTemplate(mockHibernateTemplate);
 
-		domainObject = new DummyDomainObject();
+        domainObject = new DummyDomainObject();
 
-	}
+    }
 
    /* (non-Javadoc)
     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
@@ -60,11 +60,11 @@ protected void tearDown() throws Exception {
      *             the exception
      */
    public void testDelete() throws Exception {
-	  expect(mockHibernateTemplate.isAllowCreate()).andReturn(false).anyTimes();
-	  SessionFactory sessionFactory = createLocalMock(SessionFactory.class);
-	  expect(sessionFactory.openSession()).andReturn(mockSession);
-	  expect(mockSession.getSessionFactory()).andReturn(sessionFactory);
-	  expect(mockHibernateTemplate.getSessionFactory()).andReturn(sessionFactory).anyTimes();
+      expect(mockHibernateTemplate.isAllowCreate()).andReturn(false).anyTimes();
+      SessionFactory sessionFactory = createLocalMock(SessionFactory.class);
+      expect(sessionFactory.openSession()).andReturn(mockSession);
+      expect(mockSession.getSessionFactory()).andReturn(sessionFactory);
+      expect(mockHibernateTemplate.getSessionFactory()).andReturn(sessionFactory).anyTimes();
       expect(mockHibernateTemplate.bulkUpdate("delete "+Object.class.getName() +" where id = ?",
                                                             new Integer(10))).andReturn(1);
       replay();
@@ -90,23 +90,23 @@ protected void tearDown() throws Exception {
       assertSame(object, loadedObject);
    }
 
-	/**
+    /**
      * Test insert.
      *
      * @throws Exception
      *             the exception
      */
-	public void testInsert() throws Exception {
-		expect(mockSession.save(domainObject)).andReturn(
-				new Integer(44));
+    public void testInsert() throws Exception {
+        expect(mockSession.save(domainObject)).andReturn(
+                new Integer(44));
 
-		replay();
+        replay();
 
-		int id = repository.insert(domainObject);
+        int id = repository.insert(domainObject);
 
-		verify();
-		assertEquals("wrong id", 44, id);
-	}
+        verify();
+        assertEquals("wrong id", 44, id);
+    }
 
    /** Test update.
      *

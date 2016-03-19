@@ -18,22 +18,22 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
  */
 public class DeleteNoteAction extends DeleteObjectAction<Note> {
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.actions.DeleteObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	public ActionForward doExecute(final ActionMapping actionMapping,
-			final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse reply) throws Exception {
-		final Note note = this.getCommonDao().getById(Note.class,
-				new Integer(request.getParameter("oid")).intValue());
-		this.getEventBus().publishDeleteEvent(note,
-				this.getLoggedInUser(request));
-		NoteHelper.deleteNote(note, ThreadSession.get());
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.DeleteObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward doExecute(final ActionMapping actionMapping,
+            final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse reply) throws Exception {
+        final Note note = this.getCommonDao().getById(Note.class,
+                new Integer(request.getParameter("oid")).intValue());
+        this.getEventBus().publishDeleteEvent(note,
+                this.getLoggedInUser(request));
+        NoteHelper.deleteNote(note, ThreadSession.get());
 
-		final String returnto = request.getParameter("returnto");
-		return returnto != null ? new ActionForward(returnto, true)
-				: actionMapping.findForward("view/projects");
-	}
+        final String returnto = request.getParameter("returnto");
+        return returnto != null ? new ActionForward(returnto, true)
+                : actionMapping.findForward("view/projects");
+    }
 
 }

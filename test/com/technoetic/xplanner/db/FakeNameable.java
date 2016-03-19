@@ -52,12 +52,12 @@ public class FakeNameable implements Nameable {
         return description;
     }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.domain.Nameable#getAttribute(java.lang.String)
-	 */
-	@Override
-	public String getAttribute(String attributeName) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.domain.Nameable#getAttribute(java.lang.String)
+     */
+    @Override
+    public String getAttribute(String attributeName) {
+        // ChangeSoon 
+        return null;
+    }
 }

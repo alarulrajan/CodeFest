@@ -6,8 +6,8 @@ import java.util.Map;
  * The Interface AttributeRepository.
  */
 public interface AttributeRepository {
-	
-	/**
+    
+    /**
      * Sets the attribute.
      *
      * @param targetId
@@ -19,10 +19,10 @@ public interface AttributeRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	void setAttribute(int targetId, String name, String value)
-			throws RepositoryException;
+    void setAttribute(int targetId, String name, String value)
+            throws RepositoryException;
 
-	/**
+    /**
      * Delete.
      *
      * @param targetId
@@ -32,9 +32,9 @@ public interface AttributeRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	void delete(int targetId, String name) throws RepositoryException;
+    void delete(int targetId, String name) throws RepositoryException;
 
-	/**
+    /**
      * Gets the attributes.
      *
      * @param targetId
@@ -45,9 +45,9 @@ public interface AttributeRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	Map getAttributes(int targetId, String prefix) throws RepositoryException;
+    Map getAttributes(int targetId, String prefix) throws RepositoryException;
 
-	/**
+    /**
      * Gets the attribute.
      *
      * @param targetId
@@ -58,5 +58,5 @@ public interface AttributeRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	String getAttribute(int targetId, String name) throws RepositoryException;
+    String getAttribute(int targetId, String name) throws RepositoryException;
 }

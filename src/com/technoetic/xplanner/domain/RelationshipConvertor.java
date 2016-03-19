@@ -17,14 +17,14 @@ import org.hibernate.HibernateException;
  *       relationship and vise-a-versa
  */
 public class RelationshipConvertor {
-	
-	/** The adapter property. */
-	private final String adapterProperty;
-	
-	/** The domain property. */
-	private final String domainProperty;
+    
+    /** The adapter property. */
+    private final String adapterProperty;
+    
+    /** The domain property. */
+    private final String domainProperty;
 
-	/**
+    /**
      * Instantiates a new relationship convertor.
      *
      * @param adapterProperty
@@ -32,31 +32,31 @@ public class RelationshipConvertor {
      * @param domainObjectProperty
      *            the domain object property
      */
-	public RelationshipConvertor(final String adapterProperty,
-			final String domainObjectProperty) {
-		this.adapterProperty = adapterProperty;
-		this.domainProperty = domainObjectProperty;
-	}
+    public RelationshipConvertor(final String adapterProperty,
+            final String domainObjectProperty) {
+        this.adapterProperty = adapterProperty;
+        this.domainProperty = domainObjectProperty;
+    }
 
-	/**
+    /**
      * Gets the adapter property.
      *
      * @return the adapter property
      */
-	public String getAdapterProperty() {
-		return this.adapterProperty;
-	}
+    public String getAdapterProperty() {
+        return this.adapterProperty;
+    }
 
-	/**
+    /**
      * Gets the domain property.
      *
      * @return the domain property
      */
-	public String getDomainProperty() {
-		return this.domainProperty;
-	}
+    public String getDomainProperty() {
+        return this.domainProperty;
+    }
 
-	/**
+    /**
      * Populate domain object.
      *
      * @param destination
@@ -74,24 +74,24 @@ public class RelationshipConvertor {
      * @throws NoSuchMethodException
      *             the no such method exception
      */
-	public void populateDomainObject(final DomainObject destination,
-			final Object source, final CommonDao<?> commonDao)
-			throws HibernateException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
-		if (PropertyUtils.isReadable(source, this.adapterProperty)
-				&& PropertyUtils.isWriteable(destination, this.domainProperty)) {
-			final Integer referredId = (Integer) PropertyUtils.getProperty(
-					source, this.adapterProperty);
-			final Class destinationType = PropertyUtils.getPropertyType(
-					destination, this.domainProperty);
-			final Object referred = this.findObjectById(commonDao,
-					destinationType, referredId);
-			PropertyUtils.setProperty(destination, this.domainProperty,
-					referred);
-		}
-	}
+    public void populateDomainObject(final DomainObject destination,
+            final Object source, final CommonDao<?> commonDao)
+            throws HibernateException, IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException {
+        if (PropertyUtils.isReadable(source, this.adapterProperty)
+                && PropertyUtils.isWriteable(destination, this.domainProperty)) {
+            final Integer referredId = (Integer) PropertyUtils.getProperty(
+                    source, this.adapterProperty);
+            final Class destinationType = PropertyUtils.getPropertyType(
+                    destination, this.domainProperty);
+            final Object referred = this.findObjectById(commonDao,
+                    destinationType, referredId);
+            PropertyUtils.setProperty(destination, this.domainProperty,
+                    referred);
+        }
+    }
 
-	/**
+    /**
      * Find object by id.
      *
      * @param commonDao
@@ -104,15 +104,15 @@ public class RelationshipConvertor {
      * @throws HibernateException
      *             the hibernate exception
      */
-	private Object findObjectById(final CommonDao<?> commonDao,
-			final Class aClass, final Integer id) throws HibernateException {
-		if (id.intValue() == 0) {
-			return null;
-		}
-		return commonDao.getById(aClass, id);
-	}
+    private Object findObjectById(final CommonDao<?> commonDao,
+            final Class aClass, final Integer id) throws HibernateException {
+        if (id.intValue() == 0) {
+            return null;
+        }
+        return commonDao.getById(aClass, id);
+    }
 
-	/**
+    /**
      * Populate adapter.
      *
      * @param adapter
@@ -126,14 +126,14 @@ public class RelationshipConvertor {
      * @throws InvocationTargetException
      *             the invocation target exception
      */
-	public void populateAdapter(final Object adapter,
-			final DomainObject domainObject) throws NoSuchMethodException,
-			IllegalAccessException, InvocationTargetException {
-		final Object referred = PropertyUtils.getProperty(domainObject,
-				this.domainProperty);
-		final Integer id = referred == null ? new Integer(0)
-				: (Integer) PropertyUtils.getProperty(referred, "id");
-		PropertyUtils.setProperty(adapter, this.adapterProperty, id);
-	}
+    public void populateAdapter(final Object adapter,
+            final DomainObject domainObject) throws NoSuchMethodException,
+            IllegalAccessException, InvocationTargetException {
+        final Object referred = PropertyUtils.getProperty(domainObject,
+                this.domainProperty);
+        final Integer id = referred == null ? new Integer(0)
+                : (Integer) PropertyUtils.getProperty(referred, "id");
+        PropertyUtils.setProperty(adapter, this.adapterProperty, id);
+    }
 
 }

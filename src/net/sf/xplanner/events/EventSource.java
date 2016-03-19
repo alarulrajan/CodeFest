@@ -22,14 +22,14 @@ import com.technoetic.xplanner.domain.Identifiable;
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 public class EventSource {
-	
-	/** The domain object. */
-	private final Identifiable domainObject;
-	
-	/** The editor. */
-	private final Person editor;
+    
+    /** The domain object. */
+    private final Identifiable domainObject;
+    
+    /** The editor. */
+    private final Person editor;
 
-	/**
+    /**
      * Instantiates a new event source.
      *
      * @param domainObject
@@ -37,26 +37,26 @@ public class EventSource {
      * @param editor
      *            the editor
      */
-	public EventSource(final Identifiable domainObject, final Person editor) {
-		this.domainObject = domainObject;
-		this.editor = editor;
-	}
+    public EventSource(final Identifiable domainObject, final Person editor) {
+        this.domainObject = domainObject;
+        this.editor = editor;
+    }
 
-	/**
+    /**
      * Gets the domain object.
      *
      * @return the domain object
      */
-	public Identifiable getDomainObject() {
-		return this.domainObject;
-	}
+    public Identifiable getDomainObject() {
+        return this.domainObject;
+    }
 
-	/**
+    /**
      * Gets the editor.
      *
      * @return the editor
      */
-	public Person getEditor() {
-		return this.editor;
-	}
+    public Person getEditor() {
+        return this.editor;
+    }
 }

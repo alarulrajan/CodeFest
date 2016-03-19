@@ -21,43 +21,43 @@ import com.technoetic.xplanner.util.LogUtil;
  */
 public class ActivityLogFilter implements Filter {
 
-	/** The Constant LOG. */
-	public static final Logger LOG = LogUtil.getLogger();
+    /** The Constant LOG. */
+    public static final Logger LOG = LogUtil.getLogger();
 
-	// ChangeSoon: Once we migrate to 1.5, use String.format to extract the logging
-	// pattern into the web.xml filter init param.
+    // ChangeSoon: Once we migrate to 1.5, use String.format to extract the logging
+    // pattern into the web.xml filter init param.
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
-	@Override
-	public void init(final FilterConfig config) throws ServletException {
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     */
+    @Override
+    public void init(final FilterConfig config) throws ServletException {
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-	 */
-	@Override
-	public void doFilter(final ServletRequest request,
-			final ServletResponse response, final FilterChain filterChain)
-			throws IOException, ServletException {
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     */
+    @Override
+    public void doFilter(final ServletRequest request,
+            final ServletResponse response, final FilterChain filterChain)
+            throws IOException, ServletException {
 
-		final ActivityLogFilterHelper helper = new ActivityLogFilterHelper();
-		helper.doHelperSetUp(request);
+        final ActivityLogFilterHelper helper = new ActivityLogFilterHelper();
+        helper.doHelperSetUp(request);
 
-		ActivityLogFilter.LOG.info(helper.getStartLogRecord());
+        ActivityLogFilter.LOG.info(helper.getStartLogRecord());
 
-		filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);
 
-		ActivityLogFilter.LOG.info(helper.getEndLogRecord());
+        ActivityLogFilter.LOG.info(helper.getEndLogRecord());
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#destroy()
-	 */
-	@Override
-	public void destroy() {
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#destroy()
+     */
+    @Override
+    public void destroy() {
+    }
 
 }

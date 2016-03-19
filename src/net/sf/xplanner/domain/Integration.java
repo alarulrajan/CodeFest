@@ -30,54 +30,54 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "integration")
 public class Integration implements java.io.Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6948499568758432723L;
-	
-	/** The id. */
-	private int id;
-	
-	/** The project id. */
-	private Integer projectId;
-	
-	/** The last update. */
-	private Date lastUpdate;
-	
-	/** The person id. */
-	private Integer personId;
-	
-	/** The when started. */
-	private Date whenStarted;
-	
-	/** The when requested. */
-	private Date whenRequested;
-	
-	/** The when complete. */
-	private Date whenComplete;
-	
-	/** The state. */
-	private Character state;
-	
-	/** The comments. */
-	private String comments;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 6948499568758432723L;
+    
+    /** The id. */
+    private int id;
+    
+    /** The project id. */
+    private Integer projectId;
+    
+    /** The last update. */
+    private Date lastUpdate;
+    
+    /** The person id. */
+    private Integer personId;
+    
+    /** The when started. */
+    private Date whenStarted;
+    
+    /** The when requested. */
+    private Date whenRequested;
+    
+    /** The when complete. */
+    private Date whenComplete;
+    
+    /** The state. */
+    private Character state;
+    
+    /** The comments. */
+    private String comments;
 
-	/**
+    /**
      * Instantiates a new integration.
      */
-	public Integration() {
-	}
+    public Integration() {
+    }
 
-	/**
+    /**
      * Instantiates a new integration.
      *
      * @param id
      *            the id
      */
-	public Integration(final int id) {
-		this.id = id;
-	}
+    public Integration(final int id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Instantiates a new integration.
      *
      * @param id
@@ -99,205 +99,205 @@ public class Integration implements java.io.Serializable {
      * @param comments
      *            the comments
      */
-	public Integration(final int id, final Integer projectId,
-			final Date lastUpdate, final Integer personId,
-			final Date whenStarted, final Date whenRequested,
-			final Date whenComplete, final Character state,
-			final String comments) {
-		this.id = id;
-		this.projectId = projectId;
-		this.lastUpdate = lastUpdate;
-		this.personId = personId;
-		this.whenStarted = whenStarted;
-		this.whenRequested = whenRequested;
-		this.whenComplete = whenComplete;
-		this.state = state;
-		this.comments = comments;
-	}
+    public Integration(final int id, final Integer projectId,
+            final Date lastUpdate, final Integer personId,
+            final Date whenStarted, final Date whenRequested,
+            final Date whenComplete, final Character state,
+            final String comments) {
+        this.id = id;
+        this.projectId = projectId;
+        this.lastUpdate = lastUpdate;
+        this.personId = personId;
+        this.whenStarted = whenStarted;
+        this.whenRequested = whenRequested;
+        this.whenComplete = whenComplete;
+        this.state = state;
+        this.comments = comments;
+    }
 
-	/**
+    /**
      * Gets the id.
      *
      * @return the id
      */
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    public int getId() {
+        return this.id;
+    }
 
-	/**
+    /**
      * Sets the id.
      *
      * @param id
      *            the new id
      */
-	public void setId(final int id) {
-		this.id = id;
-	}
+    public void setId(final int id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Gets the project id.
      *
      * @return the project id
      */
-	@Column(name = "project_id")
-	public Integer getProjectId() {
-		return this.projectId;
-	}
+    @Column(name = "project_id")
+    public Integer getProjectId() {
+        return this.projectId;
+    }
 
-	/**
+    /**
      * Sets the project id.
      *
      * @param projectId
      *            the new project id
      */
-	public void setProjectId(final Integer projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(final Integer projectId) {
+        this.projectId = projectId;
+    }
 
-	/**
+    /**
      * Gets the last update.
      *
      * @return the last update
      */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_update", length = 19)
-	public Date getLastUpdate() {
-		return this.lastUpdate;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_update", length = 19)
+    public Date getLastUpdate() {
+        return this.lastUpdate;
+    }
 
-	/**
+    /**
      * Sets the last update.
      *
      * @param lastUpdate
      *            the new last update
      */
-	public void setLastUpdate(final Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
+    public void setLastUpdate(final Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
-	/**
+    /**
      * Gets the person id.
      *
      * @return the person id
      */
-	@Column(name = "person_id")
-	public Integer getPersonId() {
-		return this.personId;
-	}
+    @Column(name = "person_id")
+    public Integer getPersonId() {
+        return this.personId;
+    }
 
-	/**
+    /**
      * Sets the person id.
      *
      * @param personId
      *            the new person id
      */
-	public void setPersonId(final Integer personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(final Integer personId) {
+        this.personId = personId;
+    }
 
-	/**
+    /**
      * Gets the when started.
      *
      * @return the when started
      */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "when_started", length = 19)
-	public Date getWhenStarted() {
-		return this.whenStarted;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "when_started", length = 19)
+    public Date getWhenStarted() {
+        return this.whenStarted;
+    }
 
-	/**
+    /**
      * Sets the when started.
      *
      * @param whenStarted
      *            the new when started
      */
-	public void setWhenStarted(final Date whenStarted) {
-		this.whenStarted = whenStarted;
-	}
+    public void setWhenStarted(final Date whenStarted) {
+        this.whenStarted = whenStarted;
+    }
 
-	/**
+    /**
      * Gets the when requested.
      *
      * @return the when requested
      */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "when_requested", length = 19)
-	public Date getWhenRequested() {
-		return this.whenRequested;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "when_requested", length = 19)
+    public Date getWhenRequested() {
+        return this.whenRequested;
+    }
 
-	/**
+    /**
      * Sets the when requested.
      *
      * @param whenRequested
      *            the new when requested
      */
-	public void setWhenRequested(final Date whenRequested) {
-		this.whenRequested = whenRequested;
-	}
+    public void setWhenRequested(final Date whenRequested) {
+        this.whenRequested = whenRequested;
+    }
 
-	/**
+    /**
      * Gets the when complete.
      *
      * @return the when complete
      */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "when_complete", length = 19)
-	public Date getWhenComplete() {
-		return this.whenComplete;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "when_complete", length = 19)
+    public Date getWhenComplete() {
+        return this.whenComplete;
+    }
 
-	/**
+    /**
      * Sets the when complete.
      *
      * @param whenComplete
      *            the new when complete
      */
-	public void setWhenComplete(final Date whenComplete) {
-		this.whenComplete = whenComplete;
-	}
+    public void setWhenComplete(final Date whenComplete) {
+        this.whenComplete = whenComplete;
+    }
 
-	/**
+    /**
      * Gets the state.
      *
      * @return the state
      */
-	@Column(name = "state", length = 1)
-	public Character getState() {
-		return this.state;
-	}
+    @Column(name = "state", length = 1)
+    public Character getState() {
+        return this.state;
+    }
 
-	/**
+    /**
      * Sets the state.
      *
      * @param state
      *            the new state
      */
-	public void setState(final Character state) {
-		this.state = state;
-	}
+    public void setState(final Character state) {
+        this.state = state;
+    }
 
-	/**
+    /**
      * Gets the comments.
      *
      * @return the comments
      */
-	@Column(name = "comments")
-	public String getComments() {
-		return this.comments;
-	}
+    @Column(name = "comments")
+    public String getComments() {
+        return this.comments;
+    }
 
-	/**
+    /**
      * Sets the comments.
      *
      * @param comments
      *            the new comments
      */
-	public void setComments(final String comments) {
-		this.comments = comments;
-	}
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
 
 }

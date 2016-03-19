@@ -15,8 +15,8 @@ import java.util.Date;
  * A factory for creating SpreadsheetStory objects.
  */
 public class SpreadsheetStoryFactory {
-	
-	/**
+    
+    /**
      * New instance.
      *
      * @param title
@@ -27,12 +27,12 @@ public class SpreadsheetStoryFactory {
      *            the estimate
      * @return the spreadsheet story
      */
-	public SpreadsheetStory newInstance(final String title,
-			final String status, final double estimate) {
-		return new SpreadsheetStory(title, status, estimate);
-	}
+    public SpreadsheetStory newInstance(final String title,
+            final String status, final double estimate) {
+        return new SpreadsheetStory(title, status, estimate);
+    }
 
-	/**
+    /**
      * New instance.
      *
      * @param storyEndDate
@@ -47,20 +47,20 @@ public class SpreadsheetStoryFactory {
      *            the priority
      * @return the spreadsheet story
      */
-	public SpreadsheetStory newInstance(final Date storyEndDate,
-			final String title, final String status, final double estimate,
-			final int priority) {
-		return new SpreadsheetStory(storyEndDate, title, status, estimate,
-				priority);
-	}
+    public SpreadsheetStory newInstance(final Date storyEndDate,
+            final String title, final String status, final double estimate,
+            final int priority) {
+        return new SpreadsheetStory(storyEndDate, title, status, estimate,
+                priority);
+    }
 
-	/**
+    /**
      * New instance.
      *
      * @return the spreadsheet story
      */
-	public SpreadsheetStory newInstance() {
-		return new SpreadsheetStory("", "", 0);
-	}
+    public SpreadsheetStory newInstance() {
+        return new SpreadsheetStory("", "", 0);
+    }
 
 }

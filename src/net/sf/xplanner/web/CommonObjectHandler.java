@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CommonObjectHandler {
 
-	/**
+    /**
      * List.
      *
      * @param objectType
      *            the object type
      * @return the string
      */
-	@RequestMapping("/{objectType}/list")
-	public String list(@PathVariable final String objectType) {
-		System.out.println(objectType);
+    @RequestMapping("/{objectType}/list")
+    public String list(@PathVariable final String objectType) {
+        System.out.println(objectType);
 
-		return objectType;
-	}
+        return objectType;
+    }
 
-	/**
+    /**
      * Edits the.
      *
      * @param objectType
@@ -33,10 +33,10 @@ public class CommonObjectHandler {
      *            the object id
      * @return the string
      */
-	@RequestMapping("/{objectType}/edit/{objectId}")
-	public String edit(@PathVariable final String objectType,
-			@PathVariable final Integer objectId) {
-		System.out.println(objectType);
-		return objectType;
-	}
+    @RequestMapping("/{objectType}/edit/{objectId}")
+    public String edit(@PathVariable final String objectType,
+            @PathVariable final Integer objectId) {
+        System.out.println(objectType);
+        return objectType;
+    }
 }

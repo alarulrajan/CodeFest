@@ -26,7 +26,7 @@ import net.sf.xplanner.domain.Role;
  */
 public interface RoleDao extends Dao<Role> {
 
-	/**
+    /**
      * Gets the roles.
      *
      * @param personId
@@ -37,7 +37,7 @@ public interface RoleDao extends Dao<Role> {
      *            the include wildcard project
      * @return the roles
      */
-	public List<Role> getRoles(int personId, int projectId,
-			boolean includeWildcardProject);
+    public List<Role> getRoles(int personId, int projectId,
+            boolean includeWildcardProject);
 
 }

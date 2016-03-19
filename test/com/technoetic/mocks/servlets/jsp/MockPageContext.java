@@ -54,7 +54,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#initialize(javax.servlet.Servlet, javax.servlet.ServletRequest, javax.servlet.ServletResponse, java.lang.String, boolean, int, boolean)
      */
     @Override
-	public void initialize(javax.servlet.Servlet servlet, javax.servlet.ServletRequest request,
+    public void initialize(javax.servlet.Servlet servlet, javax.servlet.ServletRequest request,
             javax.servlet.ServletResponse response, java.lang.String errorPageURL,
             boolean needsSession, int bufferSize, boolean autoFlush)
             throws java.io.IOException,
@@ -86,7 +86,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#release()
      */
     @Override
-	public void release() {
+    public void release() {
         releaseCalled = true;
     }
 
@@ -103,7 +103,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#setAttribute(java.lang.String, java.lang.Object)
      */
     @Override
-	public void setAttribute(java.lang.String name, java.lang.Object attribute) {
+    public void setAttribute(java.lang.String name, java.lang.Object attribute) {
         setAttributeCalled = true;
         setAttributeName = name;
         setAttributeAttribute = attribute;
@@ -126,7 +126,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#setAttribute(java.lang.String, java.lang.Object, int)
      */
     @Override
-	public void setAttribute(java.lang.String name, java.lang.Object o, int scope) {
+    public void setAttribute(java.lang.String name, java.lang.Object o, int scope) {
         setAttribute2Called = true;
         setAttribute2Name = name;
         setAttribute2Attribute = o;
@@ -146,7 +146,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getAttribute(java.lang.String)
      */
     @Override
-	public java.lang.Object getAttribute(java.lang.String name) {
+    public java.lang.Object getAttribute(java.lang.String name) {
         getAttributeCalled = true;
         getAttributeName = name;
         if (getAttributeReturn != null) {
@@ -172,7 +172,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getAttribute(java.lang.String, int)
      */
     @Override
-	public java.lang.Object getAttribute(java.lang.String name, int scope) {
+    public java.lang.Object getAttribute(java.lang.String name, int scope) {
         getAttribute2Called = true;
         getAttribute2Name = name;
         getAttribute2Scope = scope;
@@ -192,7 +192,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#findAttribute(java.lang.String)
      */
     @Override
-	public java.lang.Object findAttribute(java.lang.String name) {
+    public java.lang.Object findAttribute(java.lang.String name) {
         findAttributeCalled = true;
         findAttributeName = name;
         if (findAttributeReturn != null) {
@@ -212,7 +212,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#removeAttribute(java.lang.String)
      */
     @Override
-	public void removeAttribute(java.lang.String name) {
+    public void removeAttribute(java.lang.String name) {
         removeAttributeCalled = true;
         removeAttributeName = name;
     }
@@ -230,7 +230,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#removeAttribute(java.lang.String, int)
      */
     @Override
-	public void removeAttribute(java.lang.String name, int scope) {
+    public void removeAttribute(java.lang.String name, int scope) {
         removeAttribute2Called = true;
         removeAttribute2Name = name;
         removeAttribute2Scope = scope;
@@ -249,7 +249,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getAttributesScope(java.lang.String)
      */
     @Override
-	public int getAttributesScope(java.lang.String name) {
+    public int getAttributesScope(java.lang.String name) {
         getAttributesScopeCalled = true;
         getAttributesScopeName = name;
         return getAttributesScopeReturn.intValue();
@@ -268,7 +268,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getAttributeNamesInScope(int)
      */
     @Override
-	public java.util.Enumeration getAttributeNamesInScope(int scope) {
+    public java.util.Enumeration getAttributeNamesInScope(int scope) {
         getAttributeNamesInScopeCalled = true;
         getAttributeNamesInScopeScope = scope;
         return getAttributeNamesInScopeReturn;
@@ -284,7 +284,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getOut()
      */
     @Override
-	public javax.servlet.jsp.JspWriter getOut() {
+    public javax.servlet.jsp.JspWriter getOut() {
         getOutCalled = true;
         return getOutReturn;
     }
@@ -294,7 +294,7 @@ public class MockPageContext extends PageContext {
      * @return the expression evaluator
      */
     @Override
-	public ExpressionEvaluator getExpressionEvaluator() {
+    public ExpressionEvaluator getExpressionEvaluator() {
         return null;
     }
 
@@ -303,7 +303,7 @@ public class MockPageContext extends PageContext {
      * @return the variable resolver
      */
     @Override
-	public VariableResolver getVariableResolver() {
+    public VariableResolver getVariableResolver() {
         return null;
     }
 
@@ -317,7 +317,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getSession()
      */
     @Override
-	public javax.servlet.http.HttpSession getSession() {
+    public javax.servlet.http.HttpSession getSession() {
         getSessionCalled = true;
         return getSessionReturn;
     }
@@ -332,7 +332,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getPage()
      */
     @Override
-	public java.lang.Object getPage() {
+    public java.lang.Object getPage() {
         getPageCalled = true;
         return getPageReturn;
     }
@@ -347,7 +347,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getRequest()
      */
     @Override
-	public javax.servlet.ServletRequest getRequest() {
+    public javax.servlet.ServletRequest getRequest() {
         getRequestCalled = true;
         return getRequestReturn;
     }
@@ -362,7 +362,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getResponse()
      */
     @Override
-	public javax.servlet.ServletResponse getResponse() {
+    public javax.servlet.ServletResponse getResponse() {
         getResponseCalled = true;
         return getResponseReturn;
     }
@@ -377,7 +377,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getException()
      */
     @Override
-	public java.lang.Exception getException() {
+    public java.lang.Exception getException() {
         getExceptionCalled = true;
         return getExceptionReturn;
     }
@@ -392,7 +392,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getServletConfig()
      */
     @Override
-	public javax.servlet.ServletConfig getServletConfig() {
+    public javax.servlet.ServletConfig getServletConfig() {
         getServletConfigCalled = true;
         return getServletConfigReturn;
     }
@@ -407,7 +407,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#getServletContext()
      */
     @Override
-	public javax.servlet.ServletContext getServletContext() {
+    public javax.servlet.ServletContext getServletContext() {
         getServletContextCalled = true;
         return getServletContextReturn;
     }
@@ -428,7 +428,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#forward(java.lang.String)
      */
     @Override
-	public void forward(java.lang.String relativeUrlPath) throws javax.servlet.ServletException, java.io.IOException {
+    public void forward(java.lang.String relativeUrlPath) throws javax.servlet.ServletException, java.io.IOException {
         forwardCalled = true;
         forwardRelativeUrlPath = relativeUrlPath;
         if (forwardServletException != null) {
@@ -455,7 +455,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#include(java.lang.String)
      */
     @Override
-	public void include(java.lang.String relativeUrlPath) throws javax.servlet.ServletException, java.io.IOException {
+    public void include(java.lang.String relativeUrlPath) throws javax.servlet.ServletException, java.io.IOException {
         includeCalled = true;
         includeRelativeUrlPath = relativeUrlPath;
         if (includeServletException != null) {
@@ -478,7 +478,7 @@ public class MockPageContext extends PageContext {
      *             Signals that an I/O exception has occurred.
      */
     @Override
-	public void include(String string, boolean b) throws ServletException, IOException {
+    public void include(String string, boolean b) throws ServletException, IOException {
 
     }
 
@@ -498,7 +498,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#handlePageException(java.lang.Exception)
      */
     @Override
-	public void handlePageException(java.lang.Exception e) throws javax.servlet.ServletException, java.io.IOException {
+    public void handlePageException(java.lang.Exception e) throws javax.servlet.ServletException, java.io.IOException {
         handlePageExceptionCalled = true;
         handlePageExceptionE = e;
         if (handlePageExceptionServletException != null) {
@@ -519,7 +519,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#pushBody()
      */
     @Override
-	public javax.servlet.jsp.tagext.BodyContent pushBody() {
+    public javax.servlet.jsp.tagext.BodyContent pushBody() {
         pushBodyCalled = true;
         return pushBodyReturn;
     }
@@ -534,7 +534,7 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#popBody()
      */
     @Override
-	public javax.servlet.jsp.JspWriter popBody() {
+    public javax.servlet.jsp.JspWriter popBody() {
         popBodyCalled = true;
         return popBodyReturn;
     }
@@ -543,18 +543,18 @@ public class MockPageContext extends PageContext {
      * @see javax.servlet.jsp.PageContext#handlePageException(java.lang.Throwable)
      */
     @Override
-	public void handlePageException(Throwable ex) {
+    public void handlePageException(Throwable ex) {
         throw new UnsupportedOperationException();
     }
 
-	/**
+    /**
      * Gets the EL context.
      *
      * @return the EL context
      */
-	@Override
-	public ELContext getELContext() {
-		return null;
-	}
+    @Override
+    public ELContext getELContext() {
+        return null;
+    }
 
 }

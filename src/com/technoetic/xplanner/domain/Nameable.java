@@ -6,27 +6,27 @@ package com.technoetic.xplanner.domain;
  */
 //DEBT Should det
 public interface Nameable extends Identifiable {
-	
-	/**
+    
+    /**
      * Gets the name.
      *
      * @return the name
      */
-	String getName();
+    String getName();
 
-	/**
+    /**
      * Gets the description.
      *
      * @return the description
      */
-	String getDescription();
+    String getDescription();
 
-	/**
+    /**
      * Gets the attribute.
      *
      * @param attributeName
      *            the attribute name
      * @return the attribute
      */
-	String getAttribute(String attributeName);
+    String getAttribute(String attributeName);
 }

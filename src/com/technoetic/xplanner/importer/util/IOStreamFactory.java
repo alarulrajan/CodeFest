@@ -14,8 +14,8 @@ import java.io.InputStream;
  * A factory for creating IOStream objects.
  */
 public class IOStreamFactory {
-	
-	/**
+    
+    /**
      * New input stream.
      *
      * @param path
@@ -24,7 +24,7 @@ public class IOStreamFactory {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-	public InputStream newInputStream(final String path) throws IOException {
-		return new FileInputStream(path);
-	}
+    public InputStream newInputStream(final String path) throws IOException {
+        return new FileInputStream(path);
+    }
 }

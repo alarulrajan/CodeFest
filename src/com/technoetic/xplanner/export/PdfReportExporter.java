@@ -28,129 +28,129 @@ import org.hibernate.classic.Session;
  * The Class PdfReportExporter.
  */
 public class PdfReportExporter implements Exporter {
-	
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	public void initializeHeaders(final HttpServletResponse response) {
-		response.setHeader("Content-type", "application/pdf");
-		response.setHeader("Content-disposition", "inline; filename=report.pdf");
-	}
+    
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public void initializeHeaders(final HttpServletResponse response) {
+        response.setHeader("Content-type", "application/pdf");
+        response.setHeader("Content-disposition", "inline; filename=report.pdf");
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
-	 */
-	@Override
-	public byte[] export(final Session session, final Object object)
-			throws ExportException {
-		InputStream reportStream = null;
-		JRDataSource ds = null;
-		final Map parameters = new HashMap();
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+     */
+    @Override
+    public byte[] export(final Session session, final Object object)
+            throws ExportException {
+        InputStream reportStream = null;
+        JRDataSource ds = null;
+        final Map parameters = new HashMap();
 
-		if (object instanceof Iteration) {
-			final Iteration iteration = (Iteration) object;
+        if (object instanceof Iteration) {
+            final Iteration iteration = (Iteration) object;
 
-			try {
-				ds = new IterationDataSource(iteration, session);
-			} catch (final HibernateException he) {
-				throw new ExportException(he);
-			}
+            try {
+                ds = new IterationDataSource(iteration, session);
+            } catch (final HibernateException he) {
+                throw new ExportException(he);
+            }
 
-			reportStream = PdfReportExporter.class
-					.getClassLoader()
-					.getResourceAsStream(
-							"com/technoetic/xplanner/export/reports/JRIteration.jrxml");
-			parameters.put("IterationName", iteration.getName());
-			parameters.put("IterationStartDate", iteration.getStartDate());
-			parameters.put("IterationEndDate", iteration.getEndDate());
-		} else if (object instanceof UserStory) {
-			final UserStory story = (UserStory) object;
+            reportStream = PdfReportExporter.class
+                    .getClassLoader()
+                    .getResourceAsStream(
+                            "com/technoetic/xplanner/export/reports/JRIteration.jrxml");
+            parameters.put("IterationName", iteration.getName());
+            parameters.put("IterationStartDate", iteration.getStartDate());
+            parameters.put("IterationEndDate", iteration.getEndDate());
+        } else if (object instanceof UserStory) {
+            final UserStory story = (UserStory) object;
 
-			try {
-				ds = new UserStoryDataSource(story, session);
-			} catch (final HibernateException he) {
-				throw new ExportException(he);
-			}
+            try {
+                ds = new UserStoryDataSource(story, session);
+            } catch (final HibernateException he) {
+                throw new ExportException(he);
+            }
 
-			reportStream = PdfReportExporter.class
-					.getClassLoader()
-					.getResourceAsStream(
-							"com/technoetic/xplanner/export/reports/JRStory.jrxml");
-			parameters.put("StoryName", story.getName());
-			final Person cust = story.getCustomer();
-			parameters.put("StoryCustomerName", cust != null ? cust.getName()
-					: null);
-			parameters.put("StoryEstimatedHours",
-					new java.lang.Double(story.getEstimatedHours()));
-			parameters.put("StoryDescription", story.getDescription());
-		} else if (object instanceof Task) {
-			final Task task = (Task) object;
+            reportStream = PdfReportExporter.class
+                    .getClassLoader()
+                    .getResourceAsStream(
+                            "com/technoetic/xplanner/export/reports/JRStory.jrxml");
+            parameters.put("StoryName", story.getName());
+            final Person cust = story.getCustomer();
+            parameters.put("StoryCustomerName", cust != null ? cust.getName()
+                    : null);
+            parameters.put("StoryEstimatedHours",
+                    new java.lang.Double(story.getEstimatedHours()));
+            parameters.put("StoryDescription", story.getDescription());
+        } else if (object instanceof Task) {
+            final Task task = (Task) object;
 
-			try {
-				ds = new TaskDataSource(task, session);
-			} catch (final HibernateException he) {
-				throw new ExportException(he);
-			}
+            try {
+                ds = new TaskDataSource(task, session);
+            } catch (final HibernateException he) {
+                throw new ExportException(he);
+            }
 
-			reportStream = PdfReportExporter.class
-					.getClassLoader()
-					.getResourceAsStream(
-							"com/technoetic/xplanner/export/reports/JRTask.jrxml");
-			parameters.put("TaskName", task.getName());
-			parameters.put("TaskDescription", task.getDescription());
-			final double actual = task.getActualHours();
-			parameters
-					.put("TaskPercentage",
-							new java.lang.Integer(
-									(int) (actual * 100 / (actual + task
-											.getRemainingHours()))));
-			parameters.put("TaskDisposition", task.getDispositionName());
-			parameters.put("TaskType", task.getType());
-			parameters.put(
-					"TaskAcceptor",
-					PdfReportExporter.getPersonName(session,
-							new Integer(task.getAcceptorId())));
-			parameters.put("TaskEstimate",
-					new java.lang.Double(task.getEstimatedHours()));
-			parameters.put("TaskCompleted",
-					new java.lang.Boolean(task.isCompleted()));
-		} else if (object instanceof Person) {
-			final Person person = (Person) object;
+            reportStream = PdfReportExporter.class
+                    .getClassLoader()
+                    .getResourceAsStream(
+                            "com/technoetic/xplanner/export/reports/JRTask.jrxml");
+            parameters.put("TaskName", task.getName());
+            parameters.put("TaskDescription", task.getDescription());
+            final double actual = task.getActualHours();
+            parameters
+                    .put("TaskPercentage",
+                            new java.lang.Integer(
+                                    (int) (actual * 100 / (actual + task
+                                            .getRemainingHours()))));
+            parameters.put("TaskDisposition", task.getDispositionName());
+            parameters.put("TaskType", task.getType());
+            parameters.put(
+                    "TaskAcceptor",
+                    PdfReportExporter.getPersonName(session,
+                            new Integer(task.getAcceptorId())));
+            parameters.put("TaskEstimate",
+                    new java.lang.Double(task.getEstimatedHours()));
+            parameters.put("TaskCompleted",
+                    new java.lang.Boolean(task.isCompleted()));
+        } else if (object instanceof Person) {
+            final Person person = (Person) object;
 
-			try {
-				ds = new PersonDataSource(person, session);
-			} catch (final HibernateException he) {
-				throw new ExportException(he);
-			}
+            try {
+                ds = new PersonDataSource(person, session);
+            } catch (final HibernateException he) {
+                throw new ExportException(he);
+            }
 
-			reportStream = PdfReportExporter.class
-					.getClassLoader()
-					.getResourceAsStream(
-							"com/technoetic/xplanner/export/reports/JRPerson.jrxml");
-			parameters.put("PersonName", person.getName());
-		}
+            reportStream = PdfReportExporter.class
+                    .getClassLoader()
+                    .getResourceAsStream(
+                            "com/technoetic/xplanner/export/reports/JRPerson.jrxml");
+            parameters.put("PersonName", person.getName());
+        }
 
-		if (ds == null) {
-			throw new ExportException("Could not instantiate data source");
-		}
+        if (ds == null) {
+            throw new ExportException("Could not instantiate data source");
+        }
 
-		if (reportStream == null) {
-			throw new ExportException("Could not open compiled report");
-		}
+        if (reportStream == null) {
+            throw new ExportException("Could not open compiled report");
+        }
 
-		try {
-			final JasperDesign jasperDesign = JasperManager
-					.loadXmlDesign(reportStream);
-			final JasperReport report = JasperManager
-					.compileReport(jasperDesign);
-			return JasperManager.runReportToPdf(report, parameters, ds);
-		} catch (final JRException jre) {
-			throw new ExportException(jre);
-		}
-	}
+        try {
+            final JasperDesign jasperDesign = JasperManager
+                    .loadXmlDesign(reportStream);
+            final JasperReport report = JasperManager
+                    .compileReport(jasperDesign);
+            return JasperManager.runReportToPdf(report, parameters, ds);
+        } catch (final JRException jre) {
+            throw new ExportException(jre);
+        }
+    }
 
-	/**
+    /**
      * Gets the person name.
      *
      * @param session
@@ -159,43 +159,43 @@ public class PdfReportExporter implements Exporter {
      *            the id
      * @return the person name
      */
-	public static String getPersonName(final Session session, final Integer id) {
-		if (id == null || id.intValue() == 0) {
-			return null;
-		}
+    public static String getPersonName(final Session session, final Integer id) {
+        if (id == null || id.intValue() == 0) {
+            return null;
+        }
 
-		Person person = null;
-		try {
-			person = (Person) session.load(Person.class, id);
-		} catch (final HibernateException he) {
-			return null;
-		}
+        Person person = null;
+        try {
+            person = (Person) session.load(Person.class, id);
+        } catch (final HibernateException he) {
+            return null;
+        }
 
-		if (person == null) {
-			return null;
-		}
+        if (person == null) {
+            return null;
+        }
 
-		return person.getName();
-	}
+        return person.getName();
+    }
 
-	/**
+    /**
      * The Class UserStoryDataSource.
      */
-	private class UserStoryDataSource implements JRDataSource {
-		
-		/** The iterator. */
-		private Iterator iterator = null;
-		
-		/** The task. */
-		private Task task = null;
-		
-		/** The acceptor. */
-		private String acceptor = null;
-		
-		/** The session. */
-		private Session session = null;
+    private class UserStoryDataSource implements JRDataSource {
+        
+        /** The iterator. */
+        private Iterator iterator = null;
+        
+        /** The task. */
+        private Task task = null;
+        
+        /** The acceptor. */
+        private String acceptor = null;
+        
+        /** The session. */
+        private Session session = null;
 
-		/**
+        /**
          * Instantiates a new user story data source.
          *
          * @param story
@@ -205,102 +205,102 @@ public class PdfReportExporter implements Exporter {
          * @throws HibernateException
          *             the hibernate exception
          */
-		public UserStoryDataSource(final UserStory story, final Session session)
-				throws HibernateException {
-			super();
+        public UserStoryDataSource(final UserStory story, final Session session)
+                throws HibernateException {
+            super();
 
-			final List data = session.find("select task"
-					+ " from net.sf.xplanner.domain.Task task"
-					+ " where task.story = ?" + " order by task.name",
-					new java.lang.Integer(story.getId()), Hibernate.INTEGER);
+            final List data = session.find("select task"
+                    + " from net.sf.xplanner.domain.Task task"
+                    + " where task.story = ?" + " order by task.name",
+                    new java.lang.Integer(story.getId()), Hibernate.INTEGER);
 
-			this.session = session;
-			if (data != null) {
-				this.iterator = data.iterator();
-			}
-		}
+            this.session = session;
+            if (data != null) {
+                this.iterator = data.iterator();
+            }
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#next()
-		 */
-		@Override
-		public boolean next() throws JRException {
-			if (this.iterator == null || !this.iterator.hasNext()) {
-				return false;
-			}
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#next()
+         */
+        @Override
+        public boolean next() throws JRException {
+            if (this.iterator == null || !this.iterator.hasNext()) {
+                return false;
+            }
 
-			this.task = (Task) this.iterator.next();
-			this.acceptor = PdfReportExporter.getPersonName(this.session,
-					new Integer(this.task.getAcceptorId()));
-			return true;
-		}
+            this.task = (Task) this.iterator.next();
+            this.acceptor = PdfReportExporter.getPersonName(this.session,
+                    new Integer(this.task.getAcceptorId()));
+            return true;
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
-		 */
-		@Override
-		public Object getFieldValue(final JRField field) throws JRException {
-			final String fieldName = field.getName();
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+         */
+        @Override
+        public Object getFieldValue(final JRField field) throws JRException {
+            final String fieldName = field.getName();
 
-			if ("TaskName".equals(fieldName)) {
-				return this.task.getName();
-			}
+            if ("TaskName".equals(fieldName)) {
+                return this.task.getName();
+            }
 
-			if ("TaskPercentage".equals(fieldName)) {
-				final double actual = this.task.getActualHours();
-				return new java.lang.Integer(
-						(int) (actual * 100 / (actual + this.task
-								.getRemainingHours())));
-			}
+            if ("TaskPercentage".equals(fieldName)) {
+                final double actual = this.task.getActualHours();
+                return new java.lang.Integer(
+                        (int) (actual * 100 / (actual + this.task
+                                .getRemainingHours())));
+            }
 
-			if ("TaskDisposition".equals(fieldName)) {
-				return this.task.getDispositionName();
-			}
+            if ("TaskDisposition".equals(fieldName)) {
+                return this.task.getDispositionName();
+            }
 
-			if ("TaskType".equals(fieldName)) {
-				return this.task.getType();
-			}
+            if ("TaskType".equals(fieldName)) {
+                return this.task.getType();
+            }
 
-			if ("TaskAcceptor".equals(fieldName)) {
-				return this.acceptor;
-			}
+            if ("TaskAcceptor".equals(fieldName)) {
+                return this.acceptor;
+            }
 
-			if ("TaskEstimate".equals(fieldName)) {
-				return new java.lang.Double(this.task.getEstimatedHours());
-			}
+            if ("TaskEstimate".equals(fieldName)) {
+                return new java.lang.Double(this.task.getEstimatedHours());
+            }
 
-			if ("TaskCompleted".equals(fieldName)) {
-				return new java.lang.Boolean(this.task.isCompleted());
-			}
+            if ("TaskCompleted".equals(fieldName)) {
+                return new java.lang.Boolean(this.task.isCompleted());
+            }
 
-			throw new JRException("Unexpected field name '" + fieldName + "'");
-		}
-	}
+            throw new JRException("Unexpected field name '" + fieldName + "'");
+        }
+    }
 
-	/**
+    /**
      * The Class TaskDataSource.
      */
-	private class TaskDataSource implements JRDataSource {
-		
-		/** The iterator. */
-		private Iterator iterator = null;
-		
-		/** The start. */
-		private java.util.Date start = null;
-		
-		/** The duration. */
-		private Double duration = null;
-		
-		/** The pair1. */
-		private String pair1 = null;
-		
-		/** The pair2. */
-		private String pair2 = null;
-		
-		/** The session. */
-		private Session session = null;
+    private class TaskDataSource implements JRDataSource {
+        
+        /** The iterator. */
+        private Iterator iterator = null;
+        
+        /** The start. */
+        private java.util.Date start = null;
+        
+        /** The duration. */
+        private Double duration = null;
+        
+        /** The pair1. */
+        private String pair1 = null;
+        
+        /** The pair2. */
+        private String pair2 = null;
+        
+        /** The session. */
+        private Session session = null;
 
-		/**
+        /**
          * Instantiates a new task data source.
          *
          * @param task
@@ -310,115 +310,115 @@ public class PdfReportExporter implements Exporter {
          * @throws HibernateException
          *             the hibernate exception
          */
-		public TaskDataSource(final Task task, final Session session)
-				throws HibernateException {
-			super();
+        public TaskDataSource(final Task task, final Session session)
+                throws HibernateException {
+            super();
 
-			// I don't get this... what is the relationship between
-			// last_update, start_time, end_time and report_date, and why
-			// do we have a duration that can be non-zero when the
-			// end_time is NULL?
-			//
-			// How can I do a left join on the personXIds to get a null when
-			// they haven't been assigned?
-			final List data = session.find(
-					"select te.startTime, te.endTime, te.duration, te.person1Id, te.person2Id"
-							+ " from net.sf.xplanner.domain.TimeEntry te"
-							+ " where te.task.id = ?"
-							+ " order by te.startTime", new java.lang.Integer(
-							task.getId()), Hibernate.INTEGER);
-			this.session = session;
-			if (data != null) {
-				this.iterator = data.iterator();
-			}
-		}
+            // I don't get this... what is the relationship between
+            // last_update, start_time, end_time and report_date, and why
+            // do we have a duration that can be non-zero when the
+            // end_time is NULL?
+            //
+            // How can I do a left join on the personXIds to get a null when
+            // they haven't been assigned?
+            final List data = session.find(
+                    "select te.startTime, te.endTime, te.duration, te.person1Id, te.person2Id"
+                            + " from net.sf.xplanner.domain.TimeEntry te"
+                            + " where te.task.id = ?"
+                            + " order by te.startTime", new java.lang.Integer(
+                            task.getId()), Hibernate.INTEGER);
+            this.session = session;
+            if (data != null) {
+                this.iterator = data.iterator();
+            }
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#next()
-		 */
-		@Override
-		public boolean next() throws JRException {
-			if (this.iterator == null || !this.iterator.hasNext()) {
-				return false;
-			}
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#next()
+         */
+        @Override
+        public boolean next() throws JRException {
+            if (this.iterator == null || !this.iterator.hasNext()) {
+                return false;
+            }
 
-			final Object[] result = (Object[]) this.iterator.next();
+            final Object[] result = (Object[]) this.iterator.next();
 
-			this.start = (java.util.Date) result[0];
-			this.duration = result[1] == null ? null : (Double) result[2];
+            this.start = (java.util.Date) result[0];
+            this.duration = result[1] == null ? null : (Double) result[2];
 
-			this.pair1 = PdfReportExporter.getPersonName(this.session,
-					(Integer) result[3]);
-			this.pair2 = PdfReportExporter.getPersonName(this.session,
-					(Integer) result[4]);
+            this.pair1 = PdfReportExporter.getPersonName(this.session,
+                    (Integer) result[3]);
+            this.pair2 = PdfReportExporter.getPersonName(this.session,
+                    (Integer) result[4]);
 
-			return true;
-		}
+            return true;
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
-		 */
-		@Override
-		public Object getFieldValue(final JRField field) throws JRException {
-			final String fieldName = field.getName();
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+         */
+        @Override
+        public Object getFieldValue(final JRField field) throws JRException {
+            final String fieldName = field.getName();
 
-			if ("TimeEntryStart".equals(fieldName)) {
-				if (this.start != null) {
-					return this.start.toString();
-				} else {
-					return "";
-				}
-			}
+            if ("TimeEntryStart".equals(fieldName)) {
+                if (this.start != null) {
+                    return this.start.toString();
+                } else {
+                    return "";
+                }
+            }
 
-			if ("TimeEntryDuration".equals(fieldName)) {
-				return this.duration;
-			}
+            if ("TimeEntryDuration".equals(fieldName)) {
+                return this.duration;
+            }
 
-			if ("TimeEntryPair1".equals(fieldName)) {
-				return this.pair1;
-			}
+            if ("TimeEntryPair1".equals(fieldName)) {
+                return this.pair1;
+            }
 
-			if ("TimeEntryPair2".equals(fieldName)) {
-				return this.pair2;
-			}
+            if ("TimeEntryPair2".equals(fieldName)) {
+                return this.pair2;
+            }
 
-			throw new JRException("Unexpected field name '" + fieldName + "'");
-		}
-	}
+            throw new JRException("Unexpected field name '" + fieldName + "'");
+        }
+    }
 
-	/**
+    /**
      * The Class PersonDataSource.
      */
-	private class PersonDataSource implements JRDataSource {
-		
-		/** The iterator. */
-		private Iterator iterator = null;
-		
-		/** The task. */
-		private Task task = null;
-		
-		/** The user id. */
-		private int userId = 0;
-		
-		/** The currently active. */
-		private boolean currentlyActive = false;
-		
-		/** The iteration name. */
-		private String iterationName = null;
-		
-		/** The iteration start. */
-		private Date iterationStart = null;
-		
-		/** The iteration end. */
-		private Date iterationEnd = null;
-		
-		/** The story name. */
-		private String storyName = null;
-		
-		/** The story estimate. */
-		private Double storyEstimate = null;
+    private class PersonDataSource implements JRDataSource {
+        
+        /** The iterator. */
+        private Iterator iterator = null;
+        
+        /** The task. */
+        private Task task = null;
+        
+        /** The user id. */
+        private int userId = 0;
+        
+        /** The currently active. */
+        private boolean currentlyActive = false;
+        
+        /** The iteration name. */
+        private String iterationName = null;
+        
+        /** The iteration start. */
+        private Date iterationStart = null;
+        
+        /** The iteration end. */
+        private Date iterationEnd = null;
+        
+        /** The story name. */
+        private String storyName = null;
+        
+        /** The story estimate. */
+        private Double storyEstimate = null;
 
-		/**
+        /**
          * Instantiates a new person data source.
          *
          * @param person
@@ -428,117 +428,117 @@ public class PdfReportExporter implements Exporter {
          * @throws HibernateException
          *             the hibernate exception
          */
-		public PersonDataSource(final Person person, final Session session)
-				throws HibernateException {
-			super();
+        public PersonDataSource(final Person person, final Session session)
+                throws HibernateException {
+            super();
 
-			// return user tasks for current iteration
-			final List data = session
-					.find("select task, iteration.name, iteration.startDate, iteration.endDate, story"
-							+ " from net.sf.xplanner.domain.Task task,"
-							+ " story in class net.sf.xplanner.domain.UserStory,"
-							+ " iteration in class net.sf.xplanner.domain.Iteration"
-							+ " where task.story = story.id and story.iteration.id = iteration.id"
-							+ " and ? between iteration.startDate and iteration.endDate"
-							+ " order by iteration.name, story.name, task.name",
-							new java.util.Date(), Hibernate.DATE);
+            // return user tasks for current iteration
+            final List data = session
+                    .find("select task, iteration.name, iteration.startDate, iteration.endDate, story"
+                            + " from net.sf.xplanner.domain.Task task,"
+                            + " story in class net.sf.xplanner.domain.UserStory,"
+                            + " iteration in class net.sf.xplanner.domain.Iteration"
+                            + " where task.story = story.id and story.iteration.id = iteration.id"
+                            + " and ? between iteration.startDate and iteration.endDate"
+                            + " order by iteration.name, story.name, task.name",
+                            new java.util.Date(), Hibernate.DATE);
 
-			this.userId = person.getId();
-			if (data != null) {
-				this.iterator = data.iterator();
-			}
-		}
+            this.userId = person.getId();
+            if (data != null) {
+                this.iterator = data.iterator();
+            }
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#next()
-		 */
-		@Override
-		public boolean next() throws JRException {
-			if (this.iterator == null || !this.iterator.hasNext()) {
-				return false;
-			}
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#next()
+         */
+        @Override
+        public boolean next() throws JRException {
+            if (this.iterator == null || !this.iterator.hasNext()) {
+                return false;
+            }
 
-			final Object[] result = (Object[]) this.iterator.next();
+            final Object[] result = (Object[]) this.iterator.next();
 
-			this.task = (Task) result[0];
+            this.task = (Task) result[0];
 
-			this.currentlyActive = this.task.isCurrentlyActive(this.userId);
+            this.currentlyActive = this.task.isCurrentlyActive(this.userId);
 
-			// user is not involved with this task
-			if (this.task.getAcceptorId() != this.userId
-					&& !this.currentlyActive) {
-				return this.next();
-			}
+            // user is not involved with this task
+            if (this.task.getAcceptorId() != this.userId
+                    && !this.currentlyActive) {
+                return this.next();
+            }
 
-			this.iterationName = (String) result[1];
-			this.iterationStart = (Date) result[2];
-			this.iterationEnd = (Date) result[3];
-			final UserStory story = (UserStory) result[4];
-			this.storyName = story.getName();
-			this.storyEstimate = new Double(story.getEstimatedHours());
+            this.iterationName = (String) result[1];
+            this.iterationStart = (Date) result[2];
+            this.iterationEnd = (Date) result[3];
+            final UserStory story = (UserStory) result[4];
+            this.storyName = story.getName();
+            this.storyEstimate = new Double(story.getEstimatedHours());
 
-			return true;
-		}
+            return true;
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
-		 */
-		@Override
-		public Object getFieldValue(final JRField field) throws JRException {
-			final String fieldName = field.getName();
+        /* (non-Javadoc)
+         * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+         */
+        @Override
+        public Object getFieldValue(final JRField field) throws JRException {
+            final String fieldName = field.getName();
 
-			if ("IterationName".equals(fieldName)) {
-				return this.iterationName;
-			}
+            if ("IterationName".equals(fieldName)) {
+                return this.iterationName;
+            }
 
-			if ("IterationStartDate".equals(fieldName)) {
-				return this.iterationStart;
-			}
+            if ("IterationStartDate".equals(fieldName)) {
+                return this.iterationStart;
+            }
 
-			if ("IterationEndDate".equals(fieldName)) {
-				return this.iterationEnd;
-			}
+            if ("IterationEndDate".equals(fieldName)) {
+                return this.iterationEnd;
+            }
 
-			if ("StoryName".equals(fieldName)) {
-				return this.storyName;
-			}
+            if ("StoryName".equals(fieldName)) {
+                return this.storyName;
+            }
 
-			if ("StoryEstimatedHours".equals(fieldName)) {
-				return this.storyEstimate;
-			}
+            if ("StoryEstimatedHours".equals(fieldName)) {
+                return this.storyEstimate;
+            }
 
-			if ("TaskName".equals(fieldName)) {
-				return this.task.getName();
-			}
+            if ("TaskName".equals(fieldName)) {
+                return this.task.getName();
+            }
 
-			if ("TaskPercentage".equals(fieldName)) {
-				final double actual = this.task.getActualHours();
-				return new java.lang.Integer(
-						(int) (actual * 100 / (actual + this.task
-								.getRemainingHours())));
-			}
+            if ("TaskPercentage".equals(fieldName)) {
+                final double actual = this.task.getActualHours();
+                return new java.lang.Integer(
+                        (int) (actual * 100 / (actual + this.task
+                                .getRemainingHours())));
+            }
 
-			if ("TaskDisposition".equals(fieldName)) {
-				return this.task.getDispositionName();
-			}
+            if ("TaskDisposition".equals(fieldName)) {
+                return this.task.getDispositionName();
+            }
 
-			if ("TaskType".equals(fieldName)) {
-				return this.task.getType();
-			}
+            if ("TaskType".equals(fieldName)) {
+                return this.task.getType();
+            }
 
-			if ("TaskCompleted".equals(fieldName)) {
-				return new java.lang.Boolean(this.task.isCompleted());
-			}
+            if ("TaskCompleted".equals(fieldName)) {
+                return new java.lang.Boolean(this.task.isCompleted());
+            }
 
-			if ("TaskEstimate".equals(fieldName)) {
-				return new java.lang.Double(this.task.getEstimatedHours());
-			}
+            if ("TaskEstimate".equals(fieldName)) {
+                return new java.lang.Double(this.task.getEstimatedHours());
+            }
 
-			if ("TaskActive".equals(fieldName)) {
-				return new java.lang.Boolean(this.currentlyActive);
-			}
+            if ("TaskActive".equals(fieldName)) {
+                return new java.lang.Boolean(this.currentlyActive);
+            }
 
-			throw new JRException("Unexpected field name '" + fieldName + "'");
-		}
-	}
+            throw new JRException("Unexpected field name '" + fieldName + "'");
+        }
+    }
 }

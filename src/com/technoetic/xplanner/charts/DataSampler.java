@@ -12,36 +12,36 @@ import com.technoetic.xplanner.util.TimeGenerator;
  * User: Mateusz Prokopowicz Date: Apr 19, 2005 Time: 5:29:45 PM.
  */
 public interface DataSampler {
-	
-	/**
+    
+    /**
      * Generate opening data samples.
      *
      * @param iteration
      *            the iteration
      */
-	void generateOpeningDataSamples(Iteration iteration);
+    void generateOpeningDataSamples(Iteration iteration);
 
-	/**
+    /**
      * Generate closing data samples.
      *
      * @param iteration
      *            the iteration
      */
-	void generateClosingDataSamples(Iteration iteration);
+    void generateClosingDataSamples(Iteration iteration);
 
-	/**
+    /**
      * Sets the time generator.
      *
      * @param timeGenerator
      *            the new time generator
      */
-	void setTimeGenerator(TimeGenerator timeGenerator);
+    void setTimeGenerator(TimeGenerator timeGenerator);
 
-	/**
+    /**
      * Generate data samples.
      *
      * @param iteration
      *            the iteration
      */
-	void generateDataSamples(Iteration iteration);
+    void generateDataSamples(Iteration iteration);
 }

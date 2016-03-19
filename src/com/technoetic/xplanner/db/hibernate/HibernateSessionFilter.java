@@ -23,54 +23,54 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 @Deprecated
 public class HibernateSessionFilter extends GenericFilterBean {
-	
-	/**
+    
+    /**
      * Lookup session factory.
      *
      * @return the session factory
      */
-	protected SessionFactory lookupSessionFactory() {
-		if (this.logger.isDebugEnabled()) {
-			this.logger.debug("Using session factory '"
-					+ this.getSessionFactoryBeanName() + "'");
-		}
-		final WebApplicationContext wac = WebApplicationContextUtils
-				.getRequiredWebApplicationContext(this.getServletContext());
-		return (SessionFactory) wac.getBean(this.getSessionFactoryBeanName());
-	}
+    protected SessionFactory lookupSessionFactory() {
+        if (this.logger.isDebugEnabled()) {
+            this.logger.debug("Using session factory '"
+                    + this.getSessionFactoryBeanName() + "'");
+        }
+        final WebApplicationContext wac = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(this.getServletContext());
+        return (SessionFactory) wac.getBean(this.getSessionFactoryBeanName());
+    }
 
-	/**
+    /**
      * Gets the session factory bean name.
      *
      * @return the session factory bean name
      */
-	private String getSessionFactoryBeanName() {
-		return "sessionFactory";
-	}
+    private String getSessionFactoryBeanName() {
+        return "sessionFactory";
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-	 */
-	@Override
-	public void doFilter(final ServletRequest request,
-			final ServletResponse aResponse, final FilterChain aChain)
-			throws IOException, ServletException {
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     */
+    @Override
+    public void doFilter(final ServletRequest request,
+            final ServletResponse aResponse, final FilterChain aChain)
+            throws IOException, ServletException {
 
-		try {
-			final Session session = (Session) SessionFactoryUtils.getSession(
-					this.lookupSessionFactory(), false);
-			this.logger.debug("Retrieved connection: " + session);
-			if (session == null) {
-				throw new IllegalStateException(
-						"OpenSessionInViewFilter should be before this filter in order to create the session");
-			}
-			// DEBT(HB) Should only use the ThreadSession
-			HibernateHelper.setSession(request, session);
-			ThreadSession.set(session);
-			aChain.doFilter(request, aResponse);
-		} finally {
-			HibernateHelper.setSession(request, null);
-			ThreadSession.set(null);
-		}
-	}
+        try {
+            final Session session = (Session) SessionFactoryUtils.getSession(
+                    this.lookupSessionFactory(), false);
+            this.logger.debug("Retrieved connection: " + session);
+            if (session == null) {
+                throw new IllegalStateException(
+                        "OpenSessionInViewFilter should be before this filter in order to create the session");
+            }
+            // DEBT(HB) Should only use the ThreadSession
+            HibernateHelper.setSession(request, session);
+            ThreadSession.set(session);
+            aChain.doFilter(request, aResponse);
+        } finally {
+            HibernateHelper.setSession(request, null);
+            ThreadSession.set(null);
+        }
+    }
 }

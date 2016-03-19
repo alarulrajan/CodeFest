@@ -23,43 +23,43 @@ import com.thoughtworks.proxy.Invoker;
  * @since 0.2, 0.1 in package com.thoughtworks.proxy.toy.decorate
  */
 public class SimpleInvoker implements Invoker {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
-	/** The target. */
-	private final Object target;
+    /** The target. */
+    private final Object target;
 
-	/**
-	 * Construct a SimpleInvoker.
-	 * 
-	 * @param target
-	 *            the invocation target.
-	 * @since 0.2, 0.1 in package com.thoughtworks.proxy.toy.decorate
-	 */
-	public SimpleInvoker(final Object target) {
-		this.target = target;
-	}
+    /**
+     * Construct a SimpleInvoker.
+     * 
+     * @param target
+     *            the invocation target.
+     * @since 0.2, 0.1 in package com.thoughtworks.proxy.toy.decorate
+     */
+    public SimpleInvoker(final Object target) {
+        this.target = target;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.thoughtworks.proxy.Invoker#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-	 */
-	@Override
-	public Object invoke(final Object proxy, final Method method,
-			final Object[] args) throws Throwable {
-		if (method.getName().equals("equals") && proxy == args[0]) {
-			return Boolean.TRUE;
-		}
-		return this.target == null ? null : method.invoke(this.target, args);
-	}
+    /* (non-Javadoc)
+     * @see com.thoughtworks.proxy.Invoker#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
+    @Override
+    public Object invoke(final Object proxy, final Method method,
+            final Object[] args) throws Throwable {
+        if (method.getName().equals("equals") && proxy == args[0]) {
+            return Boolean.TRUE;
+        }
+        return this.target == null ? null : method.invoke(this.target, args);
+    }
 
-	/**
-	 * Retrieve the target of the invocations.
-	 * 
-	 * @return the target object
-	 * @since 0.2
-	 */
-	public Object getTarget() {
-		return this.target;
-	}
+    /**
+     * Retrieve the target of the invocations.
+     * 
+     * @return the target object
+     * @since 0.2
+     */
+    public Object getTarget() {
+        return this.target;
+    }
 }

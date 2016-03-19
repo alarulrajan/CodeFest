@@ -44,18 +44,18 @@ import org.apache.commons.logging.LogFactory;
  * @see com.tacitknowledge.util.migration.MigrationProcess
  */
 public class MigrationInformation {
-	
-	/** Class logger. */
-	private static Log log = LogFactory.getLog(MigrationInformation.class);
+    
+    /** Class logger. */
+    private static Log log = LogFactory.getLog(MigrationInformation.class);
 
-	/**
+    /**
      * Private constructor - this object shouldn't be instantiated.
      */
-	private MigrationInformation() {
-		// does nothing
-	}
+    private MigrationInformation() {
+        // does nothing
+    }
 
-	/**
+    /**
      * Get the migration level information for the given system name.
      *
      * @param arguments
@@ -63,18 +63,18 @@ public class MigrationInformation {
      * @exception Exception
      *                if anything goes wrong
      */
-	public static void main(final String[] arguments) throws Exception {
-		final MigrationInformation info = new MigrationInformation();
-		String migrationName = System.getProperty("migration.systemname");
-		if (migrationName == null) {
-			if (arguments != null && arguments.length > 0) {
-				migrationName = arguments[0].trim();
-			}
-		}
-		info.getMigrationInformation(migrationName);
-	}
+    public static void main(final String[] arguments) throws Exception {
+        final MigrationInformation info = new MigrationInformation();
+        String migrationName = System.getProperty("migration.systemname");
+        if (migrationName == null) {
+            if (arguments != null && arguments.length > 0) {
+                migrationName = arguments[0].trim();
+            }
+        }
+        info.getMigrationInformation(migrationName);
+    }
 
-	/**
+    /**
      * Get the migration level information for the given system name.
      *
      * @param systemName
@@ -83,35 +83,35 @@ public class MigrationInformation {
      * @throws Exception
      *             if anything goes wrong
      */
-	public void getMigrationInformation(final String systemName)
-			throws Exception {
-		if (systemName == null) {
-			throw new IllegalArgumentException("The migration.systemname "
-					+ "system property is required");
-		}
+    public void getMigrationInformation(final String systemName)
+            throws Exception {
+        if (systemName == null) {
+            throw new IllegalArgumentException("The migration.systemname "
+                    + "system property is required");
+        }
 
-		// The MigrationLauncher is responsible for handling the interaction
-		// between the PatchTable and the underlying MigrationTasks; as each
-		// task is executed, the patch level is incremented, etc.
-		try {
-			final JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader
-					.createFactory();
-			final JdbcMigrationLauncher launcher = launcherFactory
-					.createMigrationLauncher(systemName);
-			MigrationInformation.log
-					.info("Current Database patch level is        : "
-							+ launcher.getDatabasePatchLevel());
-			final int unappliedPatches = launcher.getNextPatchLevel()
-					- launcher.getDatabasePatchLevel() - 1;
-			MigrationInformation.log
-					.info("Current number of unapplied patches is : "
-							+ unappliedPatches);
-			MigrationInformation.log
-					.info("The next patch to author should be     : "
-							+ launcher.getNextPatchLevel());
-		} catch (final Exception e) {
-			MigrationInformation.log.error(e);
-			throw e;
-		}
-	}
+        // The MigrationLauncher is responsible for handling the interaction
+        // between the PatchTable and the underlying MigrationTasks; as each
+        // task is executed, the patch level is incremented, etc.
+        try {
+            final JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader
+                    .createFactory();
+            final JdbcMigrationLauncher launcher = launcherFactory
+                    .createMigrationLauncher(systemName);
+            MigrationInformation.log
+                    .info("Current Database patch level is        : "
+                            + launcher.getDatabasePatchLevel());
+            final int unappliedPatches = launcher.getNextPatchLevel()
+                    - launcher.getDatabasePatchLevel() - 1;
+            MigrationInformation.log
+                    .info("Current number of unapplied patches is : "
+                            + unappliedPatches);
+            MigrationInformation.log
+                    .info("The next patch to author should be     : "
+                            + launcher.getNextPatchLevel());
+        } catch (final Exception e) {
+            MigrationInformation.log.error(e);
+            throw e;
+        }
+    }
 }

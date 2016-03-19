@@ -11,38 +11,38 @@ import javax.servlet.jsp.PageContext;
  * The Class DateFormat.
  */
 public class DateFormat extends AbstractFormat {
-	
-	/** The format. */
-	private java.text.DateFormat format = null;
+    
+    /** The format. */
+    private java.text.DateFormat format = null;
 
-	/**
+    /**
      * Instantiates a new date format.
      *
      * @param request
      *            the request
      */
-	public DateFormat(final HttpServletRequest request) {
-		final String format = AbstractFormat.getFormat(request, "format.date");
-		if (format != null) {
-			this.format = new SimpleDateFormat(format);
-		} else {
-			this.format = java.text.DateFormat.getDateInstance(
-					java.text.DateFormat.SHORT, request.getLocale());
-		}
-	}
+    public DateFormat(final HttpServletRequest request) {
+        final String format = AbstractFormat.getFormat(request, "format.date");
+        if (format != null) {
+            this.format = new SimpleDateFormat(format);
+        } else {
+            this.format = java.text.DateFormat.getDateInstance(
+                    java.text.DateFormat.SHORT, request.getLocale());
+        }
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param value
      *            the value
      * @return the string
      */
-	public String format(final Date value) {
-		return this.format.format(value);
-	}
+    public String format(final Date value) {
+        return this.format.format(value);
+    }
 
-	/**
+    /**
      * Parses the.
      *
      * @param value
@@ -51,11 +51,11 @@ public class DateFormat extends AbstractFormat {
      * @throws ParseException
      *             the parse exception
      */
-	public Date parse(final String value) throws ParseException {
-		return this.format.parse(value);
-	}
+    public Date parse(final String value) throws ParseException {
+        return this.format.parse(value);
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param pageContext
@@ -64,12 +64,12 @@ public class DateFormat extends AbstractFormat {
      *            the value
      * @return the string
      */
-	public static String format(final PageContext pageContext, final Date value) {
-		return new DateFormat((HttpServletRequest) pageContext.getRequest())
-				.format(value);
-	}
+    public static String format(final PageContext pageContext, final Date value) {
+        return new DateFormat((HttpServletRequest) pageContext.getRequest())
+                .format(value);
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param request
@@ -78,12 +78,12 @@ public class DateFormat extends AbstractFormat {
      *            the value
      * @return the string
      */
-	public static String format(final HttpServletRequest request,
-			final Date value) {
-		return new DateFormat(request).format(value);
-	}
+    public static String format(final HttpServletRequest request,
+            final Date value) {
+        return new DateFormat(request).format(value);
+    }
 
-	/**
+    /**
      * Parses the.
      *
      * @param pageContext
@@ -94,10 +94,10 @@ public class DateFormat extends AbstractFormat {
      * @throws ParseException
      *             the parse exception
      */
-	public static Date parse(final PageContext pageContext,
-			final String dateString) throws ParseException {
-		return new DateFormat((HttpServletRequest) pageContext.getRequest())
-				.parse(dateString);
-	}
+    public static Date parse(final PageContext pageContext,
+            final String dateString) throws ParseException {
+        return new DateFormat((HttpServletRequest) pageContext.getRequest())
+                .parse(dateString);
+    }
 
 }

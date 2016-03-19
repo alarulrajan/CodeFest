@@ -65,9 +65,9 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorized() throws Exception {
-    	setUpTagWithAuthorization(Boolean.TRUE);
+        setUpTagWithAuthorization(Boolean.TRUE);
 
-    	replay();
+        replay();
 
         int result = tag.doStartTag();
 
@@ -81,7 +81,7 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserNotAuthorizedWithAlloweUserOverride() throws Exception {
-    	replay();
+        replay();
         setUpTagWithAuthorization(Boolean.FALSE);
         tag.setAllowedUser(XPlannerTestSupport.DEFAULT_PERSON_ID);
 
@@ -97,7 +97,7 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserNotAuthorized() throws Exception {
-    	replay();
+        replay();
         setUpTagWithAuthorization(Boolean.FALSE);
 
         int result = tag.doStartTag();
@@ -112,8 +112,8 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorizedForObject() throws Exception {
-    	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
-    	replay();
+        expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
+        replay();
         Project project = setUpTagWithObjectAuthorization(Boolean.TRUE);
 
         int result = tag.doStartTag();
@@ -128,8 +128,8 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserNotAuthorizedForObject() throws Exception {
-    	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
-    	replay();
+        expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
+        replay();
         Project project = setUpTagWithObjectAuthorization(Boolean.FALSE);
 
         int result = tag.doStartTag();
@@ -144,7 +144,7 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorizedWithDefaultPrincipalId() throws Exception {
-    	replay();
+        replay();
         mockAuthorizer.hasPermissionReturn = Boolean.TRUE;
         tag.setResourceType("system.project");
         tag.setProjectId(11);
@@ -186,10 +186,10 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorizedWhenObjectIsFromDefaultAttribute() throws Exception {
-    	Object mockObject = new UserStory();
-    	expect(pageContext.findAttribute("project")).andReturn(mockObject);
-    	replay();
-    	pageContext.findAttribute("project");
+        Object mockObject = new UserStory();
+        expect(pageContext.findAttribute("project")).andReturn(mockObject);
+        replay();
+        pageContext.findAttribute("project");
         mockAuthorizer.hasPermission2Return = Boolean.TRUE;
         tag.setProjectId(11);
         tag.setPermission("set");
@@ -207,8 +207,8 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorizedWhenProjectIdFromObject() throws Exception {
-    	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
-    	replay();
+        expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
+        replay();
         mockAuthorizer.hasPermission2Return = Boolean.TRUE;
         Project mockProject = new Project();
         mockProject.setId(11);
@@ -228,9 +228,9 @@ public class TestIsUserAuthorizedTag extends AbstractRequestUnitTestCase {
      *             the exception
      */
     public void testUserAuthorizedWhenProjectIdFromRequestParam() throws Exception {
-    	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
-    	expect(request.getParameter("projectId")).andReturn("33");
-    	replay();
+        expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
+        expect(request.getParameter("projectId")).andReturn("33");
+        replay();
         mockAuthorizer.hasPermission2Return = Boolean.TRUE;
         UserStory mockStory = new UserStory();
         tag.setObject(mockStory);

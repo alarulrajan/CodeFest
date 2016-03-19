@@ -30,10 +30,10 @@ public class TestEditObjectAction extends AbstractActionTestCase {
      * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
      */
     @Override
-	@Before
+    @Before
     public void setUp() throws Exception {
-    	action = new EditObjectAction<Project>();
-    	super.setUp();
+        action = new EditObjectAction<Project>();
+        super.setUp();
 
        support.setForward(AbstractAction.TYPE_KEY, Project.class.getName());
        mockAbstractEditorForm = createLocalMock(AbstractEditorForm.class);
@@ -43,11 +43,11 @@ public class TestEditObjectAction extends AbstractActionTestCase {
     }
 
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
-	 */
-	@Override
-	public void tearDown() throws Exception {
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+     */
+    @Override
+    public void tearDown() throws Exception {
         super.tearDown();
     }
 

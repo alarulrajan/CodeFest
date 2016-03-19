@@ -15,18 +15,18 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class TaskQueryDao extends HibernateDaoSupport implements TaskQuery {
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.db.TaskQuery#query(java.util.Collection, int, java.lang.Boolean, java.lang.Boolean)
-	 */
-	@Override
-	public Collection query(final Collection cachedTasks, final int personId,
-			final Boolean completed, final Boolean active) {
-		return CollectionUtils.select(
-				this.getCurrentTasks(cachedTasks, personId),
-				new TaskStatusFilter(completed, active));
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.db.TaskQuery#query(java.util.Collection, int, java.lang.Boolean, java.lang.Boolean)
+     */
+    @Override
+    public Collection query(final Collection cachedTasks, final int personId,
+            final Boolean completed, final Boolean active) {
+        return CollectionUtils.select(
+                this.getCurrentTasks(cachedTasks, personId),
+                new TaskStatusFilter(completed, active));
+    }
 
-	/**
+    /**
      * Gets the current tasks.
      *
      * @param cache
@@ -35,44 +35,44 @@ public class TaskQueryDao extends HibernateDaoSupport implements TaskQuery {
      *            the person id
      * @return the current tasks
      */
-	private Collection getCurrentTasks(Collection cache, final int personId) {
-		if (cache == null) {
-			cache = this.queryTasks("tasks.current.accepted", personId);
-			cache.addAll(this.queryTasks("tasks.current.worked", personId));
-		}
-		return cache;
-	}
+    private Collection getCurrentTasks(Collection cache, final int personId) {
+        if (cache == null) {
+            cache = this.queryTasks("tasks.current.accepted", personId);
+            cache.addAll(this.queryTasks("tasks.current.worked", personId));
+        }
+        return cache;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.db.TaskQuery#queryTasks(java.lang.String, int)
-	 */
-	@Override
-	public List queryTasks(final String queryName, final int personId) {
-		return this.getHibernateTemplate().findByNamedQueryAndNamedParam(
-				queryName, new String[] { "now", "personId" },
-				new Object[] { new Date(), new Integer(personId) });
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.db.TaskQuery#queryTasks(java.lang.String, int)
+     */
+    @Override
+    public List queryTasks(final String queryName, final int personId) {
+        return this.getHibernateTemplate().findByNamedQueryAndNamedParam(
+                queryName, new String[] { "now", "personId" },
+                new Object[] { new Date(), new Integer(personId) });
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.db.TaskQuery#queryTasks(java.lang.String, java.util.Date)
-	 */
-	@Override
-	public List queryTasks(final String queryName, final Date date) {
-		return this.getHibernateTemplate().findByNamedQuery(queryName, date);
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.db.TaskQuery#queryTasks(java.lang.String, java.util.Date)
+     */
+    @Override
+    public List queryTasks(final String queryName, final Date date) {
+        return this.getHibernateTemplate().findByNamedQuery(queryName, date);
+    }
 
-	/**
+    /**
      * The Class TaskStatusFilter.
      */
-	private class TaskStatusFilter implements Predicate {
-		
-		/** The is completed. */
-		Boolean isCompleted;
-		
-		/** The is active. */
-		Boolean isActive;
+    private class TaskStatusFilter implements Predicate {
+        
+        /** The is completed. */
+        Boolean isCompleted;
+        
+        /** The is active. */
+        Boolean isActive;
 
-		/**
+        /**
          * Instantiates a new task status filter.
          *
          * @param isCompleted
@@ -80,22 +80,22 @@ public class TaskQueryDao extends HibernateDaoSupport implements TaskQuery {
          * @param isActive
          *            the is active
          */
-		public TaskStatusFilter(final Boolean isCompleted,
-				final Boolean isActive) {
-			this.isCompleted = isCompleted;
-			this.isActive = isActive;
-		}
+        public TaskStatusFilter(final Boolean isCompleted,
+                final Boolean isActive) {
+            this.isCompleted = isCompleted;
+            this.isActive = isActive;
+        }
 
-		/* (non-Javadoc)
-		 * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
-		 */
-		@Override
-		public boolean evaluate(final Object o) {
-			final Task task = (Task) o;
-			return (this.isCompleted == null || this.isCompleted.booleanValue() == task
-					.isCompleted())
-					&& (this.isActive == null || this.isActive.booleanValue() == task
-							.getTimeEntries().size() > 0);
-		}
-	}
+        /* (non-Javadoc)
+         * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
+         */
+        @Override
+        public boolean evaluate(final Object o) {
+            final Task task = (Task) o;
+            return (this.isCompleted == null || this.isCompleted.booleanValue() == task
+                    .isCompleted())
+                    && (this.isActive == null || this.isActive.booleanValue() == task
+                            .getTimeEntries().size() > 0);
+        }
+    }
 }

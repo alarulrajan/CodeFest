@@ -21,25 +21,25 @@ import org.springframework.context.ApplicationEvent;
  */
 @XplannerEvent
 public class ObjectDeleted extends ApplicationEvent {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -1729312071033695919L;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1729312071033695919L;
 
-	/**
+    /**
      * Instantiates a new object deleted.
      *
      * @param source
      *            the source
      */
-	public ObjectDeleted(final EventSource source) {
-		super(source);
-	}
+    public ObjectDeleted(final EventSource source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see java.util.EventObject#getSource()
-	 */
-	@Override
-	public EventSource getSource() {
-		return (EventSource) super.getSource();
-	}
+    /* (non-Javadoc)
+     * @see java.util.EventObject#getSource()
+     */
+    @Override
+    public EventSource getSource() {
+        return (EventSource) super.getSource();
+    }
 }

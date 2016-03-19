@@ -76,9 +76,9 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
         Person person = new Person("importtestperson1");
         mockImportPeopleForm.setFormFile(testFormFile);
         
-		Capture<Person> expectedPerson = new Capture<Person>();
-		expect(personDao.save(capture(expectedPerson))).andReturn(1);
-		
+        Capture<Person> expectedPerson = new Capture<Person>();
+        expect(personDao.save(capture(expectedPerson))).andReturn(1);
+        
         replay();
         
         support.executeAction(importPeopleAction);
@@ -99,7 +99,7 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
         setUpImportFile("importtestperson1,Import test person 1,tester1@sabre.com,MP,23456");
         mockImportPeopleForm.setFormFile(testFormFile);
         expect(mockMetaRepository.getRepository(Person.class)).andReturn(mockObjectRepository);
-		Capture<Person> expectedPerson = new Capture<Person>();
+        Capture<Person> expectedPerson = new Capture<Person>();
         personDao.save(capture(expectedPerson));
         expectLastCall().andThrow(new DuplicateUserIdException());
         

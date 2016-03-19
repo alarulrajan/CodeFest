@@ -72,7 +72,7 @@ public class AbstractOptionsTagTestCase extends TestCase {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
         support.setUpSubject(XPlannerTestSupport.DEFAULT_PERSON_USER_ID,new String[]{});
@@ -97,7 +97,7 @@ public class AbstractOptionsTagTestCase extends TestCase {
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
-	protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         SystemAuthorizer.set(null);
         ThreadSession.set(null);
         super.tearDown();

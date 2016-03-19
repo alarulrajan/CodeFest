@@ -135,16 +135,16 @@ public class TestEditPersonHelper extends AbstractUnitTestCase {
      */
    public void testModifyRoles_WhenAuthorizedAndNotSysadmin() throws Exception {
       mockRoleAssocationRepository.deleteAllForPersonOnProject(PERSON_ID, PROJECT_ID);
-		mockRoleAssocationRepository.insertForPersonOnProject("role",
-				PERSON_ID, PROJECT_ID);
-		expect(
-				mockAuthorizer.hasPermission(PROJECT_ID, PERSON_ID,
-						"system.project", PROJECT_ID, "admin.edit.role"))
-				.andReturn(true);
-		expect(
-				mockAuthorizer.hasPermission(0, PERSON_ID, "system.project", 0,
-						"admin.edit.role")).andReturn(false);
-		replay();
+        mockRoleAssocationRepository.insertForPersonOnProject("role",
+                PERSON_ID, PROJECT_ID);
+        expect(
+                mockAuthorizer.hasPermission(PROJECT_ID, PERSON_ID,
+                        "system.project", PROJECT_ID, "admin.edit.role"))
+                .andReturn(true);
+        expect(
+                mockAuthorizer.hasPermission(0, PERSON_ID, "system.project", 0,
+                        "admin.edit.role")).andReturn(false);
+        replay();
       Map projectRoleMap = new HashMap();
       projectRoleMap.put("" + PROJECT_ID_STRING, "role");
       boolean isSystemAdmin = false;

@@ -4,17 +4,17 @@ package com.technoetic.xplanner.domain.repository;
  * The Interface MetaRepository.
  */
 public interface MetaRepository {
-	
-	/**
+    
+    /**
      * Gets the repository.
      *
      * @param objectClass
      *            the object class
      * @return the repository
      */
-	ObjectRepository getRepository(Class objectClass);
+    ObjectRepository getRepository(Class objectClass);
 
-	/**
+    /**
      * Sets the repository.
      *
      * @param objectClass
@@ -22,5 +22,5 @@ public interface MetaRepository {
      * @param repository
      *            the repository
      */
-	void setRepository(Class objectClass, ObjectRepository repository);
+    void setRepository(Class objectClass, ObjectRepository repository);
 }

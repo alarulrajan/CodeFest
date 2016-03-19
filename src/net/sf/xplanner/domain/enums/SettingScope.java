@@ -4,9 +4,9 @@ package net.sf.xplanner.domain.enums;
  * The Enum SettingScope.
  */
 public enum SettingScope {
-	
-	/** The Global. */
-	Global, 
+    
+    /** The Global. */
+    Global, 
  /** The Project. */
  Project, 
  /** The Group. */

@@ -60,7 +60,7 @@ public class TestAllUnitTests extends TestCase {
          Test test = (Test) enumeration.nextElement();
          System.out.println("test = " + test.toString());
       }
-   }			
+   }            
 
    /** Make test suite.
      *
@@ -174,12 +174,12 @@ public class TestAllUnitTests extends TestCase {
    private static void addTestToSuite(TestSuite suite, List currentPath, File testcaseFile) {
       String fullClassName = makeFullyQualifiedClassName(currentPath, testcaseFile);
       try {
-    	  Class<?> testClass = Class.forName(fullClassName);
-    	  if (testClass.isAssignableFrom(Test.class)) {
-    		  suite.addTest(new TestSuite(testClass));
-    	  }else{
-    		  suite.addTest(new JUnit4TestAdapter(testClass));
-    	  }
+          Class<?> testClass = Class.forName(fullClassName);
+          if (testClass.isAssignableFrom(Test.class)) {
+              suite.addTest(new TestSuite(testClass));
+          }else{
+              suite.addTest(new JUnit4TestAdapter(testClass));
+          }
       } catch (ClassNotFoundException ex) {
          throw new RuntimeException("TestAll: could not load class " + fullClassName);
       }

@@ -11,8 +11,8 @@ import com.technoetic.xplanner.security.AuthenticationException;
  * The Interface Authorizer.
  */
 public interface Authorizer {
-	
-	/**
+    
+    /**
      * Checks for permission.
      *
      * @param projectId
@@ -29,10 +29,10 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	boolean hasPermission(int projectId, int personId, String resourceType,
-			int resourceId, String permission) throws AuthenticationException;
+    boolean hasPermission(int projectId, int personId, String resourceType,
+            int resourceId, String permission) throws AuthenticationException;
 
-	/**
+    /**
      * Checks for permission.
      *
      * @param projectId
@@ -47,10 +47,10 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	boolean hasPermission(int projectId, int personId, Object resource,
-			String permission) throws AuthenticationException;
+    boolean hasPermission(int projectId, int personId, Object resource,
+            String permission) throws AuthenticationException;
 
-	/**
+    /**
      * Checks for permission for some project.
      *
      * @param personlId
@@ -65,10 +65,10 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	boolean hasPermissionForSomeProject(int personlId, String resourceType,
-			int resourceId, String permissions) throws AuthenticationException;
+    boolean hasPermissionForSomeProject(int personlId, String resourceType,
+            int resourceId, String permissions) throws AuthenticationException;
 
-	/**
+    /**
      * Checks for permission for some project.
      *
      * @param projects
@@ -85,11 +85,11 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	boolean hasPermissionForSomeProject(Collection projects, int personId,
-			String resourceType, int resourceId, String permission)
-			throws AuthenticationException;
+    boolean hasPermissionForSomeProject(Collection projects, int personId,
+            String resourceType, int resourceId, String permission)
+            throws AuthenticationException;
 
-	/**
+    /**
      * Gets the people with permission on project.
      *
      * @param allPeople
@@ -100,10 +100,10 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	Collection getPeopleWithPermissionOnProject(List allPeople, int projectId)
-			throws AuthenticationException;
+    Collection getPeopleWithPermissionOnProject(List allPeople, int projectId)
+            throws AuthenticationException;
 
-	/**
+    /**
      * Gets the roles for principal on project.
      *
      * @param principalId
@@ -116,6 +116,6 @@ public interface Authorizer {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	Collection getRolesForPrincipalOnProject(int principalId, int projectId,
-			boolean includeWildcardProject) throws AuthenticationException;
+    Collection getRolesForPrincipalOnProject(int principalId, int projectId,
+            boolean includeWildcardProject) throws AuthenticationException;
 }

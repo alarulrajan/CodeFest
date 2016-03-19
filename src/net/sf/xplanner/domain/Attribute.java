@@ -31,33 +31,33 @@ import com.technoetic.xplanner.domain.Identifiable;
 @Entity
 @Table(name = "attribute")
 public class Attribute implements java.io.Serializable, Identifiable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -7560899355285382322L;
-	
-	/** The id. */
-	private AttributeId id;
-	
-	/** The value. */
-	private String value;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -7560899355285382322L;
+    
+    /** The id. */
+    private AttributeId id;
+    
+    /** The value. */
+    private String value;
 
-	/**
+    /**
      * Instantiates a new attribute.
      */
-	public Attribute() {
-	}
+    public Attribute() {
+    }
 
-	/**
+    /**
      * Instantiates a new attribute.
      *
      * @param id
      *            the id
      */
-	public Attribute(final AttributeId id) {
-		this.id = id;
-	}
+    public Attribute(final AttributeId id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Instantiates a new attribute.
      *
      * @param id
@@ -65,12 +65,12 @@ public class Attribute implements java.io.Serializable, Identifiable {
      * @param value
      *            the value
      */
-	public Attribute(final AttributeId id, final String value) {
-		this.id = id;
-		this.value = value;
-	}
+    public Attribute(final AttributeId id, final String value) {
+        this.id = id;
+        this.value = value;
+    }
 
-	/**
+    /**
      * Instantiates a new attribute.
      *
      * @param targetId
@@ -80,70 +80,70 @@ public class Attribute implements java.io.Serializable, Identifiable {
      * @param attributeValue
      *            the attribute value
      */
-	public Attribute(final int targetId, final String attributeName,
-			final String attributeValue) {
-		this(new AttributeId(targetId, attributeName), attributeValue);
-	}
+    public Attribute(final int targetId, final String attributeName,
+            final String attributeValue) {
+        this(new AttributeId(targetId, attributeName), attributeValue);
+    }
 
-	/**
+    /**
      * Gets the attribute id.
      *
      * @return the attribute id
      */
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "targetId", column = @Column(name = "targetId", nullable = false)),
-			@AttributeOverride(name = "name", column = @Column(name = "name", nullable = false)) })
-	public AttributeId getAttributeId() {
-		return this.id;
-	}
+    @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "targetId", column = @Column(name = "targetId", nullable = false)),
+            @AttributeOverride(name = "name", column = @Column(name = "name", nullable = false)) })
+    public AttributeId getAttributeId() {
+        return this.id;
+    }
 
-	/**
+    /**
      * Sets the attribute id.
      *
      * @param id
      *            the new attribute id
      */
-	public void setAttributeId(final AttributeId id) {
-		this.id = id;
-	}
+    public void setAttributeId(final AttributeId id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Gets the value.
      *
      * @return the value
      */
-	@Column(name = "\"value\"")
-	public String getValue() {
-		return this.value;
-	}
+    @Column(name = "\"value\"")
+    public String getValue() {
+        return this.value;
+    }
 
-	/**
+    /**
      * Sets the value.
      *
      * @param value
      *            the new value
      */
-	public void setValue(final String value) {
-		this.value = value;
-	}
+    public void setValue(final String value) {
+        this.value = value;
+    }
 
-	/**
+    /**
      * Gets the name.
      *
      * @return the name
      */
-	@Transient
-	public String getName() {
-		return this.id.getName();
-	}
+    @Transient
+    public String getName() {
+        return this.id.getName();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.domain.Identifiable#getId()
-	 */
-	@Override
-	@Transient
-	public int getId() {
-		return 0;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.domain.Identifiable#getId()
+     */
+    @Override
+    @Transient
+    public int getId() {
+        return 0;
+    }
 }

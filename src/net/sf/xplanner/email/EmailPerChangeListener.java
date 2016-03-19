@@ -27,65 +27,65 @@ import org.springframework.context.ApplicationListener;
  */
 
 public class EmailPerChangeListener implements ApplicationListener {
-	
-	/** The email helper. */
-	private EmailHelper emailHelper;
+    
+    /** The email helper. */
+    private EmailHelper emailHelper;
 
-	/**
+    /**
      * Sets the email helper.
      *
      * @param emailHelper
      *            the new email helper
      */
-	public void setEmailHelper(final EmailHelper emailHelper) {
-		this.emailHelper = emailHelper;
-	}
+    public void setEmailHelper(final EmailHelper emailHelper) {
+        this.emailHelper = emailHelper;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-	 */
-	@Override
-	public void onApplicationEvent(final ApplicationEvent event) {
-		if (!event.getClass().isAnnotationPresent(XplannerEvent.class)) {
-			return;
-		}
-		if (event instanceof ObjectUpdated) {
-			this.sendObjectWasUpdatedEmail((ObjectUpdated) event);
-		} else if (event instanceof ObjectCreated) {
-			this.sendObjectWasCreatedEmail((ObjectCreated) event);
-		} else if (event instanceof ObjectDeleted) {
-			this.sendObjectWasDeletedEmail((ObjectDeleted) event);
-		}
-	}
+    /* (non-Javadoc)
+     * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
+     */
+    @Override
+    public void onApplicationEvent(final ApplicationEvent event) {
+        if (!event.getClass().isAnnotationPresent(XplannerEvent.class)) {
+            return;
+        }
+        if (event instanceof ObjectUpdated) {
+            this.sendObjectWasUpdatedEmail((ObjectUpdated) event);
+        } else if (event instanceof ObjectCreated) {
+            this.sendObjectWasCreatedEmail((ObjectCreated) event);
+        } else if (event instanceof ObjectDeleted) {
+            this.sendObjectWasDeletedEmail((ObjectDeleted) event);
+        }
+    }
 
-	/**
+    /**
      * Send object was deleted email.
      *
      * @param event
      *            the event
      */
-	private void sendObjectWasDeletedEmail(final ObjectDeleted event) {
-		this.emailHelper.sendEmail(event);
-	}
+    private void sendObjectWasDeletedEmail(final ObjectDeleted event) {
+        this.emailHelper.sendEmail(event);
+    }
 
-	/**
+    /**
      * Send object was created email.
      *
      * @param event
      *            the event
      */
-	private void sendObjectWasCreatedEmail(final ObjectCreated event) {
-		this.emailHelper.sendEmail(event);
-	}
+    private void sendObjectWasCreatedEmail(final ObjectCreated event) {
+        this.emailHelper.sendEmail(event);
+    }
 
-	/**
+    /**
      * Send object was updated email.
      *
      * @param event
      *            the event
      */
-	private void sendObjectWasUpdatedEmail(final ObjectUpdated event) {
-		this.emailHelper.sendEmail(event);
-	}
+    private void sendObjectWasUpdatedEmail(final ObjectUpdated event) {
+        this.emailHelper.sendEmail(event);
+    }
 
 }

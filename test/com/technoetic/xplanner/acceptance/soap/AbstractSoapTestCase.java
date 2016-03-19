@@ -70,7 +70,7 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
      * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
      */
     @Override
-	public void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         xplanner = createXPlanner();
         commitCloseAndOpenSession();
@@ -80,7 +80,7 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
      * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#tearDown()
      */
     @Override
-	public void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         super.tearDown();
     }
 

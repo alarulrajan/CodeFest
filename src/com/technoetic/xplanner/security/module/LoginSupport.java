@@ -12,8 +12,8 @@ import com.technoetic.xplanner.security.AuthenticationException;
  * The Interface LoginSupport.
  */
 public interface LoginSupport {
-	
-	/**
+    
+    /**
      * Populate subject principal from database.
      *
      * @param subject
@@ -24,10 +24,10 @@ public interface LoginSupport {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	Person populateSubjectPrincipalFromDatabase(Subject subject, String userId)
-			throws AuthenticationException;
+    Person populateSubjectPrincipalFromDatabase(Subject subject, String userId)
+            throws AuthenticationException;
 
-	/**
+    /**
      * Gets the person.
      *
      * @param userId
@@ -36,12 +36,12 @@ public interface LoginSupport {
      * @throws HibernateException
      *             the hibernate exception
      */
-	Person getPerson(String userId) throws HibernateException;
+    Person getPerson(String userId) throws HibernateException;
 
-	/**
+    /**
      * Creates the subject.
      *
      * @return the subject
      */
-	Subject createSubject();
+    Subject createSubject();
 }

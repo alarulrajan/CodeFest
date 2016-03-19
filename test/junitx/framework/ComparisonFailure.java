@@ -130,7 +130,7 @@ public class ComparisonFailure extends AssertionFailedError {
                                           String expected,
                                           String actual) {
         if ((expected == null || actual == null) ||
-	    (actual.equals(expected))) {
+        (actual.equals(expected))) {
             return format(message, expected, actual, null);
         }
 

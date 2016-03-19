@@ -524,7 +524,7 @@ protected void setUp() throws Exception {
        * @see com.technoetic.mocks.hibernate.MockQuery#setString(java.lang.String, java.lang.String)
        */
       @Override
-	public Query setString(String name, String val) {
+    public Query setString(String name, String val) {
          listReturn = new ArrayList();
          for (Iterator iterator = notesList.iterator(); iterator.hasNext();) {
             Note note = (Note) iterator.next();
@@ -539,7 +539,7 @@ protected void setUp() throws Exception {
        * @see com.technoetic.mocks.hibernate.MockQuery#iterate()
        */
       @Override
-	public Iterator iterate() {
+    public Iterator iterate() {
          return listReturn.iterator();
       }
    }

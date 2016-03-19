@@ -22,24 +22,24 @@ import com.technoetic.xplanner.domain.repository.RepositoryException;
  * Created by IntelliJ IDEA. User: tkmower Date: Dec 14, 2004 Time: 2:58:40 PM
  */
 public class ContentSearchHelper {
-	
-	/** The search criteria. */
-	protected String searchCriteria;
-	
-	/** The search results. */
-	private List searchResults;
-	
-	/** The searchable classes. */
-	private final Class[] searchableClasses = new Class[] { Project.class,
-			UserStory.class, Task.class, Note.class, Iteration.class };
-	
-	/** The search result factory. */
-	private final SearchResultFactory searchResultFactory;
-	
-	/** The query. */
-	private final SearchContentQuery query;
+    
+    /** The search criteria. */
+    protected String searchCriteria;
+    
+    /** The search results. */
+    private List searchResults;
+    
+    /** The searchable classes. */
+    private final Class[] searchableClasses = new Class[] { Project.class,
+            UserStory.class, Task.class, Note.class, Iteration.class };
+    
+    /** The search result factory. */
+    private final SearchResultFactory searchResultFactory;
+    
+    /** The query. */
+    private final SearchContentQuery query;
 
-	/**
+    /**
      * Instantiates a new content search helper.
      *
      * @param searchResultFactory
@@ -47,22 +47,22 @@ public class ContentSearchHelper {
      * @param query
      *            the query
      */
-	public ContentSearchHelper(final SearchResultFactory searchResultFactory,
-			final SearchContentQuery query) {
-		this.searchResultFactory = searchResultFactory;
-		this.query = query;
-	}
+    public ContentSearchHelper(final SearchResultFactory searchResultFactory,
+            final SearchContentQuery query) {
+        this.searchResultFactory = searchResultFactory;
+        this.query = query;
+    }
 
-	/**
+    /**
      * Gets the search results.
      *
      * @return the search results
      */
-	public List getSearchResults() {
-		return this.searchResults;
-	}
+    public List getSearchResults() {
+        return this.searchResults;
+    }
 
-	/**
+    /**
      * Search.
      *
      * @param searchCriteria
@@ -74,16 +74,16 @@ public class ContentSearchHelper {
      * @throws RepositoryException
      *             the repository exception
      */
-	public void search(final String searchCriteria, final int userId,
-			final int restrictedProjectId) throws RepositoryException {
-		this.searchCriteria = searchCriteria;
-		this.query.setRestrictedProjectId(restrictedProjectId);
-		final List results = this.findMatchingResults(searchCriteria);
-		this.excludeResultsBasedOnUserPermissions(results, userId);
-		this.searchResults = results;
-	}
+    public void search(final String searchCriteria, final int userId,
+            final int restrictedProjectId) throws RepositoryException {
+        this.searchCriteria = searchCriteria;
+        this.query.setRestrictedProjectId(restrictedProjectId);
+        final List results = this.findMatchingResults(searchCriteria);
+        this.excludeResultsBasedOnUserPermissions(results, userId);
+        this.searchResults = results;
+    }
 
-	/**
+    /**
      * Find matching results.
      *
      * @param searchCriteria
@@ -92,17 +92,17 @@ public class ContentSearchHelper {
      * @throws RepositoryException
      *             the repository exception
      */
-	private List findMatchingResults(final String searchCriteria)
-			throws RepositoryException {
-		final List results = new LinkedList();
-		for (int i = 0; i < this.searchableClasses.length; i++) {
-			this.convertMatchesToResults(this.findMatchingObjects(
-					this.searchableClasses[i], searchCriteria), results);
-		}
-		return results;
-	}
+    private List findMatchingResults(final String searchCriteria)
+            throws RepositoryException {
+        final List results = new LinkedList();
+        for (int i = 0; i < this.searchableClasses.length; i++) {
+            this.convertMatchesToResults(this.findMatchingObjects(
+                    this.searchableClasses[i], searchCriteria), results);
+        }
+        return results;
+    }
 
-	/**
+    /**
      * Find objects matching.
      *
      * @param searchableClasses
@@ -113,17 +113,17 @@ public class ContentSearchHelper {
      * @throws RepositoryException
      *             the repository exception
      */
-	protected List findObjectsMatching(final Class[] searchableClasses,
-			final String searchCriteria) throws RepositoryException {
-		final List results = new LinkedList();
-		for (int i = 0; i < searchableClasses.length; i++) {
-			this.convertMatchesToResults(this.findMatchingObjects(
-					searchableClasses[i], searchCriteria), results);
-		}
-		return results;
-	}
+    protected List findObjectsMatching(final Class[] searchableClasses,
+            final String searchCriteria) throws RepositoryException {
+        final List results = new LinkedList();
+        for (int i = 0; i < searchableClasses.length; i++) {
+            this.convertMatchesToResults(this.findMatchingObjects(
+                    searchableClasses[i], searchCriteria), results);
+        }
+        return results;
+    }
 
-	/**
+    /**
      * Find matching objects.
      *
      * @param objectClass
@@ -134,13 +134,13 @@ public class ContentSearchHelper {
      * @throws RepositoryException
      *             the repository exception
      */
-	private List findMatchingObjects(final Class objectClass,
-			final String searchCriteria) throws RepositoryException {
-		return this.query.findWhereNameOrDescriptionContains(searchCriteria,
-				objectClass);
-	}
+    private List findMatchingObjects(final Class objectClass,
+            final String searchCriteria) throws RepositoryException {
+        return this.query.findWhereNameOrDescriptionContains(searchCriteria,
+                objectClass);
+    }
 
-	/**
+    /**
      * Exclude results based on user permissions.
      *
      * @param results
@@ -148,24 +148,24 @@ public class ContentSearchHelper {
      * @param userId
      *            the user id
      */
-	private void excludeResultsBasedOnUserPermissions(final List results,
-			final int userId) {
-		final Predicate predicate = this.getAuthorizationPredicate(userId);
-		CollectionUtils.filter(results, predicate);
-	}
+    private void excludeResultsBasedOnUserPermissions(final List results,
+            final int userId) {
+        final Predicate predicate = this.getAuthorizationPredicate(userId);
+        CollectionUtils.filter(results, predicate);
+    }
 
-	/**
+    /**
      * Gets the authorization predicate.
      *
      * @param userId
      *            the user id
      * @return the authorization predicate
      */
-	protected Predicate getAuthorizationPredicate(final int userId) {
-		return new SearchResultAuthorizationPredicate(userId);
-	}
+    protected Predicate getAuthorizationPredicate(final int userId) {
+        return new SearchResultAuthorizationPredicate(userId);
+    }
 
-	/**
+    /**
      * Convert matches to results.
      *
      * @param matches
@@ -173,17 +173,17 @@ public class ContentSearchHelper {
      * @param results
      *            the results
      */
-	private void convertMatchesToResults(final List matches, final List results) {
-		for (final Iterator iterator = matches.iterator(); iterator.hasNext();) {
-			try {
-				results.add(this.searchResultFactory.convertObjectToSearchResult(
-						(Nameable) iterator.next(), this.searchCriteria));
-			} catch (final Exception ex) {
-			}
-		}
-	}
+    private void convertMatchesToResults(final List matches, final List results) {
+        for (final Iterator iterator = matches.iterator(); iterator.hasNext();) {
+            try {
+                results.add(this.searchResultFactory.convertObjectToSearchResult(
+                        (Nameable) iterator.next(), this.searchCriteria));
+            } catch (final Exception ex) {
+            }
+        }
+    }
 
-	/**
+    /**
      * Convert to search result.
      *
      * @param nameable
@@ -192,14 +192,14 @@ public class ContentSearchHelper {
      *            the search criteria
      * @return the search result
      */
-	public SearchResult convertToSearchResult(final Nameable nameable,
-			final String searchCriteria) {
-		try {
-			return this.searchResultFactory.convertObjectToSearchResult(
-					nameable, searchCriteria);
-		} catch (final Exception e) {
-		}
-		return null;
-	}
+    public SearchResult convertToSearchResult(final Nameable nameable,
+            final String searchCriteria) {
+        try {
+            return this.searchResultFactory.convertObjectToSearchResult(
+                    nameable, searchCriteria);
+        } catch (final Exception e) {
+        }
+        return null;
+    }
 
 }

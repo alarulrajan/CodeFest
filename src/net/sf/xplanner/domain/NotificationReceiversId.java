@@ -11,19 +11,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class NotificationReceiversId implements java.io.Serializable {
 
-	/** The project id. */
-	private int projectId;
-	
-	/** The person id. */
-	private int personId;
+    /** The project id. */
+    private int projectId;
+    
+    /** The person id. */
+    private int personId;
 
-	/**
+    /**
      * Instantiates a new notification receivers id.
      */
-	public NotificationReceiversId() {
-	}
+    public NotificationReceiversId() {
+    }
 
-	/**
+    /**
      * Instantiates a new notification receivers id.
      *
      * @param projectId
@@ -31,81 +31,81 @@ public class NotificationReceiversId implements java.io.Serializable {
      * @param personId
      *            the person id
      */
-	public NotificationReceiversId(final int projectId, final int personId) {
-		this.projectId = projectId;
-		this.personId = personId;
-	}
+    public NotificationReceiversId(final int projectId, final int personId) {
+        this.projectId = projectId;
+        this.personId = personId;
+    }
 
-	/**
+    /**
      * Gets the project id.
      *
      * @return the project id
      */
-	@Column(name = "project_id", nullable = false)
-	public int getProjectId() {
-		return this.projectId;
-	}
+    @Column(name = "project_id", nullable = false)
+    public int getProjectId() {
+        return this.projectId;
+    }
 
-	/**
+    /**
      * Sets the project id.
      *
      * @param projectId
      *            the new project id
      */
-	public void setProjectId(final int projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(final int projectId) {
+        this.projectId = projectId;
+    }
 
-	/**
+    /**
      * Gets the person id.
      *
      * @return the person id
      */
-	@Column(name = "person_id", nullable = false)
-	public int getPersonId() {
-		return this.personId;
-	}
+    @Column(name = "person_id", nullable = false)
+    public int getPersonId() {
+        return this.personId;
+    }
 
-	/**
+    /**
      * Sets the person id.
      *
      * @param personId
      *            the new person id
      */
-	public void setPersonId(final int personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(final int personId) {
+        this.personId = personId;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (other == null) {
-			return false;
-		}
-		if (!(other instanceof NotificationReceiversId)) {
-			return false;
-		}
-		final NotificationReceiversId castOther = (NotificationReceiversId) other;
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof NotificationReceiversId)) {
+            return false;
+        }
+        final NotificationReceiversId castOther = (NotificationReceiversId) other;
 
-		return this.getProjectId() == castOther.getProjectId()
-				&& this.getPersonId() == castOther.getPersonId();
-	}
+        return this.getProjectId() == castOther.getProjectId()
+                && this.getPersonId() == castOther.getPersonId();
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int result = 17;
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
 
-		result = 37 * result + this.getProjectId();
-		result = 37 * result + this.getPersonId();
-		return result;
-	}
+        result = 37 * result + this.getProjectId();
+        result = 37 * result + this.getPersonId();
+        return result;
+    }
 
 }

@@ -7,6 +7,6 @@ import net.sf.xplanner.domain.Attribute;
  * The Class AttributeDaoImpl.
  */
 public class AttributeDaoImpl extends BaseDao<Attribute> implements
-		AttributeDao {
+        AttributeDao {
 
 }

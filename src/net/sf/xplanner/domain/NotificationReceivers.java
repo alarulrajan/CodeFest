@@ -28,50 +28,50 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "notification_receivers")
 public class NotificationReceivers implements java.io.Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4537343448751435206L;
-	
-	/** The id. */
-	private NotificationReceiversId id;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -4537343448751435206L;
+    
+    /** The id. */
+    private NotificationReceiversId id;
 
-	/**
+    /**
      * Instantiates a new notification receivers.
      */
-	public NotificationReceivers() {
-	}
+    public NotificationReceivers() {
+    }
 
-	/**
+    /**
      * Instantiates a new notification receivers.
      *
      * @param id
      *            the id
      */
-	public NotificationReceivers(final NotificationReceiversId id) {
-		this.id = id;
-	}
+    public NotificationReceivers(final NotificationReceiversId id) {
+        this.id = id;
+    }
 
-	/**
+    /**
      * Gets the id.
      *
      * @return the id
      */
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "projectId", column = @Column(name = "project_id", nullable = false)),
-			@AttributeOverride(name = "personId", column = @Column(name = "person_id", nullable = false)) })
-	public NotificationReceiversId getId() {
-		return this.id;
-	}
+    @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "projectId", column = @Column(name = "project_id", nullable = false)),
+            @AttributeOverride(name = "personId", column = @Column(name = "person_id", nullable = false)) })
+    public NotificationReceiversId getId() {
+        return this.id;
+    }
 
-	/**
+    /**
      * Sets the id.
      *
      * @param id
      *            the new id
      */
-	public void setId(final NotificationReceiversId id) {
-		this.id = id;
-	}
+    public void setId(final NotificationReceiversId id) {
+        this.id = id;
+    }
 
 }

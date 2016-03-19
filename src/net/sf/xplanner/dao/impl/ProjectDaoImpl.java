@@ -15,16 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.ProjectDao#getAllProjects(net.sf.xplanner.domain.Person)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional(readOnly = true)
-	public List<Project> getAllProjects(final Person user) {
-		final Criteria criteria = this.createCriteria();
-		criteria.add(Restrictions.eq(Project.HIDDEN, Boolean.FALSE));
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.ProjectDao#getAllProjects(net.sf.xplanner.domain.Person)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> getAllProjects(final Person user) {
+        final Criteria criteria = this.createCriteria();
+        criteria.add(Restrictions.eq(Project.HIDDEN, Boolean.FALSE));
+        return criteria.list();
+    }
 
 }

@@ -15,11 +15,11 @@ import com.technoetic.xplanner.domain.Integration;
  * @see IntegrationEvent
  */
 public interface IntegrationListener {
-	
-	/** The Constant INTEGRATION_READY_EVENT. */
-	public static final int INTEGRATION_READY_EVENT = 1;
+    
+    /** The Constant INTEGRATION_READY_EVENT. */
+    public static final int INTEGRATION_READY_EVENT = 1;
 
-	/**
+    /**
      * On event.
      *
      * @param eventType
@@ -29,6 +29,6 @@ public interface IntegrationListener {
      * @param request
      *            the request
      */
-	public void onEvent(int eventType, Integration integration,
-			HttpServletRequest request);
+    public void onEvent(int eventType, Integration integration,
+            HttpServletRequest request);
 }

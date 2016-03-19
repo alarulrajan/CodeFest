@@ -1306,9 +1306,9 @@ public class MockSession implements Session {
  */
 @Override
 public void save(String s, Object obj, Serializable serializable)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1316,8 +1316,8 @@ public void save(String s, Object obj, Serializable serializable)
  */
 @Override
 public Object saveOrUpdateCopy(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1325,9 +1325,9 @@ public Object saveOrUpdateCopy(String s, Object obj) throws HibernateException {
  */
 @Override
 public Object saveOrUpdateCopy(String s, Object obj, Serializable serializable)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1335,9 +1335,9 @@ public Object saveOrUpdateCopy(String s, Object obj, Serializable serializable)
  */
 @Override
 public void update(String s, Object obj, Serializable serializable)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1345,8 +1345,8 @@ public void update(String s, Object obj, Serializable serializable)
  */
 @Override
 public Criteria createCriteria(String s) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1354,8 +1354,8 @@ public Criteria createCriteria(String s) {
  */
 @Override
 public Criteria createCriteria(Class class1, String s) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1363,8 +1363,8 @@ public Criteria createCriteria(Class class1, String s) {
  */
 @Override
 public Criteria createCriteria(String s, String s1) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1372,8 +1372,8 @@ public Criteria createCriteria(String s, String s1) {
  */
 @Override
 public SQLQuery createSQLQuery(String s) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1381,8 +1381,8 @@ public SQLQuery createSQLQuery(String s) throws HibernateException {
  */
 @Override
 public void delete(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1390,8 +1390,8 @@ public void delete(String s, Object obj) throws HibernateException {
  */
 @Override
 public void disableFilter(String s) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1399,8 +1399,8 @@ public void disableFilter(String s) {
  */
 @Override
 public Filter enableFilter(String s) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1408,9 +1408,9 @@ public Filter enableFilter(String s) {
  */
 @Override
 public Object get(String s, Serializable serializable)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1418,9 +1418,9 @@ public Object get(String s, Serializable serializable)
  */
 @Override
 public Object get(String s, Serializable serializable, LockMode lockmode)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1428,8 +1428,8 @@ public Object get(String s, Serializable serializable, LockMode lockmode)
  */
 @Override
 public CacheMode getCacheMode() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1437,8 +1437,8 @@ public CacheMode getCacheMode() {
  */
 @Override
 public Filter getEnabledFilter(String s) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1446,8 +1446,8 @@ public Filter getEnabledFilter(String s) {
  */
 @Override
 public EntityMode getEntityMode() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1455,8 +1455,8 @@ public EntityMode getEntityMode() {
  */
 @Override
 public String getEntityName(Object obj) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1464,8 +1464,8 @@ public String getEntityName(Object obj) throws HibernateException {
  */
 @Override
 public org.hibernate.Session getSession(EntityMode entitymode) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1473,8 +1473,8 @@ public org.hibernate.Session getSession(EntityMode entitymode) {
  */
 @Override
 public SessionStatistics getStatistics() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1482,8 +1482,8 @@ public SessionStatistics getStatistics() {
  */
 @Override
 public Transaction getTransaction() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1491,9 +1491,9 @@ public Transaction getTransaction() {
  */
 @Override
 public Object load(String s, Serializable serializable)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1501,9 +1501,9 @@ public Object load(String s, Serializable serializable)
  */
 @Override
 public Object load(String s, Serializable serializable, LockMode lockmode)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1511,9 +1511,9 @@ public Object load(String s, Serializable serializable, LockMode lockmode)
  */
 @Override
 public void lock(String s, Object obj, LockMode lockmode)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1521,8 +1521,8 @@ public void lock(String s, Object obj, LockMode lockmode)
  */
 @Override
 public Object merge(Object obj) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1530,8 +1530,8 @@ public Object merge(Object obj) throws HibernateException {
  */
 @Override
 public Object merge(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1539,8 +1539,8 @@ public Object merge(String s, Object obj) throws HibernateException {
  */
 @Override
 public void persist(Object obj) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1548,8 +1548,8 @@ public void persist(Object obj) throws HibernateException {
  */
 @Override
 public void persist(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1557,9 +1557,9 @@ public void persist(String s, Object obj) throws HibernateException {
  */
 @Override
 public void replicate(String s, Object obj, ReplicationMode replicationmode)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1567,8 +1567,8 @@ public void replicate(String s, Object obj, ReplicationMode replicationmode)
  */
 @Override
 public Serializable save(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1576,8 +1576,8 @@ public Serializable save(String s, Object obj) throws HibernateException {
  */
 @Override
 public void saveOrUpdate(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1585,8 +1585,8 @@ public void saveOrUpdate(String s, Object obj) throws HibernateException {
  */
 @Override
 public void setCacheMode(CacheMode cachemode) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1594,8 +1594,8 @@ public void setCacheMode(CacheMode cachemode) {
  */
 @Override
 public void setReadOnly(Object obj, boolean flag) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1603,8 +1603,8 @@ public void setReadOnly(Object obj, boolean flag) {
  */
 @Override
 public void update(String s, Object obj) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1612,8 +1612,8 @@ public void update(String s, Object obj) throws HibernateException {
  */
 @Override
 public void doWork(Work work) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1621,8 +1621,8 @@ public void doWork(Work work) throws HibernateException {
  */
 @Override
 public boolean isDefaultReadOnly() {
-	// ChangeSoon 
-	return false;
+    // ChangeSoon 
+    return false;
 }
 
 /* (non-Javadoc)
@@ -1630,8 +1630,8 @@ public boolean isDefaultReadOnly() {
  */
 @Override
 public void setDefaultReadOnly(boolean readOnly) {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1639,9 +1639,9 @@ public void setDefaultReadOnly(boolean readOnly) {
  */
 @Override
 public Object load(Class theClass, Serializable id, LockOptions lockOptions)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1649,9 +1649,9 @@ public Object load(Class theClass, Serializable id, LockOptions lockOptions)
  */
 @Override
 public Object load(String entityName, Serializable id, LockOptions lockOptions)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1659,8 +1659,8 @@ public Object load(String entityName, Serializable id, LockOptions lockOptions)
  */
 @Override
 public LockRequest buildLockRequest(LockOptions lockOptions) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1668,9 +1668,9 @@ public LockRequest buildLockRequest(LockOptions lockOptions) {
  */
 @Override
 public void refresh(Object object, LockOptions lockOptions)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1678,9 +1678,9 @@ public void refresh(Object object, LockOptions lockOptions)
  */
 @Override
 public Object get(Class clazz, Serializable id, LockOptions lockOptions)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1688,9 +1688,9 @@ public Object get(Class clazz, Serializable id, LockOptions lockOptions)
  */
 @Override
 public Object get(String entityName, Serializable id, LockOptions lockOptions)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1698,8 +1698,8 @@ public Object get(String entityName, Serializable id, LockOptions lockOptions)
  */
 @Override
 public boolean isReadOnly(Object entityOrProxy) {
-	// ChangeSoon 
-	return false;
+    // ChangeSoon 
+    return false;
 }
 
 /* (non-Javadoc)
@@ -1707,9 +1707,9 @@ public boolean isReadOnly(Object entityOrProxy) {
  */
 @Override
 public boolean isFetchProfileEnabled(String name)
-		throws UnknownProfileException {
-	// ChangeSoon 
-	return false;
+        throws UnknownProfileException {
+    // ChangeSoon 
+    return false;
 }
 
 /* (non-Javadoc)
@@ -1717,8 +1717,8 @@ public boolean isFetchProfileEnabled(String name)
  */
 @Override
 public void enableFetchProfile(String name) throws UnknownProfileException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1726,8 +1726,8 @@ public void enableFetchProfile(String name) throws UnknownProfileException {
  */
 @Override
 public void disableFetchProfile(String name) throws UnknownProfileException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -1735,8 +1735,8 @@ public void disableFetchProfile(String name) throws UnknownProfileException {
  */
 @Override
 public TypeHelper getTypeHelper() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -1744,8 +1744,8 @@ public TypeHelper getTypeHelper() {
  */
 @Override
 public LobHelper getLobHelper() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 }

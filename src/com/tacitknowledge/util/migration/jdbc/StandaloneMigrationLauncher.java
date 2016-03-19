@@ -45,19 +45,19 @@ import org.apache.commons.logging.LogFactory;
  * @see com.tacitknowledge.util.migration.MigrationProcess
  */
 public class StandaloneMigrationLauncher {
-	
-	/** Class logger. */
-	private static Log log = LogFactory
-			.getLog(StandaloneMigrationLauncher.class);
+    
+    /** Class logger. */
+    private static Log log = LogFactory
+            .getLog(StandaloneMigrationLauncher.class);
 
-	/**
+    /**
      * Private constructor - this object shouldn't be instantiated.
      */
-	private StandaloneMigrationLauncher() {
-		// does nothing
-	}
+    private StandaloneMigrationLauncher() {
+        // does nothing
+    }
 
-	/**
+    /**
      * Run the migrations for the given system name.
      *
      * @param arguments
@@ -65,53 +65,53 @@ public class StandaloneMigrationLauncher {
      * @exception Exception
      *                if anything goes wrong
      */
-	public static void main(final String[] arguments) throws Exception {
-		final String systemName = StandaloneMigrationLauncher.getRequiredParam(
-				"migration.systemname", System.getProperties(), arguments);
+    public static void main(final String[] arguments) throws Exception {
+        final String systemName = StandaloneMigrationLauncher.getRequiredParam(
+                "migration.systemname", System.getProperties(), arguments);
 
-		// The MigrationLauncher is responsible for handling the interaction
-		// between the PatchTable and the underlying MigrationTasks; as each
-		// task is executed, the patch level is incremented, etc.
-		try {
-			final JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader
-					.createFactory();
-			final JdbcMigrationLauncher launcher = launcherFactory
-					.createMigrationLauncher(systemName);
-			launcher.doMigrations();
-		} catch (final Exception e) {
-			StandaloneMigrationLauncher.log.error(e);
-			throw e;
-		}
-	}
+        // The MigrationLauncher is responsible for handling the interaction
+        // between the PatchTable and the underlying MigrationTasks; as each
+        // task is executed, the patch level is incremented, etc.
+        try {
+            final JdbcMigrationLauncherFactory launcherFactory = MigrationLauncherFactoryLoader
+                    .createFactory();
+            final JdbcMigrationLauncher launcher = launcherFactory
+                    .createMigrationLauncher(systemName);
+            launcher.doMigrations();
+        } catch (final Exception e) {
+            StandaloneMigrationLauncher.log.error(e);
+            throw e;
+        }
+    }
 
-	/**
-	 * Returns the value of the specified servlet context initialization
-	 * parameter.
-	 * 
-	 * @param param
-	 *            the parameter to return
-	 * @param properties
-	 *            the <code>Properties</code> for the Java system
-	 * @param arguments
-	 *            optionally takes the arguments passed into the main to use as
-	 *            the migration system name
-	 * @return the value of the specified system initialization parameter
-	 * @throws IllegalArgumentException
-	 *             if the parameter does not exist
-	 */
-	private static String getRequiredParam(final String param,
-			final Properties properties, final String[] arguments)
-			throws IllegalArgumentException {
-		String value = properties.getProperty(param);
-		if (value == null) {
-			if (arguments != null && arguments.length > 0) {
-				value = arguments[0].trim();
-			} else {
-				throw new IllegalArgumentException("'" + param
-						+ "' is a required "
-						+ "initialization parameter.  Aborting.");
-			}
-		}
-		return value;
-	}
+    /**
+     * Returns the value of the specified servlet context initialization
+     * parameter.
+     * 
+     * @param param
+     *            the parameter to return
+     * @param properties
+     *            the <code>Properties</code> for the Java system
+     * @param arguments
+     *            optionally takes the arguments passed into the main to use as
+     *            the migration system name
+     * @return the value of the specified system initialization parameter
+     * @throws IllegalArgumentException
+     *             if the parameter does not exist
+     */
+    private static String getRequiredParam(final String param,
+            final Properties properties, final String[] arguments)
+            throws IllegalArgumentException {
+        String value = properties.getProperty(param);
+        if (value == null) {
+            if (arguments != null && arguments.length > 0) {
+                value = arguments[0].trim();
+            } else {
+                throw new IllegalArgumentException("'" + param
+                        + "' is a required "
+                        + "initialization parameter.  Aborting.");
+            }
+        }
+        return value;
+    }
 }

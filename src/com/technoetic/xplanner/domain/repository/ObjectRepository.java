@@ -7,8 +7,8 @@ import com.technoetic.xplanner.domain.Nameable;
  */
 @Deprecated
 public interface ObjectRepository {
-	
-	/**
+    
+    /**
      * Delete an object using it's object ID (OID).
      *
      * @param objectIdentifier
@@ -16,9 +16,9 @@ public interface ObjectRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	void delete(int objectIdentifier) throws RepositoryException;
+    void delete(int objectIdentifier) throws RepositoryException;
 
-	/**
+    /**
      * Load an instance of an object.
      *
      * @param objectIdentifier
@@ -27,9 +27,9 @@ public interface ObjectRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	Object load(int objectIdentifier) throws RepositoryException;
+    Object load(int objectIdentifier) throws RepositoryException;
 
-	/**
+    /**
      * Create a new instance in the repository.
      *
      * @param object
@@ -38,9 +38,9 @@ public interface ObjectRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	int insert(Nameable object) throws RepositoryException;
+    int insert(Nameable object) throws RepositoryException;
 
-	/**
+    /**
      * Updates an object in the repository. Note: This is a no-op for Hibernate.
      *
      * @param object
@@ -48,5 +48,5 @@ public interface ObjectRepository {
      * @throws RepositoryException
      *             the repository exception
      */
-	void update(Nameable object) throws RepositoryException;
+    void update(Nameable object) throws RepositoryException;
 }

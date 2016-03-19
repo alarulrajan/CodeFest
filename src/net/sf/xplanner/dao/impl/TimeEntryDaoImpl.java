@@ -24,6 +24,6 @@ import net.sf.xplanner.domain.TimeEntry;
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 public class TimeEntryDaoImpl extends BaseDao<TimeEntry> implements
-		TimeEntryDao {
+        TimeEntryDao {
 
 }

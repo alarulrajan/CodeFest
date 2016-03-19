@@ -49,7 +49,7 @@ public class TestDeleteObjectAction extends AbstractActionTestCase {
         support.setForward(AbstractAction.TYPE_KEY, Project.class.getName());
         support.request.setParameterValue("oid", new String[]{Integer.toString(OID)});
         DomainObject domainObject = createLocalMock(DomainObject.class);
-		expect(mockObjectRepository.load(OID)).andReturn(domainObject);
+        expect(mockObjectRepository.load(OID)).andReturn(domainObject);
         eventBus.publishDeleteEvent(domainObject, null);
         mockObjectRepository.delete(OID);
     }

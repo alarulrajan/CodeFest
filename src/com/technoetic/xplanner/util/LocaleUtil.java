@@ -20,24 +20,24 @@ import org.apache.struts.Globals;
  * The Class LocaleUtil.
  */
 public class LocaleUtil {
-	
-	/**
+    
+    /**
      * Gets the locale.
      *
      * @param session
      *            the session
      * @return the locale
      */
-	public static Locale getLocale(final HttpSession session) {
-		Locale locale = null;
-		try {
-			locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
-		} catch (final IllegalStateException e) { // Invalidated session
-			locale = null;
-		}
-		if (locale == null) {
-			locale = Locale.getDefault();
-		}
-		return locale;
-	}
+    public static Locale getLocale(final HttpSession session) {
+        Locale locale = null;
+        try {
+            locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
+        } catch (final IllegalStateException e) { // Invalidated session
+            locale = null;
+        }
+        if (locale == null) {
+            locale = Locale.getDefault();
+        }
+        return locale;
+    }
 }

@@ -30,107 +30,107 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "xdir")
 public class Directory extends DomainObject implements java.io.Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -1957144606982414797L;
-	
-	/** The name. */
-	private String name;
-	
-	/** The files. */
-	private List<File> files;
-	
-	/** The parent. */
-	private Directory parent;
-	
-	/** The subdirectories. */
-	private List<Directory> subdirectories;
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1957144606982414797L;
+    
+    /** The name. */
+    private String name;
+    
+    /** The files. */
+    private List<File> files;
+    
+    /** The parent. */
+    private Directory parent;
+    
+    /** The subdirectories. */
+    private List<Directory> subdirectories;
 
-	/**
+    /**
      * Instantiates a new directory.
      */
-	public Directory() {
-	}
+    public Directory() {
+    }
 
-	/**
+    /**
      * Gets the name.
      *
      * @return the name
      */
-	@Column(name = "name")
-	public String getName() {
-		return this.name;
-	}
+    @Column(name = "name")
+    public String getName() {
+        return this.name;
+    }
 
-	/**
+    /**
      * Sets the name.
      *
      * @param name
      *            the new name
      */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
+    /**
      * Gets the files.
      *
      * @return the files
      */
-	@OneToMany(mappedBy = "directory")
-	public List<File> getFiles() {
-		return this.files;
-	}
+    @OneToMany(mappedBy = "directory")
+    public List<File> getFiles() {
+        return this.files;
+    }
 
-	/**
+    /**
      * Sets the files.
      *
      * @param files
      *            the new files
      */
-	public void setFiles(final List<File> files) {
-		this.files = files;
-	}
+    public void setFiles(final List<File> files) {
+        this.files = files;
+    }
 
-	/**
+    /**
      * Gets the parent.
      *
      * @return the parent
      */
-	@ManyToOne
-	public Directory getParent() {
-		return this.parent;
-	}
+    @ManyToOne
+    public Directory getParent() {
+        return this.parent;
+    }
 
-	/**
+    /**
      * Sets the parent.
      *
      * @param parent
      *            the new parent
      */
-	public void setParent(final Directory parent) {
-		this.parent = parent;
-	}
+    public void setParent(final Directory parent) {
+        this.parent = parent;
+    }
 
-	/**
+    /**
      * Gets the subdirectories.
      *
      * @return the subdirectories
      */
-	@OneToMany()
-	@JoinColumn(name = "parent_id")
-	public List<Directory> getSubdirectories() {
-		return this.subdirectories;
-	}
+    @OneToMany()
+    @JoinColumn(name = "parent_id")
+    public List<Directory> getSubdirectories() {
+        return this.subdirectories;
+    }
 
-	/**
+    /**
      * Sets the subdirectories.
      *
      * @param subdirectories
      *            the new subdirectories
      */
-	public void setSubdirectories(final List<Directory> subdirectories) {
-		this.subdirectories = subdirectories;
-	}
+    public void setSubdirectories(final List<Directory> subdirectories) {
+        this.subdirectories = subdirectories;
+    }
 
 }

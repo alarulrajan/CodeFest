@@ -16,30 +16,30 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class AuthorizerQueryHelper extends HibernateDaoSupport {
 
-	/**
+    /**
      * Gets the all permissions.
      *
      * @return the all permissions
      */
-	public Collection getAllPermissions() {
-		final Collection permission = this.getHibernateTemplate()
-				.findByNamedQuery("security.personal.permissions");
-		permission.addAll(this.getHibernateTemplate().findByNamedQuery(
-				"security.role.permissions"));
-		return permission;
-	}
+    public Collection getAllPermissions() {
+        final Collection permission = this.getHibernateTemplate()
+                .findByNamedQuery("security.personal.permissions");
+        permission.addAll(this.getHibernateTemplate().findByNamedQuery(
+                "security.role.permissions"));
+        return permission;
+    }
 
-	/**
+    /**
      * Gets the all permissions to person.
      *
      * @return the all permissions to person
      */
-	public Collection getAllPermissionsToPerson() {
-		return this.getHibernateTemplate().findByNamedQuery(
-				"security.person.permissions");
-	}
+    public Collection getAllPermissionsToPerson() {
+        return this.getHibernateTemplate().findByNamedQuery(
+                "security.person.permissions");
+    }
 
-	/**
+    /**
      * Gets the roles for principal on project.
      *
      * @param principalId
@@ -50,25 +50,25 @@ public class AuthorizerQueryHelper extends HibernateDaoSupport {
      *            the include wildcard project
      * @return the roles for principal on project
      */
-	public Collection getRolesForPrincipalOnProject(final int principalId,
-			final int projectId, final boolean includeWildcardProject) {
-		return this.getHibernateTemplate().findByNamedQueryAndNamedParam(
-				"security.roles",
-				new String[] { "personId", "projectId",
-						"includeWildcardProject" },
-				new Object[] { new Integer(principalId),
-						new Integer(projectId),
-						new Integer(includeWildcardProject ? 1 : 0) });
-	}
+    public Collection getRolesForPrincipalOnProject(final int principalId,
+            final int projectId, final boolean includeWildcardProject) {
+        return this.getHibernateTemplate().findByNamedQueryAndNamedParam(
+                "security.roles",
+                new String[] { "personId", "projectId",
+                        "includeWildcardProject" },
+                new Object[] { new Integer(principalId),
+                        new Integer(projectId),
+                        new Integer(includeWildcardProject ? 1 : 0) });
+    }
 
-	/**
+    /**
      * Gets the all unhiden projects.
      *
      * @return the all unhiden projects
      */
-	public List getAllUnhidenProjects() {
-		return this.getHibernateTemplate().find(
-				"from project in " + Project.class
-						+ " where project.hidden = false");
-	}
+    public List getAllUnhidenProjects() {
+        return this.getHibernateTemplate().find(
+                "from project in " + Project.class
+                        + " where project.hidden = false");
+    }
 }

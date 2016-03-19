@@ -13,19 +13,19 @@ import net.sf.xplanner.domain.UserStory;
  */
 public class StoryOrderNoChangeComparator implements Comparator {
 
-	/* (non-Javadoc)
-	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public int compare(final Object o1, final Object o2) {
-		final UserStory userStory1 = (UserStory) o1;
-		final UserStory userStory2 = (UserStory) o2;
-		int compare = new Integer(userStory1.getOrderNo())
-				.compareTo(new Integer(userStory2.getOrderNo()));
-		if (compare == 0) {
-			compare = -new Integer(userStory1.getPreviousOrderNo())
-					.compareTo(new Integer(userStory2.getPreviousOrderNo()));
-		}
-		return compare;
-	}
+    /* (non-Javadoc)
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public int compare(final Object o1, final Object o2) {
+        final UserStory userStory1 = (UserStory) o1;
+        final UserStory userStory2 = (UserStory) o2;
+        int compare = new Integer(userStory1.getOrderNo())
+                .compareTo(new Integer(userStory2.getOrderNo()));
+        if (compare == 0) {
+            compare = -new Integer(userStory1.getPreviousOrderNo())
+                    .compareTo(new Integer(userStory2.getPreviousOrderNo()));
+        }
+        return compare;
+    }
 }

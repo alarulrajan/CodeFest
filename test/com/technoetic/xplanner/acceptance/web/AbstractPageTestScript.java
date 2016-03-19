@@ -617,19 +617,19 @@ protected void tearDown() throws Exception {
       tester.assertTextNotPresent(newSubject);
 
       /**  This is the attachments portion **/
-//          	tester.addNote(testNoteSubject, testNoteBody, developerName, testNoteAttachmentFilename );
-// 		String attachedName =
+//              tester.addNote(testNoteSubject, testNoteBody, developerName, testNoteAttachmentFilename );
+//         String attachedName =
 //                testNoteAttachmentFilename.substring(testNoteAttachmentFilename.lastIndexOf("/") + 1);
-// 		tester.assertTextPresent(attachedName);
-// 		tester.editNoteWithSubject(testNoteSubject);
-// 		tester.assertFormElementEquals("body", testNoteBody);
-// 		String newBody = "XX New Attachment Desc XX";
-// 		tester.setFormElement("body", newBody);
-// 		tester.submit();
-// 		tester.assertTextNotPresent(testNoteBody);
-// 		tester.assertTextPresent(newBody);
-// 		tester.deleteNoteWithSubject(testNoteSubject);
-// 		tester.assertTextNotPresent(newBody);
+//         tester.assertTextPresent(attachedName);
+//         tester.editNoteWithSubject(testNoteSubject);
+//         tester.assertFormElementEquals("body", testNoteBody);
+//         String newBody = "XX New Attachment Desc XX";
+//         tester.setFormElement("body", newBody);
+//         tester.submit();
+//         tester.assertTextNotPresent(testNoteBody);
+//         tester.assertTextPresent(newBody);
+//         tester.deleteNoteWithSubject(testNoteSubject);
+//         tester.assertTextNotPresent(newBody);
    }
 
    /** Generate unique name.

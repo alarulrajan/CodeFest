@@ -20,22 +20,22 @@ import com.technoetic.xplanner.util.Callable;
  * The Class CheckedExceptionHandlingTransactionTemplate.
  */
 public class CheckedExceptionHandlingTransactionTemplate {
-	
-	/** The spring transaction template. */
-	private TransactionTemplate springTransactionTemplate;
+    
+    /** The spring transaction template. */
+    private TransactionTemplate springTransactionTemplate;
 
-	/**
+    /**
      * Sets the spring transaction template.
      *
      * @param springTransactionTemplate
      *            the new spring transaction template
      */
-	public void setSpringTransactionTemplate(
-			final TransactionTemplate springTransactionTemplate) {
-		this.springTransactionTemplate = springTransactionTemplate;
-	}
+    public void setSpringTransactionTemplate(
+            final TransactionTemplate springTransactionTemplate) {
+        this.springTransactionTemplate = springTransactionTemplate;
+    }
 
-	/**
+    /**
      * Execute.
      *
      * @param callable
@@ -44,39 +44,39 @@ public class CheckedExceptionHandlingTransactionTemplate {
      * @throws Exception
      *             the exception
      */
-	public Object execute(final Callable callable) throws Exception {
-		try {
-			return this.springTransactionTemplate
-					.execute(new TransactionCallback() {
-						@Override
-						public Object doInTransaction(
-								final TransactionStatus status) {
-							try {
-								final Object res = callable.run();
-								// ThreadSession.get().flush();
-								return res;
-							} catch (final Exception e) {
-								throw new RuntimeException(e);
-							}
-						}
-					});
-			// DEBT(SPRING) Remove all this exception handling by doing spring
-			// declarative transaction demarkation
-			// DEBT(SPRING) Convert all xplanner exception to Runtime so we can
-			// remove this crap!
-		} catch (final RuntimeException re) {
-			final Throwable e = re.getCause();
-			if (e instanceof RuntimeException) {
-				throw (RuntimeException) e;
-			}
-			if (e instanceof Error) {
-				throw (Error) e;
-			}
-			if (e instanceof Exception) {
-				throw (Exception) e;
-			}
-			return null;
-		}
-	}
+    public Object execute(final Callable callable) throws Exception {
+        try {
+            return this.springTransactionTemplate
+                    .execute(new TransactionCallback() {
+                        @Override
+                        public Object doInTransaction(
+                                final TransactionStatus status) {
+                            try {
+                                final Object res = callable.run();
+                                // ThreadSession.get().flush();
+                                return res;
+                            } catch (final Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+            // DEBT(SPRING) Remove all this exception handling by doing spring
+            // declarative transaction demarkation
+            // DEBT(SPRING) Convert all xplanner exception to Runtime so we can
+            // remove this crap!
+        } catch (final RuntimeException re) {
+            final Throwable e = re.getCause();
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException) e;
+            }
+            if (e instanceof Error) {
+                throw (Error) e;
+            }
+            if (e instanceof Exception) {
+                throw (Exception) e;
+            }
+            return null;
+        }
+    }
 
 }

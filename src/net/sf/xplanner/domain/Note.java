@@ -39,210 +39,210 @@ import com.technoetic.xplanner.tags.DomainContext;
 @Entity
 @Table(name = "note")
 public class Note extends DomainObject implements java.io.Serializable,
-		Nameable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 4379309425634770729L;
-	
-	/** The attached to id. */
-	private int attachedToId;
-	
-	/** The author id. */
-	private Integer authorId;
-	
-	/** The subject. */
-	private String subject;
-	
-	/** The body. */
-	private String body;
-	
-	/** The submission time. */
-	private Date submissionTime;
-	
-	/** The file. */
-	private File file;
-	
-	/** The Constant ATTACHED_NOTES_QUERY. */
-	public static final String ATTACHED_NOTES_QUERY = "AttachedNotesQuery";
+        Nameable {
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 4379309425634770729L;
+    
+    /** The attached to id. */
+    private int attachedToId;
+    
+    /** The author id. */
+    private Integer authorId;
+    
+    /** The subject. */
+    private String subject;
+    
+    /** The body. */
+    private String body;
+    
+    /** The submission time. */
+    private Date submissionTime;
+    
+    /** The file. */
+    private File file;
+    
+    /** The Constant ATTACHED_NOTES_QUERY. */
+    public static final String ATTACHED_NOTES_QUERY = "AttachedNotesQuery";
 
-	/**
+    /**
      * Instantiates a new note.
      */
-	public Note() {
-	}
+    public Note() {
+    }
 
-	/**
+    /**
      * Gets the attached to id.
      *
      * @return the attached to id
      */
-	@Column(name = "attachedTo_id")
-	public int getAttachedToId() {
-		return this.attachedToId;
-	}
+    @Column(name = "attachedTo_id")
+    public int getAttachedToId() {
+        return this.attachedToId;
+    }
 
-	/**
+    /**
      * Sets the attached to id.
      *
      * @param attachedToId
      *            the new attached to id
      */
-	public void setAttachedToId(final int attachedToId) {
-		this.attachedToId = attachedToId;
-	}
+    public void setAttachedToId(final int attachedToId) {
+        this.attachedToId = attachedToId;
+    }
 
-	/**
+    /**
      * Gets the author id.
      *
      * @return the author id
      */
-	@Column(name = "author_id")
-	public Integer getAuthorId() {
-		return this.authorId;
-	}
+    @Column(name = "author_id")
+    public Integer getAuthorId() {
+        return this.authorId;
+    }
 
-	/**
+    /**
      * Sets the author id.
      *
      * @param authorId
      *            the new author id
      */
-	public void setAuthorId(final Integer authorId) {
-		this.authorId = authorId;
-	}
+    public void setAuthorId(final Integer authorId) {
+        this.authorId = authorId;
+    }
 
-	/**
+    /**
      * Gets the subject.
      *
      * @return the subject
      */
-	@Column(name = "subject")
-	public String getSubject() {
-		return this.subject;
-	}
+    @Column(name = "subject")
+    public String getSubject() {
+        return this.subject;
+    }
 
-	/**
+    /**
      * Sets the subject.
      *
      * @param subject
      *            the new subject
      */
-	public void setSubject(final String subject) {
-		this.subject = subject;
-	}
+    public void setSubject(final String subject) {
+        this.subject = subject;
+    }
 
-	/**
+    /**
      * Gets the body.
      *
      * @return the body
      */
-	@Column(name = "body", length = 65535)
-	public String getBody() {
-		return this.body;
-	}
+    @Column(name = "body", length = 65535)
+    public String getBody() {
+        return this.body;
+    }
 
-	/**
+    /**
      * Sets the body.
      *
      * @param body
      *            the new body
      */
-	public void setBody(final String body) {
-		this.body = body;
-	}
+    public void setBody(final String body) {
+        this.body = body;
+    }
 
-	/**
+    /**
      * Gets the submission time.
      *
      * @return the submission time
      */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "submission_time", length = 19)
-	public Date getSubmissionTime() {
-		return this.submissionTime;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "submission_time", length = 19)
+    public Date getSubmissionTime() {
+        return this.submissionTime;
+    }
 
-	/**
+    /**
      * Sets the submission time.
      *
      * @param submissionTime
      *            the new submission time
      */
-	public void setSubmissionTime(final Date submissionTime) {
-		this.submissionTime = submissionTime;
-	}
+    public void setSubmissionTime(final Date submissionTime) {
+        this.submissionTime = submissionTime;
+    }
 
-	/**
+    /**
      * Gets the file.
      *
      * @return the file
      */
-	@OneToOne
-	@JoinColumn(name = "attachment_id")
-	public File getFile() {
-		return this.file;
-	}
+    @OneToOne
+    @JoinColumn(name = "attachment_id")
+    public File getFile() {
+        return this.file;
+    }
 
-	/**
+    /**
      * Sets the file.
      *
      * @param file
      *            the new file
      */
-	public void setFile(final File file) {
-		this.file = file;
-	}
+    public void setFile(final File file) {
+        this.file = file;
+    }
 
-	/**
+    /**
      * Gets the attachment count.
      *
      * @return the attachment count
      * @throws HibernateException
      *             the hibernate exception
      */
-	@Transient
-	@Deprecated
-	public int getAttachmentCount() throws HibernateException {
-		List noteList = null;
-		noteList = ThreadSession.get().find(
-				"select note from Note note where note.file.id="
-						+ this.getFile().getId());
-		if (noteList != null) {
-			return noteList.size();
-		} else {
-			return 0;
-		}
-	}
+    @Transient
+    @Deprecated
+    public int getAttachmentCount() throws HibernateException {
+        List noteList = null;
+        noteList = ThreadSession.get().find(
+                "select note from Note note where note.file.id="
+                        + this.getFile().getId());
+        if (noteList != null) {
+            return noteList.size();
+        } else {
+            return 0;
+        }
+    }
 
-	/**
+    /**
      * Gets the parent.
      *
      * @return the parent
      */
-	@Transient
-	@Deprecated
-	public DomainObject getParent() {
-		// DEBT: Remove the cycle. Note should not depends on a web tier
-		// operation
-		return DomainContext.getNoteTarget(this.getAttachedToId());
-	}
+    @Transient
+    @Deprecated
+    public DomainObject getParent() {
+        // DEBT: Remove the cycle. Note should not depends on a web tier
+        // operation
+        return DomainContext.getNoteTarget(this.getAttachedToId());
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.domain.Nameable#getName()
-	 */
-	@Transient
-	@Override
-	public String getName() {
-		return this.getSubject();
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.domain.Nameable#getName()
+     */
+    @Transient
+    @Override
+    public String getName() {
+        return this.getSubject();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.domain.Nameable#getDescription()
-	 */
-	@Transient
-	@Override
-	public String getDescription() {
-		return this.getBody();
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.domain.Nameable#getDescription()
+     */
+    @Transient
+    @Override
+    public String getDescription() {
+        return this.getBody();
+    }
 
 }

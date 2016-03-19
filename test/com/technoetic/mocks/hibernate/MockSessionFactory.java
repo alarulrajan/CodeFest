@@ -290,8 +290,8 @@ public class MockSessionFactory implements SessionFactory {
  */
 @Override
 public void evictEntity(String entityName) throws HibernateException {
-	// ChangeSoon 
-	
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -299,9 +299,9 @@ public void evictEntity(String entityName) throws HibernateException {
  */
 @Override
 public void evictEntity(String entityName, Serializable id)
-		throws HibernateException {
-	// ChangeSoon 
-	
+        throws HibernateException {
+    // ChangeSoon 
+    
 }
 
 /* (non-Javadoc)
@@ -309,9 +309,9 @@ public void evictEntity(String entityName, Serializable id)
  */
 @Override
 public ClassMetadata getClassMetadata(String entityName)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -319,8 +319,8 @@ public ClassMetadata getClassMetadata(String entityName)
  */
 @Override
 public Session getCurrentSession() throws HibernateException {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -328,8 +328,8 @@ public Session getCurrentSession() throws HibernateException {
  */
 @Override
 public Set getDefinedFilterNames() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -337,9 +337,9 @@ public Set getDefinedFilterNames() {
  */
 @Override
 public FilterDefinition getFilterDefinition(String filterName)
-		throws HibernateException {
-	// ChangeSoon 
-	return null;
+        throws HibernateException {
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -347,8 +347,8 @@ public FilterDefinition getFilterDefinition(String filterName)
  */
 @Override
 public Statistics getStatistics() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -356,8 +356,8 @@ public Statistics getStatistics() {
  */
 @Override
 public boolean isClosed() {
-	// ChangeSoon 
-	return false;
+    // ChangeSoon 
+    return false;
 }
 
 /* (non-Javadoc)
@@ -365,8 +365,8 @@ public boolean isClosed() {
  */
 @Override
 public StatelessSession openStatelessSession() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -374,8 +374,8 @@ public StatelessSession openStatelessSession() {
  */
 @Override
 public StatelessSession openStatelessSession(Connection connection) {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -383,8 +383,8 @@ public StatelessSession openStatelessSession(Connection connection) {
  */
 @Override
 public Cache getCache() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 
 /* (non-Javadoc)
@@ -392,8 +392,8 @@ public Cache getCache() {
  */
 @Override
 public boolean containsFetchProfileDefinition(String name) {
-	// ChangeSoon 
-	return false;
+    // ChangeSoon 
+    return false;
 }
 
 /* (non-Javadoc)
@@ -401,7 +401,7 @@ public boolean containsFetchProfileDefinition(String name) {
  */
 @Override
 public TypeHelper getTypeHelper() {
-	// ChangeSoon 
-	return null;
+    // ChangeSoon 
+    return null;
 }
 }

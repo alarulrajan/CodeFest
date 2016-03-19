@@ -10,8 +10,8 @@ import org.apache.struts.tiles.ComponentContext;
  * The Class TilesHelper.
  */
 public class TilesHelper {
-	
-	/**
+    
+    /**
      * Gets the attribute.
      *
      * @param name
@@ -22,17 +22,17 @@ public class TilesHelper {
      * @throws JspException
      *             the jsp exception
      */
-	public static Object getAttribute(final String name,
-			final PageContext pageContext) throws JspException {
-		final ComponentContext compContext = (ComponentContext) pageContext
-				.getAttribute(ComponentConstants.COMPONENT_CONTEXT,
-						PageContext.REQUEST_SCOPE);
+    public static Object getAttribute(final String name,
+            final PageContext pageContext) throws JspException {
+        final ComponentContext compContext = (ComponentContext) pageContext
+                .getAttribute(ComponentConstants.COMPONENT_CONTEXT,
+                        PageContext.REQUEST_SCOPE);
 
-		if (compContext == null) {
-			throw new JspException(
-					"Error - tag.getAttribute : component context is not defined. Check tag syntax");
-		}
+        if (compContext == null) {
+            throw new JspException(
+                    "Error - tag.getAttribute : component context is not defined. Check tag syntax");
+        }
 
-		return compContext.getAttribute(name);
-	}
+        return compContext.getAttribute(name);
+    }
 }

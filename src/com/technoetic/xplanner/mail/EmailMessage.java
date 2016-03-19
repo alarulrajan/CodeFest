@@ -13,8 +13,8 @@ import com.technoetic.xplanner.domain.repository.ObjectRepository;
  * The Interface EmailMessage.
  */
 public interface EmailMessage {
-	
-	/**
+    
+    /**
      * Sets the from.
      *
      * @param from
@@ -24,9 +24,9 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setFrom(String from) throws AddressException, MessagingException;
+    void setFrom(String from) throws AddressException, MessagingException;
 
-	/**
+    /**
      * Sets the recipients.
      *
      * @param recipients
@@ -36,10 +36,10 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setRecipients(String recipients) throws AddressException,
-			MessagingException;
+    void setRecipients(String recipients) throws AddressException,
+            MessagingException;
 
-	/**
+    /**
      * Sets the recipients.
      *
      * @param recipients
@@ -49,10 +49,10 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setRecipients(String[] recipients) throws AddressException,
-			MessagingException;
+    void setRecipients(String[] recipients) throws AddressException,
+            MessagingException;
 
-	/**
+    /**
      * Sets the body.
      *
      * @param body
@@ -60,16 +60,16 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setBody(String body) throws MessagingException;
+    void setBody(String body) throws MessagingException;
 
-	/**
+    /**
      * Gets the body writer.
      *
      * @return the body writer
      */
-	PrintWriter getBodyWriter();
+    PrintWriter getBodyWriter();
 
-	/**
+    /**
      * Sets the subject.
      *
      * @param subject
@@ -77,9 +77,9 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setSubject(String subject) throws MessagingException;
+    void setSubject(String subject) throws MessagingException;
 
-	/**
+    /**
      * Sets the sent date.
      *
      * @param sentDate
@@ -87,9 +87,9 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setSentDate(Date sentDate) throws MessagingException;
+    void setSentDate(Date sentDate) throws MessagingException;
 
-	/**
+    /**
      * Adds the attachment.
      *
      * @param filename
@@ -97,9 +97,9 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void addAttachment(String filename) throws MessagingException;
+    void addAttachment(String filename) throws MessagingException;
 
-	/**
+    /**
      * Adds the attachment.
      *
      * @param filename
@@ -109,17 +109,17 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void addAttachment(String filename, File file) throws MessagingException;
+    void addAttachment(String filename, File file) throws MessagingException;
 
-	/**
+    /**
      * Send.
      *
      * @throws MessagingException
      *             the messaging exception
      */
-	void send() throws MessagingException;
+    void send() throws MessagingException;
 
-	/**
+    /**
      * Sets the cc recipients.
      *
      * @param recipients
@@ -129,10 +129,10 @@ public interface EmailMessage {
      * @throws AddressException
      *             the address exception
      */
-	void setCcRecipients(String recipients) throws MessagingException,
-			AddressException;
+    void setCcRecipients(String recipients) throws MessagingException,
+            AddressException;
 
-	/**
+    /**
      * Sets the recipient.
      *
      * @param personId
@@ -140,13 +140,13 @@ public interface EmailMessage {
      * @throws MessagingException
      *             the messaging exception
      */
-	void setRecipient(int personId) throws MessagingException;
+    void setRecipient(int personId) throws MessagingException;
 
-	/**
+    /**
      * Sets the object repository.
      *
      * @param objectRepository
      *            the new object repository
      */
-	void setObjectRepository(ObjectRepository objectRepository);
+    void setObjectRepository(ObjectRepository objectRepository);
 }

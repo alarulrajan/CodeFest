@@ -24,29 +24,29 @@ import org.hibernate.util.JDBCExceptionReporter;
  */
 public class TransformingSchemaExport {
 
-	/** The Constant log. */
-	private static final Log log = LogFactory
-			.getLog(TransformingSchemaExport.class);
+    /** The Constant log. */
+    private static final Log log = LogFactory
+            .getLog(TransformingSchemaExport.class);
 
-	/** The drop sql. */
-	private final String[] dropSQL;
-	
-	/** The create sql. */
-	private final String[] createSQL;
-	
-	/** The connection properties. */
-	private final Properties connectionProperties;
-	
-	/** The output file. */
-	private String outputFile = null;
-	
-	/** The dialect. */
-	private final Dialect dialect;
-	
-	/** The delimiter. */
-	private String delimiter;
+    /** The drop sql. */
+    private final String[] dropSQL;
+    
+    /** The create sql. */
+    private final String[] createSQL;
+    
+    /** The connection properties. */
+    private final Properties connectionProperties;
+    
+    /** The output file. */
+    private String outputFile = null;
+    
+    /** The dialect. */
+    private final Dialect dialect;
+    
+    /** The delimiter. */
+    private String delimiter;
 
-	/**
+    /**
      * Create a schema exporter for the given Configuration.
      *
      * @param cfg
@@ -54,12 +54,12 @@ public class TransformingSchemaExport {
      * @throws HibernateException
      *             the hibernate exception
      */
-	public TransformingSchemaExport(final Configuration cfg)
-			throws HibernateException {
-		this(cfg, cfg.getProperties());
-	}
+    public TransformingSchemaExport(final Configuration cfg)
+            throws HibernateException {
+        this(cfg, cfg.getProperties());
+    }
 
-	/**
+    /**
      * Create a schema exporter for the given Configuration, with the given
      * database connection properties.
      *
@@ -70,15 +70,15 @@ public class TransformingSchemaExport {
      * @throws HibernateException
      *             the hibernate exception
      */
-	public TransformingSchemaExport(final Configuration cfg,
-			final Properties connectionProperties) throws HibernateException {
-		this.connectionProperties = connectionProperties;
-		this.dialect = Dialect.getDialect(connectionProperties);
-		this.dropSQL = cfg.generateDropSchemaScript(this.dialect);
-		this.createSQL = cfg.generateSchemaCreationScript(this.dialect);
-	}
+    public TransformingSchemaExport(final Configuration cfg,
+            final Properties connectionProperties) throws HibernateException {
+        this.connectionProperties = connectionProperties;
+        this.dialect = Dialect.getDialect(connectionProperties);
+        this.dropSQL = cfg.generateDropSchemaScript(this.dialect);
+        this.createSQL = cfg.generateSchemaCreationScript(this.dialect);
+    }
 
-	/**
+    /**
      * Set an output filename. The generated script will be written to this
      * file.
      *
@@ -86,24 +86,24 @@ public class TransformingSchemaExport {
      *            the filename
      * @return the transforming schema export
      */
-	public TransformingSchemaExport setOutputFile(final String filename) {
-		this.outputFile = filename;
-		return this;
-	}
+    public TransformingSchemaExport setOutputFile(final String filename) {
+        this.outputFile = filename;
+        return this;
+    }
 
-	/**
+    /**
      * Set the end of statement delimiter.
      *
      * @param delimiter
      *            the delimiter
      * @return the transforming schema export
      */
-	public TransformingSchemaExport setDelimiter(final String delimiter) {
-		this.delimiter = delimiter;
-		return this;
-	}
+    public TransformingSchemaExport setDelimiter(final String delimiter) {
+        this.delimiter = delimiter;
+        return this;
+    }
 
-	/**
+    /**
      * Run the schema creation script.
      *
      * @param script
@@ -113,12 +113,12 @@ public class TransformingSchemaExport {
      * @throws Exception
      *             the exception
      */
-	public void create(final boolean script, final boolean export)
-			throws Exception {
-		this.execute(script, export, false, true);
-	}
+    public void create(final boolean script, final boolean export)
+            throws Exception {
+        this.execute(script, export, false, true);
+    }
 
-	/**
+    /**
      * Run the drop schema script.
      *
      * @param script
@@ -128,12 +128,12 @@ public class TransformingSchemaExport {
      * @throws Exception
      *             the exception
      */
-	public void drop(final boolean script, final boolean export)
-			throws Exception {
-		this.execute(script, export, true, true);
-	}
+    public void drop(final boolean script, final boolean export)
+            throws Exception {
+        this.execute(script, export, true, true);
+    }
 
-	/**
+    /**
      * Execute.
      *
      * @param script
@@ -147,123 +147,123 @@ public class TransformingSchemaExport {
      * @throws Exception
      *             the exception
      */
-	private void execute(final boolean script, final boolean export,
-			final boolean justDrop, final boolean format) throws Exception {
+    private void execute(final boolean script, final boolean export,
+            final boolean justDrop, final boolean format) throws Exception {
 
-		TransformingSchemaExport.log.info("Running hbm2ddl schema export");
+        TransformingSchemaExport.log.info("Running hbm2ddl schema export");
 
-		Connection connection = null;
-		FileWriter fileOutput = null;
-		ConnectionProvider connectionProvider = null;
-		Statement statement = null;
+        Connection connection = null;
+        FileWriter fileOutput = null;
+        ConnectionProvider connectionProvider = null;
+        Statement statement = null;
 
-		final Properties props = new Properties();
-		props.putAll(this.dialect.getDefaultProperties());
-		props.putAll(this.connectionProperties);
+        final Properties props = new Properties();
+        props.putAll(this.dialect.getDefaultProperties());
+        props.putAll(this.connectionProperties);
 
-		try {
+        try {
 
-			if (this.outputFile != null) {
-				TransformingSchemaExport.log
-						.info("writing generated schema to file: "
-								+ this.outputFile);
-				fileOutput = new FileWriter(this.outputFile);
-			}
+            if (this.outputFile != null) {
+                TransformingSchemaExport.log
+                        .info("writing generated schema to file: "
+                                + this.outputFile);
+                fileOutput = new FileWriter(this.outputFile);
+            }
 
-			if (export) {
-				TransformingSchemaExport.log
-						.info("exporting generated schema to database");
-				connectionProvider = ConnectionProviderFactory
-						.newConnectionProvider(props);
-				connection = connectionProvider.getConnection();
-				if (!connection.getAutoCommit()) {
-					connection.commit();
-					connection.setAutoCommit(true);
-				}
-				statement = connection.createStatement();
-			}
+            if (export) {
+                TransformingSchemaExport.log
+                        .info("exporting generated schema to database");
+                connectionProvider = ConnectionProviderFactory
+                        .newConnectionProvider(props);
+                connection = connectionProvider.getConnection();
+                if (!connection.getAutoCommit()) {
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                }
+                statement = connection.createStatement();
+            }
 
-			for (int i = 0; i < this.dropSQL.length; i++) {
-				try {
-					String formatted = this.dropSQL[i];
-					if (this.delimiter != null) {
-						formatted += this.delimiter;
-					}
-					if (script) {
-						System.out.println(formatted);
-					}
-					TransformingSchemaExport.log.debug(formatted);
-					if (this.outputFile != null) {
-						fileOutput.write(formatted + "\n");
-					}
-					if (export) {
-						statement.executeUpdate(this.dropSQL[i]);
-					}
-				} catch (final SQLException e) {
-					TransformingSchemaExport.log.debug("Unsuccessful: "
-							+ this.dropSQL[i]);
-					TransformingSchemaExport.log.debug(e.getMessage());
-				}
+            for (int i = 0; i < this.dropSQL.length; i++) {
+                try {
+                    String formatted = this.dropSQL[i];
+                    if (this.delimiter != null) {
+                        formatted += this.delimiter;
+                    }
+                    if (script) {
+                        System.out.println(formatted);
+                    }
+                    TransformingSchemaExport.log.debug(formatted);
+                    if (this.outputFile != null) {
+                        fileOutput.write(formatted + "\n");
+                    }
+                    if (export) {
+                        statement.executeUpdate(this.dropSQL[i]);
+                    }
+                } catch (final SQLException e) {
+                    TransformingSchemaExport.log.debug("Unsuccessful: "
+                            + this.dropSQL[i]);
+                    TransformingSchemaExport.log.debug(e.getMessage());
+                }
 
-			}
+            }
 
-			if (!justDrop) {
-				for (int j = 0; j < this.createSQL.length; j++) {
-					String formatted = format ? TransformingSchemaExport
-							.format(this.createSQL[j]) : this.createSQL[j];
-					if (this.delimiter != null) {
-						formatted += this.delimiter;
-					}
-					if (script) {
-						System.out.println(formatted);
-					}
-					TransformingSchemaExport.log.debug(formatted);
-					if (this.outputFile != null) {
-						fileOutput.write(formatted + "\n");
-					}
-					if (export) {
-						statement.executeUpdate(this.createSQL[j]);
-					}
-				}
-			}
+            if (!justDrop) {
+                for (int j = 0; j < this.createSQL.length; j++) {
+                    String formatted = format ? TransformingSchemaExport
+                            .format(this.createSQL[j]) : this.createSQL[j];
+                    if (this.delimiter != null) {
+                        formatted += this.delimiter;
+                    }
+                    if (script) {
+                        System.out.println(formatted);
+                    }
+                    TransformingSchemaExport.log.debug(formatted);
+                    if (this.outputFile != null) {
+                        fileOutput.write(formatted + "\n");
+                    }
+                    if (export) {
+                        statement.executeUpdate(this.createSQL[j]);
+                    }
+                }
+            }
 
-			TransformingSchemaExport.log.info("schema export complete");
+            TransformingSchemaExport.log.info("schema export complete");
 
-		} catch (final Exception e) {
-			TransformingSchemaExport.log.error("schema export unsuccessful", e);
-			throw e;
-		} finally {
+        } catch (final Exception e) {
+            TransformingSchemaExport.log.error("schema export unsuccessful", e);
+            throw e;
+        } finally {
 
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					JDBCExceptionReporter.logWarnings(connection.getWarnings());
-					connection.clearWarnings();
-					connectionProvider.closeConnection(connection);
-					connectionProvider.close();
-				}
-			} catch (final Exception e) {
-				TransformingSchemaExport.log.error(
-						"Could not close connection", e);
-				throw e;
-			}
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    JDBCExceptionReporter.logWarnings(connection.getWarnings());
+                    connection.clearWarnings();
+                    connectionProvider.closeConnection(connection);
+                    connectionProvider.close();
+                }
+            } catch (final Exception e) {
+                TransformingSchemaExport.log.error(
+                        "Could not close connection", e);
+                throw e;
+            }
 
-			try {
-				if (fileOutput != null) {
-					fileOutput.close();
-				}
-			} catch (final IOException ioe) {
-				TransformingSchemaExport.log.error(
-						"Error closing output file: " + this.outputFile, ioe);
-				throw ioe;
-			}
+            try {
+                if (fileOutput != null) {
+                    fileOutput.close();
+                }
+            } catch (final IOException ioe) {
+                TransformingSchemaExport.log.error(
+                        "Error closing output file: " + this.outputFile, ioe);
+                throw ioe;
+            }
 
-		}
-	}
+        }
+    }
 
-	/**
+    /**
      * Format an SQL statement using simple rules: a) Insert newline after each
      * comma; b) Indent three spaces after each inserted newline; If the
      * statement contains single/double quotes return unchanged, it is too
@@ -273,47 +273,47 @@ public class TransformingSchemaExport {
      *            the sql
      * @return the string
      */
-	private static String format(final String sql) {
+    private static String format(final String sql) {
 
-		if (sql.indexOf("\"") > 0 || sql.indexOf("'") > 0) {
-			return sql;
-		}
+        if (sql.indexOf("\"") > 0 || sql.indexOf("'") > 0) {
+            return sql;
+        }
 
-		String formatted;
+        String formatted;
 
-		if (sql.toLowerCase().startsWith("create table")) {
+        if (sql.toLowerCase().startsWith("create table")) {
 
-			final StringBuffer result = new StringBuffer();
-			final StringTokenizer tokens = new StringTokenizer(sql, "(,)", true);
+            final StringBuffer result = new StringBuffer();
+            final StringTokenizer tokens = new StringTokenizer(sql, "(,)", true);
 
-			int depth = 0;
+            int depth = 0;
 
-			while (tokens.hasMoreTokens()) {
-				final String tok = tokens.nextToken();
-				if (")".equals(tok)) {
-					depth--;
-					if (depth == 0) {
-						result.append("\n");
-					}
-				}
-				result.append(tok);
-				if (",".equals(tok) && depth == 1) {
-					result.append("\n  ");
-				}
-				if ("(".equals(tok)) {
-					depth++;
-					if (depth == 1) {
-						result.append("\n   ");
-					}
-				}
-			}
+            while (tokens.hasMoreTokens()) {
+                final String tok = tokens.nextToken();
+                if (")".equals(tok)) {
+                    depth--;
+                    if (depth == 0) {
+                        result.append("\n");
+                    }
+                }
+                result.append(tok);
+                if (",".equals(tok) && depth == 1) {
+                    result.append("\n  ");
+                }
+                if ("(".equals(tok)) {
+                    depth++;
+                    if (depth == 1) {
+                        result.append("\n   ");
+                    }
+                }
+            }
 
-			formatted = result.toString();
+            formatted = result.toString();
 
-		} else {
-			formatted = sql;
-		}
+        } else {
+            formatted = sql;
+        }
 
-		return formatted;
-	}
+        return formatted;
+    }
 }

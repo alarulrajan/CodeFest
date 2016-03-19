@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
  * The Interface Authenticator.
  */
 public interface Authenticator {
-	
-	/**
+    
+    /**
      * Authenticate.
      *
      * @param request
@@ -19,10 +19,10 @@ public interface Authenticator {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	void authenticate(HttpServletRequest request, String userId, String password)
-			throws AuthenticationException;
+    void authenticate(HttpServletRequest request, String userId, String password)
+            throws AuthenticationException;
 
-	/**
+    /**
      * Logout.
      *
      * @param request
@@ -32,6 +32,6 @@ public interface Authenticator {
      * @throws AuthenticationException
      *             the authentication exception
      */
-	void logout(HttpServletRequest request, int principalId)
-			throws AuthenticationException;
+    void logout(HttpServletRequest request, int principalId)
+            throws AuthenticationException;
 }

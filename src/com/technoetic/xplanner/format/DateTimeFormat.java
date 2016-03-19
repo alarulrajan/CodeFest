@@ -11,38 +11,38 @@ import javax.servlet.jsp.PageContext;
  * The Class DateTimeFormat.
  */
 public class DateTimeFormat extends AbstractFormat {
-	
-	/** The formatter. */
-	private SimpleDateFormat formatter = null;
+    
+    /** The formatter. */
+    private SimpleDateFormat formatter = null;
 
-	/**
+    /**
      * Instantiates a new date time format.
      *
      * @param request
      *            the request
      */
-	public DateTimeFormat(final HttpServletRequest request) {
-		final String format = AbstractFormat.getFormat(request,
-				"format.datetime");
-		if (format != null) {
-			this.formatter = new SimpleDateFormat(format);
-		} else {
-			this.formatter = new SimpleDateFormat();
-		}
-	}
+    public DateTimeFormat(final HttpServletRequest request) {
+        final String format = AbstractFormat.getFormat(request,
+                "format.datetime");
+        if (format != null) {
+            this.formatter = new SimpleDateFormat(format);
+        } else {
+            this.formatter = new SimpleDateFormat();
+        }
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param value
      *            the value
      * @return the string
      */
-	public String format(final Date value) {
-		return value != null ? this.formatter.format(value) : "";
-	}
+    public String format(final Date value) {
+        return value != null ? this.formatter.format(value) : "";
+    }
 
-	/**
+    /**
      * Parses the.
      *
      * @param date
@@ -51,11 +51,11 @@ public class DateTimeFormat extends AbstractFormat {
      * @throws ParseException
      *             the parse exception
      */
-	public Date parse(final String date) throws ParseException {
-		return this.formatter.parse(date);
-	}
+    public Date parse(final String date) throws ParseException {
+        return this.formatter.parse(date);
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param pageContext
@@ -64,12 +64,12 @@ public class DateTimeFormat extends AbstractFormat {
      *            the value
      * @return the string
      */
-	public static String format(final PageContext pageContext, final Date value) {
-		return new DateTimeFormat((HttpServletRequest) pageContext.getRequest())
-				.format(value);
-	}
+    public static String format(final PageContext pageContext, final Date value) {
+        return new DateTimeFormat((HttpServletRequest) pageContext.getRequest())
+                .format(value);
+    }
 
-	/**
+    /**
      * Format.
      *
      * @param request
@@ -78,8 +78,8 @@ public class DateTimeFormat extends AbstractFormat {
      *            the value
      * @return the string
      */
-	public static String format(final HttpServletRequest request,
-			final Date value) {
-		return new DateTimeFormat(request).format(value);
-	}
+    public static String format(final HttpServletRequest request,
+            final Date value) {
+        return new DateTimeFormat(request).format(value);
+    }
 }

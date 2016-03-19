@@ -104,7 +104,7 @@ protected void setUp() throws Exception {
 
       searchContentQuery = new SearchContentQuery() {
          @Override
-		public List findWhereNameOrDescriptionContains(String searchCriteria,
+        public List findWhereNameOrDescriptionContains(String searchCriteria,
                                                         Class objectClass) {
             assertEquals(EXPECTED_SEARCH_CRITERIA, searchCriteria);
             return (List) availableObjects.get(objectClass);
@@ -112,7 +112,7 @@ protected void setUp() throws Exception {
       };
       helper = new ContentSearchHelper(searchResultFactory, searchContentQuery) {
          @Override
-		protected Predicate getAuthorizationPredicate(int userId) {
+        protected Predicate getAuthorizationPredicate(int userId) {
             return new Predicate() {
                public boolean evaluate(Object o) {
                   return authorized;

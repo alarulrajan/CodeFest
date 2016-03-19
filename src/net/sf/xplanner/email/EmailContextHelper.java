@@ -26,17 +26,17 @@ import net.sf.xplanner.domain.DomainObject;
  */
 public class EmailContextHelper {
 
-	/**
+    /**
      * Resolve context.
      *
      * @param domainObject
      *            the domain object
      * @return the map
      */
-	public static Map<String, Object> resolveContext(
-			final DomainObject domainObject) {
+    public static Map<String, Object> resolveContext(
+            final DomainObject domainObject) {
 
-		return null;
-	}
+        return null;
+    }
 
 }

@@ -31,56 +31,56 @@ import com.technoetic.xplanner.domain.Identifiable;
  */
 public interface Dao<E extends Identifiable> {
 
-	/**
+    /**
      * Gets the by id.
      *
      * @param id
      *            the id
      * @return the by id
      */
-	E getById(Serializable id);
+    E getById(Serializable id);
 
-	/**
+    /**
      * Creates the criteria.
      *
      * @return the criteria
      */
-	Criteria createCriteria();
+    Criteria createCriteria();
 
-	/**
+    /**
      * Save.
      *
      * @param object
      *            the object
      * @return the int
      */
-	int save(E object);
+    int save(E object);
 
-	/**
+    /**
      * Delete.
      *
      * @param objectId
      *            the object id
      */
-	void delete(Serializable objectId);
+    void delete(Serializable objectId);
 
-	/**
+    /**
      * Delete.
      *
      * @param object
      *            the object
      */
-	void delete(E object);
+    void delete(E object);
 
-	/**
+    /**
      * Delete all.
      *
      * @param object
      *            the object
      */
-	void deleteAll(List<E> object);
+    void deleteAll(List<E> object);
 
-	/**
+    /**
      * Gets the unique object.
      *
      * @param field
@@ -89,29 +89,29 @@ public interface Dao<E extends Identifiable> {
      *            the value
      * @return the unique object
      */
-	E getUniqueObject(String field, Object value);
+    E getUniqueObject(String field, Object value);
 
-	/**
+    /**
      * Checks if is new object.
      *
      * @param object
      *            the object
      * @return true, if is new object
      */
-	boolean isNewObject(E object);
+    boolean isNewObject(E object);
 
-	/**
+    /**
      * Gets the domain class.
      *
      * @return the domain class
      */
-	abstract Class<E> getDomainClass();
+    abstract Class<E> getDomainClass();
 
-	/**
+    /**
      * Evict.
      *
      * @param object
      *            the object
      */
-	void evict(E object);
+    void evict(E object);
 }

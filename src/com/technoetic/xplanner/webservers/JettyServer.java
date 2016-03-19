@@ -18,8 +18,8 @@ import org.mortbay.start.Monitor;
  * The Class JettyServer.
  */
 public class JettyServer {
-	
-	/**
+    
+    /**
      * The main method.
      *
      * @param args
@@ -27,37 +27,37 @@ public class JettyServer {
      * @throws Exception
      *             the exception
      */
-	public static void main(final String[] args) throws Exception {
-		JettyServer.start();
-	}
+    public static void main(final String[] args) throws Exception {
+        JettyServer.start();
+    }
 
-	/**
+    /**
      * Start.
      *
      * @throws Exception
      *             the exception
      */
-	public static void start() throws Exception {
-		final HttpServer server = new Server();
-		final SocketListener listener = new SocketListener();
-		listener.setPort(8080);
-		server.addListener(listener);
+    public static void start() throws Exception {
+        final HttpServer server = new Server();
+        final SocketListener listener = new SocketListener();
+        listener.setPort(8080);
+        server.addListener(listener);
 
-		final WebApplicationContext context = new WebApplicationContext("war");
-		context.setContextPath("/xplanner");
-		context.setTempDirectory(new File("build"));
-		context.setIgnoreWebJetty(true);
-		server.addContext(context);
+        final WebApplicationContext context = new WebApplicationContext("war");
+        context.setContextPath("/xplanner");
+        context.setTempDirectory(new File("build"));
+        context.setIgnoreWebJetty(true);
+        server.addContext(context);
 
-		Monitor.monitor();
+        Monitor.monitor();
 
-		server.start();
-	}
+        server.start();
+    }
 
-	/**
+    /**
      * Stop.
      */
-	public static void stop() {
-		// Main.main(null);
-	}
+    public static void stop() {
+        // Main.main(null);
+    }
 }

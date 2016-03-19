@@ -21,31 +21,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-text.xml"})
 public class ViewDaoImplTest {
-	
-	/** The view manager. */
-	@Autowired
-	private ViewManager viewManager;
-	
-	/** The session factory. */
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	/**
+    
+    /** The view manager. */
+    @Autowired
+    private ViewManager viewManager;
+    
+    /** The session factory. */
+    @Autowired
+    private SessionFactory sessionFactory;
+    
+    /**
      * Test get by id.
      */
-	@Test
-	public void testGetById() {
-		Session session = SessionFactoryUtils.getSession(sessionFactory, true);
-		session.beginTransaction();
-		Project project = new Project();
-		project.setName("Test project");
-		session.save(project);
-		session.flush();
-		assertTrue(0!= project.getId());
-		ProjectView projectView = viewManager.getProject(project.getId());
-		assertEquals(project.getId(), projectView.getId());
-		assertEquals(project.getName(), projectView.getName());
-		System.out.println(projectView);
-	}
+    @Test
+    public void testGetById() {
+        Session session = SessionFactoryUtils.getSession(sessionFactory, true);
+        session.beginTransaction();
+        Project project = new Project();
+        project.setName("Test project");
+        session.save(project);
+        session.flush();
+        assertTrue(0!= project.getId());
+        ProjectView projectView = viewManager.getProject(project.getId());
+        assertEquals(project.getId(), projectView.getId());
+        assertEquals(project.getName(), projectView.getName());
+        System.out.println(projectView);
+    }
 
 }

@@ -34,129 +34,129 @@ import com.technoetic.xplanner.domain.Identifiable;
 @Entity
 @Table(name = "roles", uniqueConstraints = @UniqueConstraint(columnNames = "role"))
 public class Role implements java.io.Serializable, Principal, Identifiable {
-	
-	/** The Constant SYSADMIN. */
-	public static final String SYSADMIN = "sysadmin";
-	
-	/** The Constant ADMIN. */
-	public static final String ADMIN = "admin";
-	
-	/** The Constant EDITOR. */
-	public static final String EDITOR = "editor";
-	
-	/** The Constant VIEWER. */
-	public static final String VIEWER = "viewer";
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 4921403899778522202L;
-	
-	/** The left. */
-	private Integer left;
-	
-	/** The right. */
-	private Integer right;
-	
-	/** The name. */
-	private String name;
-	
-	/** The id. */
-	private int id;
+    
+    /** The Constant SYSADMIN. */
+    public static final String SYSADMIN = "sysadmin";
+    
+    /** The Constant ADMIN. */
+    public static final String ADMIN = "admin";
+    
+    /** The Constant EDITOR. */
+    public static final String EDITOR = "editor";
+    
+    /** The Constant VIEWER. */
+    public static final String VIEWER = "viewer";
+    
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 4921403899778522202L;
+    
+    /** The left. */
+    private Integer left;
+    
+    /** The right. */
+    private Integer right;
+    
+    /** The name. */
+    private String name;
+    
+    /** The id. */
+    private int id;
 
-	/**
+    /**
      * Instantiates a new role.
      */
-	public Role() {
-	}
+    public Role() {
+    }
 
-	/**
+    /**
      * Instantiates a new role.
      *
      * @param name
      *            the name
      */
-	public Role(final String name) {
-		this.setName(name);
-	}
+    public Role(final String name) {
+        this.setName(name);
+    }
 
-	/**
+    /**
      * Gets the left.
      *
      * @return the left
      */
-	@Column(name = "lft")
-	public Integer getLeft() {
-		return this.left;
-	}
+    @Column(name = "lft")
+    public Integer getLeft() {
+        return this.left;
+    }
 
-	/**
+    /**
      * Sets the left.
      *
      * @param lft
      *            the new left
      */
-	public void setLeft(final Integer lft) {
-		this.left = lft;
-	}
+    public void setLeft(final Integer lft) {
+        this.left = lft;
+    }
 
-	/**
+    /**
      * Gets the right.
      *
      * @return the right
      */
-	@Column(name = "rgt")
-	public Integer getRight() {
-		return this.right;
-	}
+    @Column(name = "rgt")
+    public Integer getRight() {
+        return this.right;
+    }
 
-	/**
+    /**
      * Sets the right.
      *
      * @param rgt
      *            the new right
      */
-	public void setRight(final Integer rgt) {
-		this.right = rgt;
-	}
+    public void setRight(final Integer rgt) {
+        this.right = rgt;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.security.Principal#getName()
-	 */
-	@Override
-	@Column(name = "role", nullable = false)
-	public String getName() {
-		return this.name;
-	}
+    /* (non-Javadoc)
+     * @see java.security.Principal#getName()
+     */
+    @Override
+    @Column(name = "role", nullable = false)
+    public String getName() {
+        return this.name;
+    }
 
-	/**
+    /**
      * Sets the name.
      *
      * @param name
      *            the new name
      */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.domain.Identifiable#getId()
-	 */
-	@Id
-	@GeneratedValue(generator = "commonId")
-	@GenericGenerator(name = "commonId", strategy = "com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
-	@Column(name = "id", unique = true, nullable = false)
-	@Override
-	public int getId() {
-		return this.id;
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.domain.Identifiable#getId()
+     */
+    @Id
+    @GeneratedValue(generator = "commonId")
+    @GenericGenerator(name = "commonId", strategy = "com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
+    @Column(name = "id", unique = true, nullable = false)
+    @Override
+    public int getId() {
+        return this.id;
+    }
 
-	/**
+    /**
      * Sets the id.
      *
      * @param id
      *            the new id
      */
-	public void setId(final int id) {
-		this.id = id;
-	}
+    public void setId(final int id) {
+        this.id = id;
+    }
 
 }

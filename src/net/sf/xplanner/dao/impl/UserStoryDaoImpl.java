@@ -30,49 +30,49 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 public class UserStoryDaoImpl extends BaseDao<UserStory> implements
-		UserStoryDao {
+        UserStoryDao {
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.UserStoryDao#getAllUserStrories(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<UserStory> getAllUserStrories(final int iterationId) {
-		final Criteria criteria = this.createCriteria();
-		criteria.createCriteria("iteration").add(
-				Restrictions.eq("iteration.id", iterationId));
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.UserStoryDao#getAllUserStrories(int)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserStory> getAllUserStrories(final int iterationId) {
+        final Criteria criteria = this.createCriteria();
+        criteria.createCriteria("iteration").add(
+                Restrictions.eq("iteration.id", iterationId));
+        return criteria.list();
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereCustomer(int)
-	 */
-	@Override
-	@Transactional()
-	public List<UserStory> getStoriesForPersonWhereCustomer(final int personId) {
-		final Criteria criteria = this.createCriteria();
-		criteria.createAlias("customer", "customer");
-		criteria.createAlias("iteration", "iteration");
-		criteria.add(Restrictions.eq("customer.id", personId));
-		criteria.add(Restrictions.gt("iteration.endDate", new Date()));
-		criteria.setFetchMode("tasks", FetchMode.SELECT);
-		criteria.setFetchMode("tasks.timeEntries", FetchMode.SELECT);
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereCustomer(int)
+     */
+    @Override
+    @Transactional()
+    public List<UserStory> getStoriesForPersonWhereCustomer(final int personId) {
+        final Criteria criteria = this.createCriteria();
+        criteria.createAlias("customer", "customer");
+        criteria.createAlias("iteration", "iteration");
+        criteria.add(Restrictions.eq("customer.id", personId));
+        criteria.add(Restrictions.gt("iteration.endDate", new Date()));
+        criteria.setFetchMode("tasks", FetchMode.SELECT);
+        criteria.setFetchMode("tasks.timeEntries", FetchMode.SELECT);
+        return criteria.list();
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereTracker(int)
-	 */
-	@Override
-	@Transactional()
-	public List<UserStory> getStoriesForPersonWhereTracker(final int personId) {
-		final Criteria criteria = this.createCriteria();
-		criteria.createAlias("iteration", "iteration");
-		criteria.add(Restrictions.eq("trackerId", personId));
-		criteria.add(Restrictions.gt("iteration.endDate", new Date()));
-		criteria.setFetchMode("tasks", FetchMode.SELECT);
-		criteria.setFetchMode("tasks.timeEntries", FetchMode.SELECT);
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereTracker(int)
+     */
+    @Override
+    @Transactional()
+    public List<UserStory> getStoriesForPersonWhereTracker(final int personId) {
+        final Criteria criteria = this.createCriteria();
+        criteria.createAlias("iteration", "iteration");
+        criteria.add(Restrictions.eq("trackerId", personId));
+        criteria.add(Restrictions.gt("iteration.endDate", new Date()));
+        criteria.setFetchMode("tasks", FetchMode.SELECT);
+        criteria.setFetchMode("tasks.timeEntries", FetchMode.SELECT);
+        return criteria.list();
+    }
 
 }

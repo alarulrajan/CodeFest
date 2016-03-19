@@ -8,8 +8,8 @@ import java.util.List;
  * User: Mateusz Prokopowicz Date: Aug 25, 2005 Time: 10:30:10 AM.
  */
 public interface TaskQuery {
-	
-	/**
+    
+    /**
      * Query.
      *
      * @param cachedTasks
@@ -22,10 +22,10 @@ public interface TaskQuery {
      *            the active
      * @return the collection
      */
-	Collection query(Collection cachedTasks, int personId, Boolean completed,
-			Boolean active);
+    Collection query(Collection cachedTasks, int personId, Boolean completed,
+            Boolean active);
 
-	/**
+    /**
      * Query tasks.
      *
      * @param queryName
@@ -34,9 +34,9 @@ public interface TaskQuery {
      *            the person id
      * @return the list
      */
-	List queryTasks(String queryName, int personId);
+    List queryTasks(String queryName, int personId);
 
-	/**
+    /**
      * Query tasks.
      *
      * @param queryName
@@ -45,5 +45,5 @@ public interface TaskQuery {
      *            the date
      * @return the list
      */
-	List queryTasks(String queryName, Date date);
+    List queryTasks(String queryName, Date date);
 }

@@ -19,81 +19,81 @@ import org.apache.struts.util.ResponseUtils;
  * The Class BoxTag.
  */
 public class BoxTag extends BodyTagSupport {
-	
-	/** The id. */
-	private String id;
-	
-	/** The style class. */
-	private String styleClass = "box";
-	
-	/** The title. */
-	private String title;
+    
+    /** The id. */
+    private String id;
+    
+    /** The style class. */
+    private String styleClass = "box";
+    
+    /** The title. */
+    private String title;
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
-	 */
-	@Override
-	public int doEndTag() throws JspException {
-		String id = this.id;
-		if (id == null) {
-			id = this.title;
-		}
-		final StringBuffer results = new StringBuffer();
-		results.append("<div class=\"" + this.styleClass + "\">");
-		results.append("<h3 style=\"border-bottom-width:0px\">");
-		results.append("<span class=\"boxIcon\">");
-		results.append("   <span class=\"boxIconText\" id=\"" + id
-				+ "-switch\" onclick=\"toggle('" + id + "')\">[hide]</span>\n");
-		results.append("</span>");
-		results.append(this.title);
-		results.append("</h3>");
-		results.append("<div id=\"" + id + "\" class=\"boxBody\">");
-		this.renderBody(results);
-		results.append("</div>");
-		results.append("</div>");
+    /* (non-Javadoc)
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+     */
+    @Override
+    public int doEndTag() throws JspException {
+        String id = this.id;
+        if (id == null) {
+            id = this.title;
+        }
+        final StringBuffer results = new StringBuffer();
+        results.append("<div class=\"" + this.styleClass + "\">");
+        results.append("<h3 style=\"border-bottom-width:0px\">");
+        results.append("<span class=\"boxIcon\">");
+        results.append("   <span class=\"boxIconText\" id=\"" + id
+                + "-switch\" onclick=\"toggle('" + id + "')\">[hide]</span>\n");
+        results.append("</span>");
+        results.append(this.title);
+        results.append("</h3>");
+        results.append("<div id=\"" + id + "\" class=\"boxBody\">");
+        this.renderBody(results);
+        results.append("</div>");
+        results.append("</div>");
 
-		ResponseUtils.write(this.pageContext, results.toString());
+        ResponseUtils.write(this.pageContext, results.toString());
 
-		return super.doEndTag();
-	}
+        return super.doEndTag();
+    }
 
-	/**
+    /**
      * Render body.
      *
      * @param results
      *            the results
      */
-	protected void renderBody(final StringBuffer results) {
-		if (this.bodyContent != null) {
-			results.append(this.bodyContent.getString());
-		}
-	}
+    protected void renderBody(final StringBuffer results) {
+        if (this.bodyContent != null) {
+            results.append(this.bodyContent.getString());
+        }
+    }
 
-	/**
+    /**
      * Sets the style class.
      *
      * @param styleClass
      *            the new style class
      */
-	public void setStyleClass(final String styleClass) {
-		this.styleClass = styleClass;
-	}
+    public void setStyleClass(final String styleClass) {
+        this.styleClass = styleClass;
+    }
 
-	/**
+    /**
      * Sets the title.
      *
      * @param title
      *            the new title
      */
-	public void setTitle(final String title) {
-		this.title = title;
-	}
+    public void setTitle(final String title) {
+        this.title = title;
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(final String id) {
-		this.id = id;
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+     */
+    @Override
+    public void setId(final String id) {
+        this.id = id;
+    }
 }

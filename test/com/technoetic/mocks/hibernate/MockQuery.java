@@ -534,121 +534,121 @@ public class MockQuery implements Query {
         throw new UnsupportedOperationException();
     }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#executeUpdate()
-	 */
-	@Override
-	public int executeUpdate() throws HibernateException {
-		// ChangeSoon 
-		return 0;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#executeUpdate()
+     */
+    @Override
+    public int executeUpdate() throws HibernateException {
+        // ChangeSoon 
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#getReturnAliases()
-	 */
-	@Override
-	public String[] getReturnAliases() throws HibernateException {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#getReturnAliases()
+     */
+    @Override
+    public String[] getReturnAliases() throws HibernateException {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setBigInteger(int, java.math.BigInteger)
-	 */
-	@Override
-	public Query setBigInteger(int position, BigInteger number) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setBigInteger(int, java.math.BigInteger)
+     */
+    @Override
+    public Query setBigInteger(int position, BigInteger number) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setBigInteger(java.lang.String, java.math.BigInteger)
-	 */
-	@Override
-	public Query setBigInteger(String name, BigInteger number) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setBigInteger(java.lang.String, java.math.BigInteger)
+     */
+    @Override
+    public Query setBigInteger(String name, BigInteger number) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setCacheMode(org.hibernate.CacheMode)
-	 */
-	@Override
-	public Query setCacheMode(CacheMode cacheMode) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setCacheMode(org.hibernate.CacheMode)
+     */
+    @Override
+    public Query setCacheMode(CacheMode cacheMode) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setComment(java.lang.String)
-	 */
-	@Override
-	public Query setComment(String comment) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setComment(java.lang.String)
+     */
+    @Override
+    public Query setComment(String comment) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setFlushMode(org.hibernate.FlushMode)
-	 */
-	@Override
-	public Query setFlushMode(FlushMode flushMode) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setFlushMode(org.hibernate.FlushMode)
+     */
+    @Override
+    public Query setFlushMode(FlushMode flushMode) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setParameters(java.lang.Object[], org.hibernate.type.Type[])
-	 */
-	@Override
-	public Query setParameters(Object[] values, Type[] types)
-			throws HibernateException {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setParameters(java.lang.Object[], org.hibernate.type.Type[])
+     */
+    @Override
+    public Query setParameters(Object[] values, Type[] types)
+            throws HibernateException {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setProperties(java.util.Map)
-	 */
-	@Override
-	public Query setProperties(Map bean) throws HibernateException {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setProperties(java.util.Map)
+     */
+    @Override
+    public Query setProperties(Map bean) throws HibernateException {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setReadOnly(boolean)
-	 */
-	@Override
-	public Query setReadOnly(boolean readOnly) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setReadOnly(boolean)
+     */
+    @Override
+    public Query setReadOnly(boolean readOnly) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setResultTransformer(org.hibernate.transform.ResultTransformer)
-	 */
-	@Override
-	public Query setResultTransformer(ResultTransformer transformer) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setResultTransformer(org.hibernate.transform.ResultTransformer)
+     */
+    @Override
+    public Query setResultTransformer(ResultTransformer transformer) {
+        // ChangeSoon 
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#isReadOnly()
-	 */
-	@Override
-	public boolean isReadOnly() {
-		// ChangeSoon 
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#isReadOnly()
+     */
+    @Override
+    public boolean isReadOnly() {
+        // ChangeSoon 
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.hibernate.Query#setLockOptions(org.hibernate.LockOptions)
-	 */
-	@Override
-	public Query setLockOptions(LockOptions lockOptions) {
-		// ChangeSoon 
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.hibernate.Query#setLockOptions(org.hibernate.LockOptions)
+     */
+    @Override
+    public Query setLockOptions(LockOptions lockOptions) {
+        // ChangeSoon 
+        return null;
+    }
 }

@@ -15,16 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
  *            the generic type
  */
 public class BasePage<T> {
-	
-	/** The domain class. */
-	private final Class<T> domainClass = (Class<T>) ((ParameterizedType) this
-			.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	
-	/** The common dao. */
-	@Autowired
-	private CommonDao<?> commonDao;
+    
+    /** The domain class. */
+    private final Class<T> domainClass = (Class<T>) ((ParameterizedType) this
+            .getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    
+    /** The common dao. */
+    @Autowired
+    private CommonDao<?> commonDao;
 
-	/**
+    /**
      * Gets the model and view.
      *
      * @param view
@@ -33,19 +33,19 @@ public class BasePage<T> {
      *            the id
      * @return the model and view
      */
-	public ModelAndView getModelAndView(final String view, final Serializable id) {
-		final ModelAndView modelAndView = new ModelAndView(view);
-		modelAndView.addObject(this.commonDao.getById(this.domainClass, id));
-		return modelAndView;
-	}
+    public ModelAndView getModelAndView(final String view, final Serializable id) {
+        final ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(this.commonDao.getById(this.domainClass, id));
+        return modelAndView;
+    }
 
-	/**
+    /**
      * Sets the common dao.
      *
      * @param commonDao
      *            the new common dao
      */
-	public void setCommonDao(final CommonDao<?> commonDao) {
-		this.commonDao = commonDao;
-	}
+    public void setCommonDao(final CommonDao<?> commonDao) {
+        this.commonDao = commonDao;
+    }
 }

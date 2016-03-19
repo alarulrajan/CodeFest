@@ -31,18 +31,18 @@ import org.hibernate.criterion.Restrictions;
  */
 public class RoleDaoImpl extends BaseDao<Role> implements RoleDao {
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.RoleDao#getRoles(int, int, boolean)
-	 */
-	@Override
-	public List<Role> getRoles(final int personId, final int projectId,
-			final boolean includeWildcardProject) {
-		final Criteria criteria = this.createCriteria();
-		criteria.add(Restrictions.isNotEmpty("right"));
-		DetachedCriteria.forEntityName("Role");
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.RoleDao#getRoles(int, int, boolean)
+     */
+    @Override
+    public List<Role> getRoles(final int personId, final int projectId,
+            final boolean includeWildcardProject) {
+        final Criteria criteria = this.createCriteria();
+        criteria.add(Restrictions.isNotEmpty("right"));
+        DetachedCriteria.forEntityName("Role");
 
-		// ChangeSoon 
-		return null;
-	}
+        // ChangeSoon 
+        return null;
+    }
 
 }

@@ -33,21 +33,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class TaskDaoImpl extends BaseDao<Task> implements TaskDao {
 
-	/* (non-Javadoc)
-	 * @see net.sf.xplanner.dao.TaskDao#getCurrentTasksForPerson(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> getCurrentTasksForPerson(final int personId) {
-		final Criteria criteria = this.createCriteria();
-		criteria.createAlias("userStory", "userStory");
-		criteria.createAlias("userStory.iteration", "iteration");
-		final Date now = new Date();
-		criteria.add(Restrictions.le("iteration.startDate", now));
-		criteria.add(Restrictions.ge("iteration.endDate", now));
-		criteria.add(Restrictions.eq("acceptorId", personId));
-		criteria.setFetchMode("timeEntries", FetchMode.SELECT);
-		return criteria.list();
-	}
+    /* (non-Javadoc)
+     * @see net.sf.xplanner.dao.TaskDao#getCurrentTasksForPerson(int)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional(readOnly = true)
+    public List<Task> getCurrentTasksForPerson(final int personId) {
+        final Criteria criteria = this.createCriteria();
+        criteria.createAlias("userStory", "userStory");
+        criteria.createAlias("userStory.iteration", "iteration");
+        final Date now = new Date();
+        criteria.add(Restrictions.le("iteration.startDate", now));
+        criteria.add(Restrictions.ge("iteration.endDate", now));
+        criteria.add(Restrictions.eq("acceptorId", personId));
+        criteria.setFetchMode("timeEntries", FetchMode.SELECT);
+        return criteria.list();
+    }
 }

@@ -30,88 +30,88 @@ import com.technoetic.xplanner.tags.DomainContext;
  */
 public abstract class AbstractRequestUnitTestCase extends AbstractUnitTestCase {
 
-	/** The page context. */
-	protected PageContext pageContext;
-	
-	/** The request. */
-	protected HttpServletRequest request;
-	
-	/** The application context. */
-	private WebApplicationContext applicationContext;
-	
-	/** The response. */
-	protected ServletResponse response;
-	
-	/** The servlet context. */
-	private ServletContext servletContext;
-	
-	/** The locale resolver. */
-	private LocaleResolver localeResolver;
-	
-	/** The http session. */
-	protected HttpSession httpSession;
+    /** The page context. */
+    protected PageContext pageContext;
+    
+    /** The request. */
+    protected HttpServletRequest request;
+    
+    /** The application context. */
+    private WebApplicationContext applicationContext;
+    
+    /** The response. */
+    protected ServletResponse response;
+    
+    /** The servlet context. */
+    private ServletContext servletContext;
+    
+    /** The locale resolver. */
+    private LocaleResolver localeResolver;
+    
+    /** The http session. */
+    protected HttpSession httpSession;
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		pageContext = easymockHelper.createGlobalMock(PageContext.class);
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        pageContext = easymockHelper.createGlobalMock(PageContext.class);
 
-		setUpServlet();
+        setUpServlet();
 
-		applicationContext = easymockHelper.createGlobalMock(WebApplicationContext.class);
-		expect(applicationContext.getServletContext()).andReturn(servletContext).anyTimes();
-		
-		expect(request.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext).anyTimes();
-		expect(pageContext.getAttribute(RequestContextAwareTag.REQUEST_CONTEXT_PAGE_ATTRIBUTE)).andReturn(null).anyTimes();
-		expect(request.getAttribute(RequestContext.WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext).anyTimes();
-		localeResolver = easymockHelper.createGlobalMock(LocaleResolver.class);
-		expect(localeResolver.resolveLocale(request)).andReturn(Locale.ENGLISH).anyTimes();
-		expect(request.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE)).andReturn(localeResolver).anyTimes();
-		expect(servletContext.getInitParameter(WebUtils.HTML_ESCAPE_CONTEXT_PARAM)).andReturn(null);
-		pageContext.setAttribute((String) anyObject(), anyObject());
-		expect(request.getAttribute(HibernateHelper.SESSION_ATTRIBUTE_KEY)).andReturn(mockSession).anyTimes();
-	}
+        applicationContext = easymockHelper.createGlobalMock(WebApplicationContext.class);
+        expect(applicationContext.getServletContext()).andReturn(servletContext).anyTimes();
+        
+        expect(request.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext).anyTimes();
+        expect(pageContext.getAttribute(RequestContextAwareTag.REQUEST_CONTEXT_PAGE_ATTRIBUTE)).andReturn(null).anyTimes();
+        expect(request.getAttribute(RequestContext.WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(applicationContext).anyTimes();
+        localeResolver = easymockHelper.createGlobalMock(LocaleResolver.class);
+        expect(localeResolver.resolveLocale(request)).andReturn(Locale.ENGLISH).anyTimes();
+        expect(request.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE)).andReturn(localeResolver).anyTimes();
+        expect(servletContext.getInitParameter(WebUtils.HTML_ESCAPE_CONTEXT_PARAM)).andReturn(null);
+        pageContext.setAttribute((String) anyObject(), anyObject());
+        expect(request.getAttribute(HibernateHelper.SESSION_ATTRIBUTE_KEY)).andReturn(mockSession).anyTimes();
+    }
 
-	/**
+    /**
      * Sets the up servlet.
      */
-	private void setUpServlet() {
-		request = easymockHelper.createGlobalMock(HttpServletRequest.class);
-		response = easymockHelper.createGlobalMock(HttpServletResponse.class);
-		servletContext = easymockHelper.createGlobalMock(ServletContext.class);
-		httpSession = easymockHelper.createGlobalMock(HttpSession.class);
-		expect(request.getSession()).andReturn(httpSession).anyTimes();
-		expect(pageContext.getRequest()).andReturn(request).anyTimes();
-		expect(pageContext.getResponse()).andReturn(response);
-		expect(pageContext.getServletContext()).andReturn(servletContext).anyTimes();
-		
-		expect(httpSession.getAttribute(SecurityHelper.SECURITY_SUBJECT_KEY)).andReturn(support.setUpSubject("user", new String[0])).anyTimes();
-		expect(pageContext.findAttribute("project")).andReturn(new Project()).anyTimes();
-	}
+    private void setUpServlet() {
+        request = easymockHelper.createGlobalMock(HttpServletRequest.class);
+        response = easymockHelper.createGlobalMock(HttpServletResponse.class);
+        servletContext = easymockHelper.createGlobalMock(ServletContext.class);
+        httpSession = easymockHelper.createGlobalMock(HttpSession.class);
+        expect(request.getSession()).andReturn(httpSession).anyTimes();
+        expect(pageContext.getRequest()).andReturn(request).anyTimes();
+        expect(pageContext.getResponse()).andReturn(response);
+        expect(pageContext.getServletContext()).andReturn(servletContext).anyTimes();
+        
+        expect(httpSession.getAttribute(SecurityHelper.SECURITY_SUBJECT_KEY)).andReturn(support.setUpSubject("user", new String[0])).anyTimes();
+        expect(pageContext.findAttribute("project")).andReturn(new Project()).anyTimes();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
-	/**
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
+    
+    /**
      * Sets the up domain context.
      *
      * @param id
      *            the new up domain context
      */
-	public void setUpDomainContext(int id) {
+    public void setUpDomainContext(int id) {
         DomainContext context = new DomainContext();
         context.setProjectId(id);
         expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(context).anyTimes();
         expect(request.getParameter("projectId")).andReturn("" + context.getProjectId()).anyTimes();
-        		
+                
     }
 
 }

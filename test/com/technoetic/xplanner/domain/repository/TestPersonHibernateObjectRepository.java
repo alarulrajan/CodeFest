@@ -43,7 +43,7 @@ public class TestPersonHibernateObjectRepository extends AbstractUnitTestCase {
     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
     */
    protected void setUp() throws Exception {
-	   super.setUp();
+       super.setUp();
       person = new Person(TEST_PERSON_USER_ID);
       person.setId(XPlannerTestSupport.DEFAULT_PERSON_ID);
       mockHibernateTemplate = createLocalMock(HibernateTemplate.class);

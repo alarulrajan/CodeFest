@@ -19,7 +19,7 @@ public class DomainContextTestScript extends com.technoetic.xplanner.acceptance.
      * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
      */
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
     }
 

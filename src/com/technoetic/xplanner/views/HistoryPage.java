@@ -14,10 +14,10 @@ package com.technoetic.xplanner.views;
  * The Interface HistoryPage.
  */
 public interface HistoryPage {
-	
-	/** The event table id. */
-	String EVENT_TABLE_ID = "historyEvents";
-	
-	/** The container event table id. */
-	String CONTAINER_EVENT_TABLE_ID = "containerEvents";
+    
+    /** The event table id. */
+    String EVENT_TABLE_ID = "historyEvents";
+    
+    /** The container event table id. */
+    String CONTAINER_EVENT_TABLE_ID = "containerEvents";
 }

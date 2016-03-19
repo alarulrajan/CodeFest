@@ -46,18 +46,18 @@ public abstract class AbstractUnitTestCase extends TestCase implements EasyMockC
     
     /** The mom. */
     protected ObjectMother mom;
-	
-	/** The event bus. */
-	protected EventManager eventBus;
-	
-	/** The mock session factory. */
-	protected SessionFactory mockSessionFactory;
+    
+    /** The event bus. */
+    protected EventManager eventBus;
+    
+    /** The mock session factory. */
+    protected SessionFactory mockSessionFactory;
 
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-	protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
         easymockHelper = new EasyMockHelper();
         support = new XPlannerTestSupport();
@@ -81,12 +81,12 @@ public abstract class AbstractUnitTestCase extends TestCase implements EasyMockC
      *             the hibernate exception
      */
     protected void setUpThreadSession(boolean expectCommit) throws HibernateException {
-    	mockSession = easymockHelper.createGlobalMock(Session.class);
-    	mockSessionFactory = easymockHelper.createGlobalMock(SessionFactory.class);
-    	hibernateTemplate = easymockHelper.createGlobalMock(HibernateTemplate.class);
+        mockSession = easymockHelper.createGlobalMock(Session.class);
+        mockSessionFactory = easymockHelper.createGlobalMock(SessionFactory.class);
+        hibernateTemplate = easymockHelper.createGlobalMock(HibernateTemplate.class);
         mockTransaction = easymockHelper.createNiceGlobalMock(Transaction.class);
         if (expectCommit) {
-        	expect(mockSession.beginTransaction()).andReturn(mockTransaction);
+            expect(mockSession.beginTransaction()).andReturn(mockTransaction);
         }
         ThreadSession.set(mockSession);
     }
@@ -95,7 +95,7 @@ public abstract class AbstractUnitTestCase extends TestCase implements EasyMockC
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
-	protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         super.tearDown();
         ThreadSession.set(null);
     }
@@ -109,8 +109,8 @@ public abstract class AbstractUnitTestCase extends TestCase implements EasyMockC
      * @return the t
      */
     protected final <T> T createLocalMock(Class<T> class1) {
-    	return easymockHelper.createLocalMock(class1);
-	}
+        return easymockHelper.createLocalMock(class1);
+    }
 
     /** Creates the global mock.
      *
@@ -160,7 +160,7 @@ public abstract class AbstractUnitTestCase extends TestCase implements EasyMockC
      *            the object class
      */
     @SuppressWarnings("unchecked")
-	protected void expectObjectRepositoryAccess(Class objectClass) {
+    protected void expectObjectRepositoryAccess(Class objectClass) {
         if (mockMetaRepository == null) {
             setUpRepositories();
         }

@@ -26,49 +26,49 @@ import com.technoetic.xplanner.forms.ContinueUnfinishedStoriesForm;
  * The Class ContinueUnfinishedStoriesAction.
  */
 public class ContinueUnfinishedStoriesAction extends
-		EditObjectAction<UserStory> {
-	
-	/** The Constant OK_ACTION. */
-	public static final String OK_ACTION = "Ok";
-	
-	/** The Constant CANCEL_ACTION. */
-	public static final String CANCEL_ACTION = "Cancel";
-	
-	/** The story continuer. */
-	private StoryContinuer storyContinuer;
+        EditObjectAction<UserStory> {
+    
+    /** The Constant OK_ACTION. */
+    public static final String OK_ACTION = "Ok";
+    
+    /** The Constant CANCEL_ACTION. */
+    public static final String CANCEL_ACTION = "Cancel";
+    
+    /** The story continuer. */
+    private StoryContinuer storyContinuer;
 
-	/* (non-Javadoc)
-	 * @see com.technoetic.xplanner.actions.EditObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected ActionForward doExecute(final ActionMapping mapping,
-			final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) throws Exception {
-		ContinueUnfinishedStoriesForm continueUnfinishedStoriesForm;
-		continueUnfinishedStoriesForm = (ContinueUnfinishedStoriesForm) form;
-		final Session session = this.getSession(request);
-		try {
-			if (continueUnfinishedStoriesForm.isSubmitted()) {
-				this.saveForm(continueUnfinishedStoriesForm, mapping, session,
-						request, form, response);
-				final String returnto = request
-						.getParameter(EditObjectAction.RETURNTO_PARAM);
-				if (returnto != null) {
-					return new ActionForward(returnto, true);
-				} else {
-					return mapping.findForward("view/projects");
-				}
-			} else {
-				this.populateForm(continueUnfinishedStoriesForm, session);
-				return new ActionForward(mapping.getInput());
-			}
-		} catch (final Exception ex) {
-			session.connection().rollback();
-			throw new ServletException(ex);
-		}
-	}
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.EditObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    protected ActionForward doExecute(final ActionMapping mapping,
+            final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
+        ContinueUnfinishedStoriesForm continueUnfinishedStoriesForm;
+        continueUnfinishedStoriesForm = (ContinueUnfinishedStoriesForm) form;
+        final Session session = this.getSession(request);
+        try {
+            if (continueUnfinishedStoriesForm.isSubmitted()) {
+                this.saveForm(continueUnfinishedStoriesForm, mapping, session,
+                        request, form, response);
+                final String returnto = request
+                        .getParameter(EditObjectAction.RETURNTO_PARAM);
+                if (returnto != null) {
+                    return new ActionForward(returnto, true);
+                } else {
+                    return mapping.findForward("view/projects");
+                }
+            } else {
+                this.populateForm(continueUnfinishedStoriesForm, session);
+                return new ActionForward(mapping.getInput());
+            }
+        } catch (final Exception ex) {
+            session.connection().rollback();
+            throw new ServletException(ex);
+        }
+    }
 
-	/**
+    /**
      * Populate form.
      *
      * @param continueUnfinishedStoriesForm
@@ -84,22 +84,22 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws InvocationTargetException
      *             the invocation target exception
      */
-	private void populateForm(
-			final ContinueUnfinishedStoriesForm continueUnfinishedStoriesForm,
-			final Session session) throws HibernateException,
-			NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException {
-		final int iterationId = continueUnfinishedStoriesForm.getIterationId();
-		if (iterationId != 0) {
-			final Iteration iteration = (Iteration) session.load(
-					Iteration.class, new Integer(iterationId));
-			PropertyUtils.copyProperties(continueUnfinishedStoriesForm,
-					iteration);
-			this.populateManyToOneIds(continueUnfinishedStoriesForm, iteration);
-		}
-	}
+    private void populateForm(
+            final ContinueUnfinishedStoriesForm continueUnfinishedStoriesForm,
+            final Session session) throws HibernateException,
+            NoSuchMethodException, IllegalAccessException,
+            InvocationTargetException {
+        final int iterationId = continueUnfinishedStoriesForm.getIterationId();
+        if (iterationId != 0) {
+            final Iteration iteration = (Iteration) session.load(
+                    Iteration.class, new Integer(iterationId));
+            PropertyUtils.copyProperties(continueUnfinishedStoriesForm,
+                    iteration);
+            this.populateManyToOneIds(continueUnfinishedStoriesForm, iteration);
+        }
+    }
 
-	/**
+    /**
      * Save form.
      *
      * @param selectionForm
@@ -117,20 +117,20 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws Exception
      *             the exception
      */
-	protected void saveForm(final ContinueUnfinishedStoriesForm selectionForm,
-			final ActionMapping mapping, final Session session,
-			final HttpServletRequest request, final ActionForm form,
-			final HttpServletResponse response) throws Exception {
-		final String action = selectionForm.getAction();
-		if (action.equals(ContinueUnfinishedStoriesAction.OK_ACTION)) {
-			final int currentIterationId = selectionForm.getIterationId();
-			final int targetIterationId = selectionForm.getTargetIterationId();
-			this.continueIteration(currentIterationId, targetIterationId,
-					request, session);
-		}
-	}
+    protected void saveForm(final ContinueUnfinishedStoriesForm selectionForm,
+            final ActionMapping mapping, final Session session,
+            final HttpServletRequest request, final ActionForm form,
+            final HttpServletResponse response) throws Exception {
+        final String action = selectionForm.getAction();
+        if (action.equals(ContinueUnfinishedStoriesAction.OK_ACTION)) {
+            final int currentIterationId = selectionForm.getIterationId();
+            final int targetIterationId = selectionForm.getTargetIterationId();
+            this.continueIteration(currentIterationId, targetIterationId,
+                    request, session);
+        }
+    }
 
-	/**
+    /**
      * Continue iteration.
      *
      * @param currentIterationId
@@ -144,18 +144,18 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws Exception
      *             the exception
      */
-	private void continueIteration(final int currentIterationId,
-			final int targetIterationId, final HttpServletRequest request,
-			final Session session) throws Exception {
-		final Iteration originalIteration = this.getCommonDao().getById(
-				Iteration.class, currentIterationId);
-		final Iteration targetIteration = this.getCommonDao().getById(
-				Iteration.class, targetIterationId);
-		this.continueUnfinishedStoriesInIteration(request, session,
-				originalIteration, targetIteration);
-	}
+    private void continueIteration(final int currentIterationId,
+            final int targetIterationId, final HttpServletRequest request,
+            final Session session) throws Exception {
+        final Iteration originalIteration = this.getCommonDao().getById(
+                Iteration.class, currentIterationId);
+        final Iteration targetIteration = this.getCommonDao().getById(
+                Iteration.class, targetIterationId);
+        this.continueUnfinishedStoriesInIteration(request, session,
+                originalIteration, targetIteration);
+    }
 
-	/**
+    /**
      * Continue unfinished stories in iteration.
      *
      * @param request
@@ -169,17 +169,17 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws Exception
      *             the exception
      */
-	protected void continueUnfinishedStoriesInIteration(
-			final HttpServletRequest request, final Session session,
-			final Iteration originalIteration, final Iteration targetIteration)
-			throws Exception {
-		this.storyContinuer.init(session, request);
-		if (originalIteration != null) {
-			this.continueIteration(originalIteration, targetIteration);
-		}
-	}
+    protected void continueUnfinishedStoriesInIteration(
+            final HttpServletRequest request, final Session session,
+            final Iteration originalIteration, final Iteration targetIteration)
+            throws Exception {
+        this.storyContinuer.init(session, request);
+        if (originalIteration != null) {
+            this.continueIteration(originalIteration, targetIteration);
+        }
+    }
 
-	/**
+    /**
      * Continue iteration.
      *
      * @param originalIteration
@@ -189,20 +189,20 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws HibernateException
      *             the hibernate exception
      */
-	private void continueIteration(final Iteration originalIteration,
-			final Iteration targetIteration) throws HibernateException {
-		originalIteration.setStatusKey(IterationStatus.INACTIVE_KEY);
-		final Collection stories = originalIteration.getUserStories();
-		if (targetIteration.getId() != 0) {
-			for (final Iterator iterator = stories.iterator(); iterator
-					.hasNext();) {
-				this.continueCompleteStory((UserStory) iterator.next(),
-						originalIteration, targetIteration);
-			}
-		}
-	}
+    private void continueIteration(final Iteration originalIteration,
+            final Iteration targetIteration) throws HibernateException {
+        originalIteration.setStatusKey(IterationStatus.INACTIVE_KEY);
+        final Collection stories = originalIteration.getUserStories();
+        if (targetIteration.getId() != 0) {
+            for (final Iterator iterator = stories.iterator(); iterator
+                    .hasNext();) {
+                this.continueCompleteStory((UserStory) iterator.next(),
+                        originalIteration, targetIteration);
+            }
+        }
+    }
 
-	/**
+    /**
      * Continue complete story.
      *
      * @param userStory
@@ -214,15 +214,15 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws HibernateException
      *             the hibernate exception
      */
-	private void continueCompleteStory(final UserStory userStory,
-			final Iteration originalIteration, final Iteration targetIteration)
-			throws HibernateException {
-		if (!userStory.isCompleted()) {
-			this.continueStory(userStory, originalIteration, targetIteration);
-		}
-	}
+    private void continueCompleteStory(final UserStory userStory,
+            final Iteration originalIteration, final Iteration targetIteration)
+            throws HibernateException {
+        if (!userStory.isCompleted()) {
+            this.continueStory(userStory, originalIteration, targetIteration);
+        }
+    }
 
-	/**
+    /**
      * Continue story.
      *
      * @param userStory
@@ -234,26 +234,26 @@ public class ContinueUnfinishedStoriesAction extends
      * @throws HibernateException
      *             the hibernate exception
      */
-	private void continueStory(final UserStory userStory,
-			final Iteration originalIteration, final Iteration targetIteration)
-			throws HibernateException {
-		final UserStory continuedUserStory = (UserStory) this.storyContinuer
-				.continueObject(userStory, originalIteration, targetIteration);
-		final List<UserStory> targetIterationStories = targetIteration
-				.getUserStories();
-		if (!targetIterationStories.contains(continuedUserStory)) {
-			targetIterationStories.add(continuedUserStory);
-		}
-		targetIteration.setUserStories(targetIterationStories);
-	}
+    private void continueStory(final UserStory userStory,
+            final Iteration originalIteration, final Iteration targetIteration)
+            throws HibernateException {
+        final UserStory continuedUserStory = (UserStory) this.storyContinuer
+                .continueObject(userStory, originalIteration, targetIteration);
+        final List<UserStory> targetIterationStories = targetIteration
+                .getUserStories();
+        if (!targetIterationStories.contains(continuedUserStory)) {
+            targetIterationStories.add(continuedUserStory);
+        }
+        targetIteration.setUserStories(targetIterationStories);
+    }
 
-	/**
+    /**
      * Sets the story continuer.
      *
      * @param storyContinuer
      *            the new story continuer
      */
-	public void setStoryContinuer(final StoryContinuer storyContinuer) {
-		this.storyContinuer = storyContinuer;
-	}
+    public void setStoryContinuer(final StoryContinuer storyContinuer) {
+        this.storyContinuer = storyContinuer;
+    }
 }

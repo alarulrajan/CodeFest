@@ -30,20 +30,20 @@ import com.technoetic.xplanner.domain.Nameable;
  */
 
 public class EventManager implements ApplicationContextAware {
-	
-	/** The application context. */
-	private ApplicationContext applicationContext;
+    
+    /** The application context. */
+    private ApplicationContext applicationContext;
 
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
-	@Override
-	public void setApplicationContext(
-			final ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+    /* (non-Javadoc)
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+     */
+    @Override
+    public void setApplicationContext(
+            final ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
-	/**
+    /**
      * Publish update event.
      *
      * @param actionForm
@@ -53,14 +53,14 @@ public class EventManager implements ApplicationContextAware {
      * @param editor
      *            the editor
      */
-	public void publishUpdateEvent(final ActionForm actionForm,
-			final Nameable domainObject, final Person editor) {
-		final ApplicationEvent event = new ObjectUpdated(actionForm,
-				new EventSource(domainObject, editor));
-		this.applicationContext.publishEvent(event);
-	}
+    public void publishUpdateEvent(final ActionForm actionForm,
+            final Nameable domainObject, final Person editor) {
+        final ApplicationEvent event = new ObjectUpdated(actionForm,
+                new EventSource(domainObject, editor));
+        this.applicationContext.publishEvent(event);
+    }
 
-	/**
+    /**
      * Publish create event.
      *
      * @param domainObject
@@ -68,14 +68,14 @@ public class EventManager implements ApplicationContextAware {
      * @param editor
      *            the editor
      */
-	public void publishCreateEvent(final Identifiable domainObject,
-			final Person editor) {
-		final ApplicationEvent event = new ObjectCreated(new EventSource(
-				domainObject, editor));
-		this.applicationContext.publishEvent(event);
-	}
+    public void publishCreateEvent(final Identifiable domainObject,
+            final Person editor) {
+        final ApplicationEvent event = new ObjectCreated(new EventSource(
+                domainObject, editor));
+        this.applicationContext.publishEvent(event);
+    }
 
-	/**
+    /**
      * Publish delete event.
      *
      * @param domainObject
@@ -83,10 +83,10 @@ public class EventManager implements ApplicationContextAware {
      * @param editor
      *            the editor
      */
-	public void publishDeleteEvent(final DomainObject domainObject,
-			final Person editor) {
-		final ApplicationEvent event = new ObjectDeleted(new EventSource(
-				domainObject, editor));
-		this.applicationContext.publishEvent(event);
-	}
+    public void publishDeleteEvent(final DomainObject domainObject,
+            final Person editor) {
+        final ApplicationEvent event = new ObjectDeleted(new EventSource(
+                domainObject, editor));
+        this.applicationContext.publishEvent(event);
+    }
 }

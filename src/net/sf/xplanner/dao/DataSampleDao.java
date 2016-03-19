@@ -28,7 +28,7 @@ import net.sf.xplanner.domain.Iteration;
  */
 public interface DataSampleDao extends Dao<DataSample> {
 
-	/**
+    /**
      * Gets the data samples.
      *
      * @param date
@@ -39,7 +39,7 @@ public interface DataSampleDao extends Dao<DataSample> {
      *            the aspect
      * @return the data samples
      */
-	public List<DataSample> getDataSamples(Date date, Iteration iteration,
-			String aspect);
+    public List<DataSample> getDataSamples(Date date, Iteration iteration,
+            String aspect);
 
 }
