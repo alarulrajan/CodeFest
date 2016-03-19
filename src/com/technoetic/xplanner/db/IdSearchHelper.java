@@ -14,13 +14,28 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
+/**
+ * The Class IdSearchHelper.
+ */
 public class IdSearchHelper {
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
+	/** The searched domain classes. */
 	private final Class[] searchedDomainClasses = { Project.class,
 			Iteration.class, UserStory.class, Task.class, Person.class,
 			Note.class };
 
+	/**
+     * Search.
+     *
+     * @param oid
+     *            the oid
+     * @return the domain object
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public DomainObject search(final int oid) throws HibernateException {
 		final Integer id = new Integer(oid);
 		for (int i = 0; i < this.searchedDomainClasses.length; i++) {
@@ -41,11 +56,22 @@ public class IdSearchHelper {
 		return null;
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     */
 	private Session getSession() {
 		return SessionFactoryUtils.getSession(this.sessionFactory,
 				Boolean.FALSE);
 	}
 
+	/**
+     * Sets the session factory.
+     *
+     * @param sessionFactory
+     *            the new session factory
+     */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

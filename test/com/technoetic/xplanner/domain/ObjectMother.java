@@ -35,15 +35,37 @@ import com.technoetic.xplanner.util.LogUtil;
 import com.technoetic.xplanner.util.MainBeanFactory;
 import com.technoetic.xplanner.util.PropertyUtils;
 
+/**
+ * The Class ObjectMother.
+ */
 public class ObjectMother {
+   
+   /** The Constant LOG. */
    protected static final Logger LOG = LogUtil.getLogger();
 
+   /** The Constant HOUR. */
    public static final long HOUR = 60 * 60 * 1000L;
+   
+   /** The Constant DAY. */
    public static final long DAY = 24 * HOUR;
 
+  /** The now. */
   private Date now = new Date();
 
 
+  /**
+     * New project.
+     *
+     * @param name
+     *            the name
+     * @param description
+     *            the description
+     * @return the project
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   public Project newProject(String name, String description) throws HibernateException, RepositoryException {
      Project project = new Project();
      project.setName(name);
@@ -52,6 +74,15 @@ public class ObjectMother {
      return project;
   }
 
+  /**
+     * New project.
+     *
+     * @return the project
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   public Project newProject() throws HibernateException, RepositoryException {
       Project project = new Project();
       project.setName("");
@@ -60,6 +91,16 @@ public class ObjectMother {
       return project;
    }
 
+   /** New iteration.
+     *
+     * @param project
+     *            the project
+     * @return the iteration
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public Iteration newIteration(Project project) throws HibernateException, RepositoryException {
       Iteration iteration = new Iteration();
       iteration.setName("");
@@ -72,6 +113,16 @@ public class ObjectMother {
       return iteration;
    }
 
+   /** New user story.
+     *
+     * @param iteration
+     *            the iteration
+     * @return the user story
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public UserStory newUserStory(Iteration iteration) throws HibernateException, RepositoryException {
       UserStory story = new UserStory();
       story.setName("");
@@ -85,6 +136,16 @@ public class ObjectMother {
       return story;
    }
 
+   /** New task.
+     *
+     * @param story
+     *            the story
+     * @return the task
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public Task newTask(UserStory story) throws HibernateException, RepositoryException {
       Task task = new Task();
       task.setName("");
@@ -96,6 +157,16 @@ public class ObjectMother {
       return task;
    }
 
+   /** New feature.
+     *
+     * @param story
+     *            the story
+     * @return the feature
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public Feature newFeature(UserStory story) throws HibernateException, RepositoryException {
       Feature feature = new Feature();
       feature.setStory(story);
@@ -105,10 +176,36 @@ public class ObjectMother {
       return feature;
    }
 
+   /** New time entry.
+     *
+     * @param task
+     *            the task
+     * @param person1
+     *            the person1
+     * @return the time entry
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public TimeEntry newTimeEntry(Task task, Person person1) throws HibernateException, RepositoryException {
       return newTimeEntry(task, person1, 1.0);
    }
 
+   /** New time entry.
+     *
+     * @param task
+     *            the task
+     * @param person1
+     *            the person1
+     * @param durationInHours
+     *            the duration in hours
+     * @return the time entry
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public TimeEntry newTimeEntry(Task task, Person person1, double durationInHours) throws HibernateException,
                                                                                            RepositoryException {
       net.sf.xplanner.domain.TimeEntry timeEntry = new net.sf.xplanner.domain.TimeEntry();
@@ -122,6 +219,18 @@ public class ObjectMother {
       return timeEntry;
    }
 
+   /** New note.
+     *
+     * @param container
+     *            the container
+     * @param author
+     *            the author
+     * @return the note
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public Note newNote(net.sf.xplanner.domain.DomainObject container, Person author) throws HibernateException, RepositoryException {
       Note note = new Note();
       note.setSubject("");
@@ -132,11 +241,33 @@ public class ObjectMother {
       return note;
    }
 
+   /** New person.
+     *
+     * @return the person
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
    public Person newPerson() throws HibernateException, RepositoryException, AuthenticationException {
       return newPerson("TestPerson");
    }
 
-   //TODO remove the userId parameter
+   /** New person.
+     *
+     * @param userId
+     *            the user id
+     * @return the person
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
+   //ChangeSoon remove the userId parameter
    public Person newPerson(String userId) throws HibernateException, RepositoryException, AuthenticationException {
       Person person = new Person();
       person.setUserId(userId + Math.random() * 1000);
@@ -149,6 +280,12 @@ public class ObjectMother {
       return person;
    }
 
+   /** Encode password.
+     *
+     * @param password
+     *            the password
+     * @return the string
+     */
    private String encodePassword(String password) {
       XPlannerLoginModule loginModule = new XPlannerLoginModule(new LoginSupportImpl());
       try {
@@ -159,6 +296,12 @@ public class ObjectMother {
    }
 
 
+   /** New permission.
+     *
+     * @return the permission
+     * @throws Exception
+     *             the exception
+     */
    public Permission newPermission() throws Exception {
       Permission permission = new Permission();
       permission.setPrincipal(0);
@@ -169,6 +312,14 @@ public class ObjectMother {
       return permission;
    }
 
+   /** New history.
+     *
+     * @return the history
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public History newHistory() throws HibernateException, RepositoryException {
       int targetObjectId = 0;
       String type = "project";
@@ -176,11 +327,45 @@ public class ObjectMother {
       return newHistory(targetObjectId, type, action, "PROJECT_NAME");
    }
 
+   /** New history.
+     *
+     * @param targetObjectId
+     *            the target object id
+     * @param type
+     *            the type
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @return the history
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public History newHistory(int targetObjectId, String type, String action, String description)
          throws HibernateException, RepositoryException {
       return newHistory(0, targetObjectId, type, action, description);
    }
 
+   /** New history.
+     *
+     * @param containerId
+     *            the container id
+     * @param targetObjectId
+     *            the target object id
+     * @param type
+     *            the type
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @return the history
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public History newHistory(Integer containerId,
 		   									 Integer targetObjectId,
                                              String type,
@@ -193,17 +378,45 @@ public class ObjectMother {
       return historyEvent;
    }
 
+   /** New integration.
+     *
+     * @return the integration
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public Integration newIntegration() throws HibernateException, RepositoryException {
       Integration integration = new Integration();
       save(integration);
       return integration;
    }
 
+  /**
+     * Save.
+     *
+     * @param object
+     *            the object
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   public void save(Object object) throws HibernateException, RepositoryException {
     saveAndRegisterForDelete(object);
     if (LOG.isDebugEnabled()) LOG.debug("creating " + object);
   }
 
+  /**
+     * Save.
+     *
+     * @param object
+     *            the object
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   public void save(DomainObject object) throws HibernateException, RepositoryException {
      saveAndRegisterForDelete(object);
      object.setLastUpdateTime(getNow());
@@ -211,10 +424,25 @@ public class ObjectMother {
      if (LOG.isDebugEnabled()) LOG.debug("creating " + object);
   }
 
+  /**
+     * Save and register for delete.
+     *
+     * @param object
+     *            the object
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   protected void saveAndRegisterForDelete(Object object) throws HibernateException, RepositoryException {
     PropertyUtils.setProperty(object, "id", new Integer(++nextId));
   }
 
+   /** Sets the default name.
+     *
+     * @param object
+     *            the new default name
+     */
    private void setDefaultName(DomainObject object) {
       //DEBT Once Nameable is renamed to Nameable and setters introduced
       if (PropertyUtils.isWriteable(object, "name")) {
@@ -225,17 +453,34 @@ public class ObjectMother {
       }
    }
 
+   /** The next id. */
    static int nextId = 0;
 
+   /** Gets the class name.
+     *
+     * @param object
+     *            the object
+     * @return the class name
+     */
    private String getClassName(Object object) {
       String name = object.getClass().getName();
       return name.substring(name.lastIndexOf(".") + 1);
    }
 
+  /**
+     * Gets the now.
+     *
+     * @return the now
+     */
   public Date getNow() {
      return now;
   }
 
+   /** Sets the now.
+     *
+     * @param now
+     *            the new now
+     */
    public void setNow(Date now) {
       this.now = now;
    }

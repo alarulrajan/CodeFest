@@ -11,11 +11,23 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.domain.DummyDomainObject;
 
+/**
+ * The Class TestHibernateObjectRepository.
+ */
 public class TestHibernateObjectRepository extends AbstractUnitTestCase {
+   
+   /** The repository. */
    private HibernateObjectRepository repository;
+   
+   /** The mock hibernate template. */
    private HibernateTemplate mockHibernateTemplate;
+   
+   /** The domain object. */
    private NamedObject domainObject;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -33,12 +45,20 @@ public class TestHibernateObjectRepository extends AbstractUnitTestCase {
 
 	}
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    @Override
 protected void tearDown() throws Exception {
       ThreadSession.set(null);
       super.tearDown();
    }
 
+   /** Test delete.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDelete() throws Exception {
 	  expect(mockHibernateTemplate.isAllowCreate()).andReturn(false).anyTimes();
 	  SessionFactory sessionFactory = createLocalMock(SessionFactory.class);
@@ -54,6 +74,11 @@ protected void tearDown() throws Exception {
       verify();
    }
 
+   /** Test load.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testLoad() throws Exception {
       Object object = new Object();
       expect(mockHibernateTemplate.load(Object.class, new Integer(1))).andReturn(object);
@@ -65,6 +90,12 @@ protected void tearDown() throws Exception {
       assertSame(object, loadedObject);
    }
 
+	/**
+     * Test insert.
+     *
+     * @throws Exception
+     *             the exception
+     */
 	public void testInsert() throws Exception {
 		expect(mockSession.save(domainObject)).andReturn(
 				new Integer(44));
@@ -77,6 +108,11 @@ protected void tearDown() throws Exception {
 		assertEquals("wrong id", 44, id);
 	}
 
+   /** Test update.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testUpdate() throws Exception {
       replay();
 

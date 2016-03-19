@@ -15,11 +15,23 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.struts.util.ResponseUtils;
 
+/**
+ * The Class BoxTag.
+ */
 public class BoxTag extends BodyTagSupport {
+	
+	/** The id. */
 	private String id;
+	
+	/** The style class. */
 	private String styleClass = "box";
+	
+	/** The title. */
 	private String title;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		String id = this.id;
@@ -45,20 +57,41 @@ public class BoxTag extends BodyTagSupport {
 		return super.doEndTag();
 	}
 
+	/**
+     * Render body.
+     *
+     * @param results
+     *            the results
+     */
 	protected void renderBody(final StringBuffer results) {
 		if (this.bodyContent != null) {
 			results.append(this.bodyContent.getString());
 		}
 	}
 
+	/**
+     * Sets the style class.
+     *
+     * @param styleClass
+     *            the new style class
+     */
 	public void setStyleClass(final String styleClass) {
 		this.styleClass = styleClass;
 	}
 
+	/**
+     * Sets the title.
+     *
+     * @param title
+     *            the new title
+     */
 	public void setTitle(final String title) {
 		this.title = title;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+	 */
 	@Override
 	public void setId(final String id) {
 		this.id = id;

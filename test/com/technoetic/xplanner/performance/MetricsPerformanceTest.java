@@ -8,11 +8,16 @@ import com.clarkware.junitperf.TimedTest;
 import com.technoetic.xplanner.acceptance.web.MetricsPageTestScript;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Feb 3, 2005
- * Time: 3:01:23 PM
+ * User: Mateusz Prokopowicz Date: Feb 3, 2005 Time: 3:01:23 PM.
  */
 public class MetricsPerformanceTest extends TestCase{
+    
+    /** Suite.
+     *
+     * @return the test
+     * @throws Exception
+     *             the exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite();
         suite.addTest(

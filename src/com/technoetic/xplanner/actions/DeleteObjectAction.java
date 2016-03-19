@@ -11,8 +11,18 @@ import org.apache.struts.action.ActionMapping;
 
 import com.technoetic.xplanner.domain.Identifiable;
 
+/**
+ * The Class DeleteObjectAction.
+ *
+ * @param <T>
+ *            the generic type
+ */
 public class DeleteObjectAction<T extends Identifiable> extends
 		AbstractAction<T> {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,

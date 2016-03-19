@@ -56,14 +56,24 @@ import com.technoetic.xplanner.soap.domain.TimeEntryData;
 import com.technoetic.xplanner.soap.domain.UserStoryData;
 import com.technoetic.xplanner.tags.DomainContext;
 
-// TODO: SOAP input validation.
+// ChangeSoon: SOAP input validation.
 // Ideally, extract the validation out of the struts forms into reusable
 // validation to be used by soap
 
+/**
+ * The Class XPlanner.
+ */
 public class XPlanner {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The attributes. */
 	private final AttributeRepository attributes = new AttributeRepositoryImpl();
 
+	/**
+     * Instantiates a new x planner.
+     */
 	public XPlanner() {
 		// The SOAP interface is required to use Calendars for dates. This
 		// converter is intended to be an adapter for the Date usage in the
@@ -113,27 +123,77 @@ public class XPlanner {
 	// Projects
 	//
 
+	/**
+     * Gets the projects.
+     *
+     * @return the projects
+     * @throws Exception
+     *             the exception
+     */
 	public ProjectData[] getProjects() throws Exception {
 		return (ProjectData[]) this.getObjects(ProjectData.class, null, null,
 				null, null);
 	}
 
+	/**
+     * Gets the project.
+     *
+     * @param id
+     *            the id
+     * @return the project
+     * @throws Exception
+     *             the exception
+     */
 	public ProjectData getProject(final int id) throws Exception {
 		return (ProjectData) this.getObject(ProjectData.class, id);
 	}
 
+	/**
+     * Adds the project.
+     *
+     * @param project
+     *            the project
+     * @return the project data
+     * @throws Exception
+     *             the exception
+     */
 	public ProjectData addProject(final ProjectData project) throws Exception {
 		return (ProjectData) this.addObject(0, project);
 	}
 
+	/**
+     * Removes the project.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeProject(final int id) throws Exception {
 		this.removeObject(ProjectData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final ProjectData object) throws Exception {
 		this.updateObject(object);
 	}
 
+	/**
+     * Gets the current iteration.
+     *
+     * @param projectId
+     *            the project id
+     * @return the current iteration
+     * @throws Exception
+     *             the exception
+     */
 	public IterationData getCurrentIteration(final int projectId)
 			throws Exception {
 		final IterationData[] iterations = (IterationData[]) this
@@ -147,6 +207,15 @@ public class XPlanner {
 		return iterations.length > 0 ? iterations[0] : null;
 	}
 
+	/**
+     * Gets the iterations.
+     *
+     * @param projectId
+     *            the project id
+     * @return the iterations
+     * @throws Exception
+     *             the exception
+     */
 	public IterationData[] getIterations(final int projectId) throws Exception {
 		return (IterationData[]) this.getObjects(ProjectData.class, projectId,
 				"iterations", IterationData.class);
@@ -156,10 +225,28 @@ public class XPlanner {
 	// Iterations
 	//
 
+	/**
+     * Gets the iteration.
+     *
+     * @param id
+     *            the id
+     * @return the iteration
+     * @throws Exception
+     *             the exception
+     */
 	public IterationData getIteration(final int id) throws Exception {
 		return (IterationData) this.getObject(IterationData.class, id);
 	}
 
+	/**
+     * Adds the iteration.
+     *
+     * @param iteration
+     *            the iteration
+     * @return the iteration data
+     * @throws Exception
+     *             the exception
+     */
 	public IterationData addIteration(final IterationData iteration)
 			throws Exception {
 		return (IterationData) this.addObject(
@@ -167,14 +254,39 @@ public class XPlanner {
 				iteration);
 	}
 
+	/**
+     * Removes the iteration.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeIteration(final int id) throws Exception {
 		this.removeObject(IterationData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final IterationData object) throws Exception {
 		this.updateObject(object);
 	}
 
+	/**
+     * Gets the user stories.
+     *
+     * @param containerId
+     *            the container id
+     * @return the user stories
+     * @throws Exception
+     *             the exception
+     */
 	public UserStoryData[] getUserStories(final int containerId)
 			throws Exception {
 		return (UserStoryData[]) this.getObjects(IterationData.class,
@@ -185,10 +297,28 @@ public class XPlanner {
 	// User Stories
 	//
 
+	/**
+     * Gets the user story.
+     *
+     * @param id
+     *            the id
+     * @return the user story
+     * @throws Exception
+     *             the exception
+     */
 	public UserStoryData getUserStory(final int id) throws Exception {
 		return (UserStoryData) this.getObject(UserStoryData.class, id);
 	}
 
+	/**
+     * Adds the user story.
+     *
+     * @param story
+     *            the story
+     * @return the user story data
+     * @throws Exception
+     *             the exception
+     */
 	public UserStoryData addUserStory(final UserStoryData story)
 			throws Exception {
 		return (UserStoryData) this.addObject(
@@ -196,14 +326,39 @@ public class XPlanner {
 				story);
 	}
 
+	/**
+     * Removes the user story.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeUserStory(final int id) throws Exception {
 		this.removeObject(UserStoryData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final UserStoryData object) throws Exception {
 		this.updateObject(object);
 	}
 
+	/**
+     * Gets the tasks.
+     *
+     * @param containerId
+     *            the container id
+     * @return the tasks
+     * @throws Exception
+     *             the exception
+     */
 	public TaskData[] getTasks(final int containerId) throws Exception {
 		return (TaskData[]) this.getObjects(UserStoryData.class, containerId,
 				"tasks", TaskData.class);
@@ -240,10 +395,28 @@ public class XPlanner {
 	// Tasks
 	//
 
+	/**
+     * Gets the task.
+     *
+     * @param id
+     *            the id
+     * @return the task
+     * @throws Exception
+     *             the exception
+     */
 	public TaskData getTask(final int id) throws Exception {
 		return (TaskData) this.getObject(TaskData.class, id);
 	}
 
+	/**
+     * Gets the current tasks for person.
+     *
+     * @param personId
+     *            the person id
+     * @return the current tasks for person
+     * @throws QueryException
+     *             the query exception
+     */
 	public TaskData[] getCurrentTasksForPerson(final int personId)
 			throws QueryException {
 		final TaskQueryHelper taskQueryHelper = (TaskQueryHelper) this
@@ -253,6 +426,15 @@ public class XPlanner {
 				taskQueryHelper.getCurrentActiveTasksForPerson());
 	}
 
+	/**
+     * Gets the planned tasks for person.
+     *
+     * @param personId
+     *            the person id
+     * @return the planned tasks for person
+     * @throws QueryException
+     *             the query exception
+     */
 	public TaskData[] getPlannedTasksForPerson(final int personId)
 			throws QueryException {
 		final TaskQueryHelper taskQueryHelper = (TaskQueryHelper) this
@@ -263,19 +445,51 @@ public class XPlanner {
 				taskQueryHelper.getCurrentPendingTasksForPerson());
 	}
 
+	/**
+     * Gets the spring bean.
+     *
+     * @param string
+     *            the string
+     * @return the spring bean
+     */
 	private Object getSpringBean(final String string) {
 		return ContextLoaderListener.getContext().getBean(string);
 	}
 
+	/**
+     * Adds the task.
+     *
+     * @param task
+     *            the task
+     * @return the task data
+     * @throws Exception
+     *             the exception
+     */
 	public TaskData addTask(final TaskData task) throws Exception {
 		return (TaskData) this.addObject(
 				this.getProjectId(UserStory.class, task.getStoryId()), task);
 	}
 
+	/**
+     * Removes the task.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeTask(final int id) throws Exception {
 		this.removeObject(TaskData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final TaskData object) throws Exception {
 		this.updateObject(object);
 	}
@@ -284,16 +498,43 @@ public class XPlanner {
 	// Time Entries
 	//
 
+	/**
+     * Gets the time entries.
+     *
+     * @param containerId
+     *            the container id
+     * @return the time entries
+     * @throws Exception
+     *             the exception
+     */
 	public TimeEntryData[] getTimeEntries(final int containerId)
 			throws Exception {
 		return (TimeEntryData[]) this.getObjects(TaskData.class, containerId,
 				"timeEntries", TimeEntryData.class);
 	}
 
+	/**
+     * Gets the time entry.
+     *
+     * @param id
+     *            the id
+     * @return the time entry
+     * @throws Exception
+     *             the exception
+     */
 	public TimeEntryData getTimeEntry(final int id) throws Exception {
 		return (TimeEntryData) this.getObject(TimeEntryData.class, id);
 	}
 
+	/**
+     * Adds the time entry.
+     *
+     * @param timeEntry
+     *            the time entry
+     * @return the time entry data
+     * @throws Exception
+     *             the exception
+     */
 	public TimeEntryData addTimeEntry(final TimeEntryData timeEntry)
 			throws Exception {
 		return (TimeEntryData) this
@@ -302,10 +543,26 @@ public class XPlanner {
 						timeEntry);
 	}
 
+	/**
+     * Removes the time entry.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeTimeEntry(final int id) throws Exception {
 		this.removeObject(TimeEntryData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final TimeEntryData object) throws Exception {
 		this.updateObject(object);
 	}
@@ -314,23 +571,66 @@ public class XPlanner {
 	// Notes
 	//
 
+	/**
+     * Gets the note.
+     *
+     * @param id
+     *            the id
+     * @return the note
+     * @throws Exception
+     *             the exception
+     */
 	public NoteData getNote(final int id) throws Exception {
 		return (NoteData) this.getObject(NoteData.class, id);
 	}
 
+	/**
+     * Adds the note.
+     *
+     * @param note
+     *            the note
+     * @return the note data
+     * @throws Exception
+     *             the exception
+     */
 	public NoteData addNote(final NoteData note) throws Exception {
 		return (NoteData) this.addObject(this.getProjectId(DomainContext
 				.getNoteTarget(note.getAttachedToId())), note);
 	}
 
+	/**
+     * Removes the note.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removeNote(final int id) throws Exception {
 		this.removeObject(NoteData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param note
+     *            the note
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final NoteData note) throws Exception {
 		this.updateObject(note);
 	}
 
+	/**
+     * Gets the notes for object.
+     *
+     * @param attachedToId
+     *            the attached to id
+     * @return the notes for object
+     * @throws Exception
+     *             the exception
+     */
 	public NoteData[] getNotesForObject(final int attachedToId)
 			throws Exception {
 		return (NoteData[]) this.getObjects(NoteData.class, "attachedTo_Id = "
@@ -341,22 +641,63 @@ public class XPlanner {
 	// People
 	//
 
+	/**
+     * Gets the person.
+     *
+     * @param id
+     *            the id
+     * @return the person
+     * @throws Exception
+     *             the exception
+     */
 	public PersonData getPerson(final int id) throws Exception {
 		return (PersonData) this.getObject(PersonData.class, id);
 	}
 
+	/**
+     * Adds the person.
+     *
+     * @param object
+     *            the object
+     * @return the person data
+     * @throws Exception
+     *             the exception
+     */
 	public PersonData addPerson(final PersonData object) throws Exception {
 		return (PersonData) this.addObject(0, object);
 	}
 
+	/**
+     * Removes the person.
+     *
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	public void removePerson(final int id) throws Exception {
 		this.removeObject(PersonData.class, id);
 	}
 
+	/**
+     * Update.
+     *
+     * @param object
+     *            the object
+     * @throws Exception
+     *             the exception
+     */
 	public void update(final PersonData object) throws Exception {
 		this.updateObject(object);
 	}
 
+	/**
+     * Gets the people.
+     *
+     * @return the people
+     * @throws Exception
+     *             the exception
+     */
 	public PersonData[] getPeople() throws Exception {
 		return (PersonData[]) this.getObjects(PersonData.class, null, null,
 				null, null);
@@ -366,27 +707,80 @@ public class XPlanner {
 	// Attributes
 	//
 
+	/**
+     * Sets the attribute.
+     *
+     * @param objectId
+     *            the object id
+     * @param key
+     *            the key
+     * @param value
+     *            the value
+     * @throws Exception
+     *             the exception
+     */
 	public void setAttribute(final int objectId, final String key,
 			final String value) throws Exception {
 		this.attributes.setAttribute(objectId, key, value);
 		this.commit(ThreadSession.get());
 	}
 
+	/**
+     * Gets the attribute.
+     *
+     * @param objectId
+     *            the object id
+     * @param key
+     *            the key
+     * @return the attribute
+     * @throws Exception
+     *             the exception
+     */
 	public String getAttribute(final int objectId, final String key)
 			throws Exception {
 		return this.attributes.getAttribute(objectId, key);
 	}
 
+	/**
+     * Delete attribute.
+     *
+     * @param objectId
+     *            the object id
+     * @param key
+     *            the key
+     * @throws Exception
+     *             the exception
+     */
 	public void deleteAttribute(final int objectId, final String key)
 			throws Exception {
 		this.attributes.delete(objectId, key);
 		this.commit(ThreadSession.get());
 	}
 
+	/**
+     * Gets the attributes.
+     *
+     * @param objectId
+     *            the object id
+     * @return the attributes
+     * @throws Exception
+     *             the exception
+     */
 	public Map getAttributes(final int objectId) throws Exception {
 		return this.attributes.getAttributes(objectId, null);
 	}
 
+	/**
+     * Gets the attributes with prefix.
+     *
+     * @param objectId
+     *            the object id
+     * @param prefix
+     *            the prefix
+     * @return the attributes with prefix
+     * @throws Exception
+     *             the exception
+     */
 	public Map getAttributesWithPrefix(final int objectId, final String prefix)
 			throws Exception {
 		return this.attributes.getAttributes(objectId, prefix);
@@ -396,6 +790,17 @@ public class XPlanner {
 	// Support Functions
 	//
 
+	/**
+     * Gets the project id.
+     *
+     * @param containerClass
+     *            the container class
+     * @param containerId
+     *            the container id
+     * @return the project id
+     * @throws Exception
+     *             the exception
+     */
 	private int getProjectId(final Class containerClass, final int containerId)
 			throws Exception {
 		final Object object = ThreadSession.get().load(containerClass,
@@ -405,12 +810,38 @@ public class XPlanner {
 		return context.getProjectId();
 	}
 
+	/**
+     * Gets the project id.
+     *
+     * @param object
+     *            the object
+     * @return the project id
+     * @throws Exception
+     *             the exception
+     */
 	private int getProjectId(final Object object) throws Exception {
 		final DomainContext context = new DomainContext();
 		context.populate(object);
 		return context.getProjectId();
 	}
 
+	/**
+     * Gets the objects.
+     *
+     * @param dataClass
+     *            the data class
+     * @param where
+     *            the where
+     * @param values
+     *            the values
+     * @param types
+     *            the types
+     * @param orderBy
+     *            the order by
+     * @return the objects
+     * @throws Exception
+     *             the exception
+     */
 	private Object[] getObjects(final Class dataClass, final String where,
 			final Object[] values, final Type[] types, final String orderBy)
 			throws Exception {
@@ -433,6 +864,21 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Gets the objects.
+     *
+     * @param fromDataClass
+     *            the from data class
+     * @param id
+     *            the id
+     * @param propertyName
+     *            the property name
+     * @param toDataClass
+     *            the to data class
+     * @return the objects
+     * @throws Exception
+     *             the exception
+     */
 	private Object[] getObjects(final Class fromDataClass, final int id,
 			final String propertyName, final Class toDataClass)
 			throws Exception {
@@ -452,6 +898,17 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Gets the object.
+     *
+     * @param dataClass
+     *            the data class
+     * @param id
+     *            the id
+     * @return the object
+     * @throws Exception
+     *             the exception
+     */
 	private Object getObject(final Class dataClass, final int id)
 			throws Exception {
 		final Session session = ThreadSession.get();
@@ -477,8 +934,17 @@ public class XPlanner {
 		}
 	}
 
+	/** The null. */
 	static Integer NULL = new Integer(-1);
 
+	/**
+     * Update object.
+     *
+     * @param data
+     *            the data
+     * @throws Exception
+     *             the exception
+     */
 	private void updateObject(final DomainData data) throws Exception {
 		Session session = null;
 		try {
@@ -508,6 +974,18 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Save history.
+     *
+     * @param session
+     *            the session
+     * @param object
+     *            the object
+     * @param eventType
+     *            the event type
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	private void saveHistory(final Session session, final DomainObject object,
 			final String eventType) throws AuthenticationException {
 		String description = null;
@@ -524,12 +1002,35 @@ public class XPlanner {
 				new Date());
 	}
 
+	/**
+     * Gets the object id.
+     *
+     * @param data
+     *            the data
+     * @return the object id
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     */
 	private Integer getObjectId(final Object data)
 			throws NoSuchMethodException, IllegalAccessException,
 			InvocationTargetException {
 		return (Integer) PropertyUtils.getProperty(data, "id");
 	}
 
+	/**
+     * Removes the object.
+     *
+     * @param dataClass
+     *            the data class
+     * @param id
+     *            the id
+     * @throws Exception
+     *             the exception
+     */
 	protected void removeObject(final Class dataClass, final int id)
 			throws Exception {
 		// DEBT Should use the metarepository
@@ -556,6 +1057,17 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Adds the object.
+     *
+     * @param projectId
+     *            the project id
+     * @param data
+     *            the data
+     * @return the object
+     * @throws Exception
+     *             the exception
+     */
 	protected Object addObject(final int projectId, final DomainData data)
 			throws Exception {
 		Session session = null;
@@ -583,6 +1095,12 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Commit.
+     *
+     * @param session
+     *            the session
+     */
 	private void commit(final Session session) {
 		if (session == null) {
 			return;
@@ -596,6 +1114,12 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Rollback.
+     *
+     * @param session
+     *            the session
+     */
 	private void rollback(final Session session) {
 		if (session == null) {
 			return;
@@ -607,6 +1131,15 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * To array.
+     *
+     * @param dataClass
+     *            the data class
+     * @param objects
+     *            the objects
+     * @return the object[]
+     */
 	private Object[] toArray(final Class dataClass, final Collection objects) {
 		try {
 			final ArrayList accessibleObjects = this
@@ -614,9 +1147,11 @@ public class XPlanner {
 			final Object[] dataObjects = this.createArray(dataClass,
 					accessibleObjects);
 			final Iterator iter = accessibleObjects.iterator();
-			for (int i = 0; iter.hasNext(); i++) {
+			int i = 0; 
+			while (iter.hasNext()) {
 				this.populateDomainData((DomainData) dataObjects[i],
 						(DomainObject) iter.next());
+				i++;
 			}
 			return dataObjects;
 		} catch (final Exception ex) {
@@ -625,6 +1160,15 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Select accessible objects.
+     *
+     * @param objects
+     *            the objects
+     * @return the array list
+     * @throws Exception
+     *             the exception
+     */
 	private ArrayList selectAccessibleObjects(final Collection objects)
 			throws Exception {
 		final ArrayList accessibleObjects = new ArrayList();
@@ -639,6 +1183,19 @@ public class XPlanner {
 		return accessibleObjects;
 	}
 
+	/**
+     * Checks for permission.
+     *
+     * @param projectId
+     *            the project id
+     * @param sourceObject
+     *            the source object
+     * @param permission
+     *            the permission
+     * @return true, if successful
+     * @throws Exception
+     *             the exception
+     */
 	private boolean hasPermission(final int projectId,
 			final DomainObject sourceObject, final String permission)
 			throws Exception {
@@ -649,6 +1206,20 @@ public class XPlanner {
 				sourceObject, permission);
 	}
 
+	/**
+     * Populate domain data.
+     *
+     * @param data
+     *            the data
+     * @param sourceObject
+     *            the source object
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     */
 	private void populateDomainData(final DomainData data,
 			final DomainObject sourceObject) throws IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
@@ -668,6 +1239,22 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Populate domain object.
+     *
+     * @param targetObject
+     *            the target object
+     * @param data
+     *            the data
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void populateDomainObject(final DomainObject targetObject,
 			final DomainData data) throws IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException,
@@ -691,12 +1278,34 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Checks if is relationship.
+     *
+     * @param domainObject
+     *            the domain object
+     * @param key
+     *            the key
+     * @return true, if is relationship
+     */
 	private boolean isRelationship(final DomainObject domainObject,
 			final String key) {
 		return RelationshipMappingRegistry.getInstance()
 				.getRelationshipMapping(domainObject, key) != null;
 	}
 
+	/**
+     * Creates the array.
+     *
+     * @param dataClass
+     *            the data class
+     * @param objects
+     *            the objects
+     * @return the object[]
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     */
 	private Object[] createArray(final Class dataClass, final Collection objects)
 			throws InstantiationException, IllegalAccessException {
 		final Object[] dataObjects = (Object[]) Array.newInstance(dataClass,
@@ -707,6 +1316,13 @@ public class XPlanner {
 		return dataObjects;
 	}
 
+	/**
+     * Gets the internal class.
+     *
+     * @param dataClass
+     *            the data class
+     * @return the internal class
+     */
 	private Class getInternalClass(final Class dataClass) {
 		try {
 			final Method method = dataClass.getMethod("getInternalClass", null);
@@ -716,12 +1332,25 @@ public class XPlanner {
 		}
 	}
 
+	/**
+     * Gets the domain class for data class.
+     *
+     * @param dataClass
+     *            the data class
+     * @return the domain class for data class
+     */
 	private Class getDomainClassForDataClass(final Class dataClass) {
 		return (Class) XPlanner.dataToDomainClassMap.get(dataClass);
 	}
 
+	/** The data to domain class map. */
 	static Map dataToDomainClassMap = XPlanner.createDataToDomainClassMap();
 
+	/**
+     * Creates the data to domain class map.
+     *
+     * @return the map
+     */
 	private static Map createDataToDomainClassMap() {
 		final HashMap map = new HashMap();
 		map.put(ProjectData.class, Project.class);

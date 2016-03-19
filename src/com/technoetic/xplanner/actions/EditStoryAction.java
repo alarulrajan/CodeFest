@@ -14,12 +14,26 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.forms.AbstractEditorForm;
 import com.technoetic.xplanner.forms.UserStoryEditorForm;
 
+/**
+ * The Class EditStoryAction.
+ */
 public class EditStoryAction extends EditObjectAction<UserStory> {
+	
+	/** The Constant CONTINUED. */
 	public static final String CONTINUED = "continued";
+	
+	/** The Constant MOVED. */
 	public static final String MOVED = "moved";
+	
+	/** The Constant OPERATION_PARAM_KEY. */
 	public static final String OPERATION_PARAM_KEY = "operation";
+	
+	/** The Constant ACTION_KEY. */
 	public static final String ACTION_KEY = "action";
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#beforeObjectCommit(com.technoetic.xplanner.domain.Identifiable, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void beforeObjectCommit(final UserStory object,
 			final ActionMapping actionMapping, final ActionForm actionForm,
@@ -41,6 +55,9 @@ public class EditStoryAction extends EditObjectAction<UserStory> {
 		request.getParameter(EditStoryAction.ACTION_KEY);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#populateForm(com.technoetic.xplanner.forms.AbstractEditorForm, org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	protected void populateForm(final AbstractEditorForm form,
 			final ActionMapping actionMapping, final HttpServletRequest request)

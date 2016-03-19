@@ -16,13 +16,19 @@ import org.springframework.web.filter.GenericFilterBean;
 
 /**
  * Get the session created by spring filter and set it into the HibernateHelper
- * session instance
- * 
+ * session instance.
+ *
  * @deprecated This is only as a transition to fully move to spring injected
  *             hibernate session management
  */
 @Deprecated
 public class HibernateSessionFilter extends GenericFilterBean {
+	
+	/**
+     * Lookup session factory.
+     *
+     * @return the session factory
+     */
 	protected SessionFactory lookupSessionFactory() {
 		if (this.logger.isDebugEnabled()) {
 			this.logger.debug("Using session factory '"
@@ -33,10 +39,18 @@ public class HibernateSessionFilter extends GenericFilterBean {
 		return (SessionFactory) wac.getBean(this.getSessionFactoryBeanName());
 	}
 
+	/**
+     * Gets the session factory bean name.
+     *
+     * @return the session factory bean name
+     */
 	private String getSessionFactoryBeanName() {
 		return "sessionFactory";
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse aResponse, final FilterChain aChain)

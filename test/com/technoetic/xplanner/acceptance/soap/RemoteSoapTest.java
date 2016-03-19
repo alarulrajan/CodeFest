@@ -6,12 +6,23 @@ import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.soap.XPlanner;
 
+/**
+ * The Class RemoteSoapTest.
+ */
 public class RemoteSoapTest extends AbstractSoapTestCase {
 
+   /** Instantiates a new remote soap test.
+     *
+     * @param s
+     *            the s
+     */
    public RemoteSoapTest(String s) {
       super(s);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.soap.AbstractSoapTestCase#createXPlanner()
+    */
    public XPlanner createXPlanner() throws Exception {
       XPlannerProperties properties = new XPlannerProperties();
       String serviceUrl = XPlannerTestSupport.getAbsoluteTestURL() + "/soap/XPlanner";

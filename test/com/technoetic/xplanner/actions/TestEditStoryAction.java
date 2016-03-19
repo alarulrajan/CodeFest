@@ -18,20 +18,50 @@ import com.technoetic.xplanner.domain.Feature;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.forms.UserStoryEditorForm;
 
+/**
+ * The Class TestEditStoryAction.
+ */
 public class TestEditStoryAction extends AbstractActionTestCase {
+	
+	/** The iteration. */
 	private Iteration iteration;
+	
+	/** The stories. */
 	private List<UserStory> stories;
+	
+	/** The story. */
 	private UserStory story;
+	
+	/** The task1. */
 	private Task task1;
+	
+	/** The task2. */
 	private Task task2;
+	
+	/** The task3. */
 	private Task task3;
+	
+	/** The feature1. */
 	private Feature feature1;
+	
+	/** The feature2. */
 	private Feature feature2;
+	
+	/** The tasks. */
 	private List<Task> tasks;
+	
+	/** The features. */
 	private List<Feature> features;
+	
+	/** The Constant STORY_ID. */
 	public static final int STORY_ID = 111;
+	
+	/** The Constant ITERATION_ID. */
 	public static final int ITERATION_ID = 33;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+	 */
 	@Override
 	@Before
    public void setUp() throws Exception {
@@ -92,6 +122,11 @@ public class TestEditStoryAction extends AbstractActionTestCase {
        story.setIteration(iteration);
    }
 
+    /** Test story customer id to object mapping after submit.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testStoryCustomerIdToObjectMappingAfterSubmit() throws Exception {
         UserStoryEditorForm form = new UserStoryEditorForm();
         form.setOid("" + STORY_ID);
@@ -123,6 +158,11 @@ public class TestEditStoryAction extends AbstractActionTestCase {
         assertSame(person1, story.getCustomer());
     }
 
+    /** Test story customer id to object mapping before submit.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testStoryCustomerIdToObjectMappingBeforeSubmit() throws Exception {
         UserStoryEditorForm form = new UserStoryEditorForm();
         form.setOid("" + STORY_ID);
@@ -147,6 +187,11 @@ public class TestEditStoryAction extends AbstractActionTestCase {
         assertEquals(1, form.getCustomerId());
     }
 
+    /** Test reorder of stories.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testReorderOfStories() throws Exception
     {
         UserStoryEditorForm form = new UserStoryEditorForm();

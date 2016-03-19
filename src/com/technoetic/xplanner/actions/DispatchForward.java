@@ -22,29 +22,33 @@ import com.technoetic.xplanner.security.auth.Authorizer;
  * http://husted.com/about/scaffolding/catalog.htm
  */
 public final class DispatchForward extends Action {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The is authorization required. */
 	private boolean isAuthorizationRequired = true;
+	
+	/** The authorizer. */
 	private Authorizer authorizer;
 
 	/**
-	 * Forward request to "cancel", {forward}, or "error" mapping, where
-	 * {forward} is an action path given in the parameter mapping or in the
-	 * request as "forward=actionPath".
-	 * 
-	 * @param mapping
-	 *            The ActionMapping used to select this instance
-	 * @param form
-	 *            The optional ActionForm bean for this request (if any)
-	 * @param request
-	 *            The HTTP request we are processing
-	 * @param response
-	 *            The HTTP response we are creating
-	 * 
-	 * @exception IOException
-	 *                if an input/output error occurs
-	 * @exception ServletException
-	 *                if a servlet exception occurs
-	 */
+     * Forward request to "cancel", {forward}, or "error" mapping, where
+     * {forward} is an action path given in the parameter mapping or in the
+     * request as "forward=actionPath".
+     *
+     * @param mapping
+     *            The ActionMapping used to select this instance
+     * @param form
+     *            The optional ActionForm bean for this request (if any)
+     * @param request
+     *            The HTTP request we are processing
+     * @param response
+     *            The HTTP response we are creating
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	@Override
 	public ActionForward execute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -91,14 +95,33 @@ public final class DispatchForward extends Action {
 
 	}
 
+	/**
+     * Sets the authorization required.
+     *
+     * @param authorizationRequired
+     *            the new authorization required
+     */
 	public void setAuthorizationRequired(final boolean authorizationRequired) {
 		this.isAuthorizationRequired = authorizationRequired;
 	}
 
+	/**
+     * Sets the authorizer.
+     *
+     * @param authorizer
+     *            the new authorizer
+     */
 	public void setAuthorizer(final Authorizer authorizer) {
 		this.authorizer = authorizer;
 	}
 
+	/**
+     * Checks if is secure.
+     *
+     * @param mapping
+     *            the mapping
+     * @return true, if is secure
+     */
 	private boolean isSecure(final ActionMapping mapping) {
 		return mapping.findForward("@secure") != null ? Boolean.valueOf(mapping
 				.findForward("@secure").getPath()) != Boolean.FALSE

@@ -30,12 +30,26 @@ import com.technoetic.xplanner.security.PersonPrincipal;
 import com.technoetic.xplanner.security.auth.MockAuthorizer;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
+/**
+ * The Class TestOutlineTag.
+ */
 public class TestOutlineTag extends TestCase {
+   
+   /** The support. */
    private XPlannerTestSupport support;
+   
+   /** The outline tag. */
    private OutlineTag outlineTag;
+   
+   /** The mock session. */
    Session mockSession = null;
+   
+   /** The mock session control. */
    MockControl mockSessionControl = null;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    public void setUp() throws Exception {
       super.setUp();
       Person person = new Person();
@@ -57,11 +71,21 @@ public class TestOutlineTag extends TestCase {
       setUpThreadSession();
    }
 
+   /** Execute tag.
+     *
+     * @throws JspException
+     *             the jsp exception
+     */
    private void executeTag() throws JspException {
       int result = outlineTag.doStartTag();
       assertEquals("wrong result", BodyTag.EVAL_BODY_INCLUDE, result);
    }
 
+   /** Test render1.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender1() throws Exception {
       DomainContext context = new DomainContext();
       context.setProjectId(1);
@@ -80,6 +104,11 @@ public class TestOutlineTag extends TestCase {
       assertTrue("missing project name", out.indexOf("Test Project") != -1);
    }
 
+   /** Test render2.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender2() throws Exception {
       DomainContext context = new DomainContext();
       context.setProjectId(1);
@@ -102,6 +131,11 @@ public class TestOutlineTag extends TestCase {
       assertTrue("missing iteration name", out.indexOf("Test Iteration") != -1);
    }
 
+   /** Test render3.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender3() throws Exception {
       DomainContext context = new DomainContext();
       context.setProjectId(1);
@@ -126,6 +160,11 @@ public class TestOutlineTag extends TestCase {
       assertTrue("missing story name", out.indexOf("Test Story") != -1);
    }
 
+   /** Test render4.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender4() throws Exception {
       DomainContext context = new DomainContext();
       context.setProjectId(1);
@@ -153,6 +192,8 @@ public class TestOutlineTag extends TestCase {
       assertTrue("missing task name", out.indexOf("Test Task") != -1);
    }
 
+   /** Sets the up thread session.
+     */
    private void setUpThreadSession() {
       mockSessionControl = MockControl.createControl(Session.class);
       mockSession = (Session) mockSessionControl.getMock();
@@ -172,6 +213,11 @@ public class TestOutlineTag extends TestCase {
       mockSessionControl.reset();
    }
 
+   /** Sets the mock objects.
+     *
+     * @param context
+     *            the new mock objects
+     */
    private void setMockObjects(DomainContext context) {
       try {
          if (context.getProjectId() != 0) {

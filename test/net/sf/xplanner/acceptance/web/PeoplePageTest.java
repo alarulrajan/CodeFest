@@ -7,8 +7,14 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * The Class PeoplePageTest.
+ */
 public class PeoplePageTest extends BaseTest {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.acceptance.web.BaseTest#setUp()
+	 */
 	@BeforeClass
 	@Override
 	public void setUp() throws Exception {
@@ -16,6 +22,9 @@ public class PeoplePageTest extends BaseTest {
 		loginAsAdmin();
 	}
 	
+	/**
+     * Test sysadmin present.
+     */
 	@Test
 	public void testSysadminPresent() {
 		clickLink(PEOPLE_LINK_ID);
@@ -24,6 +33,9 @@ public class PeoplePageTest extends BaseTest {
 		assertTextInTable("objecttable", ADMIN_LOGIN);
 	}
 	
+	/**
+     * Test add and edit person.
+     */
 	@Test
 	@Ignore
 	public void testAddAndEditPerson() {

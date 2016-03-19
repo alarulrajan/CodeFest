@@ -21,11 +21,23 @@ import com.technoetic.xplanner.domain.DomainMetaDataRepository;
 import com.technoetic.xplanner.domain.Nameable;
 import com.technoetic.xplanner.views.ActionRenderer;
 
+/**
+ * The Class TestActionButtonsTag.
+ */
 public class TestActionButtonsTag extends TestCase {
+    
+    /** The tag. */
     ActionButtonsTag tag;
+    
+    /** The support. */
     protected XPlannerTestSupport support;
+    
+    /** The object. */
     Project object = new Project();
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     public void setUp() throws Exception {
         super.setUp();
         object.setName("test project");
@@ -38,6 +50,11 @@ public class TestActionButtonsTag extends TestCase {
         tag.setObject(object);
     }
 
+   /** Test iteration with one mapping.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testIterationWithOneMapping() throws Exception
    {
       DomainMetaDataRepository repository = new DomainMetaDataRepository();
@@ -55,6 +72,11 @@ public class TestActionButtonsTag extends TestCase {
       assertEquals(BodyTag.SKIP_BODY, status);
    }
 
+   /** Test iteration with two mappings.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testIterationWithTwoMappings() throws Exception
    {
       DomainMetaDataRepository repository = new DomainMetaDataRepository();
@@ -77,6 +99,11 @@ public class TestActionButtonsTag extends TestCase {
       assertEquals(BodyTag.SKIP_BODY, status);
    }
 
+   /** Test iteration with three mappings with middle not visible.
+     *
+     * @throws Exception
+     *             the exception
+     */
    //DEBT(DATADRIVEN) Should have a test to cover boundary testing (first invisible and last invisible, all invisible)
    public void testIterationWithThreeMappingsWithMiddleNotVisible() throws Exception
    {
@@ -108,6 +135,14 @@ public class TestActionButtonsTag extends TestCase {
       assertEquals(BodyTag.SKIP_BODY, status);
    }
 
+   /** Creates the and add mapping.
+     *
+     * @param domainClass
+     *            the domain class
+     * @param id
+     *            the id
+     * @return the action mapping
+     */
    private ActionMapping createAndAddMapping(DomainClass domainClass, int id) {
       ActionMapping mapping1 =
             new ActionMapping("action"+id, "actionKey"+id, "permission"+id, "iconPath"+id, "targetPage"+id, "domainType"+id, false);
@@ -115,6 +150,13 @@ public class TestActionButtonsTag extends TestCase {
       return mapping1;
    }
 
+   /** Assert equivalent.
+     *
+     * @param expectedMapping
+     *            the expected mapping
+     * @param equivalentRenderer
+     *            the equivalent renderer
+     */
    private void assertEquivalent(ActionMapping expectedMapping, ActionRenderer equivalentRenderer) {
       assertNotNull(equivalentRenderer);
       assertEquals(expectedMapping.getName(), equivalentRenderer.getName());

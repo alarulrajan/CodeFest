@@ -8,7 +8,18 @@
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+/**
+ * The Class TestAllAcceptanceTestsUnderJetty.
+ */
 public class TestAllAcceptanceTestsUnderJetty extends TestSuite {
+  
+  /**
+     * Suite.
+     *
+     * @return the test
+     * @throws Exception
+     *             the exception
+     */
   public static Test suite() throws Exception {
     return new JettyTestDecorator(TestAllAcceptanceTests.suite());
   }

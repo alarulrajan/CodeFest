@@ -6,23 +6,42 @@ import junit.framework.TestSuite;
 import com.clarkware.junitperf.TimedTest;
 import com.technoetic.xplanner.acceptance.web.AbstractPageTestScript;
 
+/**
+ * The Class ReadOnlyPerformanceTest.
+ */
 // DEBT Should not hardcode urls. Refactor into a gotoProject...
 public class ReadOnlyPerformanceTest extends AbstractPageTestScript {
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     public void setUp() throws Exception {
         super.setUp();
         tester.login();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+     */
     public void tearDown() throws Exception {
         tester.logout();
         super.tearDown();
     }
 
+    /** Instantiates a new read only performance test.
+     *
+     * @param test
+     *            the test
+     */
     public ReadOnlyPerformanceTest(String test) {
         super(test);
     }
 
+    /** Show main pages.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void showMainPages() throws Exception {
         tester.gotoProjectsPage();
         tester.gotoPage("view", "project", 1);
@@ -31,6 +50,8 @@ public class ReadOnlyPerformanceTest extends AbstractPageTestScript {
         tester.gotoPage("view", "task", 804);
     }
 
+    /** Show history pages.
+     */
     public void showHistoryPages() {
         tester.gotoPage("/do/view/history?oid=1&@type=net.sf.xplanner.domain.Project");
         tester.gotoPage(
@@ -39,6 +60,8 @@ public class ReadOnlyPerformanceTest extends AbstractPageTestScript {
         tester.gotoPage("/do/view/history?oid=804&@type=net.sf.xplanner.domain.Task");
     }
 
+    /** Show iteration detail pages.
+     */
     public void showIterationDetailPages() {
         tester.gotoPage("/do/view/iteration/tasks?oid=76742");
         tester.gotoPage("/do/view/iteration/metrics?oid=76742");
@@ -46,6 +69,12 @@ public class ReadOnlyPerformanceTest extends AbstractPageTestScript {
         tester.gotoPage("/do/view/iteration/accuracy?oid=76742");
     }
 
+    /** Suite.
+     *
+     * @return the test
+     * @throws Exception
+     *             the exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite();
         suite.addTest(new TimedTest(new ReadOnlyPerformanceTest("showMainPages"), 30000));

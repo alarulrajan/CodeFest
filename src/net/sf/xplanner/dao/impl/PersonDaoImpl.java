@@ -9,8 +9,8 @@ import net.sf.xplanner.domain.Person;
 import com.technoetic.xplanner.domain.repository.DuplicateUserIdException;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -24,9 +24,12 @@ import com.technoetic.xplanner.domain.repository.DuplicateUserIdException;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class PersonDaoImpl extends BaseDao<Person> implements PersonDao {
+	
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.impl.BaseDao#save(com.technoetic.xplanner.domain.Identifiable)
+	 */
 	@Override
 	public int save(final Person person) {
 		final Person uniqueObject = this.getUniqueObject(Person.USER_ID,

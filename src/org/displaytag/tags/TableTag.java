@@ -171,9 +171,7 @@ public class TableTag extends HtmlTableTag {
 	 */
 	private int offset;
 
-	/**
-	 * sort the full list?
-	 */
+	/** sort the full list?. */
 	private Boolean sortFullTable;
 
 	/**
@@ -260,9 +258,7 @@ public class TableTag extends HtmlTableTag {
 	 */
 	private MediaTypeEnum currentMediaType;
 
-	/**
-	 * daAfterBody() has been executed at least once?
-	 */
+	/** daAfterBody() has been executed at least once?. */
 	private boolean doAfterBodyExecuted;
 
 	/**
@@ -325,22 +321,22 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * Is the current row empty?
-	 * 
-	 * @return true if the current row is empty
-	 */
+     * Is the current row empty?.
+     *
+     * @return true if the current row is empty
+     */
 	protected boolean isEmpty() {
 		return this.currentRow == null;
 	}
 
 	/**
-	 * setter for the "sort" attribute.
-	 * 
-	 * @param value
-	 *            "page" (sort a single page) or "list" (sort the full list)
-	 * @throws org.displaytag.exception.InvalidTagAttributeValueException
-	 *             if value is not "page" or "list"
-	 */
+     * setter for the "sort" attribute.
+     *
+     * @param value
+     *            "page" (sort a single page) or "list" (sort the full list)
+     * @throws InvalidTagAttributeValueException
+     *             the invalid tag attribute value exception
+     */
 	public void setSort(final String value)
 			throws InvalidTagAttributeValueException {
 		if (TableTagParameters.SORT_AMOUNT_PAGE.equals(value)) {
@@ -406,6 +402,12 @@ public class TableTag extends HtmlTableTag {
 		}
 	}
 
+	/**
+     * Sets the name.
+     *
+     * @param value
+     *            the new name
+     */
 	public void setName(final String value) {
 		this.setName((Object) value);
 	}
@@ -474,11 +476,11 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * Is export enabled?
-	 * 
-	 * @param value
-	 *            <code>true</code> if export should be enabled
-	 */
+     * Is export enabled?.
+     *
+     * @param value
+     *            <code>true</code> if export should be enabled
+     */
 	public void setExport(final boolean value) {
 		this.export = value;
 	}
@@ -612,10 +614,10 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * Is this the first iteration?
-	 * 
-	 * @return boolean <code>true</code> if this is the first iteration
-	 */
+     * Is this the first iteration?.
+     *
+     * @return boolean <code>true</code> if this is the first iteration
+     */
 	protected boolean isFirstIteration() {
 		if (TableTag.log.isDebugEnabled()) {
 			TableTag.log.debug("[" + this.getUid() + "] first iteration="
@@ -628,15 +630,15 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * When the tag starts, we just initialize some of our variables, and do a
-	 * little bit of error checking to make sure that the user is not trying to
-	 * give us parameters that we don't expect.
-	 * 
-	 * @return int
-	 * @throws javax.servlet.jsp.JspException
-	 *             generic exception
-	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-	 */
+     * When the tag starts, we just initialize some of our variables, and do a
+     * little bit of error checking to make sure that the user is not trying to
+     * give us parameters that we don't expect.
+     *
+     * @return int
+     * @throws JspException
+     *             the jsp exception
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
 	@Override
 	public int doStartTag() throws JspException {
 		DependencyChecker.check();
@@ -682,8 +684,11 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyTag#doAfterBody()
-	 */
+     * Do after body.
+     *
+     * @return the int
+     * @see javax.servlet.jsp.tagext.BodyTag#doAfterBody()
+     */
 	@Override
 	public int doAfterBody() {
 		// doAfterBody() has been called, body is not empty
@@ -766,21 +771,29 @@ public class TableTag extends HtmlTableTag {
 		return Tag.SKIP_BODY;
 	}
 
+	/**
+     * Sets the row object for cell values.
+     *
+     * @param iteratedObject
+     *            the iterated object
+     * @param rowNumber
+     *            the row number
+     * @return the row
+     */
 	protected Row setRowObjectForCellValues(final Object iteratedObject,
 			final int rowNumber) {
 		return new Row(iteratedObject, rowNumber);
 	}
 
 	/**
-	 * Reads parameters from the request and initialize all the needed table
-	 * model attributes.
-	 * 
-	 * @throws org.displaytag.exception.ObjectLookupException
-	 *             for problems in evaluating the expression in the "name"
-	 *             attribute
-	 * @throws org.displaytag.exception.FactoryInstantiationException
-	 *             for problems in instantiating a RequestHelperFactory
-	 */
+     * Reads parameters from the request and initialize all the needed table
+     * model attributes.
+     *
+     * @throws ObjectLookupException
+     *             the object lookup exception
+     * @throws FactoryInstantiationException
+     *             the factory instantiation exception
+     */
 	private void initParameters() throws ObjectLookupException,
 			FactoryInstantiationException {
 		if (TableTag.rhf == null) {
@@ -1219,18 +1232,18 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * Will write the export. The default behavior is to write directly to the
-	 * response. If the ResponseOverrideFilter is configured for this request,
-	 * will instead write the exported content to a map in the Request object.
-	 * 
-	 * @param exportView
-	 *            export view
-	 * @throws JspException
-	 *             for problem in clearing the response or for invalid export
-	 *             views
-	 * @throws IOException
-	 *             exception thrown when writing content to the response
-	 */
+     * Will write the export. The default behavior is to write directly to the
+     * response. If the ResponseOverrideFilter is configured for this request,
+     * will instead write the exported content to a map in the Request object.
+     *
+     * @param exportView
+     *            export view
+     * @throws IOException
+     *             exception thrown when writing content to the response
+     * @throws JspException
+     *             for problem in clearing the response or for invalid export
+     *             views
+     */
 	protected void writeExport(final ExportView exportView) throws IOException,
 			JspException {
 		final String filename = this.properties
@@ -1801,8 +1814,10 @@ public class TableTag extends HtmlTableTag {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.Tag#release()
-	 */
+     * Release.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#release()
+     */
 	@Override
 	public void release() {
 		super.release();

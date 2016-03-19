@@ -9,25 +9,58 @@ import com.meterware.httpunit.WebImage;
 import com.technoetic.xplanner.views.IconConstants;
 
 
+/**
+ * The Class IterationAllTasksPageTestScript.
+ */
 public class IterationAllTasksPageTestScript extends AbstractPageTestScript
 {
+    
+    /** The first story name. */
     public final String firstStoryName = "First Story";
+    
+    /** The second story. */
     public final String secondStory = "Second Story";
+    
+    /** The tt task in first story. */
     public final String ttTaskInFirstStory = "TT Task";
+    
+    /** The ss task in first story. */
     public final String ssTaskInFirstStory = "SS Task";
+    
+    /** The started task in second story. */
     public final String startedTaskInSecondStory = "Started Task";
+    
+    /** The non started task in second story. */
     public final String nonStartedTaskInSecondStory = "Non Started Task";
+    
+    /** The completed task in second story. */
     public final String completedTaskInSecondStory = "Completed Task";
+    
+    /** The all tasks table id. */
     public final String allTasksTableId = "objecttable";
+    
+    /** The status column key. */
     public final String statusColumnKey = "tasks.tableheading.status";
+    
+    /** The task name column key. */
     public final String taskNameColumnKey = "person.tableheading.task";
+    
+    /** The started task id. */
     public String startedTaskId;
 
+    /** Instantiates a new iteration all tasks page test script.
+     *
+     * @param test
+     *            the test
+     */
     public IterationAllTasksPageTestScript(String test)
     {
         super(test);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     public void setUp() throws Exception
     {
         super.setUp();
@@ -40,12 +73,17 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
         setUpTestIteration();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+     */
     public void tearDown() throws Exception
     {
         deleteLocalObjects();
         super.tearDown();
     }
 
+    /** Delete local objects.
+     */
     private void deleteLocalObjects()
     {
         tester.deleteObjects(Task.class, "name", ssTaskInFirstStory);
@@ -57,6 +95,11 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
         tester.deleteObjects(UserStory.class, "name", secondStory);
     }
 
+    /** Sets the up test iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void setUpTestIteration()
         throws Exception
     {
@@ -80,6 +123,11 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
         tester.clickLinkWithText(testIterationName);
     }
 
+    /** Test all tasks page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAllTasksPage() throws Exception
     {
         tester.addUserStory(secondStory, testStoryDescription, "10.0", "1");
@@ -113,6 +161,8 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
         deleteLocalTimeEntry(startedTaskId);
     }
 
+   /** Test edit task.
+     */
    public void testEditTask(){
       tester.clickLinkWithKey("iteration.link.all_tasks");
       tester.clickEditLinkInRowWithText(ttTaskInFirstStory);
@@ -121,6 +171,8 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
       tester.assertTextPresent(tester.getXPlannerLoginId());
    }
 
+    /** Verify all tasks page.
+     */
     private void verifyAllTasksPage()
     {
         tester.assertKeyPresent("iteration.alltasks.prefix");
@@ -137,11 +189,29 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
         assertCellContains(IconConstants.STATUS_COMPLETED_ICON, 5, statusColumnKey);
     }
 
+   /** Assert cell equals.
+     *
+     * @param expectedCellText
+     *            the expected cell text
+     * @param rowIndex
+     *            the row index
+     * @param columnKey
+     *            the column key
+     */
    private void assertCellEquals(String expectedCellText, int rowIndex, String columnKey) {
       tester.assertCellTextForRowIndexAndColumnKeyEquals(XPlannerWebTester.MAIN_TABLE_ID, rowIndex, columnKey,
                                                          expectedCellText);
    }
 
+   /** Assert cell contains.
+     *
+     * @param image
+     *            the image
+     * @param rowIndex
+     *            the row index
+     * @param columnKey
+     *            the column key
+     */
    private void assertCellContains(String image, int rowIndex, String columnKey) {
       TableCell cell = tester.getCell(XPlannerWebTester.MAIN_TABLE_ID, columnKey, rowIndex);
       WebImage[] images = cell.getImages();
@@ -154,6 +224,12 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
       Assert.fail("Could not find image " + image + " in " + dumpImageArray(images));
    }
 
+   /** Dump image array.
+     *
+     * @param images
+     *            the images
+     * @return the string
+     */
    private String dumpImageArray(WebImage[] images) {
       StringBuffer buf = new StringBuffer();
       buf.append("[");
@@ -166,6 +242,16 @@ public class IterationAllTasksPageTestScript extends AbstractPageTestScript
       return imagesArrayString;
    }
 
+   /** Adds the task to current story.
+     *
+     * @param taskToAdd
+     *            the task to add
+     * @param description
+     *            the description
+     * @param estimatedHours
+     *            the estimated hours
+     * @return the string
+     */
    private String addTaskToCurrentStory(String taskToAdd, String description, String estimatedHours)
     {
         String taskId = tester.addTask(taskToAdd, developerName, description, estimatedHours);

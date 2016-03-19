@@ -8,43 +8,82 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * The Class ProgressBarHtmlTag.
+ */
 public class ProgressBarHtmlTag extends TagSupport implements ProgressBarTag {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 9020272510102623317L;
+	
+	/** The actual. */
 	private double actual;
+	
+	/** The estimate. */
 	private double estimate;
+	
+	/** The complete. */
 	private boolean complete = false;
+	
+	/** The width. */
 	private String width;
+	
+	/** The height. */
 	private int height;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.ProgressBarTag#setActual(double)
+	 */
 	@Override
 	public void setActual(final double actual) {
 		this.actual = actual;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.ProgressBarTag#setEstimate(double)
+	 */
 	@Override
 	public void setEstimate(final double estimate) {
 		this.estimate = estimate;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.ProgressBarTag#setComplete(boolean)
+	 */
 	@Override
 	public void setComplete(final boolean complete) {
 		this.complete = complete;
 	}
 
+	/**
+     * Sets the width.
+     *
+     * @param width
+     *            the new width
+     */
 	public void setWidth(final int width) {
 		this.width = String.valueOf(width);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.ProgressBarTag#setWidth(java.lang.String)
+	 */
 	@Override
 	public void setWidth(final String width) {
 		this.width = width;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.ProgressBarTag#setHeight(int)
+	 */
 	@Override
 	public void setHeight(final int height) {
 		this.height = height;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		try {

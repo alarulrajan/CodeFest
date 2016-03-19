@@ -12,10 +12,20 @@ import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.domain.repository.AttributeRepositoryImpl;
 
+/**
+ * The Class AttributeRepositoryTestScript.
+ */
 public class AttributeRepositoryTestScript extends TestCase {
+    
+    /** The session. */
     private Session session;
+    
+    /** The repository. */
     private AttributeRepositoryImpl repository;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         HibernateHelper.initializeHibernate();
@@ -24,12 +34,20 @@ public class AttributeRepositoryTestScript extends TestCase {
         ThreadSession.set(session);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         session.close();
         ThreadSession.set(null);
         super.tearDown();
     }
 
+    /** Test attribute management.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAttributeManagement() throws Exception {
         Transaction txn;
 

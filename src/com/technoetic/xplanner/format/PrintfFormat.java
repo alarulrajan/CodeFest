@@ -441,34 +441,42 @@ import java.util.Vector;
  *              round up/down when last digits are 50000...
  */
 public class PrintfFormat {
+  
   /**
-   * Constructs an array of control specifications
-   * possibly preceded, separated, or followed by
-   * ordinary strings.  Control strings begin with
-   * unpaired percent signs.  A pair of successive
-   * percent signs designates a single percent sign in
-   * the format.
-   * @param fmtArg  Control string.
-   * @exception java.lang.IllegalArgumentException if the control
-   * string is null, zero length, or otherwise
-   * malformed.
-   */
+     * Constructs an array of control specifications possibly preceded,
+     * separated, or followed by ordinary strings. Control strings begin with
+     * unpaired percent signs. A pair of successive percent signs designates a
+     * single percent sign in the format.
+     *
+     * @param fmtArg
+     *            Control string.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the control string is null, zero length, or otherwise
+     *                malformed.
+     */
   public PrintfFormat(String fmtArg)
       throws IllegalArgumentException {
     this(Locale.getDefault(),fmtArg);
   }
+  
   /**
-   * Constructs an array of control specifications
-   * possibly preceded, separated, or followed by
-   * ordinary strings.  Control strings begin with
-   * unpaired percent signs.  A pair of successive
-   * percent signs designates a single percent sign in
-   * the format.
-   * @param fmtArg  Control string.
-   * @exception java.lang.IllegalArgumentException if the control
-   * string is null, zero length, or otherwise
-   * malformed.
-   */
+     * Constructs an array of control specifications possibly preceded,
+     * separated, or followed by ordinary strings. Control strings begin with
+     * unpaired percent signs. A pair of successive percent signs designates a
+     * single percent sign in the format.
+     *
+     * @param locale
+     *            the locale
+     * @param fmtArg
+     *            Control string.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the control string is null, zero length, or otherwise
+     *                malformed.
+     */
   public PrintfFormat(Locale locale,String fmtArg)
       throws IllegalArgumentException {
     dfs = new DecimalFormatSymbols(locale);
@@ -623,14 +631,18 @@ public class PrintfFormat {
     }
     return sb.toString();
   }
+  
   /**
-   * Format an int.
-   * @param x The int to format.
-   * @return  The formatted String.
-   * @exception java.lang.IllegalArgumentException if the
-   *     conversion character is f, e, E, g, G, s,
-   *     or S.
-   */
+     * Format an int.
+     *
+     * @param x
+     *            The int to format.
+     * @return The formatted String.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is f, e, E, g, G, s, or S.
+     */
   public String sprintf(int x)
       throws IllegalArgumentException {
     Enumeration e = vFmt.elements();
@@ -647,14 +659,18 @@ public class PrintfFormat {
     }
     return sb.toString();
   }
+  
   /**
-   * Format an long.
-   * @param x The long to format.
-   * @return  The formatted String.
-   * @exception java.lang.IllegalArgumentException if the
-   *     conversion character is f, e, E, g, G, s,
-   *     or S.
-   */
+     * Format an long.
+     *
+     * @param x
+     *            The long to format.
+     * @return The formatted String.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is f, e, E, g, G, s, or S.
+     */
   public String sprintf(long x)
       throws IllegalArgumentException {
     Enumeration e = vFmt.elements();
@@ -671,14 +687,19 @@ public class PrintfFormat {
     }
     return sb.toString();
   }
+  
   /**
-   * Format a double.
-   * @param x The double to format.
-   * @return  The formatted String.
-   * @exception java.lang.IllegalArgumentException if the
-   *     conversion character is c, C, s, S,
-   *     d, d, x, X, or o.
-   */
+     * Format a double.
+     *
+     * @param x
+     *            The double to format.
+     * @return The formatted String.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is c, C, s, S, d, d, x, X, or
+     *                o.
+     */
   public String sprintf(double x)
       throws IllegalArgumentException {
     Enumeration e = vFmt.elements();
@@ -695,13 +716,18 @@ public class PrintfFormat {
     }
     return sb.toString();
   }
+  
   /**
-   * Format a String.
-   * @param x The String to format.
-   * @return  The formatted String.
-   * @exception java.lang.IllegalArgumentException if the
-   *   conversion character is neither s nor S.
-   */
+     * Format a String.
+     *
+     * @param x
+     *            The String to format.
+     * @return The formatted String.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is neither s nor S.
+     */
   public String sprintf(String x)
       throws IllegalArgumentException {
     Enumeration e = vFmt.elements();
@@ -718,19 +744,22 @@ public class PrintfFormat {
     }
     return sb.toString();
   }
+  
   /**
-   * Format an Object.  Convert wrapper types to
-   * their primitive equivalents and call the
-   * appropriate internal formatting method. Convert
-   * Strings using an internal formatting method for
-   * Strings. Otherwise use the default formatter
-   * (use toString).
-   * @param x the Object to format.
-   * @return  the formatted String.
-   * @exception java.lang.IllegalArgumentException if the
-   *    conversion character is inappropriate for
-   *    formatting an unwrapped value.
-   */
+     * Format an Object. Convert wrapper types to their primitive equivalents
+     * and call the appropriate internal formatting method. Convert Strings
+     * using an internal formatting method for Strings. Otherwise use the
+     * default formatter (use toString).
+     *
+     * @param x
+     *            the Object to format.
+     * @return the formatted String.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is inappropriate for
+     *                formatting an unwrapped value.
+     */
   public String sprintf(Object x)
       throws IllegalArgumentException {
     Enumeration e = vFmt.elements();
@@ -813,16 +842,18 @@ public class PrintfFormat {
      * to hold a literal, not a control string.
      */
     ConversionSpecification() { }
-    /**
-     * Constructor for a conversion specification.
-     * The argument must begin with a % and end
-     * with the conversion character for the
-     * conversion specification.
-      * @param fmtArg  String specifying the
-     *     conversion specification.
-      * @exception java.lang.IllegalArgumentException if the
-     *     input string is null, zero length, or
-     *     otherwise malformed.
+    
+    /** Constructor for a conversion specification. The argument must begin
+     * with a % and end with the conversion character for the conversion
+     * specification.
+     *
+     * @param fmtArg
+     *            String specifying the conversion specification.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the input string is null, zero length, or otherwise
+     *                malformed.
      */
     ConversionSpecification(String fmtArg)
         throws IllegalArgumentException {
@@ -976,13 +1007,16 @@ public class PrintfFormat {
       precisionSet = true;
       precision = Math.max(pr,0);
     }
-    /**
-     * Format an int argument using this conversion
-      * specification.
-     * @param s the int to format.
+    
+    /** Format an int argument using this conversion specification.
+     *
+     * @param s
+     *            the int to format.
      * @return the formatted String.
-     * @exception java.lang.IllegalArgumentException if the
-     *     conversion character is f, e, E, g, or G.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is f, e, E, g, or G.
      */
     String internalsprintf(int s)
         throws IllegalArgumentException {
@@ -1026,13 +1060,16 @@ public class PrintfFormat {
       }
       return s2;
     }
-    /**
-     * Format a long argument using this conversion
-     * specification.
-     * @param s the long to format.
+    
+    /** Format a long argument using this conversion specification.
+     *
+     * @param s
+     *            the long to format.
      * @return the formatted String.
-     * @exception java.lang.IllegalArgumentException if the
-     *     conversion character is f, e, E, g, or G.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is f, e, E, g, or G.
      */
     String internalsprintf(long s)
         throws IllegalArgumentException {
@@ -1075,14 +1112,17 @@ public class PrintfFormat {
       }
       return s2;
     }
-    /**
-     * Format a double argument using this conversion
-     * specification.
-     * @param s the double to format.
+    
+    /** Format a double argument using this conversion specification.
+     *
+     * @param s
+     *            the double to format.
      * @return the formatted String.
-     * @exception java.lang.IllegalArgumentException if the
-     *     conversion character is c, C, s, S, i, d,
-     *     x, X, or o.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is c, C, s, S, i, d, x, X, or
+     *                o.
      */
     String internalsprintf(double s)
         throws IllegalArgumentException {
@@ -1106,13 +1146,16 @@ public class PrintfFormat {
       }
       return s2;
     }
-    /**
-     * Format a String argument using this conversion
-     * specification.
-     * @param s the String to format.
+    
+    /** Format a String argument using this conversion specification.
+     *
+     * @param s
+     *            the String to format.
      * @return the formatted String.
-     * @exception java.lang.IllegalArgumentException if the
-     *   conversion character is neither s nor S.
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @exception java.lang.IllegalArgumentException
+     *                if the conversion character is neither s nor S.
      */
     String internalsprintf(String s)
         throws IllegalArgumentException {
@@ -1146,27 +1189,25 @@ public class PrintfFormat {
           " conversion character.");
       return s2;
     }
-    /**
-     * For f format, the flag character '-', means that
-     * the output should be left justified within the
-     * field.  The default is to pad with blanks on the
-     * left.  '+' character means that the conversion
-     * will always begin with a sign (+ or -).  The
-     * blank flag character means that a non-negative
-     * input will be preceded with a blank.  If both
-     * a '+' and a ' ' are specified, the blank flag
-     * is ignored.  The '0' flag character implies that
-     * padding to the field width will be done with
-     * zeros instead of blanks.
-     *
-     * The field width is treated as the minimum number
-     * of characters to be printed.  The default is to
-     * add no padding.  Padding is with blanks by
+    
+    /** For f format, the flag character '-', means that the output should be
+     * left justified within the field. The default is to pad with blanks on the
+     * left. '+' character means that the conversion will always begin with a
+     * sign (+ or -). The blank flag character means that a non-negative input
+     * will be preceded with a blank. If both a '+' and a ' ' are specified, the
+     * blank flag is ignored. The '0' flag character implies that padding to the
+     * field width will be done with zeros instead of blanks.
+     * 
+     * The field width is treated as the minimum number of characters to be
+     * printed. The default is to add no padding. Padding is with blanks by
      * default.
+     * 
+     * The precision, if set, is the number of digits to appear after the radix
+     * character. Padding is with trailing 0s.
      *
-     * The precision, if set, is the number of digits
-     * to appear after the radix character.  Padding is
-     * with trailing 0s.
+     * @param x
+     *            the x
+     * @return the char[]
      */
     private char[] fFormatDigits(double x) {
       // int defaultDigits=6;
@@ -1386,35 +1427,33 @@ public class PrintfFormat {
       ca7 = applyFloatPadding(ca6,false);
       return new String(ca7);
     }
-    /**
-     * For e format, the flag character '-', means that
-     * the output should be left justified within the
-     * field.  The default is to pad with blanks on the
-     * left.  '+' character means that the conversion
-     * will always begin with a sign (+ or -).  The
-     * blank flag character means that a non-negative
-     * input will be preceded with a blank.  If both a
-     * '+' and a ' ' are specified, the blank flag is
-     * ignored.  The '0' flag character implies that
-     * padding to the field width will be done with
-     * zeros instead of blanks.
-     *
-     * The field width is treated as the minimum number
-     * of characters to be printed.  The default is to
-     * add no padding.  Padding is with blanks by
+    
+    /** For e format, the flag character '-', means that the output should be
+     * left justified within the field. The default is to pad with blanks on the
+     * left. '+' character means that the conversion will always begin with a
+     * sign (+ or -). The blank flag character means that a non-negative input
+     * will be preceded with a blank. If both a '+' and a ' ' are specified, the
+     * blank flag is ignored. The '0' flag character implies that padding to the
+     * field width will be done with zeros instead of blanks.
+     * 
+     * The field width is treated as the minimum number of characters to be
+     * printed. The default is to add no padding. Padding is with blanks by
      * default.
-     *
-     * The precision, if set, is the minimum number of
-     * digits to appear after the radix character.
-     * Padding is with trailing 0s.
-     *
-     * The behavior is like printf.  One (hopefully the
-     * only) exception is that the minimum number of
-     * exponent digits is 3 instead of 2 for e and E
-     * formats when the optional L is used before the
-     * e, E, g, or G conversion character. The optional
-     * L does not imply conversion to a long long
+     * 
+     * The precision, if set, is the minimum number of digits to appear after
+     * the radix character. Padding is with trailing 0s.
+     * 
+     * The behavior is like printf. One (hopefully the only) exception is that
+     * the minimum number of exponent digits is 3 instead of 2 for e and E
+     * formats when the optional L is used before the e, E, g, or G conversion
+     * character. The optional L does not imply conversion to a long long
      * double.
+     *
+     * @param x
+     *            the x
+     * @param eChar
+     *            the e char
+     * @return the char[]
      */
     private char[] eFormatDigits(double x,char eChar) {
       char[] ca1,ca2,ca3;
@@ -1674,18 +1713,20 @@ public class PrintfFormat {
       }
       return carry;
     }
-    /**
-     * Start the symbolic carry process.  The process
-     * is not quite finished because the symbolic
-     * carry may change the length of the string and
-     * change the exponent (in e format).
-     * @param cLast index of the last digit changed
-     *     by the round
-     * @param cFirst index of the first digit allowed
-     *     to be changed by this phase of the round
-     * @return <code>true</code> if the carry forces
-     *     a round that will change the print still
-     *     more
+    
+    /** Start the symbolic carry process. The process is not quite finished
+     * because the symbolic carry may change the length of the string and change
+     * the exponent (in e format).
+     *
+     * @param ca
+     *            the ca
+     * @param cLast
+     *            index of the last digit changed by the round
+     * @param cFirst
+     *            index of the first digit allowed to be changed by this phase
+     *            of the round
+     * @return <code>true</code> if the carry forces a round that will change
+     *         the print still more
      */
     private boolean startSymbolicCarry(
               char[] ca,int cLast,int cFirst) {
@@ -2761,13 +2802,11 @@ public class PrintfFormat {
       }
       return new String(ca);
     }
-    /**
-     * Check for a conversion character.  If it is
-     * there, store it.
-     * @param x the String to format.
-     * @return <code>true</code> if the conversion
-     *     character is there, and
-     *     <code>false</code> otherwise.
+    
+    /** Check for a conversion character. If it is there, store it.
+     *
+     * @return <code>true</code> if the conversion character is there, and
+     *         <code>false</code> otherwise.
      */
     private boolean setConversionCharacter() {
       /* idfgGoxXeEcs */
@@ -2882,8 +2921,10 @@ public class PrintfFormat {
         }
       }
     }
-    /**
-     * Store the digits <code>n</code> in *n$ forms.
+    
+    /** Store the digits <code>n</code> in *n$ forms.
+     *
+     * @return true, if successful
      */
     private boolean setFieldWidthArgPosition() {
       boolean ret=false;
@@ -2903,8 +2944,10 @@ public class PrintfFormat {
       }
       return ret;
     }
-    /**
-     * Store the digits <code>n</code> in *n$ forms.
+    
+    /** Store the digits <code>n</code> in *n$ forms.
+     *
+     * @return true, if successful
      */
     private boolean setPrecisionArgPosition() {
       boolean ret=false;
@@ -2924,19 +2967,49 @@ public class PrintfFormat {
       }
       return ret;
     }
+    
+    /** Checks if is positional specification.
+     *
+     * @return true, if is positional specification
+     */
     boolean isPositionalSpecification() {
       return positionalSpecification;
     }
+    
+    /** Gets the argument position.
+     *
+     * @return the argument position
+     */
     int getArgumentPosition() { return argumentPosition; }
+    
+    /** Checks if is positional field width.
+     *
+     * @return true, if is positional field width
+     */
     boolean isPositionalFieldWidth() {
       return positionalFieldWidth;
     }
+    
+    /** Gets the argument position for field width.
+     *
+     * @return the argument position for field width
+     */
     int getArgumentPositionForFieldWidth() {
       return argumentPositionForFieldWidth;
     }
+    
+    /** Checks if is positional precision.
+     *
+     * @return true, if is positional precision
+     */
     boolean isPositionalPrecision() {
       return positionalPrecision;
     }
+    
+    /** Gets the argument position for precision.
+     *
+     * @return the argument position for precision
+     */
     int getArgumentPositionForPrecision() {
       return argumentPositionForPrecision;
     }
@@ -3047,13 +3120,25 @@ public class PrintfFormat {
      * been set.
      */
     private boolean precisionSet = false;
+    
+    /** The positional specification. */
     /*
      */
     private boolean positionalSpecification=false;
+    
+    /** The argument position. */
     private int argumentPosition=0;
+    
+    /** The positional field width. */
     private boolean positionalFieldWidth=false;
+    
+    /** The argument position for field width. */
     private int argumentPositionForFieldWidth=0;
+    
+    /** The positional precision. */
     private boolean positionalPrecision=false;
+    
+    /** The argument position for precision. */
     private int argumentPositionForPrecision=0;
     /**
      * Flag specifying that a following d, i, o, u, x,

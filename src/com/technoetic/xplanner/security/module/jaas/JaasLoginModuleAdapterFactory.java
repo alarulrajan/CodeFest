@@ -11,15 +11,33 @@ import com.technoetic.xplanner.security.module.ConfigurationException;
 import com.technoetic.xplanner.security.module.LoginModuleFactory;
 import com.technoetic.xplanner.security.module.LoginSupport;
 
+/**
+ * A factory for creating JaasLoginModuleAdapter objects.
+ */
 public class JaasLoginModuleAdapterFactory implements LoginModuleFactory {
+	
+	/** The Constant JAAS_USER_PRINCIPAL_CLASS_NAME_KEY. */
 	static final String JAAS_USER_PRINCIPAL_CLASS_NAME_KEY = "jaas.principalClass";
+	
+	/** The Constant JAAS_LOGIN_MODULE_CLASS_NAME_KEY. */
 	static final String JAAS_LOGIN_MODULE_CLASS_NAME_KEY = "jaas.loginModuleClass";
+	
+	/** The support. */
 	private final LoginSupport support;
 
+	/**
+     * Instantiates a new jaas login module adapter factory.
+     *
+     * @param loginSupport
+     *            the login support
+     */
 	public JaasLoginModuleAdapterFactory(final LoginSupport loginSupport) {
 		this.support = loginSupport;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.LoginModuleFactory#newInstance(java.util.Map)
+	 */
 	@Override
 	public LoginModule newInstance(final Map options)
 			throws ConfigurationException {
@@ -31,6 +49,15 @@ public class JaasLoginModuleAdapterFactory implements LoginModuleFactory {
 				this.getJAASLoginModule(options), principalClass, options);
 	}
 
+	/**
+     * Gets the class from name.
+     *
+     * @param options
+     *            the options
+     * @param property
+     *            the property
+     * @return the class from name
+     */
 	private Class getClassFromName(final Map options, final String property) {
 		final String className = (String) options.get(property);
 		if (className == null) {
@@ -47,6 +74,13 @@ public class JaasLoginModuleAdapterFactory implements LoginModuleFactory {
 		return aClass;
 	}
 
+	/**
+     * Gets the JAAS login module.
+     *
+     * @param options
+     *            the options
+     * @return the JAAS login module
+     */
 	private javax.security.auth.spi.LoginModule getJAASLoginModule(
 			final Map options) {
 		final Class loginModuleClass = this.getClassFromName(options,

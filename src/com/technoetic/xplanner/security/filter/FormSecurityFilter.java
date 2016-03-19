@@ -15,14 +15,29 @@ import com.technoetic.xplanner.security.Authenticator;
 import com.technoetic.xplanner.security.CredentialCookie;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class FormSecurityFilter.
+ */
 public class FormSecurityFilter extends AbstractSecurityFilter {
+	
+	/** The authenticator url. */
 	private String authenticatorUrl;
+	
+	/** The authentication url key. */
 	public final String AUTHENTICATION_URL_KEY = "authenticatorUrl";
+	
+	/** The authenticator. */
 	private Authenticator authenticator;
 
+	/**
+     * Instantiates a new form security filter.
+     */
 	public FormSecurityFilter() {
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#doInit(javax.servlet.FilterConfig)
+	 */
 	@Override
 	protected void doInit(final FilterConfig filterConfig)
 			throws ServletException {
@@ -34,6 +49,17 @@ public class FormSecurityFilter extends AbstractSecurityFilter {
 				this.AUTHENTICATION_URL_KEY);
 	}
 
+	/**
+     * Gets the inits the parameter.
+     *
+     * @param filterConfig
+     *            the filter config
+     * @param parameterName
+     *            the parameter name
+     * @return the inits the parameter
+     * @throws ServletException
+     *             the servlet exception
+     */
 	private String getInitParameter(final FilterConfig filterConfig,
 			final String parameterName) throws ServletException {
 		final String value = filterConfig.getInitParameter(parameterName);
@@ -44,10 +70,19 @@ public class FormSecurityFilter extends AbstractSecurityFilter {
 		return value;
 	}
 
+	/**
+     * Sets the authenticator url.
+     *
+     * @param authenticatorUrl
+     *            the new authenticator url
+     */
 	public void setAuthenticatorUrl(final String authenticatorUrl) {
 		this.authenticatorUrl = authenticatorUrl;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#isAuthenticated(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected boolean isAuthenticated(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
@@ -75,6 +110,9 @@ public class FormSecurityFilter extends AbstractSecurityFilter {
 		return isAuthenticated;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public boolean onAuthenticationFailure(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,

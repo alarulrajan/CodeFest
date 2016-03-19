@@ -45,27 +45,26 @@ import org.apache.commons.logging.LogFactory;
  * @see com.tacitknowledge.util.migration.MigrationProcess
  */
 public class StandaloneMigrationLauncher {
-	/**
-	 * Class logger
-	 */
+	
+	/** Class logger. */
 	private static Log log = LogFactory
 			.getLog(StandaloneMigrationLauncher.class);
 
 	/**
-	 * Private constructor - this object shouldn't be instantiated
-	 */
+     * Private constructor - this object shouldn't be instantiated.
+     */
 	private StandaloneMigrationLauncher() {
 		// does nothing
 	}
 
 	/**
-	 * Run the migrations for the given system name
-	 * 
-	 * @param arguments
-	 *            the command line arguments, if any (none are used)
-	 * @exception Exception
-	 *                if anything goes wrong
-	 */
+     * Run the migrations for the given system name.
+     *
+     * @param arguments
+     *            the command line arguments, if any (none are used)
+     * @exception Exception
+     *                if anything goes wrong
+     */
 	public static void main(final String[] arguments) throws Exception {
 		final String systemName = StandaloneMigrationLauncher.getRequiredParam(
 				"migration.systemname", System.getProperties(), arguments);

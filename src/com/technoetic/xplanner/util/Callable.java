@@ -10,7 +10,18 @@
  */
 package com.technoetic.xplanner.util;
 
+/**
+ * The Interface Callable.
+ */
 public interface Callable {
+	
+	/**
+     * Run.
+     *
+     * @return the object
+     * @throws Exception
+     *             the exception
+     */
 	Object run() throws Exception;
 
 }

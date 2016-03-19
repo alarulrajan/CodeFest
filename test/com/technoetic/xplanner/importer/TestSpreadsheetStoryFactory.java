@@ -10,10 +10,20 @@ package com.technoetic.xplanner.importer;
  */
 
 
+/**
+ * A factory for creating TestSpreadsheetStory objects.
+ */
 public class TestSpreadsheetStoryFactory extends BaseTestCase
 {
+   
+   /** The factory spreadsheet. */
    SpreadsheetStoryFactory factorySpreadsheet;
 
+   /** Test new instance_ simple creation.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testNewInstance_SimpleCreation() throws Exception
    {
       factorySpreadsheet = new SpreadsheetStoryFactory();

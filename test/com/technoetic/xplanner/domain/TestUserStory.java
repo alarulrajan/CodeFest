@@ -12,20 +12,44 @@ import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.TimeEntry;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestUserStory.
+ */
 public class TestUserStory extends TestCase {
+   
+   /** The Constant ONE_HOUR. */
    public static final int ONE_HOUR = 60 * 60 * 1000;
+   
+   /** The Constant TWO_HOURS. */
    public static final int TWO_HOURS = 2 * ONE_HOUR;
 
+   /** Instantiates a new test user story.
+     *
+     * @param name
+     *            the name
+     */
    public TestUserStory(String name) {
       super(name);
    }
 
+   /** The story. */
    private UserStory story;
+   
+   /** The task1. */
    private Task task1;
+   
+   /** The task2. */
    private Task task2;
+   
+   /** The task3. */
    private Task task3;
+   
+   /** The tasks. */
    private List<Task> tasks;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       List<net.sf.xplanner.domain.TimeEntry> twoActualHours = createTimeEntriesForTwoHoursOfWork();
@@ -41,6 +65,16 @@ public class TestUserStory extends TestCase {
       story.setTasks(tasks);
    }
 
+   /** New task.
+     *
+     * @param estimatedOriginalHours
+     *            the estimated original hours
+     * @param currentEstimatedHours
+     *            the current estimated hours
+     * @param timeEntries
+     *            the time entries
+     * @return the task
+     */
    private Task newTask(double estimatedOriginalHours, double currentEstimatedHours, List<net.sf.xplanner.domain.TimeEntry> timeEntries) {
       Task task = new Task();
       task.setEstimatedHours(currentEstimatedHours);
@@ -49,6 +83,18 @@ public class TestUserStory extends TestCase {
       return task;
    }
 
+   /** New task.
+     *
+     * @param estimatedOriginalHours
+     *            the estimated original hours
+     * @param currentEstimatedHours
+     *            the current estimated hours
+     * @param timeEntries
+     *            the time entries
+     * @param story1
+     *            the story1
+     * @return the task
+     */
    private Task newTask(double estimatedOriginalHours,
                         double currentEstimatedHours,
                         List<net.sf.xplanner.domain.TimeEntry> timeEntries,
@@ -58,6 +104,10 @@ public class TestUserStory extends TestCase {
       return task;
    }
 
+   /** Creates the time entries for two hours of work.
+     *
+     * @return the list
+     */
    private List<net.sf.xplanner.domain.TimeEntry> createTimeEntriesForTwoHoursOfWork() {
       long now = new Date().getTime();
       net.sf.xplanner.domain.TimeEntry t1 = new net.sf.xplanner.domain.TimeEntry();
@@ -72,19 +122,30 @@ public class TestUserStory extends TestCase {
       return timeEntries;
    }
 
+   /** Test get estimated hours.
+     */
    public void testGetEstimatedHours() {
       assertEstimatedHours(12.0);
    }
 
+   /** Test get estimated hours_ completed story.
+     */
    public void testGetEstimatedHours_CompletedStory() {
       completeAllTasks();
       assertEstimatedHours(4.0);
    }
 
+   /** Assert estimated hours.
+     *
+     * @param expectedEstimatedHours
+     *            the expected estimated hours
+     */
    private void assertEstimatedHours(double expectedEstimatedHours) {
       assertEquals("wrong estimated hours", expectedEstimatedHours, story.getEstimatedHours(), 0);
    }
 
+   /** Test story estimated hours field not changed.
+     */
    public void testStoryEstimatedHoursFieldNotChanged() {
       story.setEstimatedHoursField(1.0);
 
@@ -93,6 +154,8 @@ public class TestUserStory extends TestCase {
       assertEstimatedHours(12.0);
    }
 
+   /** Test get estimated original hours in not started iteration.
+     */
    @SuppressWarnings("unchecked")
 public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       story.setTasks(Collections.EMPTY_LIST);
@@ -106,6 +169,9 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals(5.0, story.getEstimatedHoursField(), 0);
    }
 
+   /** Test get estimated original hours with all zero effort tasks in
+     * started iteration.
+     */
    public void testGetEstimatedOriginalHoursWithAllZeroEffortTasksInStartedIteration() {
       story.setEstimatedHoursField(5.0);
       resetOrginalEstimates();
@@ -115,6 +181,9 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals("wrong original estimated hours", 11.0, story.getTaskBasedEstimatedOriginalHours(), 0);
    }
 
+   /** Test get estimated original hours with all zero effort tasks in not
+     * started iteration.
+     */
    public void testGetEstimatedOriginalHoursWithAllZeroEffortTasksInNotStartedIteration() {
       story.setEstimatedHoursField(5.0);
       resetOrginalEstimates();
@@ -122,30 +191,40 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals("wrong original estimated hours", 0.0, story.getTaskBasedEstimatedOriginalHours(), 0);
    }
 
+   /** Reset orginal estimates.
+     */
    private void resetOrginalEstimates() {
       task1.setEstimatedOriginalHoursField(0.0);
       task2.setEstimatedOriginalHoursField(0.0);
       task3.setEstimatedOriginalHoursField(0.0);
    }
 
+   /** Reset estimates.
+     */
    private void resetEstimates() {
       task1.setEstimatedHours(0);
       task2.setEstimatedHours(0);
       task3.setEstimatedHours(0);
    }
 
+   /** Test get task based estimated hours.
+     */
    public void testGetTaskBasedEstimatedHours() {
       double hours = story.getTaskBasedEstimatedHours();
 
       assertEquals("wrong original estimated hours", 12.0, hours, 0);
    }
 
+   /** Test get adjusted estimated hours.
+     */
    public void testGetAdjustedEstimatedHours() {
       double adjustedEstimated = story.getAdjustedEstimatedHours();
 
       assertEquals("wrong adjusted estimated hours", 12.0, adjustedEstimated, 0);
    }
 
+   /** Test get adjusted estimated hours with unworked task completed.
+     */
    public void testGetAdjustedEstimatedHoursWithUnworkedTaskCompleted() {
       task3.setCompleted(true);
       double adjustedEstimated = story.getAdjustedEstimatedHours();
@@ -153,6 +232,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals("wrong adjusted estimated hours", 6.0, adjustedEstimated, 0);
    }
 
+   /** Test get adjusted estimated hours with unestimated tasks.
+     */
    public void testGetAdjustedEstimatedHoursWithUnestimatedTasks() {
       Task localTask1 = new Task();
       FieldAccessor.set(localTask1, "timeEntries", new ArrayList<TimeEntry>());
@@ -169,6 +250,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals("wrong adjusted estimated hours", 8.0, adjustedEstimated, 0);
    }
 
+   /** Test get actual hours.
+     */
    public void testGetActualHours() {
       double actual = story.getCachedActualHours();
 
@@ -176,6 +259,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEstimatedHours(12.0);
    }
 
+   /** Test is completed when complete.
+     */
    public void testIsCompletedWhenComplete() {
       completeAllTasks();
       boolean isComplete = story.isCompleted();
@@ -183,12 +268,16 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertTrue("not complete", isComplete);
    }
 
+   /** Complete all tasks.
+     */
    private void completeAllTasks() {
       task1.setCompleted(true);
       task2.setCompleted(true);
       task3.setCompleted(true);
    }
 
+   /** Test is completed when not complete.
+     */
    public void testIsCompletedWhenNotComplete() {
       task1.setCompleted(true);
       task2.setCompleted(true);
@@ -197,6 +286,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertTrue("was complete", !story.isCompleted());
    }
 
+   /** Test not completed when no tasks.
+     */
    public void testNotCompletedWhenNoTasks() {
       tasks.clear();
 
@@ -205,11 +296,15 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertTrue("was complete", !isComplete);
    }
 
+   /** Test get remaining hours.
+     */
    public void testGetRemainingHours() {
 // 0 + 2 + 6
       assertEquals("wrong remaining hours", 8.0, story.getTaskBasedRemainingHours(), 0.0);
    }
 
+   /** Test get remaining hours with no tasks.
+     */
    public void testGetRemainingHoursWithNoTasks() {
       UserStory noTaskStory = new UserStory();
       double estimatedHours = 10.0;
@@ -220,6 +315,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
                    0.0);
    }
 
+   /** Test get remaining hours with no nonzero effort tasks.
+     */
    public void testGetRemainingHoursWithNoNonzeroEffortTasks() {
       resetEstimates();
       story.setEstimatedHoursField(10.0);
@@ -227,6 +324,8 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
                    10.0, story.getTaskBasedRemainingHours(), 0.0);
    }
 
+   /** Test get remaining hours with all completed tasks.
+     */
    public void testGetRemainingHoursWithAllCompletedTasks() {
       completeAllTasks();
       story.setEstimatedHoursField(10.0);
@@ -234,6 +333,11 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
                    0.0, story.getTaskBasedRemainingHours(), 0.0);
    }
 
+   /** Test get completed original hours.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetCompletedOriginalHours() throws Exception {
       assertEquals(0, story.getTaskBasedCompletedOriginalHours(), 0);
       task1.setCompleted(true);
@@ -252,6 +356,11 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
                    0);
    }
 
+   /** Test get completed hours.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetCompletedHours() throws Exception {
       assertEquals(0, story.getCompletedTaskHours(), 0);
       task1.setCompleted(true);
@@ -266,6 +375,11 @@ public void testGetEstimatedOriginalHoursInNotStartedIteration() {
       assertEquals(task1.getActualHours() + task3.getActualHours(), story.getCompletedTaskHours(), 0);
    }
    
+   /** Test start_story with tasks.
+     *
+     * @throws Exception
+     *             the exception
+     */
    @SuppressWarnings("unchecked")
 public void testStart_storyWithTasks() throws Exception {
       double task1OriginalEstimatedHours = 1.0;

@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -24,28 +24,64 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 
 @Entity
 @Table(name = "permission")
 public class Permission implements java.io.Serializable {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 598781035652662657L;
+	
+	/** The id. */
 	private int id;
+	
+	/** The principal. */
 	private Integer principal;
+	
+	/** The name. */
 	private String name;
+	
+	/** The resource type. */
 	private String resourceType;
+	
+	/** The resource id. */
 	private Integer resourceId;
+	
+	/** The positive. */
 	private boolean positive = true;
 
+	/**
+     * Instantiates a new permission.
+     */
 	public Permission() {
 	}
 
+	/**
+     * Instantiates a new permission.
+     *
+     * @param id
+     *            the id
+     * @param positive
+     *            the positive
+     */
 	public Permission(final int id, final boolean positive) {
 		this.id = id;
 		this.positive = positive;
 	}
 
+	/**
+     * Instantiates a new permission.
+     *
+     * @param resourceType
+     *            the resource type
+     * @param resourceId
+     *            the resource id
+     * @param principal
+     *            the principal
+     * @param name
+     *            the name
+     */
 	public Permission(final String resourceType, final Integer resourceId,
 			final Integer principal, final String name) {
 		this.principal = principal;
@@ -54,6 +90,11 @@ public class Permission implements java.io.Serializable {
 		this.resourceId = resourceId;
 	}
 
+	/**
+     * Gets the id.
+     *
+     * @return the id
+     */
 	@Id
 	@GeneratedValue(generator = "commonId")
 	@GenericGenerator(name = "commonId", strategy = "com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
@@ -62,55 +103,119 @@ public class Permission implements java.io.Serializable {
 		return this.id;
 	}
 
+	/**
+     * Sets the id.
+     *
+     * @param id
+     *            the new id
+     */
 	public void setId(final int id) {
 		this.id = id;
 	}
 
+	/**
+     * Gets the principal.
+     *
+     * @return the principal
+     */
 	@Column(name = "principal")
 	public Integer getPrincipal() {
 		return this.principal;
 	}
 
+	/**
+     * Sets the principal.
+     *
+     * @param principal
+     *            the new principal
+     */
 	public void setPrincipal(final Integer principal) {
 		this.principal = principal;
 	}
 
+	/**
+     * Gets the name.
+     *
+     * @return the name
+     */
 	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Gets the resource type.
+     *
+     * @return the resource type
+     */
 	@Column(name = "resource_type")
 	public String getResourceType() {
 		return this.resourceType;
 	}
 
+	/**
+     * Sets the resource type.
+     *
+     * @param resourceType
+     *            the new resource type
+     */
 	public void setResourceType(final String resourceType) {
 		this.resourceType = resourceType;
 	}
 
+	/**
+     * Gets the resource id.
+     *
+     * @return the resource id
+     */
 	@Column(name = "resource_id")
 	public Integer getResourceId() {
 		return this.resourceId;
 	}
 
+	/**
+     * Sets the resource id.
+     *
+     * @param resourceId
+     *            the new resource id
+     */
 	public void setResourceId(final Integer resourceId) {
 		this.resourceId = resourceId;
 	}
 
+	/**
+     * Checks if is positive.
+     *
+     * @return true, if is positive
+     */
 	@Column(name = "positive", nullable = false)
 	public boolean isPositive() {
 		return this.positive;
 	}
 
+	/**
+     * Sets the positive.
+     *
+     * @param positive
+     *            the new positive
+     */
 	public void setPositive(final boolean positive) {
 		this.positive = positive;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -129,6 +234,9 @@ public class Permission implements java.io.Serializable {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {

@@ -74,15 +74,35 @@ package com.sabre.security.jndi.util;
  * @version $Id: Base64.java 33 2004-07-22 16:15:30Z sg0620641 $
  */
 public class Base64 {
+	
+	/** The Constant BASELENGTH. */
 	static private final int BASELENGTH = 255;
+	
+	/** The Constant LOOKUPLENGTH. */
 	static private final int LOOKUPLENGTH = 64;
+	
+	/** The Constant TWENTYFOURBITGROUP. */
 	static private final int TWENTYFOURBITGROUP = 24;
+	
+	/** The Constant EIGHTBIT. */
 	static private final int EIGHTBIT = 8;
+	
+	/** The Constant SIXTEENBIT. */
 	static private final int SIXTEENBIT = 16;
+	
+	/** The Constant FOURBYTE. */
 	static private final int FOURBYTE = 4;
+	
+	/** The Constant SIGN. */
 	static private final int SIGN = -128;
+	
+	/** The Constant PAD. */
 	static private final byte PAD = (byte) '=';
+	
+	/** The base64 alphabet. */
 	static private byte[] base64Alphabet = new byte[Base64.BASELENGTH];
+	
+	/** The look up base64 alphabet. */
 	static private byte[] lookUpBase64Alphabet = new byte[Base64.LOOKUPLENGTH];
 	// static private final Log log =
 	// LogSource.getInstance("org.apache.commons.util.Base64x");
@@ -120,15 +140,36 @@ public class Base64 {
 		Base64.lookUpBase64Alphabet[63] = (byte) '/';
 	}
 
+	/**
+     * Checks if is base64.
+     *
+     * @param isValidString
+     *            the is valid string
+     * @return true, if is base64
+     */
 	public static boolean isBase64(final String isValidString) {
 		return Base64.isArrayByteBase64(isValidString.getBytes());
 	}
 
+	/**
+     * Checks if is base64.
+     *
+     * @param octect
+     *            the octect
+     * @return true, if is base64
+     */
 	public static boolean isBase64(final byte octect) {
 		// shall we ignore white space? JEFF??
 		return octect == Base64.PAD || Base64.base64Alphabet[octect] != -1;
 	}
 
+	/**
+     * Checks if is array byte base64.
+     *
+     * @param arrayOctect
+     *            the array octect
+     * @return true, if is array byte base64
+     */
 	public static boolean isArrayByteBase64(final byte[] arrayOctect) {
 		final int length = arrayOctect.length;
 		if (length == 0) {
@@ -238,12 +279,12 @@ public class Base64 {
 	}
 
 	/**
-	 * Decodes Base64x data into octects
-	 * 
-	 * @param binaryData
-	 *            Byte array containing Base64x data
-	 * @return Array containing decoded data.
-	 */
+     * Decodes Base64x data into octects.
+     *
+     * @param base64Data
+     *            the base64 data
+     * @return Array containing decoded data.
+     */
 	public static byte[] decode(final byte[] base64Data) {
 		// handle the edge case, so we don't have to worry about it later
 		if (base64Data.length == 0) {

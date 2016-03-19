@@ -15,14 +15,29 @@ import org.displaytag.util.DefaultRequestHelper;
 import org.displaytag.util.Href;
 import org.displaytag.util.RequestHelper;
 
+/**
+ * The Class PrintLinkTag.
+ */
 public class PrintLinkTag extends LinkTag {
+	
+	/** The Constant PRINT_PARAMETER_NAME. */
 	public static final String PRINT_PARAMETER_NAME = "print";
 
+	/**
+     * Checks if is in print mode.
+     *
+     * @param pageContext
+     *            the page context
+     * @return true, if is in print mode
+     */
 	public static boolean isInPrintMode(final PageContext pageContext) {
 		return pageContext.getRequest().getParameter(
 				PrintLinkTag.PRINT_PARAMETER_NAME) != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.LinkTag#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		final RequestHelper helper = new DefaultRequestHelper(

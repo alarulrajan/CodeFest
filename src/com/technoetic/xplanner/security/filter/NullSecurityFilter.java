@@ -21,12 +21,26 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.security.PersonPrincipal;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class NullSecurityFilter.
+ */
 public class NullSecurityFilter extends AbstractSecurityFilter {
+	
+	/** The default userid key. */
 	public final String DEFAULT_USERID_KEY = "defaultUserId";
+	
+	/** The authentication url key. */
 	public final String AUTHENTICATION_URL_KEY = "authenticatorUrl";
+	
+	/** The authenticator url. */
 	private String authenticatorUrl;
+	
+	/** The default user id. */
 	private String defaultUserId;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#doInit(javax.servlet.FilterConfig)
+	 */
 	@Override
 	protected void doInit(final FilterConfig filterConfig)
 			throws ServletException {
@@ -36,6 +50,19 @@ public class NullSecurityFilter extends AbstractSecurityFilter {
 				this.DEFAULT_USERID_KEY, "sysadmin");
 	}
 
+	/**
+     * Gets the inits the parameter.
+     *
+     * @param filterConfig
+     *            the filter config
+     * @param parameterName
+     *            the parameter name
+     * @param defaultValue
+     *            the default value
+     * @return the inits the parameter
+     * @throws ServletException
+     *             the servlet exception
+     */
 	private String getInitParameter(final FilterConfig filterConfig,
 			final String parameterName, final String defaultValue)
 			throws ServletException {
@@ -51,14 +78,29 @@ public class NullSecurityFilter extends AbstractSecurityFilter {
 		return value;
 	}
 
+	/**
+     * Sets the authenticator url.
+     *
+     * @param authenticatorUrl
+     *            the new authenticator url
+     */
 	public void setAuthenticatorUrl(final String authenticatorUrl) {
 		this.authenticatorUrl = authenticatorUrl;
 	}
 
+	/**
+     * Sets the default user id.
+     *
+     * @param defaultUserId
+     *            the new default user id
+     */
 	public void setDefaultUserId(final String defaultUserId) {
 		this.defaultUserId = defaultUserId;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#isAuthenticated(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected boolean isAuthenticated(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
@@ -78,6 +120,17 @@ public class NullSecurityFilter extends AbstractSecurityFilter {
 		return true;
 	}
 
+	/**
+     * Gets the person.
+     *
+     * @param session
+     *            the session
+     * @param userId
+     *            the user id
+     * @return the person
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	// todo - these methods should be moved to an object repository
 	private Person getPerson(final Session session, final String userId)
 			throws HibernateException {
@@ -92,6 +145,9 @@ public class NullSecurityFilter extends AbstractSecurityFilter {
 		return person;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public boolean onAuthenticationFailure(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,

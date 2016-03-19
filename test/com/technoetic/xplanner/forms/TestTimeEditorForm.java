@@ -5,18 +5,41 @@ import java.util.GregorianCalendar;
 
 import org.apache.struts.action.ActionErrors;
 
+/**
+ * The Class TestTimeEditorForm.
+ */
 public class TestTimeEditorForm extends AbstractEditorFormTestCase {
+   
+   /** The time editor form. */
    private TimeEditorForm timeEditorForm;
+   
+   /** The Constant SECONDS. */
    public static final long SECONDS = 1000;
+   
+   /** The Constant MINUTES. */
    public static final long MINUTES = 60 * SECONDS;
+   
+   /** The Constant HOURS. */
    public static final long HOURS = 60 * MINUTES;
+   
+   /** The Constant DAYS. */
    public static final long DAYS = 24 * HOURS;
 
+   /** The Constant START_TIME. */
    public static final long START_TIME = new GregorianCalendar(2002, 2, 2, 0, 0).getTimeInMillis();
+   
+   /** The Constant END_TIME. */
    public static final long END_TIME = START_TIME + 1 * DAYS;
+   
+   /** The Constant PERSON1. */
    public static final String PERSON1 = "100";
+   
+   /** The Constant PERSON2. */
    public static final String PERSON2 = "111";
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.forms.AbstractEditorFormTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       form = timeEditorForm = new TimeEditorForm();
       super.setUp();
@@ -31,14 +54,28 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       timeEditorForm.setDescription(0, "the description");
    }
 
+   /** Format date time.
+     *
+     * @param date
+     *            the date
+     * @return the string
+     */
    public String formatDateTime(long date) {
       return DATE_TIME_FORMAT.format(new Date(date));
    }
 
+   /** Format date.
+     *
+     * @param date
+     *            the date
+     * @return the string
+     */
    public String formatDate(long date) {
       return DATE_FORMAT.format(new Date(date));
    }
 
+   /** Test reset.
+     */
    public void testReset() {
       timeEditorForm.setDuration(0, "5");
 
@@ -54,16 +91,22 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNull(timeEditorForm.getDuration(0));
    }
 
+   /** Test description.
+     */
    public void testDescription() {
       assertEquals("Wrong description", "the description", timeEditorForm.getDescription(0));
    }
 
+   /** Test validate form ok.
+     */
    public void testValidateFormOk() {
       ActionErrors errors = timeEditorForm.validate(support.mapping, support.request);
 
       assertNoErrors(errors);
    }
 
+   /** Test parseable duration.
+     */
    public void testParseableDuration() {
       timeEditorForm.setStartTime(0, null);
       timeEditorForm.setEndTime(0, null);
@@ -74,6 +117,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Test validate bad start date.
+     */
    public void testValidateBadStartDate() {
       timeEditorForm.setStartTime(0, "bogus");
 
@@ -82,6 +127,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.UNPARSABLE_TIME_ERROR_KEY, errors);
    }
 
+   /** Test validate bad end date.
+     */
    public void testValidateBadEndDate() {
       timeEditorForm.setEndTime(0, "bogus");
 
@@ -90,6 +137,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.UNPARSABLE_TIME_ERROR_KEY, errors);
    }
 
+   /** Test validate missing end date.
+     */
    public void testValidateMissingEndDate() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setEndTime(0, null);
@@ -99,6 +148,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.MISSING_TIME_ERROR_KEY, errors);
    }
 
+   /** Test validate negative interval.
+     */
    public void testValidateNegativeInterval() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setEndTime(0, formatDateTime(START_TIME - 1 * DAYS));
@@ -108,6 +159,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.NEGATIVE_INTERVAL_ERROR_KEY, errors);
    }
 
+   /** Test validate overlapping interval.
+     */
    public void testValidateOverlappingInterval() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(1, PERSON1);
@@ -120,6 +173,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.OVERLAPPING_INTERVAL_ERROR_KEY, errors);
    }
 
+   /** Test validate overlapping interval with different developers.
+     */
    public void testValidateOverlappingIntervalWithDifferentDevelopers() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(1, PERSON2);
@@ -131,6 +186,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Test validate overlapping interval with duration.
+     */
    public void testValidateOverlappingIntervalWithDuration() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(1, PERSON1);
@@ -143,6 +200,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.OVERLAPPING_INTERVAL_ERROR_KEY, errors);
    }
 
+   /** Test validate overlapping interval with two nonpaired entries.
+     */
    public void testValidateOverlappingIntervalWithTwoNonpairedEntries() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson2Id(0, "0");
@@ -155,8 +214,15 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Assert no errors.
+     *
+     * @param errors
+     *            the errors
+     */
    private void assertNoErrors(ActionErrors errors) {assertEquals("wrong # of expected errors", 0, errors.size());}
 
+   /** Test out of order time interval.
+     */
    public void testOutOfOrderTimeInterval() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(1, "1");
@@ -168,6 +234,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Test validate missing person1.
+     */
    public void testValidateMissingPerson1() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(0, "");
@@ -178,6 +246,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.MISSING_PERSON_ERROR_KEY, errors);
    }
 
+   /** Test validate missing person2.
+     */
    public void testValidateMissingPerson2() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setStartTime(0, null);
@@ -191,6 +261,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.MISSING_PERSON_ERROR_KEY, errors);
    }
 
+   /** Test validate same people.
+     */
    public void testValidateSamePeople() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setPerson1Id(0, PERSON1);
@@ -201,6 +273,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.SAME_PEOPLE_ERROR_KEY, errors);
    }
 
+   /** Test validate only end time and duration.
+     */
    public void testValidateOnlyEndTimeAndDuration() {
       timeEditorForm.setStartTime(0, null);
       timeEditorForm.setDuration(0, "3");
@@ -211,6 +285,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
 
    }
 
+   /** Test validate interval and duration2.
+     */
    public void testValidateIntervalAndDuration2() {
       timeEditorForm.setEndTime(0, null);
       timeEditorForm.setDuration(0, "3");
@@ -221,6 +297,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertEquals(formatDateTime(START_TIME + 3 * HOURS), timeEditorForm.getEndTime(0));
    }
 
+   /** Test validate interval and duration3.
+     */
    public void testValidateIntervalAndDuration3() {
       timeEditorForm.setStartTime(0, null);
       timeEditorForm.setDuration(0, "3");
@@ -230,6 +308,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.MISSING_TIME_ERROR_KEY, errors);
    }
 
+   /** Test validate interval and duration not last row.
+     */
    public void testValidateIntervalAndDurationNotLastRow() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setDuration(0, "3");
@@ -239,6 +319,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Test validate interval and duration at last row.
+     */
    public void testValidateIntervalAndDurationAtLastRow() {
       timeEditorForm.setDuration(0, "3");
 
@@ -247,6 +329,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertOneError(TimeEditorForm.BOTH_INTERVAL_AND_DURATION_ERROR_KEY, errors);
    }
 
+   /** Test validate duration.
+     */
    public void testValidateDuration() {
       timeEditorForm.setStartTime(0, null);
       timeEditorForm.setEndTime(0, null);
@@ -257,6 +341,8 @@ public class TestTimeEditorForm extends AbstractEditorFormTestCase {
       assertNoErrors(errors);
    }
 
+   /** Test validate missing report date.
+     */
    public void testValidateMissingReportDate() {
       timeEditorForm.setRowcount(2);
       timeEditorForm.setReportDate(0, null);

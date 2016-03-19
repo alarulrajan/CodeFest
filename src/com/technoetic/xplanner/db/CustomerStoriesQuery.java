@@ -15,22 +15,51 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class CustomerStoriesQuery.
+ */
 public class CustomerStoriesQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The person id. */
 	private int personId;
+	
+	/** The stories. */
 	private Collection stories;
+	
+	/** The my stories. */
 	private Collection myStories;
+	
+	/** The query. */
 	// DEBT Why static? Should the query go to either Story.xml or Person.xml?
 	private static String query;
 
+	/**
+     * Sets the person id.
+     *
+     * @param personId
+     *            the new person id
+     */
 	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
+	/**
+     * Gets the person id.
+     *
+     * @return the person id
+     */
 	public int getPersonId() {
 		return this.personId;
 	}
 
+	/**
+     * Gets the my stories.
+     *
+     * @return the my stories
+     */
 	public Collection getMyStories() {
 		if (this.myStories == null) {
 			this.myStories = this.getStories();
@@ -38,6 +67,11 @@ public class CustomerStoriesQuery {
 		return this.myStories;
 	}
 
+	/**
+     * Gets the stories.
+     *
+     * @return the stories
+     */
 	private Collection getStories() {
 		final Session session = ThreadSession.get();
 		if (this.stories == null) {

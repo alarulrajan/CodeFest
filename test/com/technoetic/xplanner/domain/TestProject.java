@@ -2,11 +2,25 @@ package com.technoetic.xplanner.domain;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestProject.
+ */
 public class TestProject extends TestCase {
+    
+    /** Instantiates a new test project.
+     *
+     * @param name
+     *            the name
+     */
     public TestProject(String name) {
         super(name);
     }
 
+    /** Test get current iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetCurrentIteration() throws Exception {
 //        ArrayList iterations = new ArrayList();
 //        Iteration iteration1 = new Iteration();

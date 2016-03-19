@@ -169,9 +169,13 @@ import com.technoetic.xplanner.security.module.LoginSupportImpl;
 
 public class JNDILoginModule implements LoginModule {
 
+	/** The authenticator. */
 	JNDIAuthenticator authenticator = null;
+	
+	/** The support. */
 	LoginSupport support = null;
 
+	/** The Constant log. */
 	public static final Logger log = Logger.getLogger(JNDILoginModule.class);
 	/**
 	 * Descriptive information about this Realm implementation.
@@ -183,22 +187,39 @@ public class JNDILoginModule implements LoginModule {
 	 */
 	protected String derefAliases = "always";
 
+	/**
+     * Instantiates a new JNDI login module.
+     *
+     * @param authenticator
+     *            the authenticator
+     * @param support
+     *            the support
+     */
 	public JNDILoginModule(final JNDIAuthenticator authenticator,
 			final LoginSupport support) {
 		this.authenticator = authenticator;
 		this.support = support;
 	}
 
+	/**
+     * Instantiates a new JNDI login module.
+     */
 	public JNDILoginModule() {
 		this.authenticator = new JNDIAuthenticatorImpl();
 		this.support = new LoginSupportImpl();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setOptions(java.util.Map)
+	 */
 	@Override
 	public void setOptions(final Map options) {
 		this.authenticator.setOptions(options);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#authenticate(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Subject authenticate(final String userId, final String password)
 			throws AuthenticationException {
@@ -216,11 +237,17 @@ public class JNDILoginModule implements LoginModule {
 		return subject;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#isCapableOfChangingPasswords()
+	 */
 	@Override
 	public boolean isCapableOfChangingPasswords() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#changePassword(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void changePassword(final String userId, final String password)
 			throws AuthenticationException {
@@ -228,20 +255,28 @@ public class JNDILoginModule implements LoginModule {
 				"change Password not implemented");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#logout(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public void logout(final HttpServletRequest request)
 			throws AuthenticationException {
 		request.getSession().invalidate();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setName(java.lang.String)
+	 */
 	@Override
 	public void setName(final String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Return a short name for this Realm implementation.
-	 */
+     * Return a short name for this Realm implementation.
+     *
+     * @return the name
+     */
 	@Override
 	public String getName() {
 		return this.name;

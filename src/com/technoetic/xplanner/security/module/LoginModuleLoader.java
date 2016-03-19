@@ -18,16 +18,36 @@ import org.springframework.context.ApplicationContext;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.security.LoginModule;
 
+/**
+ * The Class LoginModuleLoader.
+ */
 public class LoginModuleLoader {
+	
+	/** The Constant LOGIN_MODULE_PROPERTY_PREFIX. */
 	public static final String LOGIN_MODULE_PROPERTY_PREFIX = "xplanner.security.login";
+	
+	/** The Constant LOGIN_MODULE_CLASS_KEY. */
 	public static final String LOGIN_MODULE_CLASS_KEY = LoginModuleLoader.LOGIN_MODULE_PROPERTY_PREFIX
 			+ "[{0}].module";
+	
+	/** The Constant LOGIN_MODULE_NAME_KEY. */
 	public static final String LOGIN_MODULE_NAME_KEY = LoginModuleLoader.LOGIN_MODULE_PROPERTY_PREFIX
 			+ "[{0}].name";
+	
+	/** The Constant LOGIN_OPTION_PREFIX. */
 	static final String LOGIN_OPTION_PREFIX = LoginModuleLoader.LOGIN_MODULE_PROPERTY_PREFIX
 			+ "[{0}].option.";
+	
+	/** The application context. */
 	private ApplicationContext applicationContext;
 
+	/**
+     * Load login modules.
+     *
+     * @return the login module[]
+     * @throws ConfigurationException
+     *             the configuration exception
+     */
 	public LoginModule[] loadLoginModules() throws ConfigurationException {
 		final XPlannerProperties properties = new XPlannerProperties();
 		int idx = 0;
@@ -55,6 +75,17 @@ public class LoginModuleLoader {
 		return (LoginModule[]) loginModuleList.toArray(new LoginModule[] {});
 	}
 
+	/**
+     * Creates the module.
+     *
+     * @param loginModuleClassName
+     *            the login module class name
+     * @param loginModuleName
+     *            the login module name
+     * @param options
+     *            the options
+     * @return the login module
+     */
 	private LoginModule createModule(final String loginModuleClassName,
 			final String loginModuleName, final Map options) {
 		LoginModule loginModule;
@@ -75,6 +106,15 @@ public class LoginModuleLoader {
 		return loginModule;
 	}
 
+	/**
+     * Gets the options.
+     *
+     * @param properties
+     *            the properties
+     * @param idx
+     *            the idx
+     * @return the options
+     */
 	private HashMap getOptions(final XPlannerProperties properties,
 			final int idx) {
 		final HashMap options = new HashMap();
@@ -92,6 +132,11 @@ public class LoginModuleLoader {
 		return options;
 	}
 
+	/**
+     * Gets the login module names.
+     *
+     * @return the login module names
+     */
 	public static String[] getLoginModuleNames() {
 		final XPlannerProperties properties = new XPlannerProperties();
 		final List loginModuleNameList = new ArrayList();
@@ -103,11 +148,26 @@ public class LoginModuleLoader {
 		return (String[]) loginModuleNameList.toArray(new String[] {});
 	}
 
+	/**
+     * Gets the key.
+     *
+     * @param propertyKey
+     *            the property key
+     * @param i
+     *            the i
+     * @return the key
+     */
 	private static String getKey(final String propertyKey, final int i) {
 		return MessageFormat.format(propertyKey,
 				new Integer[] { new Integer(i) });
 	}
 
+	/**
+     * Sets the application context.
+     *
+     * @param applicationContext
+     *            the new application context
+     */
 	@Required
 	@Autowired
 	public void setApplicationContext(

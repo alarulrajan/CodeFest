@@ -22,13 +22,29 @@ import org.easymock.MockControl;
 import org.easymock.classextension.MockClassControl;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+/**
+ * The Class TestAuthorizerQueryHelper.
+ */
 public class TestAuthorizerQueryHelper extends TestCase {
+   
+   /** The authorizer query helper. */
    private AuthorizerQueryHelper authorizerQueryHelper;
+   
+   /** The mock hibernate template control. */
    private MockControl mockHibernateTemplateControl;
+   
+   /** The mock hibernate template. */
    private HibernateTemplate mockHibernateTemplate;
+   
+   /** The permission1. */
    private Permission permission1;
+   
+   /** The permission2. */
    private Permission permission2;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       permission1 = new Permission();
@@ -41,6 +57,11 @@ public class TestAuthorizerQueryHelper extends TestCase {
       authorizerQueryHelper.setHibernateTemplate(mockHibernateTemplate);
    }
 
+   /** Test get all permissions.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetAllPermissions() throws Exception {
       Collection permissionCol = new ArrayList();
       permissionCol.add(permission1);
@@ -55,6 +76,11 @@ public class TestAuthorizerQueryHelper extends TestCase {
       assertEquals(2, expectedPermissionCol.size());
    }
 
+   /** Test get all permissions to person.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetAllPermissionsToPerson() throws Exception {
       mockHibernateTemplateControl.expectAndReturn(mockHibernateTemplate.findByNamedQuery("security.person.permissions"),
                                                    Collections.EMPTY_LIST);
@@ -63,6 +89,11 @@ public class TestAuthorizerQueryHelper extends TestCase {
       mockHibernateTemplateControl.verify();
    }
 
+   /** Test get roles for principal on project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetRolesForPrincipalOnProject() throws Exception {
       mockHibernateTemplate.findByNamedQueryAndNamedParam("security.roles",
                                                           new String[]{
@@ -82,6 +113,11 @@ public class TestAuthorizerQueryHelper extends TestCase {
       mockHibernateTemplateControl.verify();
    }
 
+   /** Test get all unhiden projects.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetAllUnhidenProjects() throws Exception {
       mockHibernateTemplate.find("from project in " + Project.class + " where project.hidden = false");
       mockHibernateTemplateControl.setReturnValue(Collections.EMPTY_LIST);

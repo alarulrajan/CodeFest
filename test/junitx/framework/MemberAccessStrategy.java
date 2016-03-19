@@ -17,7 +17,19 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The Class MemberAccessStrategy.
+ */
 public abstract class MemberAccessStrategy {
+   
+   /** Gets the valid member value.
+     *
+     * @param object
+     *            the object
+     * @param member
+     *            the member
+     * @return the valid member value
+     */
    public Object getValidMemberValue(Object object, String member) {
       try {
          return getMemberValue(object, member);
@@ -30,6 +42,14 @@ public abstract class MemberAccessStrategy {
       }
    }
 
+   /** Gets the common members.
+     *
+     * @param object1
+     *            the object1
+     * @param object2
+     *            the object2
+     * @return the common members
+     */
    public String[] getCommonMembers(Object object1, Object object2) {
       List list = new ArrayList();
       try {
@@ -48,6 +68,14 @@ public abstract class MemberAccessStrategy {
       }
    }
 
+   /** Object to string.
+     *
+     * @param object
+     *            the object
+     * @param properties
+     *            the properties
+     * @return the string
+     */
    public String objectToString(Object object, String[] properties) {
        StringBuffer buf = new StringBuffer();
        if (object == null) return "null";
@@ -83,7 +111,25 @@ public abstract class MemberAccessStrategy {
        return buf.toString();
    }
 
+   /** Gets the member value.
+     *
+     * @param object
+     *            the object
+     * @param member
+     *            the member
+     * @return the member value
+     * @throws Exception
+     *             the exception
+     */
    protected abstract Object getMemberValue(Object object, String member) throws Exception;
 
+   /** Gets the members.
+     *
+     * @param object1
+     *            the object1
+     * @return the members
+     * @throws Exception
+     *             the exception
+     */
    protected abstract List getMembers(Object object1) throws Exception;
 }

@@ -15,18 +15,39 @@ import com.technoetic.xplanner.charts.DataSampler;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.forms.IterationEditorForm;
 
+/**
+ * The Class EditIterationAction.
+ */
 public class EditIterationAction extends EditObjectAction<Iteration> {
+	
+	/** The Constant ACTION_KEY. */
 	public static final String ACTION_KEY = "action";
+	
+	/** The data sampler. */
 	private DataSampler dataSampler;
 
+	/**
+     * Gets the data sampler.
+     *
+     * @return the data sampler
+     */
 	public DataSampler getDataSampler() {
 		return this.dataSampler;
 	}
 
+	/**
+     * Sets the data sampler.
+     *
+     * @param dataSampler
+     *            the new data sampler
+     */
 	public void setDataSampler(final DataSampler dataSampler) {
 		this.dataSampler = dataSampler;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#beforeObjectCommit(com.technoetic.xplanner.domain.Identifiable, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void beforeObjectCommit(final Iteration object,
 			final ActionMapping actionMapping, final ActionForm actionForm,

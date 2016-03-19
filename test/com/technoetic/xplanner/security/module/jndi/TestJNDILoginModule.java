@@ -18,9 +18,15 @@ import com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase;
 public class TestJNDILoginModule extends AbstractLoginModuleTestCase {
 
 
+   /** The mock jndi authenticator control. */
    MockControl mockJNDIAuthenticatorControl = null;
+   
+   /** The mock jndi authenticator. */
    JNDIAuthenticator mockJNDIAuthenticator = null;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#setUp()
+    */
    public void setUp() throws Exception
    {
       super.setUp();
@@ -29,15 +35,26 @@ public class TestJNDILoginModule extends AbstractLoginModuleTestCase {
       loginModule = createLoginModule();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#tearDown()
+    */
    protected void tearDown() throws Exception
    {
        super.tearDown();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#createLoginModule()
+    */
    protected LoginModule createLoginModule() {
       return new JNDILoginModule(mockJNDIAuthenticator, mockLoginSupport);
    }
 
+   /** Test failed login_ communication error.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFailedLogin_CommunicationError() throws Exception {
       AuthenticationException authenticationException = new AuthenticationException(JNDIAuthenticator.MESSAGE_COMMUNICATION_ERROR_KEY);
       mockJNDIAuthenticatorControl.expectAndThrow(mockJNDIAuthenticator.authenticate(USER_ID, PASSWORD), authenticationException);
@@ -46,6 +63,11 @@ public class TestJNDILoginModule extends AbstractLoginModuleTestCase {
       verify();
    }
 
+   /** Test failed login.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFailedLogin() throws Exception {
       AuthenticationException authenticationException = new AuthenticationException(JNDIAuthenticator.MESSAGE_AUTHENTICATION_FAILED_KEY);
       mockJNDIAuthenticatorControl.expectAndThrow(mockJNDIAuthenticator.authenticate(USER_ID, PASSWORD), authenticationException);
@@ -54,6 +76,11 @@ public class TestJNDILoginModule extends AbstractLoginModuleTestCase {
       verify();
    }
 
+   /** Test success login.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSuccessLogin() throws Exception {
       mockJNDIAuthenticatorControl.expectAndReturn(mockJNDIAuthenticator.authenticate(USER_ID, PASSWORD), mockSubject);
       mockLoginSupportControl.expectAndReturn(mockLoginSupport.populateSubjectPrincipalFromDatabase(mockSubject, USER_ID),null);
@@ -62,12 +89,18 @@ public class TestJNDILoginModule extends AbstractLoginModuleTestCase {
       verify();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#replay()
+    */
    protected void replay()
    {
       super.replay();
       mockJNDIAuthenticatorControl.replay();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#verify()
+    */
    protected void verify()
    {
       super.verify();

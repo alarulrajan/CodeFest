@@ -20,35 +20,53 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.technoetic.xplanner.domain.NoteAttachable;
 
 /**
- * User: Mateusz Prokopowicz Date: Dec 16, 2004 Time: 2:10:17 PM
+ * User: Mateusz Prokopowicz Date: Dec 16, 2004 Time: 2:10:17 PM.
  */
 public class NoteHelper {
 	// FIXME: Externalize all these query in the Note.xml mapping file
 	// DEBT: Turn this into a NoteRepository that is spring loaded. No more
 	// static entry point. A session is passed in at construction time.
 
+	/** The Constant SELECT_NOTES_FILE_IS_ATTACHED_TO. */
 	// FIXME: Remove all duplicated code
 	static final String SELECT_NOTES_FILE_IS_ATTACHED_TO = "select note from Note note where note.file.id= ?";
 
+	/** The Constant FILE_DELETE_QUERY. */
 	static final String FILE_DELETE_QUERY = "from file in " + File.class
 			+ " where file.id= ?";
 
+	/** The Constant NOTE_DELETE_QUERY. */
 	static final String NOTE_DELETE_QUERY = "from note in " + Note.class
 			+ " where note.id = ?";
 
+	/** The Constant SELECT_NOTE_ATTACHED_TO. */
 	static final String SELECT_NOTE_ATTACHED_TO = "select note from Note note where note.attachedToId = ?";
 
+	/** The Constant SELECT_ATTACHED_TO_ID. */
 	static final String SELECT_ATTACHED_TO_ID = "SELECT t.id, s.id, i.id, p.id FROM "
 			+ Project.class.getName()
 			+ " as p left join p.iterations as i left join i.userStories as s left join s.tasks as t"
 			+ " WHERE  p.id = ? or i.id = ? or s.id = ? or t.id = ? order by i.id, s.id, t.id";
 
+	/** The Constant NOTE_DELETION_QUERY. */
 	static final String NOTE_DELETION_QUERY = "from note in " + Note.class
 			+ " where note.attachedToId = ?";
 
+	/** The Constant DELETE_ORDER. */
 	static final Class[] DELETE_ORDER = { Task.class, UserStory.class,
 			Iteration.class, Project.class };
 
+	/**
+     * Delete note.
+     *
+     * @param note
+     *            the note
+     * @param session
+     *            the session
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNote(final Note note,
 			final HibernateTemplate session) throws HibernateException {
 		if (note.getFile() != null) {
@@ -64,6 +82,17 @@ public class NoteHelper {
 		return 1;
 	}
 
+	/**
+     * Delete note.
+     *
+     * @param note
+     *            the note
+     * @param session
+     *            the session
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNote(final Note note, final Session session)
 			throws HibernateException {
 		if (note.getFile() != null) {
@@ -80,16 +109,51 @@ public class NoteHelper {
 				new Integer(note.getId()), Hibernate.INTEGER);
 	}
 
+	/**
+     * Delete notes for.
+     *
+     * @param obj
+     *            the obj
+     * @param session
+     *            the session
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNotesFor(final NoteAttachable obj,
 			final HibernateTemplate session) throws HibernateException {
 		return NoteHelper.deleteNotesFor(obj.getClass(), obj.getId(), session);
 	}
 
+	/**
+     * Delete notes for.
+     *
+     * @param obj
+     *            the obj
+     * @param session
+     *            the session
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNotesFor(final NoteAttachable obj,
 			final Session session) throws HibernateException {
 		return NoteHelper.deleteNotesFor(obj.getClass(), obj.getId(), session);
 	}
 
+	/**
+     * Delete notes for.
+     *
+     * @param clazz
+     *            the clazz
+     * @param objectId
+     *            the object id
+     * @param hibernateTemplate
+     *            the hibernate template
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNotesFor(final Class clazz, final int objectId,
 			final HibernateTemplate hibernateTemplate)
 			throws HibernateException {
@@ -121,6 +185,19 @@ public class NoteHelper {
 		return retVal;
 	}
 
+	/**
+     * Delete notes for.
+     *
+     * @param clazz
+     *            the clazz
+     * @param objectId
+     *            the object id
+     * @param hibernateTemplate
+     *            the hibernate template
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static int deleteNotesFor(final Class clazz, final int objectId,
 			final Session hibernateTemplate) throws HibernateException {
 		final Integer[] ids = new Integer[4];

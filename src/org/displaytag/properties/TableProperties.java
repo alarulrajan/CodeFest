@@ -788,24 +788,24 @@ public final class TableProperties implements Cloneable {
 	}
 
 	/**
-	 * Is the given export option enabled?
-	 * 
-	 * @param exportType
-	 *            instance of MediaTypeEnum
-	 * @return boolean true if export is enabled
-	 */
+     * Is the given export option enabled?.
+     *
+     * @param exportType
+     *            instance of MediaTypeEnum
+     * @return boolean true if export is enabled
+     */
 	public boolean getAddExport(final MediaTypeEnum exportType) {
 		return this.getBooleanProperty(TableProperties.PROPERTY_EXPORT_PREFIX
 				+ TableProperties.SEP + exportType.getName());
 	}
 
 	/**
-	 * Should headers be included in given export type?
-	 * 
-	 * @param exportType
-	 *            instance of MediaTypeEnum
-	 * @return boolean true if export should include headers
-	 */
+     * Should headers be included in given export type?.
+     *
+     * @param exportType
+     *            instance of MediaTypeEnum
+     * @return boolean true if export should include headers
+     */
 	public boolean getExportHeader(final MediaTypeEnum exportType) {
 		return this.getBooleanProperty(TableProperties.PROPERTY_EXPORT_PREFIX
 				+ TableProperties.SEP + exportType.getName()
@@ -936,10 +936,10 @@ public final class TableProperties implements Cloneable {
 	}
 
 	/**
-	 * Should paging banner be added before the table?
-	 * 
-	 * @return boolean
-	 */
+     * Should paging banner be added before the table?.
+     *
+     * @return boolean
+     */
 	public boolean getAddPagingBannerTop() {
 		final String placement = this
 				.getProperty(TableProperties.PROPERTY_STRING_BANNER_PLACEMENT);
@@ -947,10 +947,10 @@ public final class TableProperties implements Cloneable {
 	}
 
 	/**
-	 * Should paging banner be added after the table?
-	 * 
-	 * @return boolean
-	 */
+     * Should paging banner be added after the table?.
+     *
+     * @return boolean
+     */
 	public boolean getAddPagingBannerBottom() {
 		final String placement = this
 				.getProperty(TableProperties.PROPERTY_STRING_BANNER_PLACEMENT);

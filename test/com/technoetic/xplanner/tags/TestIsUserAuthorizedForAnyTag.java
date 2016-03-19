@@ -16,24 +16,46 @@ import com.technoetic.xplanner.security.auth.MockAuthorizer;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 import static org.easymock.EasyMock.*;
 
+/**
+ * The Class TestIsUserAuthorizedForAnyTag.
+ */
 public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
+    
+    /** The tag. */
     private IsUserAuthorizedForAnyTag tag;
+    
+    /** The mock authorizer. */
     private MockAuthorizer mockAuthorizer;
+    
+    /** The mock session factory. */
     private MockSessionFactory mockSessionFactory;
 
+    /** The Class MockObject.
+     */
     public static class MockObject {
+        
+        /** The items. */
         private ArrayList items = new ArrayList();
 
+        /** Instantiates a new mock object.
+         */
         public MockObject() {
             items.add(new Object());
             items.add(new Object());
         }
 
+        /** Gets the items.
+         *
+         * @return the items
+         */
         public List getItems() {
             return items;
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractRequestUnitTestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
@@ -45,6 +67,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         tag.setPageContext(pageContext);
     }
 
+    /** Test when authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testWhenAuthorized() throws Exception {
     	setUpDomainContext(10);
     	expect(pageContext.findAttribute("object")).andReturn(new MockObject());
@@ -58,6 +85,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         verify();
     }
 
+    /** Test when authorized with collection.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testWhenAuthorizedWithCollection() throws Exception {
     	setUpDomainContext(10);
     	replay();
@@ -71,6 +103,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         verify();
     }
 
+    /** Test get project id from context.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetProjectIdFromContext() throws Exception {
     	setUpDomainContext(44);
     	replay();
@@ -84,6 +121,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         verify();
     }
 
+    /** Test get project id from resource.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetProjectIdFromResource() throws Exception {
     	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
     	expect(request.getParameter("projectId")).andReturn(null);
@@ -102,6 +144,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         verify();
     }
 
+    /** Test get project id from request parameter.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetProjectIdFromRequestParameter() throws Exception {
     	expect(request.getAttribute(DomainContext.REQUEST_KEY)).andReturn(null);
     	expect(request.getParameter("projectId")).andReturn("66");
@@ -116,6 +163,11 @@ public class TestIsUserAuthorizedForAnyTag extends AbstractRequestUnitTestCase {
         verify();
     }
 
+    /** Test when not authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testWhenNotAuthorized() throws Exception {
     	setUpDomainContext(10);
     	expect(pageContext.findAttribute("object")).andReturn(new MockObject());

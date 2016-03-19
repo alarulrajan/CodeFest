@@ -22,18 +22,41 @@ import com.technoetic.xplanner.wiki.SimpleSchemeHandler;
 import com.technoetic.xplanner.wiki.TwikiFormat;
 import com.technoetic.xplanner.wiki.WikiFormat;
 
+/**
+ * The Class TwikiTag.
+ */
 public class TwikiTag extends RequestContextAwareTag {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1524094715817563540L;
+	
+	/** The log. */
 	private static Logger LOG = LogUtil.getLogger();
+	
+	/** The name. */
 	private String name;
+	
+	/** The property. */
 	private String property;
+	
+	/** The formatter. */
 	private static WikiFormat formatter;
+	
+	/** The scheme handlers. */
 	private HashMap schemeHandlers;
 
+	/** The prefix. */
 	final private String prefix = "twiki.scheme.";
+	
+	/** The handler suffix. */
 	final private String handlerSuffix = ".handler";
+	
+	/** The wiki key. */
 	final private String wikiKey = this.prefix + "wiki";
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		try {
@@ -58,22 +81,51 @@ public class TwikiTag extends RequestContextAwareTag {
 		return Tag.EVAL_PAGE;
 	}
 
+	/**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Gets the name.
+     *
+     * @return the name
+     */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+     * Sets the property.
+     *
+     * @param property
+     *            the new property
+     */
 	public void setProperty(final String property) {
 		this.property = property;
 	}
 
+	/**
+     * Gets the property.
+     *
+     * @return the property
+     */
 	public String getProperty() {
 		return this.property;
 	}
 
+	/**
+     * Gets the formatter.
+     *
+     * @param properties
+     *            the properties
+     * @return the formatter
+     */
 	private synchronized WikiFormat getFormatter(final Properties properties) {
 		if (TwikiTag.formatter == null) {
 			// Read formatter class name from properties
@@ -107,6 +159,13 @@ public class TwikiTag extends RequestContextAwareTag {
 		return TwikiTag.formatter;
 	}
 
+	/**
+     * Load scheme handlers.
+     *
+     * @param properties
+     *            the properties
+     * @return the hash map
+     */
 	private HashMap loadSchemeHandlers(final Properties properties) {
 		final HashMap schemeHandlers = new HashMap();
 		final Enumeration keys = properties.keys();
@@ -156,6 +215,9 @@ public class TwikiTag extends RequestContextAwareTag {
 		return schemeHandlers;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.tags.RequestContextAwareTag#doStartTagInternal()
+	 */
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		return 0;

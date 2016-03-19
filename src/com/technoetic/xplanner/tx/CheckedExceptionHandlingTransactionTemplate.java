@@ -16,14 +16,34 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.technoetic.xplanner.util.Callable;
 
+/**
+ * The Class CheckedExceptionHandlingTransactionTemplate.
+ */
 public class CheckedExceptionHandlingTransactionTemplate {
+	
+	/** The spring transaction template. */
 	private TransactionTemplate springTransactionTemplate;
 
+	/**
+     * Sets the spring transaction template.
+     *
+     * @param springTransactionTemplate
+     *            the new spring transaction template
+     */
 	public void setSpringTransactionTemplate(
 			final TransactionTemplate springTransactionTemplate) {
 		this.springTransactionTemplate = springTransactionTemplate;
 	}
 
+	/**
+     * Execute.
+     *
+     * @param callable
+     *            the callable
+     * @return the object
+     * @throws Exception
+     *             the exception
+     */
 	public Object execute(final Callable callable) throws Exception {
 		try {
 			return this.springTransactionTemplate

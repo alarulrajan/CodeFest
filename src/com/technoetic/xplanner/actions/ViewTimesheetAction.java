@@ -15,9 +15,17 @@ import org.hibernate.classic.Session;
 import com.technoetic.xplanner.db.PersonTimesheetQuery;
 import com.technoetic.xplanner.forms.PersonTimesheetForm;
 
+/**
+ * The Class ViewTimesheetAction.
+ */
 public class ViewTimesheetAction extends AbstractAction {
+	
+	/** The Constant log. */
 	private static final Logger log = Logger.getLogger("ViewTimesheetAction");
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,

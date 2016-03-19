@@ -14,12 +14,24 @@ import com.technoetic.xplanner.security.LoginModule;
 import com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase;
 import com.technoetic.xplanner.security.module.jaas.JaasLoginModuleAdapter;
 
+/**
+ * The Class TestNtlmLoginModule.
+ */
 public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
 {
+    
+    /** The Constant DOMAIN. */
     static final String DOMAIN = "YANDEX";
+    
+    /** The mock ntlm login helper control. */
     MockControl mockNtlmLoginHelperControl;
+    
+    /** The mock ntlm login helper. */
     NtlmLoginHelper mockNtlmLoginHelper;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#createLoginModule()
+     */
     protected LoginModule createLoginModule()
     {
         mockNtlmLoginHelperControl = MockControl.createControl(NtlmLoginHelper.class);
@@ -27,6 +39,9 @@ public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
         return new NtlmLoginModule(mockLoginSupport, mockNtlmLoginHelper);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#setUp()
+     */
     public void setUp() throws Exception
     {
         super.setUp();
@@ -36,6 +51,11 @@ public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
         loginModule.setOptions(options);
     }
 
+    /** Test authenticate_ successful.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAuthenticate_Successful() throws Exception
     {
         Person mockPerson = new Person(USER_ID);
@@ -50,6 +70,11 @@ public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
 
     }
 
+    /** Test authenticate_ user not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAuthenticate_UserNotFound() throws Exception
     {
         mockNtlmLoginHelper.authenticate(USER_ID, PASSWORD, DOMAIN, DOMAIN);
@@ -62,6 +87,11 @@ public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
 
     }
 
+    /** Test authenticate_ server not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAuthenticate_ServerNotFound() throws Exception
     {
 
@@ -74,12 +104,18 @@ public class TestNtlmLoginModule extends AbstractLoginModuleTestCase
     }
 
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#replay()
+     */
     protected void replay()
     {
         super.replay();
         mockNtlmLoginHelperControl.replay();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#verify()
+     */
     protected void verify()
     {
         super.verify();

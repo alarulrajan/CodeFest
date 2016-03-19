@@ -15,10 +15,18 @@ import org.hibernate.classic.Session;
 import com.technoetic.xplanner.db.AggregateTimesheetQuery;
 import com.technoetic.xplanner.forms.AggregateTimesheetForm;
 
+/**
+ * The Class ViewAggregateTimesheetAction.
+ */
 public class ViewAggregateTimesheetAction extends AbstractAction {
+	
+	/** The Constant log. */
 	private static final Logger log = Logger
 			.getLogger("ViewAggregateTimesheetAction");
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,

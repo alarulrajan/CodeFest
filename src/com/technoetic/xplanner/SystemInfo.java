@@ -34,25 +34,59 @@ import org.springframework.web.context.ServletContextAware;
 import com.technoetic.xplanner.db.hsqldb.HsqlServer;
 import com.technoetic.xplanner.util.LogUtil;
 
-/** @noinspection StringContatenationInLoop,MagicNumber */
+/**
+ * The Class SystemInfo.
+ *
+ * @noinspection StringContatenationInLoop,MagicNumber
+ */
 public class SystemInfo implements ServletContextAware {
+	
+	/** The Constant MEGABYTE. */
 	static final long MEGABYTE = 1048576L;
+	
+	/** The properties. */
 	private Properties properties;
+	
+	/** The servlet context. */
 	private ServletContext servletContext;
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
+	/**
+     * Gets the properties.
+     *
+     * @return the properties
+     */
 	public Properties getProperties() {
 		return this.properties;
 	}
 
+	/**
+     * Sets the properties.
+     *
+     * @param properties
+     *            the new properties
+     */
 	public void setProperties(final Properties properties) {
 		this.properties = properties;
 	}
 
+	/**
+     * Sets the session factory.
+     *
+     * @param sessionFactory
+     *            the new session factory
+     */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+     * Gets the system properties.
+     *
+     * @return the system properties
+     */
 	public static Map<String, String> getSystemProperties() {
 		final Properties sysProps = System.getProperties();
 		final Map<String, String> props = new ListOrderedMap();
@@ -83,6 +117,11 @@ public class SystemInfo implements ServletContextAware {
 		return props;
 	}
 
+	/**
+     * Gets the current directory.
+     *
+     * @return the current directory
+     */
 	private static String getCurrentDirectory() {
 		try {
 			return new File(".").getCanonicalPath();
@@ -92,6 +131,11 @@ public class SystemInfo implements ServletContextAware {
 		}
 	}
 
+	/**
+     * Gets the JVM statistics.
+     *
+     * @return the JVM statistics
+     */
 	public Map<String, String> getJVMStatistics() {
 		final Map<String, String> stats = new ListOrderedMap();
 		stats.put("Total Memory", "" + this.getTotalMemory() + "MB");
@@ -100,6 +144,11 @@ public class SystemInfo implements ServletContextAware {
 		return stats;
 	}
 
+	/**
+     * Gets the builds the info.
+     *
+     * @return the builds the info
+     */
 	public Map<String, String> getBuildInfo() {
 		final Map<String, String> stats = new ListOrderedMap();
 		stats.put("Version", this.properties
@@ -113,6 +162,11 @@ public class SystemInfo implements ServletContextAware {
 		return stats;
 	}
 
+	/**
+     * Gets the database info.
+     *
+     * @return the database info
+     */
 	public Map<String, String> getDatabaseInfo() {
 		final Map<String, String> props = new ListOrderedMap();
 		props.put("Dialect", this.properties.getProperty("hibernate.dialect"));
@@ -137,6 +191,11 @@ public class SystemInfo implements ServletContextAware {
 		return props;
 	}
 
+	/**
+     * Gets the database vendor.
+     *
+     * @return the database vendor
+     */
 	private String getDatabaseVendor() {
 		return (String) new HibernateTemplate(this.sessionFactory)
 				.execute(new HibernateCallback() {
@@ -149,6 +208,11 @@ public class SystemInfo implements ServletContextAware {
 				});
 	}
 
+	/**
+     * Gets the database version.
+     *
+     * @return the database version
+     */
 	private String getDatabaseVersion() {
 		return (String) new HibernateTemplate(this.sessionFactory)
 				.execute(new HibernateCallback() {
@@ -161,6 +225,11 @@ public class SystemInfo implements ServletContextAware {
 				});
 	}
 
+	/**
+     * Gets the driver version.
+     *
+     * @return the driver version
+     */
 	private String getDriverVersion() {
 		return (String) new HibernateTemplate(this.sessionFactory)
 				.execute(new HibernateCallback() {
@@ -174,6 +243,11 @@ public class SystemInfo implements ServletContextAware {
 				});
 	}
 
+	/**
+     * Gets the database patch level.
+     *
+     * @return the database patch level
+     */
 	private static String getDatabasePatchLevel() {
 		try {
 			return "to be fixed to use liquid";
@@ -184,6 +258,11 @@ public class SystemInfo implements ServletContextAware {
 		}
 	}
 
+	/**
+     * Gets the app server info.
+     *
+     * @return the app server info
+     */
 	public Map<String, String> getAppServerInfo() {
 		final Map<String, String> props = new ListOrderedMap();
 		props.put("Application Server", this.servletContext.getServerInfo());
@@ -192,22 +271,47 @@ public class SystemInfo implements ServletContextAware {
 		return props;
 	}
 
+	/**
+     * Checks if is empty.
+     *
+     * @param value
+     *            the value
+     * @return true, if is empty
+     */
 	private static boolean isEmpty(final String value) {
 		return value == null || "".equals(value);
 	}
 
+	/**
+     * Gets the total memory.
+     *
+     * @return the total memory
+     */
 	public long getTotalMemory() {
 		return Runtime.getRuntime().totalMemory() / SystemInfo.MEGABYTE;
 	}
 
+	/**
+     * Gets the free memory.
+     *
+     * @return the free memory
+     */
 	public long getFreeMemory() {
 		return Runtime.getRuntime().freeMemory() / SystemInfo.MEGABYTE;
 	}
 
+	/**
+     * Gets the used memory.
+     *
+     * @return the used memory
+     */
 	public long getUsedMemory() {
 		return this.getTotalMemory() - this.getFreeMemory();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.context.ServletContextAware#setServletContext(javax.servlet.ServletContext)
+	 */
 	@Override
 	public void setServletContext(final ServletContext servletContext) {
 		this.servletContext = servletContext;
@@ -216,6 +320,9 @@ public class SystemInfo implements ServletContextAware {
 						+ this.toString());
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		final StringBuffer buf = new StringBuffer();
@@ -230,6 +337,15 @@ public class SystemInfo implements ServletContextAware {
 		return buf.toString();
 	}
 
+	/**
+     * Properties map to string.
+     *
+     * @param mapName
+     *            the map name
+     * @param properties
+     *            the properties
+     * @return the string
+     */
 	private static String propertiesMapToString(final String mapName,
 			final Map<String, String> properties) {
 		final StringBuffer buf = new StringBuffer();

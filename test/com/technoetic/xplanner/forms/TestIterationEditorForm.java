@@ -6,9 +6,17 @@ import java.util.Iterator;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 
+/**
+ * The Class TestIterationEditorForm.
+ */
 public class TestIterationEditorForm extends AbstractEditorFormTestCase {
+    
+    /** The iteration editor form. */
     private IterationEditorForm iterationEditorForm;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.forms.AbstractEditorFormTestCase#setUp()
+     */
     protected void setUp() throws Exception {
        form = iterationEditorForm = new IterationEditorForm();
        super.setUp();
@@ -17,6 +25,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
        iterationEditorForm.setEndDateString("2002-02-03");
     }
 
+    /** Test reset.
+     */
     public void testReset() {
         iterationEditorForm.reset(support.mapping, support.request);
 
@@ -28,12 +38,16 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("variable not reset", 0, iterationEditorForm.getProjectId());
     }
 
+    /** Test validate form ok.
+     */
     public void testValidateFormOk() {
         ActionErrors errors = iterationEditorForm.validate(support.mapping, support.request);
 
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing name not submitted.
+     */
     public void testValidateMissingNameNotSubmitted() {
         iterationEditorForm.setName(null);
 
@@ -42,6 +56,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing name.
+     */
     public void testValidateMissingName() {
         iterationEditorForm.setName(null);
         iterationEditorForm.setAction("Update");
@@ -55,6 +71,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
     }
 
 
+    /** Test validate bad start date.
+     */
     public void testValidateBadStartDate() {
         iterationEditorForm.setStartDateString("bogus");
         iterationEditorForm.setAction("Update");
@@ -67,6 +85,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("wrong key", "iteration.editor.bad_start_date", error.getKey());
     }
 
+    /** Test validate missing end date.
+     */
     public void testValidateMissingEndDate() {
         iterationEditorForm.setEndDateString(null);
         iterationEditorForm.setAction("Update");
@@ -79,6 +99,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("wrong key", "iteration.editor.bad_end_date", error.getKey());
     }
 
+    /** Test validate bad end date.
+     */
     public void testValidateBadEndDate() {
         iterationEditorForm.setEndDateString("bogus");
         iterationEditorForm.setAction("Update");
@@ -91,6 +113,8 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("wrong key", "iteration.editor.bad_end_date", error.getKey());
     }
 
+    /** Test validate negative interval.
+     */
     public void testValidateNegativeInterval() {
         iterationEditorForm.setEndDateString("2001-02-02 00:00");
         iterationEditorForm.setAction("Update");
@@ -102,11 +126,15 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("wrong key", "iteration.editor.nonpositive_interval", error.getKey());
     }
 
+    /** Test set start date with null date.
+     */
     public void testSetStartDateWithNullDate() {
         iterationEditorForm.setStartDate(null);
         assertEquals("", iterationEditorForm.getStartDateString());
     }
 
+    /** Test set start date with not null date.
+     */
     public void testSetStartDateWithNotNullDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(2003, 1, 2);
@@ -114,11 +142,15 @@ public class TestIterationEditorForm extends AbstractEditorFormTestCase {
         assertEquals("2003-02-02", iterationEditorForm.getStartDateString());
     }
 
+    /** Test set end date with null date.
+     */
     public void testSetEndDateWithNullDate() {
         iterationEditorForm.setEndDate(null);
         assertEquals("", iterationEditorForm.getEndDateString());
     }
 
+    /** Test set end date with not null date.
+     */
     public void testSetEndDateWithNotNullDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(2003, 1, 2);

@@ -16,17 +16,27 @@ import org.apache.log4j.Logger;
 
 import com.technoetic.xplanner.util.LogUtil;
 
+/**
+ * The Class ActivityLogFilter.
+ */
 public class ActivityLogFilter implements Filter {
 
+	/** The Constant LOG. */
 	public static final Logger LOG = LogUtil.getLogger();
 
-	// TODO: Once we migrate to 1.5, use String.format to extract the logging
+	// ChangeSoon: Once we migrate to 1.5, use String.format to extract the logging
 	// pattern into the web.xml filter init param.
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	@Override
 	public void init(final FilterConfig config) throws ServletException {
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse response, final FilterChain filterChain)
@@ -43,6 +53,9 @@ public class ActivityLogFilter implements Filter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() {
 	}

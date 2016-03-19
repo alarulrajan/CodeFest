@@ -22,35 +22,75 @@ import com.technoetic.xplanner.db.TaskQueryHelper;
 import com.technoetic.xplanner.util.TimeGenerator;
 
 /**
- * User: Mateusz Prokopowicz Date: Apr 19, 2005 Time: 1:34:22 PM
+ * User: Mateusz Prokopowicz Date: Apr 19, 2005 Time: 1:34:22 PM.
  */
 public class MissingTimeEntryNotifier implements
 		com.technoetic.xplanner.Command {
+	
+	/** The log. */
 	private static Logger log = Logger
 			.getLogger(MissingTimeEntryNotifier.class);
 
+	/** The Constant EMAIL_TASK_HEADER. */
 	public static final String EMAIL_TASK_HEADER = "iteration.metrics.tableheading.task";
+	
+	/** The Constant EMAIL_STORY_HEADER. */
 	public static final String EMAIL_STORY_HEADER = "iteration.metrics.tableheading.story";
+	
+	/** The Constant SUBJECT_FOR_ACCEPTORS. */
 	public static final String SUBJECT_FOR_ACCEPTORS = "job.emailnotifier.subjectForAcceptors";
+	
+	/** The Constant SUBJECT_FOR_PROJECT_LEADS. */
 	public static final String SUBJECT_FOR_PROJECT_LEADS = "job.emailnotifier.subjectForProjectLeeds";
+	
+	/** The Constant EMAIL_BODY_HEADER_FOR_ACCEPTORS. */
 	public static final String EMAIL_BODY_HEADER_FOR_ACCEPTORS = "job.emailnotifier.bodyHeaderForAcceptors";
+	
+	/** The Constant EMAIL_BODY_HEADER_FOR_PROJECT_LEADERS. */
 	public static final String EMAIL_BODY_HEADER_FOR_PROJECT_LEADERS = "job.emailnotifier.bodyheaderForProjectLeeds";
+	
+	/** The Constant EMAIL_BODY_FOOTER. */
 	public static final String EMAIL_BODY_FOOTER = "job.emailnotifier.bodyFooter";
 
+	/** The task query helper. */
 	private final TaskQueryHelper taskQueryHelper;
+	
+	/** The email notification support. */
 	private final EmailNotificationSupport emailNotificationSupport;
+	
+	/** The time generator. */
 	private TimeGenerator timeGenerator;
 
+	/**
+     * Sets the time generator.
+     *
+     * @param timeGenerator
+     *            the new time generator
+     */
 	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
+	/**
+     * Instantiates a new missing time entry notifier.
+     *
+     * @param taskQueryHelper
+     *            the task query helper
+     * @param emailNotificationSupport
+     *            the email notification support
+     */
 	public MissingTimeEntryNotifier(final TaskQueryHelper taskQueryHelper,
 			final EmailNotificationSupport emailNotificationSupport) {
 		this.taskQueryHelper = taskQueryHelper;
 		this.emailNotificationSupport = emailNotificationSupport;
 	}
 
+	/**
+     * Send missing time entry report to leads.
+     *
+     * @param endDate
+     *            the end date
+     */
 	public void sendMissingTimeEntryReportToLeads(final Date endDate) {
 		Collection col;
 		final HashMap notificationEmails = new HashMap();
@@ -72,6 +112,12 @@ public class MissingTimeEntryNotifier implements
 				.debug("Notifications have been sent to project leads.");
 	}
 
+	/**
+     * Send missing time entry reminder to acceptors.
+     *
+     * @param endDate
+     *            the end date
+     */
 	public void sendMissingTimeEntryReminderToAcceptors(final Date endDate) {
 		final Map projectsToBeNotified = new HashMap();
 		final Map notificationEmails = new HashMap();
@@ -95,6 +141,9 @@ public class MissingTimeEntryNotifier implements
 				.debug("Notifications have been sent to acceptors.");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.Command#execute()
+	 */
 	@Override
 	public void execute() {
 		// fixme the notifier should be configured with a time window to check

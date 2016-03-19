@@ -25,23 +25,49 @@ import com.technoetic.xplanner.domain.TaskDisposition;
 import com.technoetic.xplanner.forms.MoveContinueTaskForm;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class MoveContinueTaskAction.
+ */
 public class MoveContinueTaskAction extends EditObjectAction<Task> {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The Constant TARGET_STORY_ID_CONVERTOR. */
 	public static final RelationshipConvertor TARGET_STORY_ID_CONVERTOR = new RelationshipConvertor(
 			"targetStoryId", "userStory");
+	
+	/** The Constant CONTINUE_ACTION. */
 	public static final String CONTINUE_ACTION = "Continue";
+	
+	/** The Constant MOVE_ACTION. */
 	public static final String MOVE_ACTION = "Move";
 
+	/** The task continuer. */
 	private TaskContinuer taskContinuer;
 
+	/**
+     * Gets the task continuer.
+     *
+     * @return the task continuer
+     */
 	public TaskContinuer getTaskContinuer() {
 		return this.taskContinuer;
 	}
 
+	/**
+     * Sets the task continuer.
+     *
+     * @param taskContinuer
+     *            the new task continuer
+     */
 	public void setTaskContinuer(final TaskContinuer taskContinuer) {
 		this.taskContinuer = taskContinuer;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward execute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -70,6 +96,24 @@ public class MoveContinueTaskAction extends EditObjectAction<Task> {
 		}
 	}
 
+	/**
+     * Save form.
+     *
+     * @param taskForm
+     *            the task form
+     * @param actionMapping
+     *            the action mapping
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @param actionForm
+     *            the action form
+     * @param reply
+     *            the reply
+     * @throws Exception
+     *             the exception
+     */
 	private void saveForm(final MoveContinueTaskForm taskForm,
 			final ActionMapping actionMapping, final Session session,
 			final HttpServletRequest request, final ActionForm actionForm,
@@ -148,6 +192,16 @@ public class MoveContinueTaskAction extends EditObjectAction<Task> {
 		this.afterObjectCommit(actionMapping, actionForm, request, reply);
 	}
 
+	/**
+     * Populate form.
+     *
+     * @param taskEditorForm
+     *            the task editor form
+     * @param session
+     *            the session
+     * @throws Exception
+     *             the exception
+     */
 	private void populateForm(final MoveContinueTaskForm taskEditorForm,
 			final Session session) throws Exception {
 		final String oid = taskEditorForm.getOid();

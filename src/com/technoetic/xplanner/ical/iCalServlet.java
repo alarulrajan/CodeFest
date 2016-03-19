@@ -33,12 +33,23 @@ import com.technoetic.xplanner.security.auth.SystemAuthorizer;
  * (emiliano@iris-advies.nl)
  */
 public class iCalServlet extends HttpServlet {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The pf date. */
 	private final PrintfFormat pfDate = new PrintfFormat(
 			"%04d%02d%02dT%02d%02d%02d");
+	
+	/** The calendar. */
 	private final Calendar calendar = Calendar.getInstance();
+	
+	/** The Constant ICAL_LINELENGTH_LIMIT. */
 	private final static int ICAL_LINELENGTH_LIMIT = 75;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void doGet(final HttpServletRequest req,
 			final HttpServletResponse res) throws ServletException, IOException {
@@ -126,6 +137,22 @@ public class iCalServlet extends HttpServlet {
 		}
 	}
 
+	/**
+     * Generate task data.
+     *
+     * @param out
+     *            the out
+     * @param hibernateSession
+     *            the hibernate session
+     * @param requestedUsername
+     *            the requested username
+     * @param guid
+     *            the guid
+     * @param taskURL
+     *            the task url
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void generateTaskData(final PrintWriter out,
 			final Session hibernateSession, final String requestedUsername,
 			final String guid, final String taskURL) throws HibernateException {
@@ -182,6 +209,22 @@ public class iCalServlet extends HttpServlet {
 		}
 	}
 
+	/**
+     * Generate time entry data.
+     *
+     * @param out
+     *            the out
+     * @param hibernateSession
+     *            the hibernate session
+     * @param requestedUsername
+     *            the requested username
+     * @param guid
+     *            the guid
+     * @param taskURL
+     *            the task url
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void generateTimeEntryData(final PrintWriter out,
 			final Session hibernateSession, final String requestedUsername,
 			final String guid, final String taskURL) throws HibernateException {
@@ -226,6 +269,13 @@ public class iCalServlet extends HttpServlet {
 		}
 	}
 
+	/**
+     * Format date.
+     *
+     * @param d
+     *            the d
+     * @return the string
+     */
 	private String formatDate(final Date d) {
 		this.calendar.setTime(d);
 		return this.pfDate.sprintf(new Object[] {
@@ -237,6 +287,13 @@ public class iCalServlet extends HttpServlet {
 				new Integer(this.calendar.get(Calendar.SECOND)) });
 	}
 
+	/**
+     * Quote.
+     *
+     * @param s
+     *            the s
+     * @return the string
+     */
 	private String quote(final String s) {
 		final char[] chars = s.toCharArray();
 		final int length = s.length();

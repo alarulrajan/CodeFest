@@ -16,17 +16,39 @@ import org.easymock.MockControl;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class TestIterationMetrics.
+ */
 public class TestIterationMetrics extends TestCase{
+    
+    /** The iteration metrics. */
     private IterationMetrics iterationMetrics;
+    
+    /** The person1 metrics. */
     private DeveloperMetrics person1Metrics;
+    
+    /** The person2 metrics. */
     private DeveloperMetrics person2Metrics;
+    
+    /** The Constant PERSON1_ID. */
     public static final int PERSON1_ID = 123;
+    
+    /** The Constant PERSON2_ID. */
     public static final int PERSON2_ID = 234;
+    
+    /** The PERSO n1_ name. */
     private final String PERSON1_NAME = "name1";
+    
+    /** The PERSO n2_ name. */
     private final String PERSON2_NAME = "name2";
+    
+    /** The Constant ITERATION_ID. */
     public static final int ITERATION_ID = 1;
 
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
 	protected void setUp() throws Exception {
         iterationMetrics = new FakeIterationMetrics(createTestIteration());
@@ -34,6 +56,11 @@ public class TestIterationMetrics extends TestCase{
         verifyTestNames();
     }
 
+    /** Test calculate developer metrics.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCalculateDeveloperMetrics() throws Exception {
         iterationMetrics.calculateDeveloperMetrics();
         assertNotNull(iterationMetrics.developerMetrics);
@@ -47,6 +74,11 @@ public class TestIterationMetrics extends TestCase{
         verifyPersonMetrics(unassignedHours, 10.0, 7.7, IterationMetrics.UNASSIGNED_NAME);
     }
 
+    /** Test calculate developer metrics with zero hours.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCalculateDeveloperMetricsWithZeroHours() throws Exception {
         iterationMetrics = new FakeIterationMetrics(createNoHoursIteration());
         iterationMetrics.getNamesMap(null);
@@ -57,6 +89,11 @@ public class TestIterationMetrics extends TestCase{
         assertNull(person1Metrics);
     }
 
+    /** Test get metrics data with only story hours.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetMetricsDataWithOnlyStoryHours() throws Exception {
     	List<UserStory> stories = new ArrayList<UserStory>();
         UserStory story = new UserStory();
@@ -78,6 +115,11 @@ public class TestIterationMetrics extends TestCase{
 
     }
 
+    /** Test get metrics data with story and task hours.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetMetricsDataWithStoryAndTaskHours() throws Exception {
         Collection stories = createListOfStories();
 
@@ -90,6 +132,11 @@ public class TestIterationMetrics extends TestCase{
         verifyPersonMetrics(person1Metrics, 0.0, 3.0, PERSON1_NAME);
     }
 
+    /** Test assign hours to user.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAssignHoursToUser() throws Exception {
         assertEquals(PERSON1_NAME,iterationMetrics.getName(PERSON1_ID));
         iterationMetrics.assignHoursToUser(PERSON1_ID, 2.4, true);
@@ -97,6 +144,8 @@ public class TestIterationMetrics extends TestCase{
         assertEquals("story hour", 2.4, person1Metrics.getAcceptedStoryHours(), 0.0);
     }
 
+    /** Verify test names.
+     */
     private void verifyTestNames() {
         assertEquals("total names", 3, iterationMetrics.names.size());
         person1Metrics = iterationMetrics.getDeveloperMetrics(PERSON1_NAME, PERSON1_ID, ITERATION_ID);
@@ -110,6 +159,17 @@ public class TestIterationMetrics extends TestCase{
         assertEquals("unassigned name", IterationMetrics.UNASSIGNED_NAME, unassignedPerson);
     }
 
+    /** Verify person metrics.
+     *
+     * @param person1Metrics
+     *            the person1 metrics
+     * @param expectedStoryHours
+     *            the expected story hours
+     * @param expectedTaskHours
+     *            the expected task hours
+     * @param expectedPersonName
+     *            the expected person name
+     */
     private void verifyPersonMetrics(DeveloperMetrics person1Metrics,
                                      double expectedStoryHours,
                                      double expectedTaskHours,
@@ -119,12 +179,20 @@ public class TestIterationMetrics extends TestCase{
         assertEquals("person name", expectedPersonName, person1Metrics.getName());
     }
 
+    /** Creates the test iteration.
+     *
+     * @return the iteration
+     */
     private Iteration createTestIteration() {
         Iteration iteration = new Iteration();
         iteration.setUserStories(createListOfStories());
         return iteration;
     }
 
+    /** Creates the no hours iteration.
+     *
+     * @return the iteration
+     */
     private Iteration createNoHoursIteration() {
         Iteration iteration = new Iteration();
         List<UserStory> stories = new ArrayList<UserStory>();
@@ -135,6 +203,10 @@ public class TestIterationMetrics extends TestCase{
     }
 
 
+    /** Creates the list of stories.
+     *
+     * @return the list
+     */
     private List<UserStory> createListOfStories() {
         UserStory story1 = createUserStory(PERSON1_ID, 1.0);
         story1.setTasks(createListOfTasks());
@@ -148,6 +220,10 @@ public class TestIterationMetrics extends TestCase{
         return stories;
     }
 
+    /** Creates the list of tasks.
+     *
+     * @return the list
+     */
     private List<Task> createListOfTasks() {
         List<Task> tasks = new ArrayList<Task>();
         Task task1 = createTask(PERSON1_ID, 3.0);
@@ -160,6 +236,14 @@ public class TestIterationMetrics extends TestCase{
         return tasks;
     }
 
+    /** Creates the user story.
+     *
+     * @param personId
+     *            the person id
+     * @param estimatedHours
+     *            the estimated hours
+     * @return the user story
+     */
     private UserStory createUserStory(int personId, double estimatedHours) {
         UserStory story = new UserStory();
         story.setTrackerId(personId);
@@ -167,6 +251,14 @@ public class TestIterationMetrics extends TestCase{
         return story;
     }
 
+    /** Creates the task.
+     *
+     * @param personId
+     *            the person id
+     * @param estimatedHours
+     *            the estimated hours
+     * @return the task
+     */
     private Task createTask(int personId, double estimatedHours) {
         Task task = new Task();
         task.setAcceptorId(personId);
@@ -174,6 +266,11 @@ public class TestIterationMetrics extends TestCase{
         return task;
     }
 
+    /** Test get hours worked.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetHoursWorked() throws Exception {
         MockControl mockSessionControl;
         Session mockSession;
@@ -200,18 +297,33 @@ public class TestIterationMetrics extends TestCase{
         assertEquals("Wrong person1 own tasks worked hours", 7.0, iterationMetrics.getDeveloperMetrics(PERSON2_NAME, PERSON2_ID, ITERATION_ID).getOwnTaskHours(), 0.0);
     }
 
+    /** The Class FakeIterationMetrics.
+     */
     private class FakeIterationMetrics extends IterationMetrics {
+        
+        /** The no hours iteration. */
         private final Iteration noHoursIteration;
 
+        /** Instantiates a new fake iteration metrics.
+         *
+         * @param iteration
+         *            the iteration
+         */
         public FakeIterationMetrics(Iteration iteration) {
             this.noHoursIteration = iteration;
         }
 
+        /* (non-Javadoc)
+         * @see com.technoetic.xplanner.metrics.IterationMetrics#getIterationObject()
+         */
         @Override
 		protected Iteration getIterationObject() {
             return noHoursIteration;
         }
 
+        /* (non-Javadoc)
+         * @see com.technoetic.xplanner.metrics.IterationMetrics#getNamesMap(org.hibernate.classic.Session)
+         */
         @Override
 		protected void getNamesMap(Session session) {
             names.put(new Integer(PERSON1_ID), PERSON1_NAME);

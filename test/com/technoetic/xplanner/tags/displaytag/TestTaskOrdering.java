@@ -8,12 +8,33 @@ import junit.framework.TestCase;
 import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestTaskOrdering.
+ */
 public class TestTaskOrdering extends TestCase
 {
+    
+    /** The task status order. */
     TaskOrdering taskStatusOrder;
+    
+    /** The task1. */
     private Task task1;
+    
+    /** The task2. */
     private Task task2;
 
+    /** Creates the task.
+     *
+     * @param taskName
+     *            the task name
+     * @param completed
+     *            the completed
+     * @param storyName
+     *            the story name
+     * @param storyOrder
+     *            the story order
+     * @return the task
+     */
     private Task createTask(String taskName, boolean completed, String storyName, int storyOrder)
     {
         Task task = new Task();
@@ -26,6 +47,11 @@ public class TestTaskOrdering extends TestCase
         return task;
     }
 
+    /** Test compare to by task name.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCompareToByTaskName() throws Exception
     {
         task1 = createTask("Task 1", true, "Story 1", 1);
@@ -36,6 +62,11 @@ public class TestTaskOrdering extends TestCase
         assertTrue(taskStatusOrder1.compareTo(taskStatusOrder2) < 0);
     }
 
+    /** Test compare to by story name.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCompareToByStoryName() throws Exception
     {
         task1 = createTask("Task 1", true, "Story 2", 1);
@@ -46,6 +77,11 @@ public class TestTaskOrdering extends TestCase
         assertTrue(taskStatusOrder1.compareTo(taskStatusOrder2) > 0);
     }
 
+    /** Test compare to by order no.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCompareToByOrderNo() throws Exception
     {
         task1 = createTask("Task 1", true, "Story 1", 1);
@@ -56,6 +92,11 @@ public class TestTaskOrdering extends TestCase
         assertTrue(taskStatusOrder1.compareTo(taskStatusOrder2) < 0);
     }
 
+    /** Test compare to by task status_ started less than non started.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCompareToByTaskStatus_StartedLessThanNonStarted() throws Exception
     {
         task1 = createTask("Task 1", false, "Story 1", 1);
@@ -72,6 +113,11 @@ public class TestTaskOrdering extends TestCase
         assertTrue("started < nonstarted", startedTask.compareTo(nonStartedTask) < 0);
     }
 
+    /** Test compare to by task status_ non started less than completed.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCompareToByTaskStatus_NonStartedLessThanCompleted() throws Exception
     {
         task1 = createTask("Task 1", false, "Story 1", 1);

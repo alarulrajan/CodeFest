@@ -21,18 +21,47 @@ import com.technoetic.xplanner.importer.SpreadsheetStory;
  * Released under the Apache Software License, Version 1.1
  */
 
+/**
+ * The Class SpreadsheetStoryWriter.
+ */
 public class SpreadsheetStoryWriter implements CookbookFields {
+	
+	/** The output. */
 	OutputStream output;
+	
+	/** The Constant END_DATE_HEADER. */
 	public static final String END_DATE_HEADER = "Iteration End Date";
+	
+	/** The Constant TITLE_HEADER. */
 	public static final String TITLE_HEADER = "Feature/Story Title";
+	
+	/** The Constant STATUS_HEADER. */
 	public static final String STATUS_HEADER = "Status";
+	
+	/** The Constant PRIORITY_HEADER. */
 	public static final String PRIORITY_HEADER = "Priority  (1 thru n)";
+	
+	/** The Constant ESTIMATE_HEADER. */
 	public static final String ESTIMATE_HEADER = "Work Unit Estimate";
 
+	/**
+     * Instantiates a new spreadsheet story writer.
+     *
+     * @param stream
+     *            the stream
+     */
 	public SpreadsheetStoryWriter(final OutputStream stream) {
 		this.output = stream;
 	}
 
+	/**
+     * Write stories.
+     *
+     * @param stories
+     *            the stories
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public void writeStories(final List stories) throws IOException {
 		// assert stories != null;
 
@@ -48,6 +77,16 @@ public class SpreadsheetStoryWriter implements CookbookFields {
 		this.output.close();
 	}
 
+	/**
+     * Write story.
+     *
+     * @param sheet
+     *            the sheet
+     * @param spreadsheetStory
+     *            the spreadsheet story
+     * @param i
+     *            the i
+     */
 	private void writeStory(final HSSFSheet sheet,
 			final SpreadsheetStory spreadsheetStory, final int i) {
 		final HSSFRow row = sheet.createRow(i);
@@ -63,6 +102,12 @@ public class SpreadsheetStoryWriter implements CookbookFields {
 				spreadsheetStory.getEstimate());
 	}
 
+	/**
+     * Write header.
+     *
+     * @param sheet
+     *            the sheet
+     */
 	private void writeHeader(final HSSFSheet sheet) {
 		final HSSFRow row = sheet.createRow(0);
 		this.setCellValue(row, CookbookFields.STORY_END_DATE_COL,
@@ -77,22 +122,62 @@ public class SpreadsheetStoryWriter implements CookbookFields {
 				SpreadsheetStoryWriter.ESTIMATE_HEADER);
 	}
 
+	/**
+     * Sets the cell value.
+     *
+     * @param row
+     *            the row
+     * @param col
+     *            the col
+     * @param date
+     *            the date
+     */
 	private void setCellValue(final HSSFRow row, final int col, final Date date) {
 		final HSSFCell cell = row.createCell((short) col);
 		cell.setCellValue(date);
 	}
 
+	/**
+     * Sets the cell value.
+     *
+     * @param row
+     *            the row
+     * @param col
+     *            the col
+     * @param value
+     *            the value
+     */
 	private void setCellValue(final HSSFRow row, final int col, final int value) {
 		final HSSFCell cell = row.createCell((short) col);
 		cell.setCellValue(value);
 	}
 
+	/**
+     * Sets the cell value.
+     *
+     * @param row
+     *            the row
+     * @param col
+     *            the col
+     * @param value
+     *            the value
+     */
 	private void setCellValue(final HSSFRow row, final int col,
 			final double value) {
 		final HSSFCell cell = row.createCell((short) col);
 		cell.setCellValue(value);
 	}
 
+	/**
+     * Sets the cell value.
+     *
+     * @param row
+     *            the row
+     * @param col
+     *            the col
+     * @param value
+     *            the value
+     */
 	private void setCellValue(final HSSFRow row, final int col,
 			final String value) {
 		final HSSFCell cell = row.createCell((short) col);

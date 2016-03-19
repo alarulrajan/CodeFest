@@ -5,34 +5,76 @@ import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
 
+/**
+ * The Class MetricsPageTestScript.
+ */
 public class MetricsPageTestScript extends AbstractPageTestScript
 {
+    
+    /** The sys admin. */
     private final String sysAdmin = "sysadmin";
+    
+    /** The tester tt. */
     private final String testerTT = "TT";
+    
+    /** The tester yy. */
     private final String testerYY = "YY";
+    
+    /** The tt task estimated hours. */
     private final String ttTaskEstimatedHours = "7.7";
+    
+    /** The tester task. */
     private final String testerTask = "TesterTask";
+    
+    /** The other developer task name. */
     private final String otherDeveloperTaskName = "other developer's task";
+    
+    /** The another test task name. */
     private final String anotherTestTaskName = "Another Task";
+    
+    /** The second story name. */
     private final String secondStoryName = "Second Story";
+    
+    /** The third story name. */
     private final String thirdStoryName = "Third Story";
+    
+    /** The first task in third story. */
     private final String firstTaskInThirdStory = "Third Story First Task";
+    
+    /** The second task in third story. */
     private final String secondTaskInThirdStory = "Third Story Second Task";
+    
+    /** The test task id. */
     private String testTaskId = null;
+    
+    /** The other developer task id. */
     private String otherDeveloperTaskId = null;
+    
+    /** The another test task id. */
     public String anotherTestTaskId = null;
 
+    /** Instantiates a new metrics page test script.
+     *
+     * @param test
+     *            the test
+     */
     public MetricsPageTestScript(String test)
     {
         super(test);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     public void setUp() throws Exception
     {
         super.setUp();
         simpleSetUp();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+     */
     public void tearDown() throws Exception
     {
         deleteLocalObjects();
@@ -40,6 +82,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         super.tearDown();
     }
 
+    /** Go to test iteration metrics page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void goToTestIterationMetricsPage() throws Exception
     {
         tester.gotoProjectsPage();
@@ -48,6 +95,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         tester.clickLinkWithKey("iteration.link.metrics");
     }
 
+   /** Test content and links.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testContentAndLinks() throws Exception
    {
        goToTestIterationMetricsPage();
@@ -55,6 +107,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
        tester.assertKeyPresent("iteration.metrics.total_hours");
    }
 
+    /** Test actual time.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testActualTime() throws Exception
     {
         //goToTestStoryPage();
@@ -100,6 +157,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
     }
 
 
+    /** Test zero hour task.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testZeroHourTask() throws Exception
     {
         goToTestStoryPage();
@@ -110,6 +172,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         tester.assertTextPresent("Total Paired Hours Percentage: 0.0%");
     }
 
+    /** Test total hours table.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testTotalHoursTable() throws Exception
     {
         personTester.addPerson(testerTT, "tt", "tt", "tt", "tt");
@@ -134,6 +201,19 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         assertTotalWorkedHoursTable(testerTT, 3, 3, 0);
     }
 
+    /** Assert total worked hours table.
+     *
+     * @param person
+     *            the person
+     * @param totalHours
+     *            the total hours
+     * @param pairedHours
+     *            the paired hours
+     * @param soloHours
+     *            the solo hours
+     * @throws Exception
+     *             the exception
+     */
     private void assertTotalWorkedHoursTable(String person, int totalHours, int pairedHours, int soloHours)
         throws Exception
     {
@@ -151,6 +231,17 @@ public class MetricsPageTestScript extends AbstractPageTestScript
                                             new Double(soloHours));
     }
 
+    /** Assert metrics cell value for row with key.
+     *
+     * @param tableId
+     *            the table id
+     * @param person
+     *            the person
+     * @param key
+     *            the key
+     * @param hours
+     *            the hours
+     */
     private void assertMetricsCellValueForRowWithKey(String tableId,
                                                      String person,
                                                      String key, Double hours)
@@ -168,6 +259,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         }
     }
 
+    /** Test hours accepted graph.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testHoursAcceptedGraph() throws Exception
     {
         tester.gotoProjectsPage();
@@ -190,6 +286,8 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         checkMetricsAfterAddingThirdStory();
     }
 
+    /** Delete local objects.
+     */
     private void deleteLocalObjects()
     {
         tester.deleteObjects(Person.class, "name", testerTT);
@@ -212,6 +310,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         tester.deleteObjects(UserStory.class, "name", thirdStoryName);
     }
 
+    /** Check metrics after adding third story.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void checkMetricsAfterAddingThirdStory() throws Exception
     {
         tester.gotoProjectsPage();
@@ -237,6 +340,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
                                             new Double(ttTaskEstimatedHours));
     }
 
+    /** Check metrics after adding second story.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void checkMetricsAfterAddingSecondStory() throws Exception
     {
         personTester.addPerson(testerYY, "yy", "yy", "yy", "yy");
@@ -263,6 +371,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
                                             new Double(secondStoryEstimatedHours));
     }
 
+    /** Check metrics after adding second person.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void checkMetricsAfterAddingSecondPerson() throws Exception
     {
         String anotherTaskDescription = "Tester Task Description";
@@ -284,6 +397,11 @@ public class MetricsPageTestScript extends AbstractPageTestScript
                                             new Double(ttTaskEstimatedHours));
     }
 
+    /** Check task hours after adding tasks.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void checkTaskHoursAfterAddingTasks() throws Exception
     {
         goToTestStoryPage();
@@ -295,6 +413,13 @@ public class MetricsPageTestScript extends AbstractPageTestScript
                                             new Double(testTaskEstimatedHours));
     }
 
+    /** Update story tracker.
+     *
+     * @param tracker
+     *            the tracker
+     * @param testStoryName
+     *            the test story name
+     */
     private void updateStoryTracker(String tracker, String testStoryName)
     {
         tester.clickLinkWithText(testStoryName);
@@ -305,6 +430,9 @@ public class MetricsPageTestScript extends AbstractPageTestScript
         tester.submit();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+     */
     protected void traverseLinkWithKeyAndReturn(String key) throws Exception
     {
         tester.clickLinkWithKey(key);

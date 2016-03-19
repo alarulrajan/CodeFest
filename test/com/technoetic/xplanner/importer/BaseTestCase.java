@@ -16,25 +16,39 @@ import com.technoetic.xplanner.util.MainBeanFactory;
  * Released under the Apache Software License, Version 1.1
  */
 
+/**
+ * The Class BaseTestCase.
+ */
 public abstract class BaseTestCase extends TestCase
 {
+   
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception
    {
 //      pushNewFactory();
       super.setUp();
    }
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#tearDown()
+    */
    protected void tearDown() throws Exception
    {
       super.tearDown();
 //      popFactory();
    }
 
+   /** Push new factory.
+     */
    public static void pushNewFactory()
    {
       MainBeanFactory.factory = new DefaultListableBeanFactory(MainBeanFactory.factory);
    }
 
+   /** Pop factory.
+     */
    public static void popFactory()
    {
       MainBeanFactory.factory = ((HierarchicalBeanFactory) MainBeanFactory.factory).getParentBeanFactory();

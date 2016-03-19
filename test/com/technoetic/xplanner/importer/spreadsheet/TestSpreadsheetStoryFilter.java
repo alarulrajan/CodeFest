@@ -16,13 +16,27 @@ import com.technoetic.xplanner.importer.SpreadsheetStory;
 import com.technoetic.xplanner.importer.SpreadsheetStoryFactory;
 import com.technoetic.xplanner.testing.DateHelper;
 
+/**
+ * The Class TestSpreadsheetStoryFilter.
+ */
 public class TestSpreadsheetStoryFilter extends TestCase
 {
+   
+   /** The filter. */
    SpreadsheetStoryFilter filter;
+   
+   /** The story factory. */
    SpreadsheetStoryFactory storyFactory;
+   
+   /** The Constant START_DATE. */
    public static final Date START_DATE = DateHelper.createDate(1942, 6, 31);
+   
+   /** The Constant END_DATE. */
    public static final Date END_DATE = DateHelper.createDate(1942, 7, 10);
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -30,36 +44,66 @@ public class TestSpreadsheetStoryFilter extends TestCase
       storyFactory = new SpreadsheetStoryFactory();
    }
 
+   /** Test filter pass.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterPass() throws Exception
    {
       Date storyEndDate = DateHelper.createDate(1942, 7, 8);
       validateFilterResult(storyEndDate, true);
    }
 
+   /** Test filter fail.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterFail() throws Exception
    {
       Date storyEndDate = DateHelper.createDate(1942, 9, 8);
       validateFilterResult(storyEndDate, false);
    }
 
+   /** Test filter pass start date.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterPassStartDate() throws Exception
    {
       Date storyEndDate = START_DATE;
       validateFilterResult(storyEndDate, true);
    }
 
+   /** Test filter pass end date.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterPassEndDate() throws Exception
    {
       Date storyEndDate = END_DATE;
       validateFilterResult(storyEndDate, true);
    }
 
+   /** Test filter fail null.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterFailNull() throws Exception
    {
       Date storyEndDate = null;
       validateFilterResult(storyEndDate, false);
    }
 
+   /** Test filter fail last minute before.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterFailLastMinuteBefore() throws Exception
    {
       Calendar cal = Calendar.getInstance();
@@ -69,6 +113,11 @@ public class TestSpreadsheetStoryFilter extends TestCase
       validateFilterResult(storyEndDate, false);
    }
 
+   /** Test filter fail first minute after.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFilterFailFirstMinuteAfter() throws Exception
    {
       Calendar cal = Calendar.getInstance();
@@ -78,6 +127,11 @@ public class TestSpreadsheetStoryFilter extends TestCase
       validateFilterResult(storyEndDate, false);
    }
 
+   /** Test start date before end date.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testStartDateBeforeEndDate() throws Exception
    {
       Calendar cal = Calendar.getInstance();
@@ -95,6 +149,13 @@ public class TestSpreadsheetStoryFilter extends TestCase
       }
    }
 
+   /** Validate filter result.
+     *
+     * @param storyEndDate
+     *            the story end date
+     * @param expectedResult
+     *            the expected result
+     */
    private void validateFilterResult(Date storyEndDate, boolean expectedResult)
    {
       SpreadsheetStory story = storyFactory.newInstance(storyEndDate, "SomeStroy", "", 4, 4);

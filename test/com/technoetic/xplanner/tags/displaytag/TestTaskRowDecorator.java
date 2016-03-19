@@ -13,10 +13,20 @@ import junit.framework.TestCase;
 import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.TimeEntry;
 
+/**
+ * The Class TestTaskRowDecorator.
+ */
 public class TestTaskRowDecorator extends TestCase
 {
+    
+    /** The task row decorator. */
     TaskRowDecorator taskRowDecorator;
 
+    /** Test get css classes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetCssClasses() throws Exception
     {
         taskRowDecorator = new TaskRowDecorator();

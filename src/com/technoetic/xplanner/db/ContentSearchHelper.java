@@ -22,23 +22,58 @@ import com.technoetic.xplanner.domain.repository.RepositoryException;
  * Created by IntelliJ IDEA. User: tkmower Date: Dec 14, 2004 Time: 2:58:40 PM
  */
 public class ContentSearchHelper {
+	
+	/** The search criteria. */
 	protected String searchCriteria;
+	
+	/** The search results. */
 	private List searchResults;
+	
+	/** The searchable classes. */
 	private final Class[] searchableClasses = new Class[] { Project.class,
 			UserStory.class, Task.class, Note.class, Iteration.class };
+	
+	/** The search result factory. */
 	private final SearchResultFactory searchResultFactory;
+	
+	/** The query. */
 	private final SearchContentQuery query;
 
+	/**
+     * Instantiates a new content search helper.
+     *
+     * @param searchResultFactory
+     *            the search result factory
+     * @param query
+     *            the query
+     */
 	public ContentSearchHelper(final SearchResultFactory searchResultFactory,
 			final SearchContentQuery query) {
 		this.searchResultFactory = searchResultFactory;
 		this.query = query;
 	}
 
+	/**
+     * Gets the search results.
+     *
+     * @return the search results
+     */
 	public List getSearchResults() {
 		return this.searchResults;
 	}
 
+	/**
+     * Search.
+     *
+     * @param searchCriteria
+     *            the search criteria
+     * @param userId
+     *            the user id
+     * @param restrictedProjectId
+     *            the restricted project id
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	public void search(final String searchCriteria, final int userId,
 			final int restrictedProjectId) throws RepositoryException {
 		this.searchCriteria = searchCriteria;
@@ -48,6 +83,15 @@ public class ContentSearchHelper {
 		this.searchResults = results;
 	}
 
+	/**
+     * Find matching results.
+     *
+     * @param searchCriteria
+     *            the search criteria
+     * @return the list
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private List findMatchingResults(final String searchCriteria)
 			throws RepositoryException {
 		final List results = new LinkedList();
@@ -58,6 +102,17 @@ public class ContentSearchHelper {
 		return results;
 	}
 
+	/**
+     * Find objects matching.
+     *
+     * @param searchableClasses
+     *            the searchable classes
+     * @param searchCriteria
+     *            the search criteria
+     * @return the list
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	protected List findObjectsMatching(final Class[] searchableClasses,
 			final String searchCriteria) throws RepositoryException {
 		final List results = new LinkedList();
@@ -68,22 +123,56 @@ public class ContentSearchHelper {
 		return results;
 	}
 
+	/**
+     * Find matching objects.
+     *
+     * @param objectClass
+     *            the object class
+     * @param searchCriteria
+     *            the search criteria
+     * @return the list
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private List findMatchingObjects(final Class objectClass,
 			final String searchCriteria) throws RepositoryException {
 		return this.query.findWhereNameOrDescriptionContains(searchCriteria,
 				objectClass);
 	}
 
+	/**
+     * Exclude results based on user permissions.
+     *
+     * @param results
+     *            the results
+     * @param userId
+     *            the user id
+     */
 	private void excludeResultsBasedOnUserPermissions(final List results,
 			final int userId) {
 		final Predicate predicate = this.getAuthorizationPredicate(userId);
 		CollectionUtils.filter(results, predicate);
 	}
 
+	/**
+     * Gets the authorization predicate.
+     *
+     * @param userId
+     *            the user id
+     * @return the authorization predicate
+     */
 	protected Predicate getAuthorizationPredicate(final int userId) {
 		return new SearchResultAuthorizationPredicate(userId);
 	}
 
+	/**
+     * Convert matches to results.
+     *
+     * @param matches
+     *            the matches
+     * @param results
+     *            the results
+     */
 	private void convertMatchesToResults(final List matches, final List results) {
 		for (final Iterator iterator = matches.iterator(); iterator.hasNext();) {
 			try {
@@ -94,6 +183,15 @@ public class ContentSearchHelper {
 		}
 	}
 
+	/**
+     * Convert to search result.
+     *
+     * @param nameable
+     *            the nameable
+     * @param searchCriteria
+     *            the search criteria
+     * @return the search result
+     */
 	public SearchResult convertToSearchResult(final Nameable nameable,
 			final String searchCriteria) {
 		try {

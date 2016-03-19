@@ -24,28 +24,52 @@ import org.hibernate.util.JDBCExceptionReporter;
  */
 public class TransformingSchemaExport {
 
+	/** The Constant log. */
 	private static final Log log = LogFactory
 			.getLog(TransformingSchemaExport.class);
 
+	/** The drop sql. */
 	private final String[] dropSQL;
+	
+	/** The create sql. */
 	private final String[] createSQL;
+	
+	/** The connection properties. */
 	private final Properties connectionProperties;
+	
+	/** The output file. */
 	private String outputFile = null;
+	
+	/** The dialect. */
 	private final Dialect dialect;
+	
+	/** The delimiter. */
 	private String delimiter;
 
 	/**
-	 * Create a schema exporter for the given Configuration
-	 */
+     * Create a schema exporter for the given Configuration.
+     *
+     * @param cfg
+     *            the cfg
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public TransformingSchemaExport(final Configuration cfg)
 			throws HibernateException {
 		this(cfg, cfg.getProperties());
 	}
 
 	/**
-	 * Create a schema exporter for the given Configuration, with the given
-	 * database connection properties.
-	 */
+     * Create a schema exporter for the given Configuration, with the given
+     * database connection properties.
+     *
+     * @param cfg
+     *            the cfg
+     * @param connectionProperties
+     *            the connection properties
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public TransformingSchemaExport(final Configuration cfg,
 			final Properties connectionProperties) throws HibernateException {
 		this.connectionProperties = connectionProperties;
@@ -55,48 +79,74 @@ public class TransformingSchemaExport {
 	}
 
 	/**
-	 * Set an output filename. The generated script will be written to this
-	 * file.
-	 */
+     * Set an output filename. The generated script will be written to this
+     * file.
+     *
+     * @param filename
+     *            the filename
+     * @return the transforming schema export
+     */
 	public TransformingSchemaExport setOutputFile(final String filename) {
 		this.outputFile = filename;
 		return this;
 	}
 
 	/**
-	 * Set the end of statement delimiter
-	 */
+     * Set the end of statement delimiter.
+     *
+     * @param delimiter
+     *            the delimiter
+     * @return the transforming schema export
+     */
 	public TransformingSchemaExport setDelimiter(final String delimiter) {
 		this.delimiter = delimiter;
 		return this;
 	}
 
 	/**
-	 * Run the schema creation script.
-	 * 
-	 * @param script
-	 *            print the DDL to the console
-	 * @param export
-	 *            export the script to the database
-	 */
+     * Run the schema creation script.
+     *
+     * @param script
+     *            print the DDL to the console
+     * @param export
+     *            export the script to the database
+     * @throws Exception
+     *             the exception
+     */
 	public void create(final boolean script, final boolean export)
 			throws Exception {
 		this.execute(script, export, false, true);
 	}
 
 	/**
-	 * Run the drop schema script.
-	 * 
-	 * @param script
-	 *            print the DDL to the console
-	 * @param export
-	 *            export the script to the database
-	 */
+     * Run the drop schema script.
+     *
+     * @param script
+     *            print the DDL to the console
+     * @param export
+     *            export the script to the database
+     * @throws Exception
+     *             the exception
+     */
 	public void drop(final boolean script, final boolean export)
 			throws Exception {
 		this.execute(script, export, true, true);
 	}
 
+	/**
+     * Execute.
+     *
+     * @param script
+     *            the script
+     * @param export
+     *            the export
+     * @param justDrop
+     *            the just drop
+     * @param format
+     *            the format
+     * @throws Exception
+     *             the exception
+     */
 	private void execute(final boolean script, final boolean export,
 			final boolean justDrop, final boolean format) throws Exception {
 
@@ -214,11 +264,15 @@ public class TransformingSchemaExport {
 	}
 
 	/**
-	 * Format an SQL statement using simple rules: a) Insert newline after each
-	 * comma; b) Indent three spaces after each inserted newline; If the
-	 * statement contains single/double quotes return unchanged, it is too
-	 * complex and could be broken by simple formatting.
-	 */
+     * Format an SQL statement using simple rules: a) Insert newline after each
+     * comma; b) Indent three spaces after each inserted newline; If the
+     * statement contains single/double quotes return unchanged, it is too
+     * complex and could be broken by simple formatting.
+     *
+     * @param sql
+     *            the sql
+     * @return the string
+     */
 	private static String format(final String sql) {
 
 		if (sql.indexOf("\"") > 0 || sql.indexOf("'") > 0) {

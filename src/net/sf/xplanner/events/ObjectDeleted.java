@@ -3,8 +3,8 @@ package net.sf.xplanner.events;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym. Copyright (C) 2009 Maksym Chyrkov This program is free
  *         software: you can redistribute it and/or modify it under the terms of
  *         the GNU General Public License as published by the Free Software
@@ -18,16 +18,26 @@ import org.springframework.context.ApplicationEvent;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 @XplannerEvent
 public class ObjectDeleted extends ApplicationEvent {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1729312071033695919L;
 
+	/**
+     * Instantiates a new object deleted.
+     *
+     * @param source
+     *            the source
+     */
 	public ObjectDeleted(final EventSource source) {
 		super(source);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.EventObject#getSource()
+	 */
 	@Override
 	public EventSource getSource() {
 		return (EventSource) super.getSource();

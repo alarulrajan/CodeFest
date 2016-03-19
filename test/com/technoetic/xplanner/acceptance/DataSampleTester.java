@@ -25,22 +25,54 @@ import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.testing.DateHelper;
 
+/**
+ * The Class DataSampleTester.
+ */
 public class DataSampleTester {
+   
+   /** The Constant LOG. */
    private static final Logger LOG = Logger.getLogger(DataSampleTester.class);
+   
+   /** The iteration tester. */
    private final IterationTester iterationTester;
+   
+   /** The tester. */
    private final XPlannerWebTester tester;
+   
+   /** The data sample set. */
    private DefaultCategoryDataset dataSampleSet;
+   
+   /** The data sample set iteration id. */
    private String dataSampleSetIterationId;
 
+   /** Instantiates a new data sample tester.
+     *
+     * @param iterationTester
+     *            the iteration tester
+     */
    public DataSampleTester(IterationTester iterationTester) {
       this.iterationTester = iterationTester;
       this.tester = iterationTester.tester;
    }
 
+   /** Sets the automatically extend end date.
+     *
+     * @param value
+     *            the new automatically extend end date
+     * @throws UnsupportedEncodingException
+     *             the unsupported encoding exception
+     */
    public void setAutomaticallyExtendEndDate(String value) throws UnsupportedEncodingException {
       tester.editProperty(DataSamplerImpl.AUTOMATICALLY_EXTEND_END_DATE_PROP, value);
    }
 
+   /** Assert no data sample.
+     *
+     * @param aspect
+     *            the aspect
+     * @param date
+     *            the date
+     */
    public void assertNoDataSample(String aspect, String date) {
       Double value = (Double) dataSampleSet.getValue(aspect, date);
       if (value == null) {
@@ -54,15 +86,36 @@ public class DataSampleTester {
       }
    }
 
+   /** Sets the up.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void setUp() throws Exception {
    }
 
+   /** Tear down.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void tearDown() throws Exception {
       HibernateTemplate template = new HibernateTemplate(HibernateHelper.getSessionFactory());
       int deletedCount = template.bulkUpdate("delete from " + DataSample.class.getName());
       LOG.debug("Deleted " + deletedCount + " datasamples");
    }
 
+   /** Collect data samples.
+     *
+     * @param iteration
+     *            the iteration
+     * @param startDate
+     *            the start date
+     * @param endDate
+     *            the end date
+     * @throws Exception
+     *             the exception
+     */
    public void collectDataSamples(Iteration iteration, String startDate, String endDate) throws Exception{
       dataSampleSetIterationId = ""+iteration.getId();
       iterationTester.assertOnIterationPage();
@@ -83,6 +136,15 @@ public class DataSampleTester {
       dataSampleSet = (DefaultCategoryDataset) dataSampleData.produceDataset(null);
    }
 
+   /** Assert data sample.
+     *
+     * @param aspect
+     *            the aspect
+     * @param date
+     *            the date
+     * @param expectedValue
+     *            the expected value
+     */
    public void assertDataSample(String aspect, String date, double expectedValue) {
       Double value = (Double) dataSampleSet.getValue(aspect, date);
       if (value == null) {
@@ -98,6 +160,13 @@ public class DataSampleTester {
       }
    }
 
+   /** Collect data samples.
+     *
+     * @param iteration
+     *            the iteration
+     * @throws Exception
+     *             the exception
+     */
    public void collectDataSamples(Iteration iteration)
          throws Exception {
       String dateFormatString = DateHelper.getMessage("format.date");
@@ -107,6 +176,12 @@ public class DataSampleTester {
                          format.format(iteration.getEndDate()));
    }
 
+   /** Dump data sample set.
+     *
+     * @param dataSet
+     *            the data set
+     * @return the string
+     */
    public String dumpDataSampleSet(DefaultCategoryDataset dataSet) {
       StringBuffer buf = new StringBuffer();
       buf.append("Dataset [")
@@ -132,11 +207,24 @@ public class DataSampleTester {
    }
 
 
+   /** Move current day and generate data sample.
+     *
+     * @param days
+     *            the days
+     * @throws Exception
+     *             the exception
+     */
    public void moveCurrentDayAndGenerateDataSample(int days) throws Exception {
       tester.moveCurrentDay(days);
       tester.executeTask("/do/edit/dataSample");
    }
 
+   /** To string.
+     *
+     * @param value
+     *            the value
+     * @return the string
+     */
    private static String toString(Object value) {
       return value == null ? "" : value.toString();
    }

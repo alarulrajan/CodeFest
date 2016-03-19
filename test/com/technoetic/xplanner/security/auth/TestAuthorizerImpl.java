@@ -17,14 +17,30 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class TestAuthorizerImpl.
+ */
 public class TestAuthorizerImpl extends AbstractUnitTestCase {
+   
+   /** The project id. */
    private final int PROJECT_ID = 11;
+   
+   /** The Constant PRINCIPAL_ID. */
    static final int PRINCIPAL_ID = 0;
+   
+   /** The authorizer. */
    private AuthorizerImpl authorizer;
+   
+   /** The mock authorizer query helper. */
    private AuthorizerQueryHelper mockAuthorizerQueryHelper;
+   
+   /** The mock principal specific permission helper. */
    private PrincipalSpecificPermissionHelper mockPrincipalSpecificPermissionHelper;
 
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       support = new XPlannerTestSupport();
@@ -36,11 +52,19 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       authorizer.setAuthorizerQueryHelper(mockAuthorizerQueryHelper);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    protected void tearDown() throws Exception {
       ThreadSession.set(null);
       super.tearDown();
    }
 
+   /** Test simple permission match.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSimplePermissionMatch() throws Exception {
       final int resourceId = 1;
       Map<Integer, List<Permission>> results = new HashMap<Integer, List<Permission>>();
@@ -54,6 +78,11 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       assertTrue("wrong result", result);
    }
 
+   /** Test simple permission nonmatch.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSimplePermissionNonmatch() throws Exception {
       Map<Integer,List<Permission>> results = new HashMap<Integer,List<Permission>>();
       final int resourceIdThePersonHasPermissionTo = 1;
@@ -71,6 +100,11 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       assertFalse("wrong result", result);
    }
 
+   /** Test negative permision.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testNegativePermision() throws Exception {
       final int resourceId = 1;
       Map<Integer,List<Permission>> results = new HashMap<Integer,List<Permission>>();
@@ -86,6 +120,11 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
 
    }
 
+   /** Test get roles for principal on project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetRolesForPrincipalOnProject() throws Exception {
       final int projectId = 20;
       List<Object> results = Arrays.asList(new Object[]{new Role("viewer"), new Role("editor")});
@@ -95,6 +134,11 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test has permission for some project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testHasPermissionForSomeProject() throws Exception {
       Map<Integer,List<Permission>> results = new HashMap<Integer,List<Permission>>();
       final int project1Id = 1;
@@ -117,6 +161,11 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       assertTrue(hasPermission);
    }
 
+   /** Test get people with permission on project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetPeopleWithPermissionOnProject() throws Exception {
       final int person1Id = 1;
       final int person2Id = 2;
@@ -140,12 +189,24 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
       assertEquals(person2Id, ((Person) peopleWithPermissionOnProject.iterator().next()).getId());
    }
 
+   /** Creates the project.
+     *
+     * @param project1Id
+     *            the project1 id
+     * @return the project
+     */
    private Project createProject(int project1Id) {
       Project project = new Project();
       project.setId(project1Id);
       return project;
    }
 
+   /** Creates the person.
+     *
+     * @param id
+     *            the id
+     * @return the person
+     */
    private Person createPerson(int id) {
       Person person1 = new Person();
       person1.setId(id);
@@ -153,10 +214,30 @@ public class TestAuthorizerImpl extends AbstractUnitTestCase {
    }
 
 
+   /** Creates the positive permission.
+     *
+     * @param resourceType
+     *            the resource type
+     * @param resourceId
+     *            the resource id
+     * @param permissionName
+     *            the permission name
+     * @return the permission
+     */
    private Permission createPositivePermission(String resourceType, int resourceId, String permissionName) {
       return new Permission(resourceType, resourceId, PRINCIPAL_ID, permissionName);
    }
 
+   /** Creates the negative permission.
+     *
+     * @param resourceType
+     *            the resource type
+     * @param resourceId
+     *            the resource id
+     * @param permissionName
+     *            the permission name
+     * @return the permission
+     */
    private Permission createNegativePermission(String resourceType, int resourceId, String permissionName) {
       final Permission permission = createPositivePermission(resourceType, resourceId, permissionName);
       permission.setPositive(false);

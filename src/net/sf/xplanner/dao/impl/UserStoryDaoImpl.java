@@ -12,8 +12,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -27,12 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 
 public class UserStoryDaoImpl extends BaseDao<UserStory> implements
 		UserStoryDao {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.UserStoryDao#getAllUserStrories(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserStory> getAllUserStrories(final int iterationId) {
@@ -42,6 +44,9 @@ public class UserStoryDaoImpl extends BaseDao<UserStory> implements
 		return criteria.list();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereCustomer(int)
+	 */
 	@Override
 	@Transactional()
 	public List<UserStory> getStoriesForPersonWhereCustomer(final int personId) {
@@ -55,6 +60,9 @@ public class UserStoryDaoImpl extends BaseDao<UserStory> implements
 		return criteria.list();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.UserStoryDao#getStoriesForPersonWhereTracker(int)
+	 */
 	@Override
 	@Transactional()
 	public List<UserStory> getStoriesForPersonWhereTracker(final int personId) {

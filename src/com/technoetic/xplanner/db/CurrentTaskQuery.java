@@ -15,14 +15,36 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class CurrentTaskQuery.
+ */
 public class CurrentTaskQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The query. */
 	private static String query;
+	
+	/** The tasks in progress. */
 	private Collection tasksInProgress;
+	
+	/** The completed tasks. */
 	private Collection completedTasks;
+	
+	/** The tasks. */
 	private Collection tasks;
+	
+	/** The person id. */
 	private int personId;
 
+	/**
+     * Gets the tasks.
+     *
+     * @return the tasks
+     * @throws QueryException
+     *             the query exception
+     */
 	private java.util.Collection getTasks() throws QueryException {
 		if (this.personId == 0) {
 			throw new QueryException("no person specified for query");
@@ -67,14 +89,32 @@ public class CurrentTaskQuery {
 		return this.tasks;
 	}
 
+	/**
+     * Sets the person id.
+     *
+     * @param personId
+     *            the new person id
+     */
 	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
+	/**
+     * Gets the person id.
+     *
+     * @return the person id
+     */
 	public int getPersonId() {
 		return this.personId;
 	}
 
+	/**
+     * Gets the completed tasks.
+     *
+     * @return the completed tasks
+     * @throws Exception
+     *             the exception
+     */
 	public Collection getCompletedTasks() throws Exception {
 		if (this.completedTasks == null) {
 			this.completedTasks = new ArrayList();
@@ -89,6 +129,13 @@ public class CurrentTaskQuery {
 		return this.completedTasks;
 	}
 
+	/**
+     * Gets the tasks in progress.
+     *
+     * @return the tasks in progress
+     * @throws QueryException
+     *             the query exception
+     */
 	public Collection getTasksInProgress() throws QueryException {
 		if (this.tasksInProgress == null) {
 			this.tasksInProgress = new ArrayList();

@@ -18,14 +18,22 @@ import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
- * User: mprokopowicz
- * Date: Feb 9, 2006
- * Time: 1:14:50 PM
+ * User: mprokopowicz Date: Feb 9, 2006 Time: 1:14:50 PM.
+ *
+ * @param <T>
+ *            the generic type
  */
 public class ActionTestCase<T extends Identifiable> extends AbstractUnitTestCase {
+   
+   /** The action. */
    protected Action action;
+   
+   /** The support. */
    protected XPlannerTestSupport support;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -38,6 +46,18 @@ public class ActionTestCase<T extends Identifiable> extends AbstractUnitTestCase
 		}
 	}
 
+   /** Creates the dyna action form.
+     *
+     * @param formName
+     *            the form name
+     * @param propertyDefinitionMap
+     *            the property definition map
+     * @return the dyna action form
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     */
    public DynaActionForm createDynaActionForm(String formName, Map<String, Class> propertyDefinitionMap)
          throws IllegalAccessException, InstantiationException {
       FormBeanConfig cfg = new FormBeanConfig();

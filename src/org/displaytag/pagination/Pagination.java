@@ -96,28 +96,28 @@ public class Pagination {
 	}
 
 	/**
-	 * first page selected?
-	 * 
-	 * @return boolean
-	 */
+     * first page selected?.
+     *
+     * @return boolean
+     */
 	public boolean isFirst() {
 		return this.firstPage == null;
 	}
 
 	/**
-	 * last page selected?
-	 * 
-	 * @return boolean
-	 */
+     * last page selected?.
+     *
+     * @return boolean
+     */
 	public boolean isLast() {
 		return this.lastPage == null;
 	}
 
 	/**
-	 * only one page?
-	 * 
-	 * @return boolean
-	 */
+     * only one page?.
+     *
+     * @return boolean
+     */
 	public boolean isOnePage() {
 		return this.pages == null || this.pages.size() <= 1;
 	}
@@ -289,8 +289,11 @@ public class Pagination {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
+     * To string.
+     *
+     * @return the string
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ShortToStringStyle.SHORT_STYLE) //

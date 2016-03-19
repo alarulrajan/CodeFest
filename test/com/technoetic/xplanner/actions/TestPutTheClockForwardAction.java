@@ -17,12 +17,21 @@ import org.apache.struts.action.ActionForward;
 
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class TestPutTheClockForwardAction.
+ */
 public class TestPutTheClockForwardAction extends ActionTestCase {
 
+   /** The put the clock forward action. */
    private PutTheClockForwardAction putTheClockForwardAction;
+   
+   /** The mock time generator. */
    private TimeGenerator mockTimeGenerator;
 
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.ActionTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       action = new PutTheClockForwardAction();
       super.setUp();
@@ -34,6 +43,11 @@ public class TestPutTheClockForwardAction extends ActionTestCase {
       support.request.setParameterValue(EditObjectAction.RETURNTO_PARAM, new String[]{""});
    }
 
+   /** Test move time.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMoveTime() throws Exception {
       String expectedReturnTo = "/do/view/iteration";
       support.request.setParameterValue(PutTheClockForwardAction.OFFSET_IN_DAYS_KEY, new String[]{"2"});

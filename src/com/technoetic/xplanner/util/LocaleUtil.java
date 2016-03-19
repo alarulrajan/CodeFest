@@ -16,7 +16,18 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.Globals;
 
+/**
+ * The Class LocaleUtil.
+ */
 public class LocaleUtil {
+	
+	/**
+     * Gets the locale.
+     *
+     * @param session
+     *            the session
+     * @return the locale
+     */
 	public static Locale getLocale(final HttpSession session) {
 		Locale locale = null;
 		try {

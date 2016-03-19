@@ -27,10 +27,23 @@ import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.util.ClassUtil;
 
+/**
+ * The Class TestIOStream.
+ */
 public class TestIOStream extends AbstractUnitTestCase {
+  
+  /** The io stream. */
   IOStream ioStream;
+  
+  /** The next id. */
   int nextId;
 
+  /**
+     * Test.
+     *
+     * @throws Exception
+     *             the exception
+     */
   public void test() throws Exception {
     IOStream ioStream = new IOStream();
 
@@ -43,6 +56,19 @@ public class TestIOStream extends AbstractUnitTestCase {
     new EqualAssert(EqualAssert.FIELDS).assertEquals(expectedProject, actualProject);
   }
 
+  /**
+     * Creates the persons.
+     *
+     * @param count
+     *            the count
+     * @return the person[]
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   private Person[] createPersons(int count) throws HibernateException, AuthenticationException, RepositoryException {
     Person[] persons = new Person[count];
     for (int i = 0; i < persons.length; i++) {
@@ -51,6 +77,17 @@ public class TestIOStream extends AbstractUnitTestCase {
     return persons;
   }
 
+  /**
+     * Creates the populated project.
+     *
+     * @param persons
+     *            the persons
+     * @return the project
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
   private Project createPopulatedProject(Person[] persons) throws HibernateException, RepositoryException
   {
     Project expectedProject = mom.newProject();
@@ -64,10 +101,25 @@ public class TestIOStream extends AbstractUnitTestCase {
     return expectedProject;
   }
 
+  /**
+     * Gets the person.
+     *
+     * @param persons
+     *            the persons
+     * @return the person
+     */
   private Person getPerson(Person[] persons) {
     return persons[((int) (Math.random()*persons.length))];
   }
 
+  /**
+     * Fill in.
+     *
+     * @param o
+     *            the o
+     * @throws Exception
+     *             the exception
+     */
   private void fillIn(Object o) throws Exception {
     List fields = ClassUtil.getAllFields(o);
     for (int i = 0; i < fields.size(); i++) {
@@ -78,6 +130,13 @@ public class TestIOStream extends AbstractUnitTestCase {
     }
   }
 
+  /**
+     * Gets the value.
+     *
+     * @param field
+     *            the field
+     * @return the value
+     */
   private Object getValue(Field field) {
     Object value = null;
     Class type = field.getType();

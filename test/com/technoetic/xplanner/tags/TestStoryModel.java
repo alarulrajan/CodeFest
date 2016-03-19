@@ -5,9 +5,19 @@ import net.sf.xplanner.domain.Iteration;
 import net.sf.xplanner.domain.Project;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestStoryModel.
+ */
 public class TestStoryModel extends TestCase {
+    
+    /** The model. */
     StoryModel model;
 
+    /** Test get name.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetName() throws Exception {
         UserStory story = new UserStory();
         story.setName("story");

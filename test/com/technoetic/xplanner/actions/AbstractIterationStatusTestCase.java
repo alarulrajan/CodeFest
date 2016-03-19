@@ -27,16 +27,38 @@ import com.technoetic.xplanner.db.hibernate.GlobalSessionFactory;
 import com.technoetic.xplanner.domain.DomainMetaDataRepository;
 import com.technoetic.xplanner.forms.IterationStatusEditorForm;
 
+/**
+ * The Class AbstractIterationStatusTestCase.
+ */
 public class AbstractIterationStatusTestCase extends AbstractActionTestCase {
+   
+   /** The Constant ITERATION_ID. */
    public static final int ITERATION_ID = 99;
+   
+   /** The Constant PROJECT_ID. */
    public static final int PROJECT_ID = 100;
+   
+   /** The project. */
    Project project;
+   
+   /** The iteration. */
    Iteration iteration;
+   
+   /** The story. */
    UserStory story;
+   
+   /** The editor form. */
    IterationStatusEditorForm editorForm;
+   
+   /** The mock data sampler. */
    DataSampler mockDataSampler;
+   
+   /** The event. */
    public History event;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+    */
    @Override
 public void setUp() throws Exception
    {
@@ -67,6 +89,8 @@ public void setUp() throws Exception
 
    }
 
+   /** Sets the up project and iteration data.
+     */
    private void setUpProjectAndIterationData() {
       project = new Project();
       project.setId(PROJECT_ID);
@@ -88,6 +112,9 @@ public void setUp() throws Exception
       project.setIterations(iterations);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    @Override
 public void tearDown() throws Exception
    {
@@ -95,6 +122,8 @@ public void tearDown() throws Exception
       GlobalSessionFactory.set(null);
    }
 
+   /** Reset hibernate session.
+     */
    protected void resetHibernateSession()
    {
 //      mockSession = new MockSession()

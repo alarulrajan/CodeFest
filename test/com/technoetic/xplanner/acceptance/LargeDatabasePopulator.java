@@ -24,9 +24,19 @@ import com.technoetic.xplanner.domain.TaskDisposition;
 import com.technoetic.xplanner.security.module.LoginSupportImpl;
 import com.technoetic.xplanner.security.module.XPlannerLoginModule;
 
+/**
+ * The Class LargeDatabasePopulator.
+ */
 public class LargeDatabasePopulator {
+    
+    /** The log. */
     private static Logger log = Logger.getLogger(LargeDatabasePopulator.class);
 
+    /** The main method.
+     *
+     * @param args
+     *            the arguments
+     */
     public static void main(String[] args) {
         try {
             HibernateHelper.initializeHibernate();
@@ -39,18 +49,53 @@ public class LargeDatabasePopulator {
         }
     }
 
+    /** The Class PopulationTask.
+     */
     private static class PopulationTask implements Runnable {
+        
+        /** The log. */
         private final Logger log = Logger.getLogger(getClass());
+        
+        /** The project count. */
         private int projectCount = 100;
+        
+        /** The iteration count. */
         private int iterationCount = 100;
+        
+        /** The story count. */
         private int storyCount = 30;
+        
+        /** The task count. */
         private int taskCount = 5;
+        
+        /** The person count. */
         private int personCount = 100;
+        
+        /** The session. */
         private Session session;
+        
+        /** The Constant HOUR. */
         public static final long HOUR = 60 * 60 * 1000L;
+        
+        /** The Constant DAY. */
         public static final long DAY = 24 * HOUR;
+        
+        /** The iteration. */
         private Iteration iteration;
 
+        /** Instantiates a new population task.
+         *
+         * @param projectCount
+         *            the project count
+         * @param iterationCount
+         *            the iteration count
+         * @param storyCount
+         *            the story count
+         * @param taskCount
+         *            the task count
+         * @param personCount
+         *            the person count
+         */
         public PopulationTask(int projectCount, int iterationCount, int storyCount,
                 int taskCount, int personCount) {
             this.projectCount = projectCount;
@@ -60,6 +105,9 @@ public class LargeDatabasePopulator {
             this.personCount = personCount;
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.Runnable#run()
+         */
         public void run() {
             try {
                 session = GlobalSessionFactory.get().openSession();
@@ -111,6 +159,16 @@ public class LargeDatabasePopulator {
             }
         }
 
+        /** Gets the role.
+         *
+         * @param session
+         *            the session
+         * @param rolename
+         *            the rolename
+         * @return the role
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public static Role getRole(Session session, String rolename) throws HibernateException {
             List roles = session.find("from role in class " +
                     Role.class.getName() + " where role.name = ?",
@@ -123,6 +181,12 @@ public class LargeDatabasePopulator {
             return role;
         }
 
+        /** New project.
+         *
+         * @return the project
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public Project newProject() throws HibernateException {
             Project project = new Project();
             project.setName("Test project");
@@ -131,6 +195,16 @@ public class LargeDatabasePopulator {
             return project;
         }
 
+        /** New iteration.
+         *
+         * @param project
+         *            the project
+         * @param previousIteration
+         *            the previous iteration
+         * @return the iteration
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public Iteration newIteration(Project project, Iteration previousIteration) throws HibernateException {
             Iteration iteration = new Iteration();
             iteration.setProject(project);
@@ -149,6 +223,14 @@ public class LargeDatabasePopulator {
             return iteration;
         }
 
+        /** New user story.
+         *
+         * @param iteration
+         *            the iteration
+         * @return the user story
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public UserStory newUserStory(Iteration iteration) throws HibernateException {
             UserStory story = new UserStory();
             story.setName("Test userstory");
@@ -159,6 +241,14 @@ public class LargeDatabasePopulator {
             return story;
         }
 
+        /** New task.
+         *
+         * @param story
+         *            the story
+         * @return the task
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public Task newTask(UserStory story) throws HibernateException {
             Task task = new Task();
             task.setUserStory(story);
@@ -171,6 +261,14 @@ public class LargeDatabasePopulator {
             return task;
         }
 
+        /** New feature.
+         *
+         * @param story
+         *            the story
+         * @return the feature
+         * @throws HibernateException
+         *             the hibernate exception
+         */
         public Feature newFeature(UserStory story) throws HibernateException {
         Feature feature = new Feature();
         feature.setStory(story);

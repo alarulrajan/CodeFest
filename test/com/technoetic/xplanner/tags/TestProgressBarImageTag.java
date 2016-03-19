@@ -15,16 +15,31 @@ import junit.framework.TestCase;
 
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestProgressBarImageTag.
+ */
 public class TestProgressBarImageTag extends TestCase {
+    
+    /** The tag. */
     ProgressBarImageTag tag = new ProgressBarImageTag();
+    
+    /** The support. */
     private XPlannerTestSupport support;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
         tag.setPageContext( support.pageContext );
     }
 
+    /** Test get foreground color.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetForegroundColor() throws Exception {
         tag.setComplete(true);
         assertEquals(ProgressBarImageTag.COMPLETED_COLOR, tag.getForegroundColor());
@@ -32,6 +47,11 @@ public class TestProgressBarImageTag extends TestCase {
         assertEquals(ProgressBarImageTag.UNCOMPLETED_COLOR, tag.getForegroundColor());
     }
 
+    /** Test get background color.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetBackgroundColor() throws Exception {
         tag.setActual(10.0);
         tag.setEstimate(11.0);
@@ -41,6 +61,11 @@ public class TestProgressBarImageTag extends TestCase {
         assertEquals(ProgressBarImageTag.EXCEEDED_COLOR, tag.getBackgroundColor());        
     }
 
+    /** Test get foreground color in print mode.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetForegroundColorInPrintMode() throws Exception {
         support.request.addParameter( PrintLinkTag.PRINT_PARAMETER_NAME, "" );
         tag.setComplete(true);
@@ -49,6 +74,11 @@ public class TestProgressBarImageTag extends TestCase {
         assertEquals(Color.DARK_GRAY, tag.getForegroundColor());
     }
 
+     /** Test get background color in print mode.
+         *
+         * @throws Exception
+         *             the exception
+         */
      public void testGetBackgroundColorInPrintMode() throws Exception {
         support.request.addParameter( PrintLinkTag.PRINT_PARAMETER_NAME, "" );
         tag.setActual(10.0);
@@ -60,6 +90,11 @@ public class TestProgressBarImageTag extends TestCase {
     }
 
 
+    /** Test get bar value.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetBarValue() throws Exception {
         tag.setActual(10.0);
         tag.setEstimate(11.0);
@@ -69,6 +104,11 @@ public class TestProgressBarImageTag extends TestCase {
         assertEquals(9.0, tag.getBarValue(), 0);
     }
 
+    /** Test get max value.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetMaxValue() throws Exception {
         tag.setActual(10.0);
         tag.setEstimate(11.0);

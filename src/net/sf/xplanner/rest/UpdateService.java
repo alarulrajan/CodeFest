@@ -11,17 +11,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/**
+ * The Class UpdateService.
+ */
 @Path("/update")
 @Component
 @Scope("request")
 public class UpdateService {
+	
+	/** The update manager. */
 	private UpdateManager updateManager;
 
+	/**
+     * Sets the update manager.
+     *
+     * @param updateManager
+     *            the new update manager
+     */
 	@Autowired
 	public void setUpdateManager(final UpdateManager updateManager) {
 		this.updateManager = updateManager;
 	}
 
+	/**
+     * Post.
+     *
+     * @param id
+     *            the id
+     * @param status
+     *            the status
+     * @param originalEstimate
+     *            the original estimate
+     * @return the result
+     */
 	@POST
 	@Path("/task/{taskId}/status")
 	@Consumes("application/x-www-form-urlencoded")

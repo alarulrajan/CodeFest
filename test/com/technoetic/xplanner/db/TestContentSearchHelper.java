@@ -26,22 +26,56 @@ import org.apache.commons.collections.Predicate;
 import com.technoetic.xplanner.domain.SearchResult;
 
 
+/**
+ * The Class TestContentSearchHelper.
+ */
 public class TestContentSearchHelper extends TestCase {
+   
+   /** The helper. */
    ContentSearchHelper helper;
+   
+   /** The Constant PROJECT_ID. */
    private static final int PROJECT_ID = 1;
+   
+   /** The Constant ITERATION_ID. */
    private static final int ITERATION_ID = 2;
+   
+   /** The Constant STORY_ID. */
    private static final int STORY_ID = 3;
+   
+   /** The Constant TASK_ID. */
    private static final int TASK_ID = 4;
+   
+   /** The Constant NOTE_ID. */
    private static final int NOTE_ID = 5;
+   
+   /** The Constant EXPECTED_SEARCH_CRITERIA. */
    public static final String EXPECTED_SEARCH_CRITERIA = "Some";
+   
+   /** The search result factory. */
    private SearchResultFactory searchResultFactory;
+   
+   /** The available objects. */
    private Map availableObjects;
+   
+   /** The expected objects. */
    private List expectedObjects;
+   
+   /** The search content query. */
    private SearchContentQuery searchContentQuery;
+   
+   /** The Constant UNAUTHORIZED_USER_ID. */
    public static final int UNAUTHORIZED_USER_ID = 1;
+   
+   /** The Constant AUTHORIZED_USER_ID. */
    public static final int AUTHORIZED_USER_ID = 0;
+   
+   /** The authorized. */
    private boolean authorized = true;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       super.setUp();
@@ -88,6 +122,11 @@ protected void setUp() throws Exception {
       };
    }
 
+   /** Test search.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearch() throws Exception {
       helper.search(EXPECTED_SEARCH_CRITERIA, AUTHORIZED_USER_ID, 0);
       List list = helper.getSearchResults();
@@ -98,6 +137,11 @@ protected void setUp() throws Exception {
       }
    }
 
+   /** Test search_ unauthorized user.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearch_UnauthorizedUser() throws Exception {
       authorized = false;
       helper.search(EXPECTED_SEARCH_CRITERIA, UNAUTHORIZED_USER_ID, 0);

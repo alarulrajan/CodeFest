@@ -17,18 +17,32 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.domain.repository.TaskRepository;
 
 /**
- * User: Mateusz Prokopowicz Date: Jul 5, 2005 Time: 2:45:56 PM
+ * User: Mateusz Prokopowicz Date: Jul 5, 2005 Time: 2:45:56 PM.
  */
 public class ViewPersonAction extends ViewObjectAction<Person> {
+	
+	/** The task dao. */
 	private TaskDao taskDao;
+	
+	/** The user story dao. */
 	private UserStoryDao userStoryDao;
 
+	/** The task repository. */
 	TaskRepository taskRepository;
 
+	/**
+     * Sets the task repository.
+     *
+     * @param taskRepository
+     *            the new task repository
+     */
 	public void setTaskRepository(final TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.ViewObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -59,10 +73,22 @@ public class ViewPersonAction extends ViewObjectAction<Person> {
 		return super.doExecute(actionMapping, form, request, reply);
 	}
 
+	/**
+     * Sets the task dao.
+     *
+     * @param taskDao
+     *            the new task dao
+     */
 	public void setTaskDao(final TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
 
+	/**
+     * Sets the user story dao.
+     *
+     * @param userStoryDao
+     *            the new user story dao
+     */
 	public void setUserStoryDao(final UserStoryDao userStoryDao) {
 		this.userStoryDao = userStoryDao;
 	}

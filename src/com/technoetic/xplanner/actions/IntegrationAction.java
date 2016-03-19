@@ -34,15 +34,28 @@ import com.technoetic.xplanner.domain.Integration;
 
 // todo - add history event for completed integration.
 
+/**
+ * The Class IntegrationAction.
+ */
 public class IntegrationAction extends AbstractAction implements
 		BeanFactoryAware {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The Constant NOTIFICATIONS_DISABLED. */
 	private static final String NOTIFICATIONS_DISABLED = "nonotify";
 
+	/** The listeners. */
 	private Collection listeners = Collections
 			.synchronizedList(new ArrayList());
+	
+	/** The bean factory. */
 	private AutowireCapableBeanFactory beanFactory;
 
+	/**
+     * Inits the.
+     */
 	public void init() {
 		final XPlannerProperties props = new XPlannerProperties();
 		final String listenersString = props
@@ -60,6 +73,9 @@ public class IntegrationAction extends AbstractAction implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -102,12 +118,36 @@ public class IntegrationAction extends AbstractAction implements
 		}
 	}
 
+	/**
+     * Adds the project id.
+     *
+     * @param request
+     *            the request
+     * @param forward
+     *            the forward
+     * @return the action forward
+     */
 	private ActionForward addProjectId(final HttpServletRequest request,
 			final ActionForward forward) {
 		return new ActionForward(forward.getPath() + "?projectId="
 				+ request.getParameter("projectId"), forward.getRedirect());
 	}
 
+	/**
+     * On join request.
+     *
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @param actionMapping
+     *            the action mapping
+     * @param projectId
+     *            the project id
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward onJoinRequest(final Session session,
 			final HttpServletRequest request,
 			final ActionMapping actionMapping, final int projectId)
@@ -142,6 +182,18 @@ public class IntegrationAction extends AbstractAction implements
 		return actionMapping.findForward("display");
 	}
 
+	/**
+     * On leave request.
+     *
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @param projectId
+     *            the project id
+     * @throws Exception
+     *             the exception
+     */
 	private void onLeaveRequest(final Session session,
 			final HttpServletRequest request, final int projectId)
 			throws Exception {
@@ -165,14 +217,35 @@ public class IntegrationAction extends AbstractAction implements
 		}
 	}
 
+	/**
+     * Gets the leave oid.
+     *
+     * @param request
+     *            the request
+     * @return the leave oid
+     */
 	private Integer getLeaveOid(final HttpServletRequest request) {
 		return new Integer(this.getLeavesParameter(request).substring(13));
 	}
 
+	/**
+     * Checks if is leave request.
+     *
+     * @param request
+     *            the request
+     * @return true, if is leave request
+     */
 	private boolean isLeaveRequest(final HttpServletRequest request) {
 		return this.getLeavesParameter(request) != null;
 	}
 
+	/**
+     * Gets the leaves parameter.
+     *
+     * @param request
+     *            the request
+     * @return the leaves parameter
+     */
 	private String getLeavesParameter(final HttpServletRequest request) {
 		final Enumeration names = request.getParameterNames();
 		while (names.hasMoreElements()) {
@@ -184,6 +257,21 @@ public class IntegrationAction extends AbstractAction implements
 		return null;
 	}
 
+	/**
+     * On start request.
+     *
+     * @param session
+     *            the session
+     * @param actionMapping
+     *            the action mapping
+     * @param request
+     *            the request
+     * @param projectId
+     *            the project id
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward onStartRequest(final Session session,
 			final ActionMapping actionMapping,
 			final HttpServletRequest request, final int projectId)
@@ -201,6 +289,14 @@ public class IntegrationAction extends AbstractAction implements
 		}
 	}
 
+	/**
+     * Save error.
+     *
+     * @param request
+     *            the request
+     * @param key
+     *            the key
+     */
 	private void saveError(final HttpServletRequest request, final String key) {
 		ActionErrors errors = (ActionErrors) request
 				.getAttribute(Globals.ERROR_KEY);
@@ -212,11 +308,29 @@ public class IntegrationAction extends AbstractAction implements
 		errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionError(key));
 	}
 
+	/**
+     * Start integration.
+     *
+     * @param integration
+     *            the integration
+     */
 	private void startIntegration(final Integration integration) {
 		integration.setState(Integration.ACTIVE);
 		integration.setWhenStarted(new Date());
 	}
 
+	/**
+     * On finish request.
+     *
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @param projectId
+     *            the project id
+     * @throws Exception
+     *             the exception
+     */
 	private void onFinishRequest(final Session session,
 			final HttpServletRequest request, final int projectId)
 			throws Exception {
@@ -224,6 +338,20 @@ public class IntegrationAction extends AbstractAction implements
 				projectId);
 	}
 
+	/**
+     * Terminate integration.
+     *
+     * @param session
+     *            the session
+     * @param terminalState
+     *            the terminal state
+     * @param request
+     *            the request
+     * @param projectId
+     *            the project id
+     * @throws Exception
+     *             the exception
+     */
 	private void terminateIntegration(final Session session,
 			final char terminalState, final HttpServletRequest request,
 			final int projectId) throws Exception {
@@ -241,6 +369,19 @@ public class IntegrationAction extends AbstractAction implements
 		}
 	}
 
+	/**
+     * Gets the integrations in state.
+     *
+     * @param session
+     *            the session
+     * @param state
+     *            the state
+     * @param projectId
+     *            the project id
+     * @return the integrations in state
+     * @throws Exception
+     *             the exception
+     */
 	private List getIntegrationsInState(final Session session,
 			final char state, final int projectId) throws Exception {
 		return session.find("from integration in " + Integration.class
@@ -249,6 +390,19 @@ public class IntegrationAction extends AbstractAction implements
 				new Type[] { Hibernate.CHARACTER, Hibernate.INTEGER });
 	}
 
+	/**
+     * Gets the first integration in state.
+     *
+     * @param session
+     *            the session
+     * @param state
+     *            the state
+     * @param projectId
+     *            the project id
+     * @return the first integration in state
+     * @throws Exception
+     *             the exception
+     */
 	private Integration getFirstIntegrationInState(final Session session,
 			final char state, final int projectId) throws Exception {
 		final Iterator iter = this.getIntegrationsInState(session, state,
@@ -256,6 +410,18 @@ public class IntegrationAction extends AbstractAction implements
 		return (Integration) (iter.hasNext() ? iter.next() : null);
 	}
 
+	/**
+     * On cancel request.
+     *
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @param projectId
+     *            the project id
+     * @throws Exception
+     *             the exception
+     */
 	private void onCancelRequest(final Session session,
 			final HttpServletRequest request, final int projectId)
 			throws Exception {
@@ -263,16 +429,38 @@ public class IntegrationAction extends AbstractAction implements
 				projectId);
 	}
 
+	/**
+     * Sets the integration listeners.
+     *
+     * @param listeners
+     *            the new integration listeners
+     */
 	public void setIntegrationListeners(final ArrayList listeners) {
 		this.listeners = listeners;
 	}
 
+	/**
+     * Adds the integration listener.
+     *
+     * @param listener
+     *            the listener
+     */
 	public void addIntegrationListener(final IntegrationListener listener) {
 		this.beanFactory.autowireBeanProperties(listener,
 				AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, true);
 		this.listeners.add(listener);
 	}
 
+	/**
+     * Fire integration event.
+     *
+     * @param eventType
+     *            the event type
+     * @param integration
+     *            the integration
+     * @param request
+     *            the request
+     */
 	private void fireIntegrationEvent(final int eventType,
 			final Integration integration, final HttpServletRequest request) {
 		final Iterator iter = this.listeners.iterator();
@@ -288,6 +476,13 @@ public class IntegrationAction extends AbstractAction implements
 	}
 
 	// This can be used to disable notifications during acceptance/functional
+	/**
+     * Checks if is notification enabled.
+     *
+     * @param request
+     *            the request
+     * @return true, if is notification enabled
+     */
 	// testing
 	private boolean isNotificationEnabled(final HttpServletRequest request) {
 		return StringUtils.isEmpty(request
@@ -297,6 +492,9 @@ public class IntegrationAction extends AbstractAction implements
 								.getAttribute(IntegrationAction.NOTIFICATIONS_DISABLED));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
 	@Override
 	public void setBeanFactory(final BeanFactory beanFactory)
 			throws BeansException {

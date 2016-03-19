@@ -6,13 +6,24 @@ import net.sf.xplanner.domain.UserStory;
 import com.technoetic.xplanner.views.IterationAccuracyPage;
 import com.technoetic.xplanner.views.IterationPage;
 
+/**
+ * The Class IterationAccuracyPageTestScript.
+ */
 public class IterationAccuracyPageTestScript extends AbstractPageTestScript {
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       super.setUp();
    }
 
+   /** Test scenario.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testScenario() throws Exception {
       double storyEstimatedOriginalHours = 10.0;
       setupStory(storyEstimatedOriginalHours);
@@ -59,6 +70,11 @@ protected void setUp() throws Exception {
       );
    }
 
+   /** Test story added after iteration has been started.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testStoryAddedAfterIterationHasBeenStarted() throws Exception {
       setUpTestProject();
       tester.login();
@@ -88,6 +104,11 @@ protected void setUp() throws Exception {
 
    }
 
+   /** Test percentage difference_ should be blank if zero orginal estimate.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPercentageDifference_ShouldBeBlankIfZeroOrginalEstimate() throws Exception {
       setupStory(0);
       start(iteration);
@@ -102,6 +123,25 @@ protected void setUp() throws Exception {
                                                             "");
    }
 
+   /** Assert current status equals.
+     *
+     * @param originalEstimated
+     *            the original estimated
+     * @param currentEstimated
+     *            the current estimated
+     * @param actual
+     *            the actual
+     * @param remaining
+     *            the remaining
+     * @param overestimated
+     *            the overestimated
+     * @param underestimated
+     *            the underestimated
+     * @param added
+     *            the added
+     * @param postponed
+     *            the postponed
+     */
    private void assertCurrentStatusEquals(double originalEstimated,
                                           double currentEstimated,
                                           double actual,
@@ -124,6 +164,33 @@ protected void setUp() throws Exception {
       });
    }
 
+   /** Assert iteration status equals.
+     *
+     * @param storyOriginal
+     *            the story original
+     * @param taskOriginal
+     *            the task original
+     * @param storyAdded
+     *            the story added
+     * @param taskAdded
+     *            the task added
+     * @param storyPostponed
+     *            the story postponed
+     * @param taskPostponed
+     *            the task postponed
+     * @param storyTotal
+     *            the story total
+     * @param taskTotal
+     *            the task total
+     * @param storyCompleted
+     *            the story completed
+     * @param taskCompleted
+     *            the task completed
+     * @param storyRemaining
+     *            the story remaining
+     * @param taskRemaining
+     *            the task remaining
+     */
    private void assertIterationStatusEquals(double storyOriginal, double taskOriginal,
                                             double storyAdded, double taskAdded,
                                             double storyPostponed, double taskPostponed,
@@ -142,14 +209,28 @@ protected void setUp() throws Exception {
       });
    }
 
+   /** Complete task.
+     */
    private void completeTask() {tester.completeCurrentTask();}
 
+   /** Work on task.
+     *
+     * @param durationInHours
+     *            the duration in hours
+     */
    private void workOnTask(int durationInHours) {
       editTimeEntry();
       enterTime(durationInHours);
    }
 
 
+   /** Sets the up story.
+     *
+     * @param estimatedHours
+     *            the new up story
+     * @throws Exception
+     *             the exception
+     */
    private void setupStory(double estimatedHours) throws Exception {
       setUpTestProject();
       setUpTestIterationAndStory_();
@@ -160,17 +241,58 @@ protected void setUp() throws Exception {
       setUpTestRole("editor");
    }
 
+   /** Enter time.
+     *
+     * @param durationInHours
+     *            the duration in hours
+     */
    private void enterTime(int durationInHours) {tester.setTimeEntry(0, durationInHours, developer.getName());}
 
+   /** Edits the time entry.
+     */
    private void editTimeEntry() {tester.clickLinkWithKey("action.edittime.task");}
 
+   /** Adds the task.
+     *
+     * @param name
+     *            the name
+     * @param estimate
+     *            the estimate
+     * @return the string
+     */
    private String addTask(String name, double estimate) {return tester.addTask(name, developerName, "", "" + estimate);}
 
+   /** Start.
+     *
+     * @param iteration
+     *            the iteration
+     */
    private void start(Iteration iteration) { iterationTester.start(iteration); }
+   
+   /** Go to.
+     *
+     * @param iteration
+     *            the iteration
+     */
    private void goTo(Iteration iteration) {iterationTester.goToDefaultView(iteration);}
+   
+   /** Go to accuracy page.
+     */
    private void goToAccuracyPage() {
       iterationTester.goToView(project, iteration, IterationPage.ACCURACY_VIEW);
    }
+   
+   /** Go to.
+     *
+     * @param story
+     *            the story
+     */
    private void goTo(UserStory story) {tester.gotoPage("view", "userstory", story.getId());}
+   
+   /** Goto task.
+     *
+     * @param taskId
+     *            the task id
+     */
    private void gotoTask(String taskId) {tester.gotoPage("view", "task", Integer.parseInt(taskId));}
 }

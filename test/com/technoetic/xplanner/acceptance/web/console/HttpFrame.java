@@ -30,18 +30,43 @@ import javax.swing.text.html.HTMLDocument;
 
 import org.apache.batik.ext.swing.GridBagConstants;
 
+/**
+ * The Class HttpFrame.
+ */
 class HttpFrame extends JFrame implements GridBagConstants {
 
+    /** The response. */
     private JTextArea response;
+    
+    /** The html pane. */
     private JEditorPane htmlPane;
+    
+    /** The url field. */
     private JTextField urlField;
+    
+    /** The instruction field. */
     private JTextField instructionField;
+    
+    /** The status field. */
     private JTextField statusField;
 
+    /** Gets the html pane.
+     *
+     * @return the html pane
+     */
     public JEditorPane getHtmlPane() {
         return htmlPane;
     }
 
+    /** Instantiates a new http frame.
+     *
+     * @param stepAction
+     *            the step action
+     * @param continueAction
+     *            the continue action
+     * @param pauseAction
+     *            the pause action
+     */
     public HttpFrame(ActionListener stepAction, ActionListener continueAction, ActionListener pauseAction) {
         JSplitPane responsePanel = createResponsePanel();
         JPanel toolbar = createToolbar(stepAction, continueAction, pauseAction, response);
@@ -60,6 +85,10 @@ class HttpFrame extends JFrame implements GridBagConstants {
         this.getContentPane().add(responsePanel, c);
     }
 
+    /** Creates the input panel.
+     *
+     * @return the j panel
+     */
     private JPanel createInputPanel() {
         JPanel panInput = new JPanel(new GridBagLayout());
         urlField = createTextField();
@@ -74,6 +103,10 @@ class HttpFrame extends JFrame implements GridBagConstants {
         return panInput;
     }
 
+    /** Creates the text field.
+     *
+     * @return the j text field
+     */
     private JTextField createTextField() {
         JTextField textField = new JTextField();
         textField.setEditable(false);
@@ -81,6 +114,17 @@ class HttpFrame extends JFrame implements GridBagConstants {
         return textField;
     }
 
+    /** Creates the labeled field.
+     *
+     * @param panInput
+     *            the pan input
+     * @param title
+     *            the title
+     * @param field
+     *            the field
+     * @param row
+     *            the row
+     */
     private void createLabeledField(JPanel panInput, String title, JTextField field, int row) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -98,6 +142,18 @@ class HttpFrame extends JFrame implements GridBagConstants {
         panInput.add(field,c);
     }
 
+    /** Creates the toolbar.
+     *
+     * @param stepAction
+     *            the step action
+     * @param continueAction
+     *            the continue action
+     * @param pauseAction
+     *            the pause action
+     * @param textAreaToSearch
+     *            the text area to search
+     * @return the j panel
+     */
     private JPanel createToolbar(ActionListener stepAction,
                                  ActionListener continueAction,
                                  ActionListener pauseAction,
@@ -134,6 +190,10 @@ class HttpFrame extends JFrame implements GridBagConstants {
         return toolbar;
     }
 
+    /** Creates the response panel.
+     *
+     * @return the j split pane
+     */
     private JSplitPane createResponsePanel() {
         response = new JTextArea();
         response.setEditable(false);
@@ -153,6 +213,10 @@ class HttpFrame extends JFrame implements GridBagConstants {
         return splitResponsePane;
     }
 
+    /** Gets the CSS url.
+     *
+     * @return the CSS url
+     */
     private URL getCSSUrl() {
         URL url = null;
         try {
@@ -163,10 +227,20 @@ class HttpFrame extends JFrame implements GridBagConstants {
         return url;
     }
 
+    /** Sets the instruction.
+     *
+     * @param instruction
+     *            the new instruction
+     */
     public void setInstruction(String instruction) {
         instructionField.setText(instruction);
     }
 
+    /** Sets the exception.
+     *
+     * @param e
+     *            the new exception
+     */
     public void setException(Throwable e) {
         if (e == null) {
             statusField.setText("Ok");
@@ -177,6 +251,11 @@ class HttpFrame extends JFrame implements GridBagConstants {
         }
     }
 
+    /** Sets the document content.
+     *
+     * @param content
+     *            the new document content
+     */
     public void setDocumentContent(String content) {
 
         HTMLDocument doc = new HTMLDocument();
@@ -202,6 +281,11 @@ class HttpFrame extends JFrame implements GridBagConstants {
     }
 
 
+    /** Sets the url.
+     *
+     * @param url
+     *            the new url
+     */
     public void setURL(String url) {
         urlField.setText(url);
     }

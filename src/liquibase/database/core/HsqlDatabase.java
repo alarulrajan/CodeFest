@@ -15,16 +15,31 @@ import liquibase.exception.DateParseException;
 import liquibase.servicelocator.PrioritizedService;
 import liquibase.util.ISODateFormat;
 
+/**
+ * The Class HsqlDatabase.
+ */
 public class HsqlDatabase extends AbstractDatabase {
+	
+	/** The start concat. */
 	private static String START_CONCAT = "CONCAT(";
+	
+	/** The end concat. */
 	private static String END_CONCAT = ")";
+	
+	/** The sep concat. */
 	private static String SEP_CONCAT = ", ";
 
+	/**
+     * Instantiates a new hsql database.
+     */
 	public HsqlDatabase() {
 		super();
 		super.defaultAutoIncrementStartWith = BigInteger.ZERO;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#isCorrectDatabaseImplementation(liquibase.database.DatabaseConnection)
+	 */
 	@Override
 	public boolean isCorrectDatabaseImplementation(final DatabaseConnection conn)
 			throws DatabaseException {
@@ -32,6 +47,9 @@ public class HsqlDatabase extends AbstractDatabase {
 				.getDatabaseProductName());
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#getDefaultDriver(java.lang.String)
+	 */
 	@Override
 	public String getDefaultDriver(final String url) {
 		if (url.startsWith("jdbc:hsqldb:")) {
@@ -40,31 +58,49 @@ public class HsqlDatabase extends AbstractDatabase {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.servicelocator.PrioritizedService#getPriority()
+	 */
 	@Override
 	public int getPriority() {
 		return PrioritizedService.PRIORITY_DEFAULT;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#getTypeName()
+	 */
 	@Override
 	public String getTypeName() {
 		return "hsqldb";
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#supportsSequences()
+	 */
 	@Override
 	public boolean supportsSequences() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#supportsInitiallyDeferrableColumns()
+	 */
 	@Override
 	public boolean supportsInitiallyDeferrableColumns() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#getDefaultDatabaseSchemaName()
+	 */
 	@Override
 	protected String getDefaultDatabaseSchemaName() throws DatabaseException {
 		return "PUBLIC";
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#getCurrentDateTimeFunction()
+	 */
 	@Override
 	public String getCurrentDateTimeFunction() {
 		if (this.currentDateTimeFunction != null) {
@@ -74,6 +110,9 @@ public class HsqlDatabase extends AbstractDatabase {
 		return "NOW";
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#getConcatSql(java.lang.String[])
+	 */
 	@Override
 	public String getConcatSql(final String... values) {
 		if (values == null) {
@@ -84,13 +123,13 @@ public class HsqlDatabase extends AbstractDatabase {
 	}
 
 	/**
-	 * Recursive way of building CONCAT instruction
-	 * 
-	 * @param values
-	 *            a non null List of String
-	 * @return a String containing the CONCAT instruction with all elements, or
-	 *         only a value if there is only one element in the list
-	 */
+     * Recursive way of building CONCAT instruction.
+     *
+     * @param values
+     *            a non null List of String
+     * @return a String containing the CONCAT instruction with all elements, or
+     *         only a value if there is only one element in the list
+     */
 	private String getConcatSql(final List<String> values) {
 		if (values.size() == 1) {
 			return values.get(0);
@@ -102,6 +141,9 @@ public class HsqlDatabase extends AbstractDatabase {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#getDateLiteral(java.lang.String)
+	 */
 	@Override
 	public String getDateLiteral(final String isoDate) {
 		String returnString = isoDate;
@@ -119,6 +161,9 @@ public class HsqlDatabase extends AbstractDatabase {
 		return "'" + returnString + "'";
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#parseDate(java.lang.String)
+	 */
 	@Override
 	public Date parseDate(final String dateAsString) throws DateParseException {
 		try {
@@ -141,11 +186,17 @@ public class HsqlDatabase extends AbstractDatabase {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.Database#supportsTablespaces()
+	 */
 	@Override
 	public boolean supportsTablespaces() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#convertRequestedSchemaToSchema(java.lang.String)
+	 */
 	@Override
 	public String convertRequestedSchemaToSchema(final String requestedSchema)
 			throws DatabaseException {
@@ -153,6 +204,9 @@ public class HsqlDatabase extends AbstractDatabase {
 				.toUpperCase();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractDatabase#escapeDatabaseObject(java.lang.String)
+	 */
 	@Override
 	public String escapeDatabaseObject(final String objectName) {
 		if (objectName != null) {
@@ -163,6 +217,7 @@ public class HsqlDatabase extends AbstractDatabase {
 		return objectName;
 	}
 
+	/** The keywords. */
 	private static List keywords = Arrays.asList("ADD", "ALL", "ALLOCATE",
 			"ALTER", "AND", "ANY", "ARE", "ARRAY", "AS", "ASENSITIVE",
 			"ASYMMETRIC", "AT", "ATOMIC", "AUTHORIZATION", "AVG", "BEGIN",

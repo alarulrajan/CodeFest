@@ -14,11 +14,20 @@ import com.technoetic.xplanner.db.IdSearchHelper;
 import com.technoetic.xplanner.domain.DomainMetaDataRepository;
 import com.technoetic.xplanner.forms.AbstractEditorForm;
 
+/**
+ * The Class IdSearchAction.
+ */
 public class IdSearchAction extends AbstractAction {
+	
+	/** The id search helper. */
 	private IdSearchHelper idSearchHelper;
 
+	/** The meta data repository. */
 	private DomainMetaDataRepository metaDataRepository;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -59,11 +68,23 @@ public class IdSearchAction extends AbstractAction {
 				+ object.getId(), true);
 	}
 
+	/**
+     * Sets the meta data repository.
+     *
+     * @param metaDataRepository
+     *            the new meta data repository
+     */
 	public void setMetaDataRepository(
 			final DomainMetaDataRepository metaDataRepository) {
 		this.metaDataRepository = metaDataRepository;
 	}
 
+	/**
+     * Sets the id search helper.
+     *
+     * @param idSearchHelper
+     *            the new id search helper
+     */
 	public void setIdSearchHelper(final IdSearchHelper idSearchHelper) {
 		this.idSearchHelper = idSearchHelper;
 	}

@@ -25,22 +25,51 @@ import com.technoetic.xplanner.util.TimeGenerator;
  * To change this template use File | Settings | File Templates.
  */
 public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler {
+	
+	/** The log. */
 	protected final Logger LOG = Logger.getLogger(DataSamplerImpl.class);
+	
+	/** The time generator. */
 	protected TimeGenerator timeGenerator;
+	
+	/** The hibernate operations. */
 	private HibernateOperations hibernateOperations;
+	
+	/** The Constant AUTOMATICALLY_EXTEND_END_DATE_PROP. */
 	public static final String AUTOMATICALLY_EXTEND_END_DATE_PROP = "iteration.automatically.extend.endDate";
+	
+	/** The properties. */
 	private Properties properties;
+	
+	/** The data sample dao. */
 	private DataSampleDao dataSampleDao;
 
+	/**
+     * Sets the properties.
+     *
+     * @param properties
+     *            the new properties
+     */
 	public void setProperties(final Properties properties) {
 		this.properties = properties;
 	}
 
+	/**
+     * Generate data samples.
+     *
+     * @param iteration
+     *            the iteration
+     * @param date
+     *            the date
+     */
 	private void generateDataSamples(final Iteration iteration, final Date date) {
 		this.saveSamples(date, iteration);
 		this.extendIterationEndDateIfNeeded(iteration, date);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.charts.DataSampler#generateDataSamples(net.sf.xplanner.domain.Iteration)
+	 */
 	@Override
 	public void generateDataSamples(final Iteration iteration) {
 		final Date todayMidnight = this.timeGenerator.getTodaysMidnight();
@@ -49,12 +78,18 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 		this.generateDataSamples(iteration, tomorrowMidnight);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.charts.DataSampler#generateOpeningDataSamples(net.sf.xplanner.domain.Iteration)
+	 */
 	@Override
 	public void generateOpeningDataSamples(final Iteration iteration) {
 		final Date date = this.timeGenerator.getTodaysMidnight();
 		this.generateDataSamples(iteration, date);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.charts.DataSampler#generateClosingDataSamples(net.sf.xplanner.domain.Iteration)
+	 */
 	@Override
 	public void generateClosingDataSamples(final Iteration iteration) {
 		if (iteration.getEndDate().before(this.timeGenerator.getCurrentTime())) {
@@ -65,11 +100,19 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.charts.DataSampler#setTimeGenerator(com.technoetic.xplanner.util.TimeGenerator)
+	 */
 	@Override
 	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
+	/**
+     * Gets the hibernate operations.
+     *
+     * @return the hibernate operations
+     */
 	public HibernateOperations getHibernateOperations() {
 		if (this.hibernateOperations != null) {
 			return this.hibernateOperations;
@@ -77,11 +120,25 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 		return this.getHibernateTemplate();
 	}
 
+	/**
+     * Sets the hibernate operations.
+     *
+     * @param hibernateOperations
+     *            the new hibernate operations
+     */
 	public void setHibernateOperations(
 			final HibernateOperations hibernateOperations) {
 		this.hibernateOperations = hibernateOperations;
 	}
 
+	/**
+     * Extend iteration end date if needed.
+     *
+     * @param iteration
+     *            the iteration
+     * @param midnight
+     *            the midnight
+     */
 	protected void extendIterationEndDateIfNeeded(final Iteration iteration,
 			final Date midnight) {
 		final boolean automaticallyExtendEndDate = Boolean.valueOf(
@@ -97,6 +154,14 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 		}
 	}
 
+	/**
+     * Save samples.
+     *
+     * @param date
+     *            the date
+     * @param iteration
+     *            the iteration
+     */
 	protected void saveSamples(final Date date, final Iteration iteration) {
 		this.saveSample(date, iteration, "estimatedHours",
 				iteration.getEstimatedHours());
@@ -106,6 +171,18 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 				iteration.getTaskRemainingHours());
 	}
 
+	/**
+     * Save sample.
+     *
+     * @param date
+     *            the date
+     * @param iteration
+     *            the iteration
+     * @param aspect
+     *            the aspect
+     * @param value
+     *            the value
+     */
 	protected void saveSample(final Date date, final Iteration iteration,
 			final String aspect, final double value) {
 		DataSample sample;
@@ -125,6 +202,12 @@ public class DataSamplerImpl extends HibernateDaoSupport implements DataSampler 
 		}
 	}
 
+	/**
+     * Sets the data sample dao.
+     *
+     * @param dataSampleDao
+     *            the new data sample dao
+     */
 	public void setDataSampleDao(final DataSampleDao dataSampleDao) {
 		this.dataSampleDao = dataSampleDao;
 	}

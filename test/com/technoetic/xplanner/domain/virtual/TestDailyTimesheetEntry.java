@@ -7,8 +7,15 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestDailyTimesheetEntry.
+ */
 public class TestDailyTimesheetEntry extends TestCase {
+    
+    /** The daily timesheet entry. */
     private DailyTimesheetEntry dailyTimesheetEntry = null;
+    
+    /** The Constant ENTRY_DATE. */
     public static final Date ENTRY_DATE;
 
     static {
@@ -21,29 +28,52 @@ public class TestDailyTimesheetEntry extends TestCase {
         ENTRY_DATE = cal.getTime();
     }
 
+    /** The Constant DURATION. */
     private static final BigDecimal DURATION = new BigDecimal(7.5);
+    
+    /** The Constant format. */
     private static final SimpleDateFormat format =
             DailyTimesheetEntry.shortDateFormat;
 
+    /** Instantiates a new test daily timesheet entry.
+     *
+     * @param name
+     *            the name
+     */
     public TestDailyTimesheetEntry(String name) {
         super(name);
     }
 
+    /** Gets the test daily timesheet entry.
+     *
+     * @return the test daily timesheet entry
+     */
     public static DailyTimesheetEntry getTestDailyTimesheetEntry() {
         DailyTimesheetEntry dte = new DailyTimesheetEntry(ENTRY_DATE, DURATION);
         return dte;
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         this.dailyTimesheetEntry = getTestDailyTimesheetEntry();
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         dailyTimesheetEntry = null;
         super.tearDown();
     }
 
+    /** Test attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAttributes() throws Exception {
 
         assertEquals("Incorrect Entry Date", ENTRY_DATE,

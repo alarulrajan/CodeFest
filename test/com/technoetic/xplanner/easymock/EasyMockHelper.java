@@ -9,10 +9,25 @@ import junit.framework.Assert;
 
 import org.easymock.classextension.EasyMock;
 
+/**
+ * The Class EasyMockHelper.
+ */
 public class EasyMockHelper {
+    
+    /** The local controls. */
     private List<Object> localControls = new ArrayList<Object>();
+	
+	/** The global controls. */
 	private List<Object> globalControls = new ArrayList<Object>();
 
+    /** Creates the local mock.
+     *
+     * @param <T>
+     *            the generic type
+     * @param class1
+     *            the class1
+     * @return the t
+     */
     public final <T> T createLocalMock(Class<T> class1) {
     	T mock;
     	if(class1.isInterface()){
@@ -24,6 +39,14 @@ public class EasyMockHelper {
     	return mock;
 	}
 
+    /** Creates the global mock.
+     *
+     * @param <T>
+     *            the generic type
+     * @param class1
+     *            the class1
+     * @return the t
+     */
     public final <T> T createGlobalMock(Class<T> class1) {
     	T mock;
     	if(class1.isInterface()){
@@ -35,6 +58,14 @@ public class EasyMockHelper {
     	return mock;
 	}
 
+    /** Creates the nice global mock.
+     *
+     * @param <T>
+     *            the generic type
+     * @param class1
+     *            the class1
+     * @return the t
+     */
     public final <T> T createNiceGlobalMock(Class<T> class1) {
     	T mock;
     	if(class1.isInterface()){
@@ -46,6 +77,8 @@ public class EasyMockHelper {
     	return mock;
 	}
 
+    /** Replay mocks.
+     */
     public void replayMocks() {
     	for (Object localControl : localControls) {
     		if(localControl.getClass().isInterface()){
@@ -64,6 +97,8 @@ public class EasyMockHelper {
 		}
     }
 
+    /** Verify mocks.
+     */
     public void verifyMocks() {
     	for (Object localControl : localControls) {
     		if(localControl.getClass().isInterface()){
@@ -82,6 +117,8 @@ public class EasyMockHelper {
 		}
     }
 
+    /** Reset mocks.
+     */
     public void resetMocks() {
     	for (Object localControl : localControls) {
     		if(localControl.getClass().isInterface()){

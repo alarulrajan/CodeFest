@@ -22,20 +22,53 @@ import com.technoetic.xplanner.security.module.LoginSupport;
  * of a LoginModule implementation.
  */
 public class JaasLoginModuleAdapter implements LoginModule {
+	
+	/** The log. */
 	protected transient Logger log = Logger.getLogger(this.getClass());
+	
+	/** The Constant USERID. */
 	private static final String USERID = "javax.security.auth.login.name";
+	
+	/** The Constant PASSWORD. */
 	private static final String PASSWORD = "javax.security.auth.login.password";
 
+	/** The principal class. */
 	private Class principalClass;
+	
+	/** The options. */
 	private Map options;
+	
+	/** The name. */
 	private String name;
+	
+	/** The jaas login module. */
 	private transient javax.security.auth.spi.LoginModule jaasLoginModule;
+	
+	/** The login support. */
 	private transient LoginSupport loginSupport;
 
+	/**
+     * Instantiates a new jaas login module adapter.
+     *
+     * @param support
+     *            the support
+     */
 	public JaasLoginModuleAdapter(final LoginSupport support) {
 		this.loginSupport = support;
 	}
 
+	/**
+     * Instantiates a new jaas login module adapter.
+     *
+     * @param support
+     *            the support
+     * @param jaasLoginModule
+     *            the jaas login module
+     * @param principalClass
+     *            the principal class
+     * @param options
+     *            the options
+     */
 	public JaasLoginModuleAdapter(final LoginSupport support,
 			final javax.security.auth.spi.LoginModule jaasLoginModule,
 			final Class principalClass, final Map options) {
@@ -45,19 +78,35 @@ public class JaasLoginModuleAdapter implements LoginModule {
 		this.loginSupport = support;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setOptions(java.util.Map)
+	 */
 	@Override
 	public void setOptions(final Map options) {
 		this.options = options;
 	}
 
+	/**
+     * Gets the JAAS login module.
+     *
+     * @return the JAAS login module
+     */
 	public javax.security.auth.spi.LoginModule getJAASLoginModule() {
 		return this.jaasLoginModule;
 	}
 
+	/**
+     * Gets the principal class.
+     *
+     * @return the principal class
+     */
 	public Class getPrincipalClass() {
 		return this.principalClass;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#authenticate(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Subject authenticate(final String userId, final String password)
 			throws AuthenticationException {
@@ -98,33 +147,54 @@ public class JaasLoginModuleAdapter implements LoginModule {
 		return subject;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#isCapableOfChangingPasswords()
+	 */
 	@Override
 	public boolean isCapableOfChangingPasswords() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#changePassword(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void changePassword(final String userId, final String password)
 			throws AuthenticationException {
 		throw new UnsupportedOperationException("changePassword not supported");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#logout(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public void logout(final HttpServletRequest request)
 			throws AuthenticationException {
 		request.getSession().invalidate();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#getName()
+	 */
 	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setName(java.lang.String)
+	 */
 	@Override
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Sets the login support.
+     *
+     * @param loginSupport
+     *            the new login support
+     */
 	public void setLoginSupport(final LoginSupport loginSupport) {
 		this.loginSupport = loginSupport;
 	}

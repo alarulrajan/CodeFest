@@ -10,11 +10,26 @@ import com.technoetic.xplanner.db.NoteHelper;
 import com.technoetic.xplanner.domain.Nameable;
 import com.technoetic.xplanner.domain.NoteAttachable;
 
+/**
+ * The Class HibernateObjectRepository.
+ */
 public class HibernateObjectRepository extends HibernateDaoSupport implements
 		ObjectRepository {
+	
+	/** The object class. */
 	private final Class objectClass;
+	
+	/** The deletion query. */
 	private final String deletionQuery;
 
+	/**
+     * Instantiates a new hibernate object repository.
+     *
+     * @param objectClass
+     *            the object class
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public HibernateObjectRepository(final Class objectClass)
 			throws HibernateException {
 		this.objectClass = objectClass;
@@ -22,6 +37,9 @@ public class HibernateObjectRepository extends HibernateDaoSupport implements
 				+ " where id = ?";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#delete(int)
+	 */
 	@Override
 	public void delete(final int objectIdentifier) throws RepositoryException {
 		try {
@@ -43,6 +61,9 @@ public class HibernateObjectRepository extends HibernateDaoSupport implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#load(int)
+	 */
 	@Override
 	public Object load(final int objectIdentifier) throws RepositoryException {
 		try {
@@ -56,6 +77,9 @@ public class HibernateObjectRepository extends HibernateDaoSupport implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#insert(com.technoetic.xplanner.domain.Nameable)
+	 */
 	@Override
 	public int insert(final Nameable object) throws RepositoryException {
 		try {
@@ -69,12 +93,20 @@ public class HibernateObjectRepository extends HibernateDaoSupport implements
 		}
 	}
 
+	/**
+     * Gets the session2.
+     *
+     * @return the session2
+     */
 	protected Session getSession2() {
 		return this.getSession();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#update(com.technoetic.xplanner.domain.Nameable)
+	 */
 	@Override
 	public void update(final Nameable object) throws RepositoryException {
-		// TODO Auto-generated method stub
+		// ChangeSoon 
 	}
 }

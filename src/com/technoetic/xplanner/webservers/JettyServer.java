@@ -14,11 +14,29 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.start.Monitor;
 
+/**
+ * The Class JettyServer.
+ */
 public class JettyServer {
+	
+	/**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     * @throws Exception
+     *             the exception
+     */
 	public static void main(final String[] args) throws Exception {
 		JettyServer.start();
 	}
 
+	/**
+     * Start.
+     *
+     * @throws Exception
+     *             the exception
+     */
 	public static void start() throws Exception {
 		final HttpServer server = new Server();
 		final SocketListener listener = new SocketListener();
@@ -36,6 +54,9 @@ public class JettyServer {
 		server.start();
 	}
 
+	/**
+     * Stop.
+     */
 	public static void stop() {
 		// Main.main(null);
 	}

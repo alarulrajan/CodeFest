@@ -334,8 +334,11 @@ public class SmartListHelper {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
+     * To string.
+     *
+     * @return the string
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ShortToStringStyle.SHORT_STYLE) //

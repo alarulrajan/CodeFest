@@ -6,7 +6,22 @@ import java.io.StringReader;
 
 import com.opensymphony.util.TextUtils;
 
+/**
+ * The Class StringUtilities.
+ */
 public class StringUtilities {
+	
+	/**
+     * Compute suffix.
+     *
+     * @param description
+     *            the description
+     * @param boundaryText
+     *            the boundary text
+     * @param maxSuffixLength
+     *            the max suffix length
+     * @return the string
+     */
 	public static String computeSuffix(final String description,
 			final String boundaryText, final int maxSuffixLength) {
 		final int index = description.toLowerCase().indexOf(
@@ -21,6 +36,17 @@ public class StringUtilities {
 		return matchSuffix;
 	}
 
+	/**
+     * Compute prefix.
+     *
+     * @param description
+     *            the description
+     * @param boundaryText
+     *            the boundary text
+     * @param maxSuffixLength
+     *            the max suffix length
+     * @return the string
+     */
 	public static String computePrefix(final String description,
 			final String boundaryText, final int maxSuffixLength) {
 		final int index = description.toLowerCase().indexOf(
@@ -34,6 +60,13 @@ public class StringUtilities {
 		return matchPrefix;
 	}
 
+	/**
+     * Replace quotation marks.
+     *
+     * @param text
+     *            the text
+     * @return the string
+     */
 	public static String replaceQuotationMarks(final String text) {
 		if (text == null) {
 			return "";
@@ -43,6 +76,15 @@ public class StringUtilities {
 		return newText;
 	}
 
+	/**
+     * Gets the short suffix.
+     *
+     * @param wholeSuffix
+     *            the whole suffix
+     * @param maxSuffixLength
+     *            the max suffix length
+     * @return the short suffix
+     */
 	public static String getShortSuffix(final String wholeSuffix,
 			final int maxSuffixLength) {
 		int count = 0;
@@ -55,6 +97,15 @@ public class StringUtilities {
 		return wholeSuffix.substring(0, pos);
 	}
 
+	/**
+     * Adjust count based on char.
+     *
+     * @param currentChar
+     *            the current char
+     * @param count
+     *            the count
+     * @return the int
+     */
 	private static int adjustCountBasedOnChar(final char currentChar, int count) {
 		if (currentChar != ' ' && currentChar != '\n') {
 			count++;
@@ -62,6 +113,15 @@ public class StringUtilities {
 		return count;
 	}
 
+	/**
+     * Gets the short prefix.
+     *
+     * @param wholePrefix
+     *            the whole prefix
+     * @param maxPrefixLength
+     *            the max prefix length
+     * @return the short prefix
+     */
 	public static String getShortPrefix(final String wholePrefix,
 			final int maxPrefixLength) {
 		int pos = wholePrefix.length() - 1;
@@ -74,6 +134,15 @@ public class StringUtilities {
 		return wholePrefix.substring(pos + 1);
 	}
 
+	/**
+     * Gets the first n lines.
+     *
+     * @param text
+     *            the text
+     * @param desiredLineCount
+     *            the desired line count
+     * @return the first n lines
+     */
 	public static String getFirstNLines(final String text,
 			final int desiredLineCount) {
 		final BufferedReader bufReader = new BufferedReader(new StringReader(
@@ -96,6 +165,13 @@ public class StringUtilities {
 		return stringBuffer.toString();
 	}
 
+	/**
+     * Html encode.
+     *
+     * @param s
+     *            the s
+     * @return the string
+     */
 	public static String htmlEncode(final String s) {
 		if (!TextUtils.stringSet(s)) {
 			return "";
@@ -110,6 +186,13 @@ public class StringUtilities {
 		return str.toString();
 	}
 
+	/**
+     * Html encode.
+     *
+     * @param c
+     *            the c
+     * @return the string
+     */
 	public static String htmlEncode(final char c) {
 		switch (c) {
 		case '"':

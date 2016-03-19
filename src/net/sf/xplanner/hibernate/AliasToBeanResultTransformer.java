@@ -32,8 +32,10 @@ import com.technoetic.xplanner.domain.Identifiable;
  * <p/>
  *  StudentDTO dto = (StudentDTO)resultWithAliasedBean.get(0);
  * </pre>
- * 
+ *
  * @author max
+ * @param <T>
+ *            the generic type
  */
 public class AliasToBeanResultTransformer<T extends Identifiable> extends
 		BasicTransformerAdapter {
@@ -42,13 +44,30 @@ public class AliasToBeanResultTransformer<T extends Identifiable> extends
 	// for performance), we really cannot pro0perly define equality for
 	// this transformer
 
+	/** The result class. */
 	private final Class<T> resultClass;
+	
+	/** The property accessor. */
 	private final PropertyAccessor propertyAccessor;
+	
+	/** The setters. */
 	private Setter[] setters;
+	
+	/** The subentities. */
 	private final List<String> subentities = new ArrayList<String>();
+	
+	/** The aliases. */
 	private String[] aliases = null;
+	
+	/** The index of id. */
 	private int indexOfId;
 
+	/**
+     * Instantiates a new alias to bean result transformer.
+     *
+     * @param resultClass
+     *            the result class
+     */
 	public AliasToBeanResultTransformer(final Class<T> resultClass) {
 		if (resultClass == null) {
 			throw new IllegalArgumentException("resultClass cannot be null");
@@ -61,6 +80,9 @@ public class AliasToBeanResultTransformer<T extends Identifiable> extends
 						PropertyAccessorFactory.getPropertyAccessor("field") });
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.transform.BasicTransformerAdapter#transformTuple(java.lang.Object[], java.lang.String[])
+	 */
 	@Override
 	public Object transformTuple(final Object[] tuple, final String[] aliases) {
 		if (this.aliases == null) {
@@ -69,6 +91,9 @@ public class AliasToBeanResultTransformer<T extends Identifiable> extends
 		return tuple;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.transform.BasicTransformerAdapter#transformList(java.util.List)
+	 */
 	@Override
 	@SuppressWarnings({ "unchecked", "boxing" })
 	public List transformList(final List collection) {
@@ -139,11 +164,17 @@ public class AliasToBeanResultTransformer<T extends Identifiable> extends
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(final Object obj) {
 		return super.equals(obj);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int result;

@@ -14,21 +14,51 @@ import com.technoetic.xplanner.filters.ThreadServletRequest;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
+/**
+ * The Class AggregateTimesheetQuery.
+ */
 public class AggregateTimesheetQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The query. */
 	private static String query;
+	
+	/** The person ids. */
 	private String[] personIds;
+	
+	/** The end date. */
 	private java.util.Date endDate = new Date();
+	
+	/** The start date. */
 	private java.util.Date startDate = new Date();
+	
+	/** The Constant IN_CLAUSE. */
 	private static final String IN_CLAUSE = "AND person.id IN (";
+	
+	/** The Constant IN_CLAUSE_REPLACEMENT. */
 	private static final String IN_CLAUSE_REPLACEMENT = "AND 1=1";
+	
+	/** The session. */
 	private final Session session;
 
+	/**
+     * Instantiates a new aggregate timesheet query.
+     *
+     * @param session
+     *            the session
+     */
 	public AggregateTimesheetQuery(final Session session) {
 		this.session = session;
 	}
 
 	// todo - review why this is not using the hibernate query language
+	/**
+     * Gets the timesheet.
+     *
+     * @return the timesheet
+     */
 	// The current implementation will break if the Hibernate mappings change
 	public Timesheet getTimesheet() {
 		final Timesheet timesheet = new Timesheet(this.startDate, this.endDate);
@@ -102,26 +132,59 @@ public class AggregateTimesheetQuery {
 		return timesheet;
 	}
 
+	/**
+     * Sets the person ids.
+     *
+     * @param personIds
+     *            the new person ids
+     */
 	public void setPersonIds(final String[] personIds) {
 		this.personIds = personIds;
 	}
 
+	/**
+     * Gets the person id.
+     *
+     * @return the person id
+     */
 	public String[] getPersonId() {
 		return this.personIds;
 	}
 
+	/**
+     * Gets the start date.
+     *
+     * @return the start date
+     */
 	public java.util.Date getStartDate() {
 		return this.startDate;
 	}
 
+	/**
+     * Sets the start date.
+     *
+     * @param startDate
+     *            the new start date
+     */
 	public void setStartDate(final java.util.Date startDate) {
 		this.startDate = startDate;
 	}
 
+	/**
+     * Gets the end date.
+     *
+     * @return the end date
+     */
 	public java.util.Date getEndDate() {
 		return this.endDate;
 	}
 
+	/**
+     * Sets the end date.
+     *
+     * @param endDate
+     *            the new end date
+     */
 	public void setEndDate(final java.util.Date endDate) {
 		this.endDate = endDate;
 	}

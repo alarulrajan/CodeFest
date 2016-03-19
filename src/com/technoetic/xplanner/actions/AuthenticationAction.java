@@ -22,16 +22,36 @@ import com.technoetic.xplanner.security.Authenticator;
 import com.technoetic.xplanner.security.CredentialCookie;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class AuthenticationAction.
+ */
 public class AuthenticationAction extends Action {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The authenticator. */
 	private Authenticator authenticator;
+	
+	/** The Constant AUTHENTICATION_MODULE_NAME_KEY. */
 	public static final String AUTHENTICATION_MODULE_NAME_KEY = "authentication.module.name";
+	
+	/** The Constant MODULE_MESSAGES_KEY. */
 	public static final String MODULE_MESSAGES_KEY = "moduleMessages";
 
+	/**
+     * Sets the authenticator.
+     *
+     * @param authenticator
+     *            the new authenticator
+     */
 	public void setAuthenticator(final Authenticator authenticator) {
 		this.authenticator = authenticator;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward execute(final ActionMapping actionMapping,
 			final ActionForm actionForm,

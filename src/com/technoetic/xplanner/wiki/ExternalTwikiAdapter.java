@@ -2,9 +2,17 @@ package com.technoetic.xplanner.wiki;
 
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class ExternalTwikiAdapter.
+ */
 public class ExternalTwikiAdapter extends GenericWikiAdapter {
+	
+	/** The default subwiki. */
 	private String defaultSubwiki;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.GenericWikiAdapter#initialize(com.technoetic.xplanner.XPlannerProperties)
+	 */
 	@Override
 	protected void initialize(final XPlannerProperties properties) {
 		super.initialize(properties);
@@ -15,6 +23,9 @@ public class ExternalTwikiAdapter extends GenericWikiAdapter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.GenericWikiAdapter#formatLinkToCreateTopic(java.lang.String)
+	 */
 	@Override
 	protected String formatLinkToCreateTopic(final String wikiWord) {
 		final String subwiki = this.getSubWiki(wikiWord);
@@ -24,6 +35,9 @@ public class ExternalTwikiAdapter extends GenericWikiAdapter {
 		return word + "<a href='" + url + "'>?</a>";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.GenericWikiAdapter#formatUrl(java.lang.String, java.lang.String)
+	 */
 	@Override
 	protected String formatUrl(final String wikiWord, final String urlPattern) {
 		final String subwiki = this.getSubWiki(wikiWord);
@@ -31,6 +45,17 @@ public class ExternalTwikiAdapter extends GenericWikiAdapter {
 		return this.substitute(subwiki, word, urlPattern);
 	}
 
+	/**
+     * Substitute.
+     *
+     * @param subwiki
+     *            the subwiki
+     * @param word
+     *            the word
+     * @param urlPattern
+     *            the url pattern
+     * @return the string
+     */
 	private String substitute(final String subwiki, final String word,
 			final String urlPattern) {
 		String url = urlPattern;
@@ -39,6 +64,13 @@ public class ExternalTwikiAdapter extends GenericWikiAdapter {
 		return url;
 	}
 
+	/**
+     * Gets the sub wiki.
+     *
+     * @param wikiWord
+     *            the wiki word
+     * @return the sub wiki
+     */
 	private String getSubWiki(final String wikiWord) {
 		final int periodOffset = wikiWord.lastIndexOf(".");
 		String subwiki;
@@ -50,12 +82,22 @@ public class ExternalTwikiAdapter extends GenericWikiAdapter {
 		return subwiki;
 	}
 
+	/**
+     * Gets the word.
+     *
+     * @param wikiWord
+     *            the wiki word
+     * @return the word
+     */
 	private String getWord(final String wikiWord) {
 		final int periodOffset = wikiWord.lastIndexOf(".");
 		return periodOffset != -1 ? wikiWord.substring(periodOffset + 1,
 				wikiWord.length()) : wikiWord;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.GenericWikiAdapter#formatLinkToExistingTopic(java.lang.String)
+	 */
 	@Override
 	protected String formatLinkToExistingTopic(final String wikiWord) {
 		final String subwiki = this.getSubWiki(wikiWord);

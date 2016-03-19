@@ -15,22 +15,50 @@ import com.technoetic.xplanner.tags.DomainContext;
 
 // dao -- how should other methods be protected? repository-specific ones?
 
+/**
+ * The Class RepositorySecurityAdapter.
+ */
 public class RepositorySecurityAdapter extends HibernateDaoSupport implements
 		ObjectRepository {
+	
+	/** The object class. */
 	private final Class objectClass;
+	
+	/** The delegate. */
 	private final ObjectRepository delegate;
+	
+	/** The authorizer. */
 	private Authorizer authorizer;
 
+	/**
+     * Sets the authorizer.
+     *
+     * @param authorizer
+     *            the new authorizer
+     */
 	public void setAuthorizer(final Authorizer authorizer) {
 		this.authorizer = authorizer;
 	}
 
+	/**
+     * Instantiates a new repository security adapter.
+     *
+     * @param objectClass
+     *            the object class
+     * @param delegate
+     *            the delegate
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public RepositorySecurityAdapter(final Class objectClass,
 			final ObjectRepository delegate) throws HibernateException {
 		this.objectClass = objectClass;
 		this.delegate = delegate;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#delete(int)
+	 */
 	@Override
 	public void delete(final int objectIdentifier) throws RepositoryException {
 		try {
@@ -47,6 +75,9 @@ public class RepositorySecurityAdapter extends HibernateDaoSupport implements
 		this.delegate.delete(objectIdentifier);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#insert(com.technoetic.xplanner.domain.Nameable)
+	 */
 	@Override
 	public int insert(final Nameable object) throws RepositoryException {
 		// do-before-release Fix insert authorization - problem with missing
@@ -55,6 +86,9 @@ public class RepositorySecurityAdapter extends HibernateDaoSupport implements
 		return this.delegate.insert(object);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#load(int)
+	 */
 	@Override
 	public Object load(final int objectIdentifier) throws RepositoryException {
 		final Object loadedObject = this.delegate.load(objectIdentifier);
@@ -62,6 +96,16 @@ public class RepositorySecurityAdapter extends HibernateDaoSupport implements
 		return loadedObject;
 	}
 
+	/**
+     * Check authorization.
+     *
+     * @param object
+     *            the object
+     * @param permission
+     *            the permission
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private void checkAuthorization(final Object object, final String permission)
 			throws RepositoryException {
 		final DomainContext context = new DomainContext();
@@ -83,6 +127,9 @@ public class RepositorySecurityAdapter extends HibernateDaoSupport implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.ObjectRepository#update(com.technoetic.xplanner.domain.Nameable)
+	 */
 	@Override
 	public void update(final Nameable object) throws RepositoryException {
 		this.checkAuthorization(object, "edit");

@@ -12,22 +12,45 @@ import org.junit.Test;
 
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class TestTwikiFormat.
+ */
 public class TestTwikiFormat {
+   
+   /** The formatter. */
    private TwikiFormat formatter;
+   
+   /** The scheme handlers. */
    private HashMap schemeHandlers;
 
+   /** The Class MockWikiAdapter.
+     */
    public static class MockWikiAdapter implements ExternalWikiAdapter {
+      
+      /* (non-Javadoc)
+       * @see com.technoetic.xplanner.wiki.ExternalWikiAdapter#formatWikiWord(java.lang.String)
+       */
       public String formatWikiWord(String wikiWord) {
          return "(" + wikiWord + ")";
       }
    }
 
+   /** Sets the up.
+     *
+     * @throws Exception
+     *             the exception
+     */
    @Before
    public void setUp() throws Exception {
       schemeHandlers = new HashMap();
       formatter = new TwikiFormat(schemeHandlers);
    }
 
+   /** Tear down.
+     *
+     * @throws Exception
+     *             the exception
+     */
    @After
    public void tearDown() throws Exception {
       if (formatter.getMalformedPatternException() != null) {
@@ -37,6 +60,8 @@ public class TestTwikiFormat {
       schemeHandlers.clear();
    }
 
+   /** Test normal test.
+     */
    @Test
    public void testNormalTest() {
       String input = "This is\n a test.\n";
@@ -46,6 +71,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", input, output);
    }
 
+   /** Test verbatim.
+     */
    @Test
    public void testVerbatim() {
       String input = "<verbatim>\n";
@@ -60,6 +87,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test closing verbatim.
+     */
    @Test
    public void testClosingVerbatim() {
       String input = "<verbatim>\n";
@@ -70,6 +99,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test preformat.
+     */
    @Test
    public void testPreformat() {
       String input = "<pre>\n";
@@ -84,6 +115,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test closing preformat.
+     */
    @Test
    public void testClosingPreformat() {
       String input = "<pre>\n";
@@ -94,6 +127,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test html.
+     */
    @Test
    public void testHtml() {
       String input = "<foo>\n";
@@ -104,6 +139,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test quoting.
+     */
    @Test
    public void testQuoting() {
       String input = "> This is a quote.\n";
@@ -114,6 +151,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test entities.
+     */
    @Test
    public void testEntities() {
       String input = "&copy; & &#123;\n";
@@ -124,6 +163,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test comments.
+     */
    @Test
    public void testComments() {
       String input = "<!-- this & that -->\n";
@@ -134,6 +175,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url.
+     */
    @Test
    public void testEmbeddedUrl() {
       String input = "abc http://foo.com/ def\n";
@@ -144,6 +187,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url2.
+     */
    @Test
    public void testEmbeddedUrl2() {
       String input = "abc ftp://foo.com/a/b/c def\n";
@@ -154,6 +199,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url3.
+     */
    @Test
    public void testEmbeddedUrl3() {
       String input = "abc gopher://foo.com/ def\n";
@@ -164,6 +211,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url4.
+     */
    @Test
    public void testEmbeddedUrl4() {
       String input = "abc news:alt.foo def\n";
@@ -174,6 +223,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url5.
+     */
    @Test
    public void testEmbeddedUrl5() {
       String input = "abc file:/usr/home/x.html def\n";
@@ -184,6 +235,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url6.
+     */
    @Test
    public void testEmbeddedUrl6() {
       String input = "abc https://foo.com/ def\n";
@@ -194,6 +247,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url7.
+     */
    @Test
    public void testEmbeddedUrl7() {
       String input = "xyz http://foo.com/x.gif, foo\n";
@@ -204,6 +259,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url8.
+     */
    @Test
    public void testEmbeddedUrl8() {
       String input = "xyz http://foo.com:8080/x.gif, foo\n";
@@ -214,6 +271,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url9.
+     */
    @Test
    public void testEmbeddedUrl9() {
       String input = "xyz [http://foo.com:8080/x.gif], foo\n";
@@ -224,6 +283,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url10.
+     */
    @Test
    public void testEmbeddedUrl10() {
       String input = "xyz http://foo.com:8080/x.gif#xyz, foo\n";
@@ -234,6 +295,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url11.
+     */
    @Test
    public void testEmbeddedUrl11() {
       String input = "xyz http://foo.com/~baz/x.html\n";
@@ -245,6 +308,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url12.
+     */
    @Test
    public void testEmbeddedUrl12() {
       String input = "xyz http://foo.com/a%20b/x.html\n";
@@ -256,6 +321,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url13.
+     */
    @Test
    public void testEmbeddedUrl13() {
       String input = "abc http://foo.com/a/b/c?id=fargle def\n";
@@ -267,6 +334,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url14.
+     */
    @Test
    public void testEmbeddedUrl14() {
       String url = "http://sourceforge.net/tracker/index.php?func=detail&aid=960752&group_id=49017&atid=454848";
@@ -280,6 +349,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url1 wiki word.
+     */
    @Test
    public void testEmbeddedUrl1WikiWord() {
       formatter.setExternalWikiAdapter(new MockWikiAdapter());
@@ -292,6 +363,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded url wiki word2.
+     */
    @Test
    public void testEmbeddedUrlWikiWord2() {
       formatter.setExternalWikiAdapter(new MockWikiAdapter());
@@ -304,6 +377,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test extended urls.
+     */
    @Test
    public void testExtendedUrls() {
       String input = "abc http://foo.com/[foo bar] def\n";
@@ -314,6 +389,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test simple scheme translation.
+     */
    @Test
    public void testSimpleSchemeTranslation() {
       schemeHandlers.put("test", new SimpleSchemeHandler("http://test.com/test.cgi?id=$1&action=show"));
@@ -326,6 +403,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test scheme translation.
+     */
    @Test
    public void testSchemeTranslation() {
       schemeHandlers.put("test", new SimpleSchemeHandler("http://test.com/test.cgi?id=$1&action=show"));
@@ -338,6 +417,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test property scheme translation.
+     */
    @Test
    public void testPropertySchemeTranslation() {
       String key = "xplanner.scr.scheme.url";
@@ -352,6 +433,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test not existing property scheme translation.
+     */
    @Test
    public void testNotExistingPropertySchemeTranslation() {
       String input = "abc notExistingSchema:213435 def";
@@ -360,6 +443,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test scheme translation no entry.
+     */
    @Test
    public void testSchemeTranslationNoEntry() {
       String input = "abc test:example/x[foo bar], def\n";
@@ -368,6 +453,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test mailto.
+     */
    @Test
    public void testMailto() {
       String input = "abc mailto:jimbob@tejas.com def\n";
@@ -378,6 +465,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test html headings.
+     */
    @Test
    public void testHtmlHeadings() {
       for (int i = 1; i <= 6; i++) {
@@ -390,6 +479,8 @@ public class TestTwikiFormat {
       }
    }
 
+   /** Test space headings.
+     */
    @Test
    public void testSpaceHeadings() {
       String prefix = "+";
@@ -415,6 +506,8 @@ public class TestTwikiFormat {
       }
    }
 
+   /** Test dash headings.
+     */
    @Test
    public void testDashHeadings() {
       String prefix = "---+";
@@ -440,6 +533,8 @@ public class TestTwikiFormat {
       }
    }
 
+   /** Test unorderd and nested list.
+     */
    @Test
    public void testUnorderdAndNestedList() {
       String input = "   * item 1\n";
@@ -464,6 +559,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test orderd and nested list.
+     */
    @Test
    public void testOrderdAndNestedList() {
       String input = "   1 item 1\n";
@@ -488,6 +585,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test definition list.
+     */
    @Test
    public void testDefinitionList() {
       String input = "   foo: bar baz";
@@ -500,6 +599,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test emphasis.
+     */
    @Test
    // Determine why *,= needs a nonspace character at end.
    public void testEmphasis() {
@@ -519,6 +620,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test horizontal rule plain.
+     */
    @Test
    public void testHorizontalRulePlain() {
       String input = "----\n";
@@ -530,6 +633,8 @@ public class TestTwikiFormat {
 
    }
 
+   /** Test horizontal rule named.
+     */
    @Test
    public void testHorizontalRuleNamed() {
       String input = "Foo----\n";
@@ -542,6 +647,8 @@ public class TestTwikiFormat {
 
    }
 
+   /** Test table.
+     */
    @Ignore
    @Test
    public void testTable() {
@@ -560,6 +667,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test repeated emphasis.
+     */
    @Test
    public void testRepeatedEmphasis() {
       String input =
@@ -580,6 +689,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test link text with regexp characters.
+     */
    @Test
    public void testLinkTextWithRegexpCharacters() {
       String input = "stuff http:??? stuff\n";
@@ -590,6 +701,11 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test wiki word formatting with default formatter.
+     *
+     * @throws Exception
+     *             the exception
+     */
    @Ignore
    @Test
    public void testWikiWordFormattingWithDefaultFormatter() throws Exception {
@@ -597,6 +713,11 @@ public class TestTwikiFormat {
       assertEquals("<a href=\'http://c2.com/cgi/wiki?ThisTest\'>ThisTest</a>", str.trim());
    }
 
+   /** Test wiki word formatting escaped with default formatter.
+     *
+     * @throws Exception
+     *             the exception
+     */
    @Ignore
    @Test
    public void testWikiWordFormattingEscapedWithDefaultFormatter() throws Exception {
@@ -604,6 +725,8 @@ public class TestTwikiFormat {
       assertEquals("ThisTest", str.trim());
    }
 
+   /** Test wiki word formatting without formatter.
+     */
    @Test
    public void testWikiWordFormattingWithoutFormatter() {
       formatter.setExternalWikiAdapter(null);
@@ -614,6 +737,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", input, output);
    }
 
+   /** Test wiki word formatting.
+     */
    @Test
    public void testWikiWordFormatting() {
       formatter.setExternalWikiAdapter(new MockWikiAdapter());
@@ -625,6 +750,8 @@ public class TestTwikiFormat {
       assertEquals("incorrect text", expectedOutput, output);
    }
 
+   /** Test embedded emphasis.
+     */
    @Test
    public void testEmbeddedEmphasis() {
       String input = " a_b \n";

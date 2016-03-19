@@ -14,16 +14,43 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 /**
- * User: mprokopowicz Date: Feb 8, 2006 Time: 10:05:47 AM
+ * User: mprokopowicz Date: Feb 8, 2006 Time: 10:05:47 AM.
  */
 public class ObjectRepositororyFactory implements BeanFactoryAware {
+	
+	/** The bean factory. */
 	private AutowireCapableBeanFactory beanFactory;
+	
+	/** The delegates. */
 	private List delegates;
 
+	/**
+     * Sets the delegates.
+     *
+     * @param delegateList
+     *            the new delegates
+     */
 	public void setDelegates(final List delegateList) {
 		this.delegates = delegateList;
 	}
 
+	/**
+     * Creates the.
+     *
+     * @param objectClass
+     *            the object class
+     * @return the object repository
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     */
 	public ObjectRepository create(final Class objectClass)
 			throws HibernateException, NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
@@ -31,6 +58,25 @@ public class ObjectRepositororyFactory implements BeanFactoryAware {
 		return this.create(objectClass, HibernateObjectRepository.class);
 	}
 
+	/**
+     * Creates the.
+     *
+     * @param objectClass
+     *            the object class
+     * @param objectRepositoryClass
+     *            the object repository class
+     * @return the object repository
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws InstantiationException
+     *             the instantiation exception
+     */
 	public ObjectRepository create(final Class objectClass,
 			final Class objectRepositoryClass) throws HibernateException,
 			NoSuchMethodException, IllegalAccessException,
@@ -51,6 +97,9 @@ public class ObjectRepositororyFactory implements BeanFactoryAware {
 		return repository;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
 	@Override
 	public void setBeanFactory(final BeanFactory beanFactory)
 			throws BeansException {

@@ -16,18 +16,53 @@ import com.technoetic.xplanner.history.HistorySupport;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class MoveContinueStory.
+ */
 public class MoveContinueStory {
+	
+	/** The story continuer. */
 	private StoryContinuer storyContinuer;
+	
+	/** The history support. */
 	private HistorySupport historySupport;
 
+	/**
+     * Sets the story continuer.
+     *
+     * @param storyContinuer
+     *            the new story continuer
+     */
 	public void setStoryContinuer(final StoryContinuer storyContinuer) {
 		this.storyContinuer = storyContinuer;
 	}
 
+	/**
+     * Sets the history support.
+     *
+     * @param historySupport
+     *            the new history support
+     */
 	public void setHistorySupport(final HistorySupport historySupport) {
 		this.historySupport = historySupport;
 	}
 
+	/**
+     * Move story.
+     *
+     * @param story
+     *            the story
+     * @param targetIteration
+     *            the target iteration
+     * @param originalIteration
+     *            the original iteration
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public void moveStory(final UserStory story,
 			final Iteration targetIteration, final Iteration originalIteration,
 			final HttpServletRequest request, final Session session)
@@ -41,6 +76,24 @@ public class MoveContinueStory {
 				session, SecurityHelper.getRemoteUserId(request));
 	}
 
+	/**
+     * Continue story.
+     *
+     * @param story
+     *            the story
+     * @param originalIteration
+     *            the original iteration
+     * @param targetIteration
+     *            the target iteration
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     * @throws AuthenticationException
+     *             the authentication exception
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public void continueStory(final UserStory story,
 			final Iteration originalIteration, final Iteration targetIteration,
 			final HttpServletRequest request, final Session session)
@@ -53,6 +106,14 @@ public class MoveContinueStory {
 				originalIteration, targetIteration);
 	}
 
+	/**
+     * Reorder iteration stories.
+     *
+     * @param iteration
+     *            the iteration
+     * @throws Exception
+     *             the exception
+     */
 	public void reorderIterationStories(final Iteration iteration)
 			throws Exception {
 		final Collection stories = iteration.getUserStories();
@@ -60,6 +121,16 @@ public class MoveContinueStory {
 				.buildStoryIdNewOrderArray(stories));
 	}
 
+	/**
+     * Update story order no in target iteration.
+     *
+     * @param story
+     *            the story
+     * @param originalIteration
+     *            the original iteration
+     * @param targetIteration
+     *            the target iteration
+     */
 	private void updateStoryOrderNoInTargetIteration(final UserStory story,
 			final Iteration originalIteration, final Iteration targetIteration) {
 
@@ -71,6 +142,20 @@ public class MoveContinueStory {
 		}
 	}
 
+	/**
+     * Save move history.
+     *
+     * @param story
+     *            the story
+     * @param originIteration
+     *            the origin iteration
+     * @param targetIteration
+     *            the target iteration
+     * @param session
+     *            the session
+     * @param currentUserId
+     *            the current user id
+     */
 	private void saveMoveHistory(final UserStory story,
 			final Iteration originIteration, final Iteration targetIteration,
 			final Session session, final int currentUserId) {

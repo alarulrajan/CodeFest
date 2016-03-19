@@ -19,21 +19,43 @@ import org.hibernate.type.NullableType;
 import com.technoetic.xplanner.AbstractUnitTestCase;
 
 /**
- * User: Mateusz Prokopowicz Date: Dec 16, 2004 Time: 4:15:39 PM
+ * User: Mateusz Prokopowicz Date: Dec 16, 2004 Time: 4:15:39 PM.
  */
 public class TestNoteHelper extends AbstractUnitTestCase {
+	
+	/** The Constant PROJECT_ID. */
 	public static final int PROJECT_ID = 1;
+	
+	/** The Constant ITERATION_ID. */
 	public static final int ITERATION_ID = 22;
+	
+	/** The Constant STORY_ID. */
 	public static final int STORY_ID = 333;
+	
+	/** The Constant NOTE1_ID. */
 	public static final int NOTE1_ID = 4444;
+	
+	/** The Constant NOTE2_ID. */
 	public static final int NOTE2_ID = 4444;
 
+	/** The mock project. */
 	Project mockProject = new Project();
+	
+	/** The mock iteration. */
 	Iteration mockIteration = new Iteration();
+	
+	/** The mock story. */
 	UserStory mockStory = new UserStory();
+	
+	/** The note1. */
 	Note note1 = new Note();
+	
+	/** The note2. */
 	Note note2 = new Note();
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -49,6 +71,12 @@ public class TestNoteHelper extends AbstractUnitTestCase {
 		note2.setFile(null);
 	}
 
+	/**
+     * Test delete notes for.
+     *
+     * @throws Exception
+     *             the exception
+     */
 	public void testDeleteNotesFor() throws Exception {
 		Integer[] ids = new Integer[4];
 		Arrays.fill(ids, new Integer(PROJECT_ID));

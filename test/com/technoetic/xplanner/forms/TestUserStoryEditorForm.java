@@ -10,11 +10,23 @@ import org.apache.struts.action.ActionErrors;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestUserStoryEditorForm.
+ */
 public class TestUserStoryEditorForm extends TestCase {
+   
+   /** The xplanner properties. */
    public XPlannerProperties xplannerProperties;
+   
+   /** The support. */
    private XPlannerTestSupport support;
+   
+   /** The form. */
    private UserStoryEditorForm form;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       support = new XPlannerTestSupport();
@@ -23,6 +35,8 @@ public class TestUserStoryEditorForm extends TestCase {
       xplannerProperties = new XPlannerProperties();
    }
 
+   /** Test reset.
+     */
    public void testReset() {
       form.reset(support.mapping, support.request, xplannerProperties);
       assertNull("action not reset", form.getAction());
@@ -35,6 +49,8 @@ public class TestUserStoryEditorForm extends TestCase {
       assertEquals("estimateHours not reset", 0.0, form.getEstimatedHoursField(), 0);
    }
 
+   /** Test priority property.
+     */
    public void testPriorityProperty() {
       xplannerProperties.setProperty(UserStoryEditorForm.DEFAULT_PRIORITY_KEY, "20976");
       form.resetPriority(xplannerProperties);
@@ -42,17 +58,23 @@ public class TestUserStoryEditorForm extends TestCase {
 
    }
 
+   /** Test validate form ok.
+     */
    public void testValidateFormOk() {
       assertValidateReturnsNoError();
 
    }
 
+   /** Test validate missing name not submitted.
+     */
    public void testValidateMissingNameNotSubmitted() {
       form.setName(null);
 
       assertValidateReturnsNoError();
    }
 
+   /** Test validate missing name.
+     */
    public void testValidateMissingName() {
       form.setName(null);
       form.setAction("Update");
@@ -61,6 +83,8 @@ public class TestUserStoryEditorForm extends TestCase {
    }
 
 
+   /** Test validate negative estimate.
+     */
    public void testValidateNegativeEstimate() {
       form.setEstimatedHoursField(-10.0);
       form.setAction("Update");
@@ -68,6 +92,8 @@ public class TestUserStoryEditorForm extends TestCase {
       assertValidateReturnsError(UserStoryEditorForm.NEGATIVE_ESTIMATED_HOURS_ERROR_KEY);
    }
 
+   /** Test validate same iteration.
+     */
    public void testValidateSameIteration() {
       form.setIterationId(10);
       form.setTargetIterationId(10);
@@ -77,6 +103,11 @@ public class TestUserStoryEditorForm extends TestCase {
       assertValidateReturnsError(UserStoryEditorForm.SAME_ITERATION_ERROR_KEY);
    }
 
+   /** Test validate priority not a number.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testValidatePriorityNotANumber() throws Exception {
       support.request.addParameter(UserStoryEditorForm.PRIORITY_PARAM, "blabla");
       form.setAction("Update");
@@ -84,6 +115,11 @@ public class TestUserStoryEditorForm extends TestCase {
       assertValidateReturnsError(UserStoryEditorForm.INVALID_PRIORITY_ERROR_KEY);
    }
 
+   /** Test validate priority a number.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testValidatePriorityANumber() throws Exception {
       support.request.addParameter(UserStoryEditorForm.PRIORITY_PARAM, "10");
       form.setAction("Update");
@@ -91,12 +127,19 @@ public class TestUserStoryEditorForm extends TestCase {
       assertValidateReturnsNoError();
    }
 
+   /** Assert validate returns no error.
+     */
    private void assertValidateReturnsNoError() {
       ActionErrors errors = form.validate(support.mapping, support.request);
 
       assertEquals("unexpected errors", 0, errors.size());
    }
 
+   /** Assert validate returns error.
+     *
+     * @param errorKey
+     *            the error key
+     */
    private void assertValidateReturnsError(String errorKey) {
       ActionErrors errors = form.validate(support.mapping, support.request);
       assertEquals("wrong # of errors", 1, errors.size());

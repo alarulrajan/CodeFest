@@ -13,7 +13,12 @@ import org.jfree.chart.plot.PiePlot3D;
 import de.laures.cewolf.ChartPostProcessor;
 import de.laures.cewolf.taglib.util.ColorHelper;
 
+/**
+ * The Class PieChartPostProcessor.
+ */
 public class PieChartPostProcessor implements ChartPostProcessor {
+	
+	/** The default paintlist. */
 	private static Paint[] DEFAULT_PAINTLIST = { ChartColor.VERY_LIGHT_RED,
 			ChartColor.VERY_LIGHT_BLUE, ChartColor.VERY_LIGHT_GREEN,
 			ChartColor.VERY_LIGHT_YELLOW, ChartColor.VERY_LIGHT_MAGENTA,
@@ -29,6 +34,9 @@ public class PieChartPostProcessor implements ChartPostProcessor {
 			ChartColor.VERY_DARK_GREEN, ChartColor.VERY_DARK_YELLOW,
 			ChartColor.VERY_DARK_MAGENTA, ChartColor.VERY_DARK_CYAN, };
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.ChartPostProcessor#processChart(java.lang.Object, java.util.Map)
+	 */
 	@Override
 	public void processChart(final Object chart, final Map parameters) {
 		final PiePlot plot = (PiePlot) ((JFreeChart) chart).getPlot();
@@ -55,6 +63,12 @@ public class PieChartPostProcessor implements ChartPostProcessor {
 		}
 	}
 
+	/**
+     * Sets the plot defaults.
+     *
+     * @param plot
+     *            the new plot defaults
+     */
 	private void setPlotDefaults(final PiePlot plot) {
 		for (int i = 0; i < PieChartPostProcessor.DEFAULT_PAINTLIST.length; i++) {
 			plot.setSectionOutlinePaint(i,
@@ -66,10 +80,24 @@ public class PieChartPostProcessor implements ChartPostProcessor {
 		}
 	}
 
+	/**
+     * Checks if is true.
+     *
+     * @param o
+     *            the o
+     * @return true, if is true
+     */
 	private boolean isTrue(final Object o) {
 		return Boolean.valueOf(o.toString()).booleanValue();
 	}
 
+	/**
+     * Gets the index.
+     *
+     * @param key
+     *            the key
+     * @return the index
+     */
 	private int getIndex(final String key) {
 		try {
 			return Integer.parseInt(key.substring(key.lastIndexOf(".") + 1));
@@ -78,6 +106,13 @@ public class PieChartPostProcessor implements ChartPostProcessor {
 		}
 	}
 
+	/**
+     * Parses the color.
+     *
+     * @param value
+     *            the value
+     * @return the paint
+     */
 	private Paint parseColor(final Object value) {
 		return ColorHelper.getColor(value.toString());
 	}

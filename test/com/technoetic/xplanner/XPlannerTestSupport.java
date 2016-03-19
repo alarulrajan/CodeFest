@@ -61,160 +61,368 @@ import com.technoetic.xplanner.security.PersonPrincipal;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.tags.DomainContext;
 
+/**
+ * The Class XPlannerTestSupport.
+ */
 public class XPlannerTestSupport {
+    
+    /** The Constant DEFAULT_PERSON_USER_ID. */
     public static final String DEFAULT_PERSON_USER_ID = "sombody";
+    
+    /** The Constant DEFAULT_PERSON_ID. */
     public static final int DEFAULT_PERSON_ID = 44;
+    
+    /** The appenders. */
     private Enumeration appenders;
 
+    /** The Class XHttpServletResponseSimulator.
+     */
     public static class XHttpServletResponseSimulator extends HttpServletResponseSimulator {
+        
+        /** The redirect. */
         private String redirect;
+        
+        /** The headers. */
         private HashMap headers = new HashMap();
+        
+        /** The status. */
         private int status;
 
+        /** Encode url.
+         *
+         * @param url
+         *            the url
+         * @return the string
+         */
         public String encodeURL(String url) {
             return url;
         }
 
+        /** Gets the redirect.
+         *
+         * @return the redirect
+         */
         public String getRedirect() {
             return redirect;
         }
 
+        /** Send redirect.
+         *
+         * @param s
+         *            the s
+         * @throws IOException
+         *             Signals that an I/O exception has occurred.
+         */
         public void sendRedirect(String s) throws IOException {
             //super.sendRedirect(s);
             redirect = s;
         }
 
+        /** Sets the header.
+         *
+         * @param name
+         *            the name
+         * @param value
+         *            the value
+         */
         public void setHeader(String name, String value) {
             headers.put(name, value);
         }
 
+        /** Gets the header.
+         *
+         * @param name
+         *            the name
+         * @return the header
+         */
         public String getHeader(String name) {
             return (String) headers.get(name);
         }
 
+        /** Gets the status.
+         *
+         * @return the status
+         */
         public int getStatus() {
             return status;
         }
 
+        /** Sets the status.
+         *
+         * @param status
+         *            the new status
+         */
         public void setStatus(int status) {
             this.status = status;
         }
 
+        /** Gets the content type.
+         *
+         * @return the content type
+         */
         public String getContentType() {
             return null;
         }
 
+        /** Sets the character encoding.
+         *
+         * @param s
+         *            the new character encoding
+         */
         public void setCharacterEncoding(String s) {
 
         }
     }
 
+    /** The Class XServletContextSimulator.
+     */
     public static class XServletContextSimulator extends ServletContextSimulator {
+        
+        /** The attributes. */
         private HashMap attributes = new HashMap();
 
+        /** Sets the attribute.
+         *
+         * @param name
+         *            the name
+         * @param value
+         *            the value
+         */
         public void setAttribute(String name, Object value) {
             attributes.put(name, value);
         }
 
+        /** Gets the attribute.
+         *
+         * @param name
+         *            the name
+         * @return the attribute
+         */
         public Object getAttribute(String name) {
             return attributes.get(name);
         }
 
+        /** Gets the resource paths.
+         *
+         * @param s
+         *            the s
+         * @return the resource paths
+         */
         public Set getResourcePaths(String s) {
             throw new UnsupportedOperationException();
         }
     }
 
+    /** The Class XHttpServletRequestSimulator.
+     */
     public static class XHttpServletRequestSimulator extends HttpServletRequestSimulator {
+        
+        /** The locale. */
         private Locale locale;
+        
+        /** The servlet path. */
         private String servletPath;
+        
+        /** The context path. */
         private String contextPath;
+        
+        /** The remote addr. */
         private String remoteAddr;
+        
+        /** The cookies. */
         private Cookie[] cookies;
 
+        /** Sets the locale.
+         *
+         * @param locale
+         *            the new locale
+         */
         public void setLocale(Locale locale) {
             this.locale = locale;
         }
 
+        /** Gets the locale.
+         *
+         * @return the locale
+         */
         public Locale getLocale() {
             return locale;
         }
 
+        /** Gets the remote port.
+         *
+         * @return the remote port
+         */
         public int getRemotePort() {
             return 0;
         }
 
+        /** Gets the local name.
+         *
+         * @return the local name
+         */
         public String getLocalName() {
             return null;
         }
 
+        /** Gets the local addr.
+         *
+         * @return the local addr
+         */
         public String getLocalAddr() {
             return null;
         }
 
+        /** Gets the local port.
+         *
+         * @return the local port
+         */
         public int getLocalPort() {
             return 0;
         }
 
+        /** Gets the parameter map.
+         *
+         * @return the parameter map
+         */
         public Map getParameterMap() {
             return parameters;
         }
 
+        /** Gets the servlet path.
+         *
+         * @return the servlet path
+         */
         public String getServletPath() {
             return servletPath;
         }
 
+        /** Sets the servlet path.
+         *
+         * @param servletPath
+         *            the new servlet path
+         */
         public void setServletPath(String servletPath) {
             this.servletPath = servletPath;
         }
 
+        /** Gets the context path.
+         *
+         * @return the context path
+         */
         public String getContextPath() {
             return contextPath;
         }
 
+        /** Sets the context path.
+         *
+         * @param contextPath
+         *            the new context path
+         */
         public void setContextPath(String contextPath) {
             this.contextPath = contextPath;
         }
 
+        /** Sets the cookies.
+         *
+         * @param cookies
+         *            the new cookies
+         */
         public void setCookies(Cookie[] cookies) {
             this.cookies = cookies;
         }
 
+        /** Gets the cookies.
+         *
+         * @return the cookies
+         */
         public Cookie[] getCookies() {
             return cookies;
         }
 
+        /** Sets the remote addr.
+         *
+         * @param remoteAddr
+         *            the new remote addr
+         */
         public void setRemoteAddr(String remoteAddr) {
            this.remoteAddr = remoteAddr;
         }
 
+        /** Gets the remote addr.
+         *
+         * @return the remote addr
+         */
         public String getRemoteAddr() {
            return remoteAddr;
         }
 
+        /** Sets the query string.
+         *
+         * @param queryString
+         *            the new query string
+         */
         public void setQueryString(String queryString) {
            this.queryString = queryString;
         }
     }
 
+    /** The mapping. */
     public ActionMapping mapping;
+    
+    /** The form. */
     public ActionForm form;
+    
+    /** The action servlet. */
     public ActionServlet actionServlet;
+    
+    /** The resources. */
     public MockMessageResources resources;
+    
+    /** The page context. */
     public MockPageContext pageContext;
+    
+    /** The jsp writer. */
     public MockJspWriter jspWriter;
+    
+    /** The request. */
     public XHttpServletRequestSimulator request;
+    
+    /** The response. */
     public XHttpServletResponseSimulator response;
+    
+    /** The servlet session. */
     public HttpSessionSimulator servletSession;
+    
+    /** The servlet config. */
     public ServletConfigSimulator servletConfig;
+    
+    /** The servlet context. */
     public XServletContextSimulator servletContext;
+    
+    /** The mock prepared statement. */
     public MockPreparedStatement mockPreparedStatement;
+    
+    /** The mock statement. */
     public MockStatement mockStatement;
+    
+    /** The mock result set. */
     public MockResultSet mockResultSet;
+    
+    /** The connection. */
     public MockConnection connection;
+    
+    /** The hibernate session factory. */
     public MockSessionFactory hibernateSessionFactory;
+    
+    /** The hibernate session. */
     public MockSession hibernateSession;
 
+    /** Instantiates a new x planner test support.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public XPlannerTestSupport() throws Exception {
         hibernateSessionFactory = new MockSessionFactory();
         GlobalSessionFactory.set(hibernateSessionFactory);
@@ -252,6 +460,13 @@ public class XPlannerTestSupport {
         pageContext.getOutReturn = jspWriter;
     }
 
+    /** Sets the forward.
+     *
+     * @param name
+     *            the name
+     * @param path
+     *            the path
+     */
     public void setForward(String name, String path) {
         ModuleConfig config = mapping.getModuleConfig();
         if (config == null) {
@@ -266,20 +481,50 @@ public class XPlannerTestSupport {
         }
     }
 
+    /** Execute action.
+     *
+     * @param action
+     *            the action
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
     public ActionForward executeAction(Action action) throws Exception {
         return action.execute(mapping, form, request, response);
     }
 
+    /** Sets the up subject in role.
+     *
+     * @param role
+     *            the role
+     * @return the subject
+     */
     public Subject setUpSubjectInRole(String role) {
         return setUpSubject(DEFAULT_PERSON_USER_ID, new String[]{role});
     }
 
+    /** Sets the up subject.
+     *
+     * @param userId
+     *            the user id
+     * @param roles
+     *            the roles
+     * @return the subject
+     */
     public Subject setUpSubject(String userId, String[] roles) {
         Person person = new Person(userId);
         person.setId(DEFAULT_PERSON_ID);
         return setUpSubject(person, roles);
     }
 
+    /** Sets the up subject.
+     *
+     * @param person
+     *            the person
+     * @param roles
+     *            the roles
+     * @return the subject
+     */
     public Subject setUpSubject(Person person, String[] roles) {
         Subject subject = new Subject();
         subject.getPrincipals().add(new PersonPrincipal(person));
@@ -292,10 +537,34 @@ public class XPlannerTestSupport {
         return subject;
     }
 
+    /** Assert history in object.
+     *
+     * @param objectId
+     *            the object id
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @param personId
+     *            the person id
+     */
     public void assertHistoryInObject(int objectId, String action, String description, int personId) {
         assertHistory(hibernateSession, objectId, action, description, personId);
     }
 
+    /** Assert history.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     * @param objectId
+     *            the object id
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @param authorId
+     *            the author id
+     */
     public void assertHistory(MockSession hibernateSession,
                                       int objectId,
                                       String action,
@@ -317,6 +586,16 @@ public class XPlannerTestSupport {
         }
     }
 
+   /** Matches expected event.
+     *
+     * @param description
+     *            the description
+     * @param event
+     *            the event
+     * @param authorId
+     *            the author id
+     * @return true, if successful
+     */
    private boolean matchesExpectedEvent(String description, History event, int authorId) {
       return
             assertEventDescriptionMatches(description, event) &&
@@ -325,11 +604,28 @@ public class XPlannerTestSupport {
              !event.isNotified();
    }
 
+   /** Assert event description matches.
+     *
+     * @param expectedDescription
+     *            the expected description
+     * @param event
+     *            the event
+     * @return true, if successful
+     */
    private boolean assertEventDescriptionMatches(String expectedDescription, History event) {
       return (event.getDescription() == null && expectedDescription == null) ||
              event.getDescription().equals(expectedDescription);
    }
 
+   /** Assert event details.
+     *
+     * @param description
+     *            the description
+     * @param event
+     *            the event
+     * @param authorId
+     *            the author id
+     */
    private void assertEventDetails(String description, History event, int authorId) {
       Assert.assertEquals("wrong description", description, event.getDescription());
       Assert.assertEquals("wrong authorId", authorId, event.getPersonId().intValue());
@@ -337,11 +633,26 @@ public class XPlannerTestSupport {
       Assert.assertFalse("wrong notified flag", event.isNotified());
    }
 
+   /** Assert no history.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     */
    public void assertNoHistory(MockSession hibernateSession) {
        List HistoryList = getHistoryList(hibernateSession, 0, null);
        Assert.assertFalse("unexpected historical event", HistoryList.size() == 0);
    }
 
+    /** Gets the history list.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     * @param targetObjectId
+     *            the target object id
+     * @param action
+     *            the action
+     * @return the history list
+     */
     private List getHistoryList(MockSession hibernateSession, int targetObjectId, String action) {
         List HistoryList = new ArrayList();
         Iterator it = getObjectListWithType(hibernateSession, History.class).iterator();
@@ -356,6 +667,14 @@ public class XPlannerTestSupport {
     }
 
 
+    /** Gets the object list with type.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     * @param objectClass
+     *            the object class
+     * @return the object list with type
+     */
     public List getObjectListWithType(MockSession hibernateSession, Class objectClass) {
         List objectList = new ArrayList();
         for (int i = 0; i < hibernateSession.saveObjects.size(); i++) {
@@ -366,6 +685,8 @@ public class XPlannerTestSupport {
         return objectList;
     }
 
+    /** Sets the up mock appender.
+     */
     public void setUpMockAppender() {
         appenders = Logger.getRootLogger().getAllAppenders();
         Logger.getRootLogger().removeAllAppenders();
@@ -382,12 +703,16 @@ public class XPlannerTestSupport {
         });
     }
 
+    /** Sets the up domain context.
+     */
     public void setUpDomainContext() {
         DomainContext context = new DomainContext();
         context.setProjectId(10);
         context.save(request);
     }
 
+    /** Tear down mock appender.
+     */
     public void tearDownMockAppender() {
         Logger rootLogger = Logger.getRootLogger();
         while (appenders.hasMoreElements()) {
@@ -395,6 +720,11 @@ public class XPlannerTestSupport {
         }
     }
 
+    /** Dump request.
+     *
+     * @param request
+     *            the request
+     */
     public static void dumpRequest(HttpServletRequest request) {
         Enumeration pnames = request.getParameterNames();
         while (pnames.hasMoreElements()) {
@@ -409,6 +739,19 @@ public class XPlannerTestSupport {
         }
     }
 
+    /** Assert data sample exist.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     * @param aspect
+     *            the aspect
+     * @param referenceId
+     *            the reference id
+     * @param value
+     *            the value
+     * @param date
+     *            the date
+     */
     public void assertDataSampleExist(MockSession hibernateSession, String aspect, int referenceId, double value, Date date) {
         List dataSampleList = getObjectListWithType(hibernateSession, DataSample.class);
         boolean isDataSample = false;
@@ -423,6 +766,14 @@ public class XPlannerTestSupport {
                 ", referenceId=" + referenceId + ", value=" + value, isDataSample);
     }
 
+    /** Are close.
+     *
+     * @param date1
+     *            the date1
+     * @param date2
+     *            the date2
+     * @return true, if successful
+     */
     private boolean areClose(Date date1, Date date2) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date2);
@@ -433,6 +784,17 @@ public class XPlannerTestSupport {
         return date1.after(lowerBorder) && date1.before(upperBorder);
     }
 
+    /** Assert no data sample.
+     *
+     * @param hibernateSession
+     *            the hibernate session
+     * @param aspect
+     *            the aspect
+     * @param referenceId
+     *            the reference id
+     * @param date
+     *            the date
+     */
     public void assertNoDataSample(MockSession hibernateSession, String aspect, int referenceId, Date date) {
         List dataSampleList = getObjectListWithType(hibernateSession, DataSample.class);
         boolean isDataSample = false;
@@ -447,11 +809,19 @@ public class XPlannerTestSupport {
                 ", referenceId=" + referenceId + " exists", isDataSample);
     }
 
+    /** Gets the absolute test url.
+     *
+     * @return the absolute test url
+     */
     public static String getAbsoluteTestURL(){
         XPlannerProperties properties = new XPlannerProperties();
         return properties.getProperty("xplanner.application.url");
     }
 
+    /** Gets the relative test url.
+     *
+     * @return the relative test url
+     */
     public static String getRelativeTestURL(){
         XPlannerProperties properties = new XPlannerProperties();
         String baseUrl = properties.getProperty("xplanner.application.url");

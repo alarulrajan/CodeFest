@@ -23,13 +23,27 @@ import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.util.RequestUtils;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class StartIterationAction.
+ */
 public class StartIterationAction extends AbstractIterationAction<Iteration> {
+	
+	/** The time generator. */
 	private TimeGenerator timeGenerator;
 
+	/**
+     * Sets the time generator.
+     *
+     * @param timeGenerator
+     *            the new time generator
+     */
 	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#beforeObjectCommit(com.technoetic.xplanner.domain.Identifiable, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void beforeObjectCommit(final Iteration object,
 			final ActionMapping actionMapping, final ActionForm actionForm,
@@ -43,6 +57,9 @@ public class StartIterationAction extends AbstractIterationAction<Iteration> {
 				this.timeGenerator.getCurrentTime());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -116,6 +133,14 @@ public class StartIterationAction extends AbstractIterationAction<Iteration> {
 		return nextPage;
 	}
 
+	/**
+     * Close started iterations.
+     *
+     * @param project
+     *            the project
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private void closeStartedIterations(final Project project)
 			throws RepositoryException {
 		final Collection<Iteration> startedIterationsList = this
@@ -128,6 +153,13 @@ public class StartIterationAction extends AbstractIterationAction<Iteration> {
 		}
 	}
 
+	/**
+     * Gets the started iterations.
+     *
+     * @param project
+     *            the project
+     * @return the started iterations
+     */
 	private Collection<Iteration> getStartedIterations(final Project project) {
 		final Collection<Iteration> startedIterationList = new ArrayList<Iteration>();
 		final Collection<Iteration> iterationList = project.getIterations();
@@ -141,11 +173,17 @@ public class StartIterationAction extends AbstractIterationAction<Iteration> {
 		return startedIterationList;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractIterationAction#setDataSampler(com.technoetic.xplanner.charts.DataSampler)
+	 */
 	@Override
 	public void setDataSampler(final DataSampler dataSampler) {
 		this.dataSampler = dataSampler;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractIterationAction#getDataSampler()
+	 */
 	@Override
 	public DataSampler getDataSampler() {
 		return this.dataSampler;

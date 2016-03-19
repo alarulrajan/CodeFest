@@ -19,23 +19,43 @@ import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.LoginModule;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class TestXPlannerLoginModule.
+ */
 public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
     {
+    
+    /** The person. */
     private Person person;
+    
+    /** The options. */
     private HashMap options;
+    
+    /** The support. */
     private XPlannerTestSupport support;
 
+    /** Instantiates a new test x planner login module.
+     *
+     * @param s
+     *            the s
+     */
     public TestXPlannerLoginModule(String s)
     {
         super(s);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#createLoginModule()
+     */
     protected LoginModule createLoginModule()
     {
         options = new HashMap();
         return new XPlannerLoginModule(new LoginSupportImpl());
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#setUp()
+     */
     public void setUp() throws Exception
     {
         super.setUp();
@@ -50,12 +70,20 @@ public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
         loginModule = createLoginModule();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.security.module.AbstractLoginModuleTestCase#tearDown()
+     */
     protected void tearDown() throws Exception
     {
         ThreadSession.set(null);
         super.tearDown();
     }
 
+    /** Test successful authenticate.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSuccessfulAuthenticate() throws Exception
     {
         support.hibernateSession.find2Return = new ArrayList();
@@ -71,12 +99,22 @@ public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
         assertFalse(SecurityHelper.isUserInRole(support.request, "admin"));
     }
 
+    /** Test failed authenticate_ no user.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testFailedAuthenticate_NoUser() throws Exception
     {
         support.hibernateSession.find2Return = new ArrayList();
         authenticateAndCheckException(XPlannerLoginModule.MESSAGE_USER_NOT_FOUND_KEY);
     }
 
+    /** Test failed authenticate_ wrong password.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testFailedAuthenticate_WrongPassword() throws Exception
     {
         support.hibernateSession.find2Return = new ArrayList();
@@ -84,12 +122,22 @@ public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
         authenticateAndCheckException(XPlannerLoginModule.MESSAGE_AUTHENTICATION_FAILED_KEY);
     }
 
+    /** Test failed authenticate_ server error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testFailedAuthenticate_ServerError() throws Exception
     {
         support.hibernateSession.find2HibernateException = new HibernateException(new Exception());
         authenticateAndCheckException(LoginSupportImpl.MESSAGE_STORAGE_ERROR_KEY);
     }
 
+    /** Test changing password.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testChangingPassword() throws Exception
     {
         support.hibernateSession.find2Return = new ArrayList();
@@ -101,6 +149,11 @@ public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
         assertTrue(support.connection.commitCalled);
     }
 
+    /** Test changing password with error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testChangingPasswordWithError() throws Exception
     {
         support.hibernateSession.find2HibernateException = new HibernateException("test");
@@ -117,6 +170,11 @@ public class TestXPlannerLoginModule extends AbstractLoginModuleTestCase
         }
     }
 
+    /** Test logout.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLogout() throws Exception
     {
         loginModule.logout(support.request);

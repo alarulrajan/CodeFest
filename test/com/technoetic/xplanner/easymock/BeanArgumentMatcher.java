@@ -16,16 +16,34 @@ import junit.framework.AssertionFailedError;
 import org.apache.commons.lang.StringUtils;
 import org.easymock.ArgumentsMatcher;
 
+/**
+ * The Class BeanArgumentMatcher.
+ */
 public class BeanArgumentMatcher implements ArgumentsMatcher {
+    
+    /** The excluded properties. */
     private List excludedProperties;
+    
+    /** The included properties. */
     private List includedProperties;
+    
+    /** The actual objects. */
     private List actualObjects = new ArrayList();
 
+    /** Instantiates a new bean argument matcher.
+     */
     public BeanArgumentMatcher() {
         excludedProperties = Collections.EMPTY_LIST;
         includedProperties = Collections.EMPTY_LIST;
     }
 
+    /** Instantiates a new bean argument matcher.
+     *
+     * @param includedProperties
+     *            the included properties
+     * @param excludedProperties
+     *            the excluded properties
+     */
     public BeanArgumentMatcher(String[] includedProperties, String[] excludedProperties) {
         this.includedProperties = includedProperties == null ?
             Collections.EMPTY_LIST : Arrays.asList(includedProperties);
@@ -33,6 +51,9 @@ public class BeanArgumentMatcher implements ArgumentsMatcher {
             Collections.EMPTY_LIST : Arrays.asList(excludedProperties);
     }
 
+    /* (non-Javadoc)
+     * @see org.easymock.ArgumentsMatcher#matches(java.lang.Object[], java.lang.Object[])
+     */
     public boolean matches(Object[] expected, Object[] actual) {
         actualObjects.add(actual);
         try {
@@ -49,6 +70,15 @@ public class BeanArgumentMatcher implements ArgumentsMatcher {
         return true;
     }
 
+    /** Assert equals.
+     *
+     * @param expectedObject
+     *            the expected object
+     * @param actualObject
+     *            the actual object
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
     public void assertEquals(Object expectedObject, Object actualObject) throws IntrospectionException {
         BeanInfo info = Introspector.getBeanInfo(expectedObject.getClass());
         PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
@@ -72,16 +102,35 @@ public class BeanArgumentMatcher implements ArgumentsMatcher {
         }
     }
 
+    /** Read value.
+     *
+     * @param descriptor
+     *            the descriptor
+     * @param expectedObject
+     *            the expected object
+     * @return the object
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     */
     private Object readValue(PropertyDescriptor descriptor, Object expectedObject) throws IllegalAccessException, InvocationTargetException {
         return descriptor.getReadMethod() != null
             ? descriptor.getReadMethod().invoke(expectedObject, null)
             : null;
     }
 
+    /** Gets the actual objects.
+     *
+     * @return the actual objects
+     */
     public List getActualObjects() {
         return actualObjects;
     }
 
+    /* (non-Javadoc)
+     * @see org.easymock.ArgumentsMatcher#toString(java.lang.Object[])
+     */
     public String toString(Object[] arguments) {
         return StringUtils.join(arguments, ",");
     }

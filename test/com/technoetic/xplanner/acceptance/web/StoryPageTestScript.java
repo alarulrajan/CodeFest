@@ -12,45 +12,100 @@ import com.technoetic.xplanner.domain.TaskDisposition;
 import com.technoetic.xplanner.views.HistoryPage;
 import com.technoetic.xplanner.views.IterationAccuracyPage;
 
+/**
+ * The Class StoryPageTestScript.
+ */
 public class StoryPageTestScript extends AbstractStoryPageTestScript {
+   
+   /** The Constant TASK_NAME. */
    //todo jm: remove dependency on TASK_XXX
    public static final String TASK_NAME = "Test Task";
+   
+   /** The Constant TASK_DESCRIPTION. */
    public static final String TASK_DESCRIPTION = "A test task";
+   
+   /** The Constant ESTIMATED_HOURS. */
    public static final String ESTIMATED_HOURS = "23.5";
+   
+   /** The Constant ESTIMATED_ORIGINAL_HOURS. */
    public static final String ESTIMATED_ORIGINAL_HOURS = "23.5";
+   
+   /** The Constant STORY_NAME. */
    public static final String STORY_NAME = "Test Story For Origi. Hour.";
+   
+   /** The Constant ESTIMATED_HOURS_FOR_ADDED_OBJECT. */
    public static final String ESTIMATED_HOURS_FOR_ADDED_OBJECT = "20";
+   
+   /** The Constant fromIterationName. */
    public static final String fromIterationName = "From Iteration";
+   
+   /** The Constant fromStoryName. */
    public static final String fromStoryName = "From Story";
+   
+   /** The Constant toStoryName. */
    public static final String toStoryName = "To story";
+   
+   /** The Constant TASK_ESTIMATED_ORIGINAL_HOURS. */
    private static final String TASK_ESTIMATED_ORIGINAL_HOURS = "23.5";
+   
+   /** The Constant STORY_ESTIMATED_ORIGINAL_HOURS. */
    private static final String STORY_ESTIMATED_ORIGINAL_HOURS = "15.5";
+   
+   /** The Constant ADDED_TASK_HOURS. */
    private static final String ADDED_TASK_HOURS = "23.5";
+   
+   /** The Constant ADDED_STORY_HOURS. */
    private static final String ADDED_STORY_HOURS = "10.0";
+   
+   /** The iteration name for org est test. */
    private final String ITERATION_NAME_FOR_ORG_EST_TEST = "Started Iteration for OrgEstHours test";
+   
+   /** The story name for org est test. */
    private final String STORY_NAME_FOR_ORG_EST_TEST = "Story for OrgEstHours test";
+   
+   /** Instantiates a new story page test script.
+     *
+     * @param test
+     *            the test
+     */
    public StoryPageTestScript(String test) {
       super(test);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    //todo jm convert class setup to direct db.
    public void setUp() throws Exception {
       super.setUp();
       simpleSetUp();
    }
+   
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    public void tearDown() throws Exception {
       tearDownLocalObjects();
       simpleTearDown();
       super.tearDown();
    }
+   
+   /** Tear down local objects.
+     */
    private void tearDownLocalObjects() {
       tester.deleteObjects(Task.class, "name", TASK_NAME);
       tester.deleteObjects(UserStory.class, "name", fromStoryName);
       tester.deleteObjects(Iteration.class, "name", fromIterationName);
    }
+   
+   /** Test adding and deleting notes.
+     */
    public void testAddingAndDeletingNotes() {
       runNotesTests(XPlannerWebTester.STORY_PAGE);
    }
+   
+   /** Test adding and deleting tasks.
+     */
    public void testAddingAndDeletingTasks() {
       addTaskToCurrentStory();
       tester.clickEditLinkInRowWithText(TASK_NAME);
@@ -74,12 +129,18 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.clickDeleteLinkForRowWithText(TASK_NAME);
       tester.assertTextNotPresent(TASK_NAME);
    }
+   
+   /** Adds the task to current story.
+     */
    private void addTaskToCurrentStory() {
       tester.addTask(TASK_NAME, developerName, TASK_DESCRIPTION, ESTIMATED_HOURS);
       tester.assertOnStoryPage();
       tester.assertTextPresent(TASK_NAME);
       tester.assertKeyPresent("task.disposition.planned.name");
    }
+   
+   /** Test change story disposition.
+     */
    public void testChangeStoryDisposition() {
 // todo jm why is it called action.edit.story? It should be generic and called action.edit (was story.link.edit before merge)
       tester.clickLinkWithKey("action.edit.story");
@@ -89,6 +150,8 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       assertDispositionEquals(storyName, StoryDisposition.CARRIED_OVER);
    }
 
+   /** Test content and links.
+     */
    // todo jm reenable this test
    public void testContentAndLinks() {
         tester.assertOnStoryPage();
@@ -104,6 +167,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
 //        tester.assertOnProjectPage();
 //        tester.assertActualHoursColumnPresent();
    }
+   
+   /** Test continue task in different story.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testContinueTaskInDifferentStory() throws Exception {
       setUpMoveContinueTask();
       moveContinueTask(MoveContinueTaskAction.CONTINUE_ACTION);
@@ -115,6 +184,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       verifyTargetStoryHistory(History.CONTINUED);
       verifyTaskHistory(History.CONTINUED);
    }
+   
+   /** Test move task to different story.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMoveTaskToDifferentStory() throws Exception {
       setUpMoveContinueTask();
       moveContinueTask(MoveContinueTaskAction.MOVE_ACTION);
@@ -126,6 +201,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       verifyTargetStoryHistory(History.MOVED_IN);
       verifyTaskHistory(History.MOVED);
    }
+   
+   /** Move continue task.
+     *
+     * @param actionType
+     *            the action type
+     */
    private void moveContinueTask(String actionType) {
       tester.clickContinueLinkInRowWithText(TASK_NAME);
       tester.assertOnMoveContinueTaskPage(TASK_NAME);
@@ -134,12 +215,23 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.assertOnStoryPage(fromStoryName);
 //        assertDispositionEquals(TASK_NAME, TaskDisposition.PLANNED);
    }
+   
+   /** Verify historys.
+     *
+     * @param moveType
+     *            the move type
+     */
    private void verifyHistorys(String moveType) {
       tester.clickLink("aKH");
       tester.assertTitleEquals("History");
       tester.assertTextInTable(HistoryPage.EVENT_TABLE_ID, moveType);
    }
 
+   /** Assert continuing task exists in target iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    //todo jm change navigation to new optimized one
    private void assertContinuingTaskExistsInTargetIteration() throws Exception {
       tester.gotoRelativeUrl("/do/view/projects");
@@ -149,6 +241,14 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.assertOnStoryPage(storyName);
       tester.assertTextPresent(TASK_NAME);
    }
+   
+   /** Verify target story history.
+     *
+     * @param actionType
+     *            the action type
+     * @throws Exception
+     *             the exception
+     */
    private void verifyTargetStoryHistory(String actionType) throws Exception {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);
@@ -156,6 +256,14 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.clickLinkWithText(storyName);
       verifyHistorys(actionType);
    }
+   
+   /** Verify task history.
+     *
+     * @param actionType
+     *            the action type
+     * @throws Exception
+     *             the exception
+     */
    private void verifyTaskHistory(String actionType) throws Exception {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);
@@ -164,6 +272,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.clickLinkWithText(TASK_NAME);
       verifyHistorys(actionType);
    }
+   
+   /** Test move task to different story in the same started iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMoveTaskToDifferentStoryInTheSameStartedIteration() throws Exception {
       setUpMoveContinueTask();
       tester.gotoProjectsPage();
@@ -181,6 +295,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.assertTextPresent(TASK_NAME);
       tester.assertKeyInTable("objecttable", TaskDisposition.PLANNED.getNameKey());
    }
+   
+   /** Sets the up move continue task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void setUpMoveContinueTask() throws Exception {
       tester.gotoRelativeUrl("/do/view/projects");
       tester.clickLinkWithText(testProjectName);
@@ -189,6 +309,20 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       // create the from story and from task
       addTaskToCurrentStory();
    }
+   
+   /** Move continue task.
+     *
+     * @param actionType
+     *            the action type
+     * @param taskName
+     *            the task name
+     * @param fromStoryName
+     *            the from story name
+     * @param targetStoryName
+     *            the target story name
+     * @param targetIterationName
+     *            the target iteration name
+     */
    private void moveContinueTask(String actionType, String taskName, String fromStoryName, String targetStoryName, String targetIterationName) {
       tester.clickContinueLinkInRowWithText(taskName);
       tester.assertOnMoveContinueTaskPage(taskName);
@@ -196,6 +330,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
       tester.clickButton(actionType);
       tester.assertOnStoryPage(fromStoryName);
    }
+   
+   /** Test move task to different story_ localized.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMoveTaskToDifferentStory_Localized() throws Exception {
       setUpMoveContinueTask();
       try {
@@ -207,12 +347,24 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
          tester.changeLocale(null);
       }
    }
+   
+   /** Test no move continue task in same story.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testNoMoveContinueTaskInSameStory() throws Exception {
       addTaskToCurrentStory();
       tester.clickContinueLinkInRowWithText(TASK_NAME);
       tester.assertOnMoveContinueTaskPage(TASK_NAME);
       tester.assertOptionNotListed("targetStoryId", testProjectName + " :: " + testIterationName + " :: " + storyName);
    }
+   
+   /** Test org est hours in restarted iteration with added story.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursInRestartedIterationWithAddedStory() throws Exception {
       performOrgEstHoursWithDeletedTaskTest();
       tester.gotoProjectsPage();
@@ -234,6 +386,13 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
                                                            "iteration.label.task",
                                                            ESTIMATED_ORIGINAL_HOURS);
    }
+   
+   /** Test org est hours in restarted iteration with deleted and added
+     * task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursInRestartedIterationWithDeletedAndAddedTask() throws Exception {
       performOrgEstHoursWithDeletedTaskTest();
       tester.gotoProjectsPage();
@@ -254,9 +413,21 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
                                                            "iteration.label.task",
                                                            ESTIMATED_ORIGINAL_HOURS);
    }
+   
+   /** Test org est hours in started iteration with deleted task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursInStartedIterationWithDeletedTask() throws Exception {
       performOrgEstHoursWithDeletedTaskTest();
    }
+   
+   /** Perform org est hours with deleted task test.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void performOrgEstHoursWithDeletedTaskTest() throws Exception {
       addTaskToCurrentStory();
       tester.gotoProjectsPage();
@@ -286,6 +457,12 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
                                                            "iteration.label.task",
                                                            ESTIMATED_ORIGINAL_HOURS);
    }
+   
+   /** Test org est hours while moved from not started to started iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursWhileMovedFromNotStartedToStartedIteration() throws Exception {
       goToTestStoryPage();
       tester.addTask(TASK_NAME, developerName, TASK_DESCRIPTION, ESTIMATED_HOURS);
@@ -347,12 +524,28 @@ public class StoryPageTestScript extends AbstractStoryPageTestScript {
                                                            "iteration.label.task",
                                                            TASK_ESTIMATED_ORIGINAL_HOURS);
    }
+   
+   /** Test pdf export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPdfExport() throws Exception {
       checkExportUri("userstory", "pdf");
    }
+   
+   /** Test report export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testReportExport() throws Exception {
       checkExportUri("userstory", "jrpdf");
    }
+   
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+    */
    protected void traverseLinkWithKeyAndReturn(String key) throws Exception {
       tester.clickLinkWithKey(key);
       tester.gotoPage("view", "projects", 0);

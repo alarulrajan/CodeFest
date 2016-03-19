@@ -21,6 +21,9 @@ import com.technoetic.xplanner.forms.ReorderStoriesForm;
  */
 public class ReorderStoriesAction extends AbstractAction {
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -39,6 +42,13 @@ public class ReorderStoriesAction extends AbstractAction {
 
 	}
 
+	/**
+     * Builds the story id new order array.
+     *
+     * @param form
+     *            the form
+     * @return the int[][]
+     */
 	private int[][] buildStoryIdNewOrderArray(final ReorderStoriesForm form) {
 		final List<String> storyIds = form.getStoryIds();
 		final List<String> orderNos = form.getOrderNos();

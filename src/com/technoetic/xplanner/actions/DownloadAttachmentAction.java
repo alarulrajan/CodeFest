@@ -18,11 +18,27 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class DownloadAttachmentAction.
+ */
 public class DownloadAttachmentAction extends AbstractAction {
+	
+	/** The logger. */
 	private static Logger logger = Logger
 			.getLogger(DownloadAttachmentAction.class);
+	
+	/** The Constant BUFFER_SIZE. */
 	private static final int BUFFER_SIZE = 4000;
 
+	/**
+     * Locate note.
+     *
+     * @param session
+     *            the session
+     * @param id
+     *            the id
+     * @return the note
+     */
 	protected Note locateNote(final Session session, final int id) {
 		Note result = null;
 
@@ -49,6 +65,9 @@ public class DownloadAttachmentAction extends AbstractAction {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -84,6 +103,18 @@ public class DownloadAttachmentAction extends AbstractAction {
 		return null;
 	}
 
+	/**
+     * Write attachment.
+     *
+     * @param currentNote
+     *            the current note
+     * @param stream
+     *            the stream
+     * @throws SQLException
+     *             the SQL exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	private void writeAttachment(final Note currentNote,
 			final ServletOutputStream stream) throws SQLException, IOException {
 		final InputStream attachmentStream = currentNote.getFile().getData()

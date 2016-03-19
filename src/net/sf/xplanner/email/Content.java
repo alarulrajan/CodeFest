@@ -4,8 +4,8 @@
 package net.sf.xplanner.email;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym.Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -19,7 +19,6 @@ package net.sf.xplanner.email;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public @interface Content {
 

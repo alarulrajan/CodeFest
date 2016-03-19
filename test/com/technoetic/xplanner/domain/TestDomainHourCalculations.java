@@ -7,10 +7,24 @@ import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.TimeEntry;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestDomainHourCalculations.
+ */
 public class TestDomainHourCalculations extends TestCase {
+   
+   /** The Constant HOURS. */
    public static final int HOURS = 60*60*1000;
+   
+   /** The Constant PRECISION. */
    public static final double PRECISION = 0.001;
 
+   /** Adds the time entry to task.
+     *
+     * @param task
+     *            the task
+     * @param workedHours
+     *            the worked hours
+     */
    private void addTimeEntryToTask(Task task, int workedHours) {
       long now = new Date().getTime();
       TimeEntry t = new TimeEntry();
@@ -19,6 +33,11 @@ public class TestDomainHourCalculations extends TestCase {
       task.getTimeEntries().add(t);
    }
 
+   /** Test.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void test() throws Exception {
       UserStory story1 = new UserStory();
       story1.setEstimatedHoursField(10);
@@ -42,6 +61,12 @@ public class TestDomainHourCalculations extends TestCase {
 
    }
 
+   /** Adds the new task to story.
+     *
+     * @param story1
+     *            the story1
+     * @return the task
+     */
    private Task addNewTaskToStory(UserStory story1) {
       Task task1_1 = new Task();
       story1.getTasks().add(task1_1);
@@ -49,6 +74,25 @@ public class TestDomainHourCalculations extends TestCase {
       return task1_1;
    }
 
+   /** Assert story statistics equal.
+     *
+     * @param story
+     *            the story
+     * @param storyEstimate
+     *            the story estimate
+     * @param original
+     *            the original
+     * @param current
+     *            the current
+     * @param actual
+     *            the actual
+     * @param remaining
+     *            the remaining
+     * @param postponed
+     *            the postponed
+     * @param added
+     *            the added
+     */
    private void assertStoryStatisticsEqual(UserStory story,
                                            double storyEstimate,
                                            double original,

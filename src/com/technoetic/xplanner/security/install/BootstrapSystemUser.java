@@ -19,17 +19,39 @@ import com.tacitknowledge.util.migration.MigrationException;
 import com.technoetic.xplanner.db.hibernate.GlobalSessionFactory;
 import com.technoetic.xplanner.db.hsqldb.HsqlServer;
 
+/**
+ * The Class BootstrapSystemUser.
+ */
 public class BootstrapSystemUser {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The Constant SYSADMIN_USER_ID. */
 	protected static final String SYSADMIN_USER_ID = "sysadmin";
+	
+	/** The Constant PATCH_LEVEL. */
 	protected static final int PATCH_LEVEL = 2;
+	
+	/** The Constant PATCH_NAME. */
 	protected static final String PATCH_NAME = "XPlanner bootstrap";
 
+	/**
+     * Instantiates a new bootstrap system user.
+     */
 	public BootstrapSystemUser() {
 		// setLevel(new Integer(PATCH_LEVEL));
 		// setName(PATCH_NAME);
 	}
 
+	/**
+     * Run.
+     *
+     * @param sysadminId
+     *            the sysadmin id
+     * @throws Exception
+     *             the exception
+     */
 	public void run(final String sysadminId) throws Exception {
 		try {
 			// HibernateHelper.initializeHibernate();
@@ -81,6 +103,17 @@ public class BootstrapSystemUser {
 		}
 	}
 
+	/**
+     * Creates the sys admin.
+     *
+     * @param sysadminId
+     *            the sysadmin id
+     * @param session
+     *            the session
+     * @return the person
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private Person createSysAdmin(final String sysadminId, final Session session)
 			throws HibernateException {
 		Person sysadmin;
@@ -96,11 +129,39 @@ public class BootstrapSystemUser {
 		return sysadmin;
 	}
 
+	/**
+     * Adds the role association.
+     *
+     * @param session
+     *            the session
+     * @param roleId
+     *            the role id
+     * @param personId
+     *            the person id
+     * @param projectId
+     *            the project id
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void addRoleAssociation(final Session session, final int roleId,
 			final int personId, final int projectId) throws HibernateException {
 		session.save(new PersonRole(projectId, personId, roleId));
 	}
 
+	/**
+     * Creates the permission.
+     *
+     * @param session
+     *            the session
+     * @param sysadminRole
+     *            the sysadmin role
+     * @param resourceType
+     *            the resource type
+     * @param permissionName
+     *            the permission name
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void createPermission(final Session session,
 			final Role sysadminRole, final String resourceType,
 			final String permissionName) throws HibernateException {
@@ -109,6 +170,20 @@ public class BootstrapSystemUser {
 		session.save(permission);
 	}
 
+	/**
+     * Creates the negative permission.
+     *
+     * @param session
+     *            the session
+     * @param sysadminRole
+     *            the sysadmin role
+     * @param resourceType
+     *            the resource type
+     * @param permissionName
+     *            the permission name
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private void createNegativePermission(final Session session,
 			final Role sysadminRole, final String resourceType,
 			final String permissionName) throws HibernateException {
@@ -118,6 +193,21 @@ public class BootstrapSystemUser {
 		session.save(permission);
 	}
 
+	/**
+     * Initialize role.
+     *
+     * @param session
+     *            the session
+     * @param roleName
+     *            the role name
+     * @param left
+     *            the left
+     * @param right
+     *            the right
+     * @return the role
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private Role initializeRole(final Session session, final String roleName,
 			final int left, final int right) throws HibernateException {
 		final List roles = session.find(
@@ -136,6 +226,14 @@ public class BootstrapSystemUser {
 		return role;
 	}
 
+	/**
+     * Migrate.
+     *
+     * @param context
+     *            the context
+     * @throws MigrationException
+     *             the migration exception
+     */
 	public void migrate(final MigrationContext context)
 			throws MigrationException {
 		try {
@@ -147,6 +245,12 @@ public class BootstrapSystemUser {
 		}
 	}
 
+	/**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
 	public static void main(final String[] args) {
 		String sysadminId = BootstrapSystemUser.SYSADMIN_USER_ID;
 		if (args.length == 1) {

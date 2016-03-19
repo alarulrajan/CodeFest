@@ -31,13 +31,29 @@ import com.technoetic.xplanner.forms.IterationStatusEditorForm;
 import com.technoetic.xplanner.forms.TimeEditorForm;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class UpdateTimeAction.
+ */
 public class UpdateTimeAction extends AbstractAction<TimeEntry> {
+	
+	/** The Constant log. */
 	private static final Logger log = Logger.getLogger("UpdateTimeAction");
+	
+	/** The Constant UPDATE_TIME_ACTION. */
 	public static final String UPDATE_TIME_ACTION = "UPDATE_TIME";
+	
+	/** The Constant UPDATE_ESTIMATE_ACTION. */
 	public static final String UPDATE_ESTIMATE_ACTION = "UPDATE_ESTIMATE";
+	
+	/** The Constant SAVED_FORM_KEY. */
 	private static final String SAVED_FORM_KEY = "UpdateTimeAction.savedForm";
+	
+	/** The task dao. */
 	private TaskDao taskDao;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -76,6 +92,15 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		}
 	}
 
+	/**
+     * Load form from session if exists or from request.
+     *
+     * @param actionForm
+     *            the action form
+     * @param request
+     *            the request
+     * @return the time editor form
+     */
 	private TimeEditorForm loadFormFromSessionIfExistsOrFromRequest(
 			final ActionForm actionForm, final HttpServletRequest request) {
 		TimeEditorForm form = (TimeEditorForm) actionForm;
@@ -87,22 +112,58 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		return form;
 	}
 
+	/**
+     * Save form in session.
+     *
+     * @param request
+     *            the request
+     * @param form
+     *            the form
+     */
 	private void saveFormInSession(final HttpServletRequest request,
 			final TimeEditorForm form) {
 		request.getSession(true).setAttribute(UpdateTimeAction.SAVED_FORM_KEY,
 				form);
 	}
 
+	/**
+     * Delete form from session.
+     *
+     * @param request
+     *            the request
+     */
 	private void deleteFormFromSession(final HttpServletRequest request) {
 		request.getSession(true).removeAttribute(
 				UpdateTimeAction.SAVED_FORM_KEY);
 	}
 
+	/**
+     * Load form from session.
+     *
+     * @param request
+     *            the request
+     * @return the time editor form
+     */
 	private TimeEditorForm loadFormFromSession(final HttpServletRequest request) {
 		return (TimeEditorForm) request.getSession(true).getAttribute(
 				UpdateTimeAction.SAVED_FORM_KEY);
 	}
 
+	/**
+     * Do action.
+     *
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @param actionMapping
+     *            the action mapping
+     * @param task
+     *            the task
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward doAction(final TimeEditorForm form,
 			final HttpServletRequest request,
 			final ActionMapping actionMapping, final Task task)
@@ -118,6 +179,21 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		}
 	}
 
+	/**
+     * Do update time action.
+     *
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @param actionMapping
+     *            the action mapping
+     * @param task
+     *            the task
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward doUpdateTimeAction(final TimeEditorForm form,
 			final HttpServletRequest request,
 			final ActionMapping actionMapping, final Task task)
@@ -224,6 +300,26 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		}
 	}
 
+	/**
+     * Edits the entry.
+     *
+     * @param entry
+     *            the entry
+     * @param startTime
+     *            the start time
+     * @param endTime
+     *            the end time
+     * @param duration
+     *            the duration
+     * @param person1Id
+     *            the person1 id
+     * @param person2Id
+     *            the person2 id
+     * @param reportDate
+     *            the report date
+     * @param description
+     *            the description
+     */
 	private void editEntry(final TimeEntry entry, final Date startTime,
 			final Date endTime, final double duration, final int person1Id,
 			final int person2Id, final Date reportDate, final String description) {
@@ -236,6 +332,19 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		entry.setDescription(description);
 	}
 
+	/**
+     * Checks if is iteration started.
+     *
+     * @param request
+     *            the request
+     * @param task
+     *            the task
+     * @return true, if is iteration started
+     * @throws RepositoryException
+     *             the repository exception
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private boolean isIterationStarted(final HttpServletRequest request,
 			final Task task) throws RepositoryException, HibernateException {// Autostart
 																				// iteration
@@ -250,6 +359,21 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		return true;
 	}
 
+	/**
+     * Do update estimate action.
+     *
+     * @param task
+     *            the task
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @param actionMapping
+     *            the action mapping
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward doUpdateEstimateAction(final Task task,
 			final TimeEditorForm form, final HttpServletRequest request,
 			final ActionMapping actionMapping) throws Exception {
@@ -277,10 +401,29 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		}
 	}
 
+	/**
+     * Checks if is present.
+     *
+     * @param value
+     *            the value
+     * @return true, if is present
+     */
 	private boolean isPresent(final String value) {
 		return value != null && !value.equals("") && !value.equals("null");
 	}
 
+	/**
+     * Populate form.
+     *
+     * @param task
+     *            the task
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @throws Exception
+     *             the exception
+     */
 	private void populateForm(final Task task, final TimeEditorForm form,
 			final HttpServletRequest request) throws Exception {
 		final SimpleDateFormat dateTimeFormat = this.getDateTimeFormat(request);
@@ -342,6 +485,15 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		form.setRowcount(i);
 	}
 
+	/**
+     * Gets the entry.
+     *
+     * @param entries
+     *            the entries
+     * @param entryId
+     *            the entry id
+     * @return the entry
+     */
 	private TimeEntry getEntry(final List<TimeEntry> entries, final int entryId) {
 		for (int i = 0; i < entries.size(); i++) {
 			if (entries.get(i).getId() == entryId) {
@@ -351,6 +503,13 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 		return null;
 	}
 
+	/**
+     * Gets the date time format.
+     *
+     * @param request
+     *            the request
+     * @return the date time format
+     */
 	private SimpleDateFormat getDateTimeFormat(final HttpServletRequest request) {
 		final HttpSession session = request.getSession();
 		Locale locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
@@ -361,6 +520,13 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 				locale, "format.datetime"));
 	}
 
+	/**
+     * Gets the date format.
+     *
+     * @param request
+     *            the request
+     * @return the date format
+     */
 	private SimpleDateFormat getDateFormat(final HttpServletRequest request) {
 		final HttpSession session = request.getSession();
 		Locale locale = (Locale) session.getAttribute(Globals.LOCALE_KEY);
@@ -371,10 +537,23 @@ public class UpdateTimeAction extends AbstractAction<TimeEntry> {
 				locale, "format.date"));
 	}
 
+	/**
+     * Checks if is from update time.
+     *
+     * @param request
+     *            the request
+     * @return true, if is from update time
+     */
 	public static boolean isFromUpdateTime(final HttpServletRequest request) {
 		return request.getAttribute("from_edit/time") != null;
 	}
 
+	/**
+     * Sets the task dao.
+     *
+     * @param taskDao
+     *            the new task dao
+     */
 	public void setTaskDao(final TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}

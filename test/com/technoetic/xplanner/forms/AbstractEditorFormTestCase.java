@@ -25,13 +25,29 @@ import org.apache.struts.action.ActionErrors;
 
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class AbstractEditorFormTestCase.
+ */
 public class AbstractEditorFormTestCase extends TestCase {
+   
+   /** The support. */
    protected XPlannerTestSupport support;
+   
+   /** The form. */
    protected AbstractEditorForm form;
+   
+   /** The Constant LOCALE. */
    public static final Locale LOCALE = new Locale("da", "nl");
+   
+   /** The Constant DATE_TIME_FORMAT. */
    public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   
+   /** The Constant DATE_FORMAT. */
    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       support = new XPlannerTestSupport();
@@ -41,14 +57,35 @@ public class AbstractEditorFormTestCase extends TestCase {
       form.setServlet(support.actionServlet);
    }
 
+   /** Assert one error.
+     *
+     * @param expectedErrorKey
+     *            the expected error key
+     * @param errors
+     *            the errors
+     */
    public void assertOneError(String expectedErrorKey, ActionErrors errors) {
       assertErrorsEqual(new String[] {expectedErrorKey}, errors);
    }
 
+   /** Assert errors equal.
+     *
+     * @param expectedErrorKeys
+     *            the expected error keys
+     * @param errors
+     *            the errors
+     */
    public void assertErrorsEqual(String[] expectedErrorKeys, ActionErrors errors) {
       assertCollectionsEqual(Arrays.asList(expectedErrorKeys), toKeysList(errors));
    }
 
+   /** Assert collections equal.
+     *
+     * @param expectedList
+     *            the expected list
+     * @param actualList
+     *            the actual list
+     */
    private void assertCollectionsEqual(List expectedList, List actualList) {
       List surplusItems = new ArrayList();
       List missingItems = new ArrayList();
@@ -71,6 +108,17 @@ public class AbstractEditorFormTestCase extends TestCase {
       }
    }
 
+   /** Compare lists.
+     *
+     * @param expectedList
+     *            the expected list
+     * @param actualList
+     *            the actual list
+     * @param missingItems
+     *            the missing items
+     * @param matchingItems
+     *            the matching items
+     */
    private void compareLists(List expectedList, List actualList, List missingItems, List matchingItems) {
       List actuals = new ArrayList(actualList);
       for (Iterator expectedIterator = expectedList.iterator();expectedIterator.hasNext();) {
@@ -88,6 +136,12 @@ public class AbstractEditorFormTestCase extends TestCase {
       }
    }
 
+   /** To keys list.
+     *
+     * @param errors
+     *            the errors
+     * @return the list
+     */
    private List toKeysList(ActionErrors errors) {
       List actualList = new ArrayList();
       Iterator iterator = errors.get();
@@ -98,6 +152,14 @@ public class AbstractEditorFormTestCase extends TestCase {
       return actualList;
    }
 
+   /** Dump collection.
+     *
+     * @param message
+     *            the message
+     * @param items
+     *            the items
+     * @return the string
+     */
    private String dumpCollection(String message, Collection items) {
       String msg = items.size() + " " +message;
       Iterator iterator = items.iterator();

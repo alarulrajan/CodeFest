@@ -12,8 +12,14 @@ import net.sf.xplanner.domain.Person;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.tags.db.DatabaseTagSupport;
 
+/**
+ * The Class AuthenticatedUserTag.
+ */
 public class AuthenticatedUserTag extends DatabaseTagSupport {
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.tags.RequestContextAwareTag#doStartTagInternal()
+	 */
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		if (SecurityHelper
@@ -39,6 +45,9 @@ public class AuthenticatedUserTag extends DatabaseTagSupport {
 		return Tag.SKIP_BODY;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.tags.RequestContextAwareTag#doCatch(java.lang.Throwable)
+	 */
 	@Override
 	public void doCatch(final Throwable throwable) throws Throwable {
 		this.pageContext.getServletContext().log(
@@ -46,6 +55,9 @@ public class AuthenticatedUserTag extends DatabaseTagSupport {
 		throw new JspException(throwable.getMessage());
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#release()
+	 */
 	@Override
 	public void release() {
 		super.release();

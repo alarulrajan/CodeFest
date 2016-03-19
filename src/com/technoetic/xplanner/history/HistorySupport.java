@@ -17,12 +17,39 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import com.technoetic.xplanner.domain.DomainMetaDataRepository;
 import com.technoetic.xplanner.domain.Identifiable;
 
+/**
+ * The Class HistorySupport.
+ */
 public class HistorySupport {
+	
+	/** The log. */
 	private static Logger log = Logger.getLogger(HistorySupport.class);
+	
+	/** The fifteen minutes. */
 	private static long FIFTEEN_MINUTES = 3600000 * 15;
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
 	// DEBT should be spring loaded (metadatarepository should be passed in and
+	/**
+     * Save event.
+     *
+     * @param objectClass
+     *            the object class
+     * @param containerOid
+     *            the container oid
+     * @param oid
+     *            the oid
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @param personId
+     *            the person id
+     * @param when
+     *            the when
+     */
 	// we should not have private methods
 	private void saveEvent(final Class objectClass, final int containerOid,
 			final int oid, final String action, final String description,
@@ -49,6 +76,17 @@ public class HistorySupport {
 		}
 	}
 
+	/**
+     * Checks if is event throttled.
+     *
+     * @param session
+     *            the session
+     * @param event
+     *            the event
+     * @return true, if is event throttled
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private boolean isEventThrottled(final Session session, final History event)
 			throws HibernateException {
 		if (event.getAction().equals(History.UPDATED)) {
@@ -68,6 +106,20 @@ public class HistorySupport {
 		}
 	}
 
+	/**
+     * Save event.
+     *
+     * @param object
+     *            the object
+     * @param action
+     *            the action
+     * @param description
+     *            the description
+     * @param personId
+     *            the person id
+     * @param when
+     *            the when
+     */
 	public void saveEvent(final Identifiable object, final String action,
 			final String description, final int personId, final Date when) {
 		try {
@@ -81,8 +133,17 @@ public class HistorySupport {
 		}
 	}
 
+	/**
+     * Gets the events.
+     *
+     * @param oid
+     *            the oid
+     * @return the events
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public List getEvents(final int oid) throws HibernateException {
-		// TODO externalize these queries into mapping file
+		// ChangeSoon externalize these queries into mapping file
 		final Query query = this
 				.getSession()
 				.createQuery(
@@ -93,6 +154,15 @@ public class HistorySupport {
 		return query.list();
 	}
 
+	/**
+     * Gets the container events.
+     *
+     * @param oid
+     *            the oid
+     * @return the container events
+     * @throws Exception
+     *             the exception
+     */
 	public List getContainerEvents(final int oid) throws Exception {
 		final Query query = this.getSession().createQuery(
 				"from event in " + History.class
@@ -104,6 +174,15 @@ public class HistorySupport {
 		return query.list();
 	}
 
+	/**
+     * Gets the historical object.
+     *
+     * @param event
+     *            the event
+     * @return the historical object
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public Object getHistoricalObject(final History event)
 			throws HibernateException {
 		if (event.getAction().equals(History.DELETED)) {
@@ -113,10 +192,21 @@ public class HistorySupport {
 				event.getObjectType(), event.getTargetId());
 	}
 
+	/**
+     * Sets the session factory.
+     *
+     * @param sessionFactory
+     *            the new session factory
+     */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     */
 	protected final Session getSession() {
 		return SessionFactoryUtils.getSession(this.sessionFactory,
 				Boolean.FALSE);

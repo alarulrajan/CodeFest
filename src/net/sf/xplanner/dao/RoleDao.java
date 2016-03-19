@@ -8,8 +8,8 @@ import java.util.List;
 import net.sf.xplanner.domain.Role;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -23,10 +23,20 @@ import net.sf.xplanner.domain.Role;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public interface RoleDao extends Dao<Role> {
 
+	/**
+     * Gets the roles.
+     *
+     * @param personId
+     *            the person id
+     * @param projectId
+     *            the project id
+     * @param includeWildcardProject
+     *            the include wildcard project
+     * @return the roles
+     */
 	public List<Role> getRoles(int personId, int projectId,
 			boolean includeWildcardProject);
 

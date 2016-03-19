@@ -3,9 +3,17 @@ package com.technoetic.xplanner.acceptance.web;
 import net.sf.xplanner.domain.Person;
 import net.sf.xplanner.domain.Project;
 
+/**
+ * The Class PersonPageTestScript.
+ */
 public class PersonPageTestScript extends AbstractPageTestScript {
+   
+   /** The project. */
    private Project project;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
 //      newProject(); // Need at least one project in order to get the edit person link to show up.
@@ -22,39 +30,72 @@ public class PersonPageTestScript extends AbstractPageTestScript {
       tester.clickLinkWithText(guestName);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    protected void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /** Test person page.
+     */
    public void testPersonPage() {
       // Just check that the page shows up
       tester.assertTextNotPresent("error");
    }
 
+   /** Test report export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testReportExport() throws Exception {
       checkExportUri("person", "jrpdf");
    }
 
+   /** Test edit link.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testEditLink() throws Exception {
       tester.assertLinkPresentWithKey("action.edit.person");
       tester.clickLinkWithKey("action.edit.person");
    }
 
+   /** Test people link.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPeopleLink() throws Exception {
       tester.assertLinkPresentWithKey("projects.link.people");
       tester.clickLinkWithKey("projects.link.people");
    }
 
+   /** Test timesheet link.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTimesheetLink() throws Exception {
       tester.assertLinkPresentWithKey("person.link.timesheet");
       tester.clickLinkWithKey("person.link.timesheet");
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+    */
    protected void traverseLinkWithKeyAndReturn(String key) throws Exception {
       tester.clickLinkWithKey(key);
       tester.gotoProjectsPage();
    }
 
+   /** Test edit my profile.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testEditMyProfile() throws Exception {
       tester.clickLinkWithKey("logout");
       tester.login(guestUserId, "test");
@@ -65,6 +106,11 @@ public class PersonPageTestScript extends AbstractPageTestScript {
       tester.assertKeyNotPresent("security.notauthorized");
    }
 
+   /** Test project roles.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testProjectRoles() throws Exception {
       tester.gotoProjectsPage();
       setUpTestProject();
@@ -76,12 +122,22 @@ public class PersonPageTestScript extends AbstractPageTestScript {
       tester.assertFormElementNotPresentWithLabel("Editor");
    }
 
+   /** Test only sys admin can add user.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOnlySysAdminCanAddUser() throws Exception {
       assertUserOfRoleCannotAddUser("admin");
       assertUserOfRoleCannotAddUser("editor");
       assertUserOfRoleCannotAddUser("viewer");
    }
 
+   /** Test required fields.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRequiredFields() throws Exception {
       tester.clickLinkWithKey("action.edit.person");
       tester.setFormElement("userIdentifier", "");
@@ -95,6 +151,13 @@ public class PersonPageTestScript extends AbstractPageTestScript {
       tester.assertKeyPresent("person.editor.missing_email");
    }
 
+   /** Assert user of role cannot add user.
+     *
+     * @param roleName
+     *            the role name
+     * @throws Exception
+     *             the exception
+     */
    private void assertUserOfRoleCannotAddUser(String roleName) throws Exception {
       project = setUpProject(NOT_HIDDEN);
       Person person = newPerson();

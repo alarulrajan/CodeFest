@@ -9,13 +9,24 @@ import junitx.framework.ArrayAssert;
 import com.technoetic.mocks.hibernate.MockQuery;
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestIterationOptionsTag.
+ */
 public class TestIterationOptionsTag extends AbstractOptionsTagTestCase {
 
+  /* (non-Javadoc)
+   * @see com.technoetic.xplanner.tags.AbstractOptionsTagTestCase#setUp()
+   */
   protected void setUp() throws Exception {
       tag = new IterationOptionsTag();
       super.setUp();
   }
 
+    /** Test get options simple case.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetOptionsSimpleCase() throws Exception {
         setUpMockQuery();
 
@@ -32,6 +43,11 @@ public class TestIterationOptionsTag extends AbstractOptionsTagTestCase {
         ArrayAssert.assertEquals("options",expectedOptions,actualIterations.toArray());
     }
 
+    /** Test get options for only current project.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetOptionsForOnlyCurrentProject() throws Exception {
         setUpMockQueryForTwoProjects();
         authorizer.givePermission(XPlannerTestSupport.DEFAULT_PERSON_ID, ITERATION_0_1, "edit");
@@ -54,6 +70,8 @@ public class TestIterationOptionsTag extends AbstractOptionsTagTestCase {
         ArrayAssert.assertEquals("options",expectedOptions,actualIterations.toArray());
     }
 
+    /** Sets the up mock query for two projects.
+     */
     private void setUpMockQueryForTwoProjects()
     {
         List results = new ArrayList(4);
@@ -64,6 +82,8 @@ public class TestIterationOptionsTag extends AbstractOptionsTagTestCase {
         setUpQuery(results);
     }
 
+    /** Sets the up mock query.
+     */
     private void setUpMockQuery() {
         List results = new ArrayList(2);
         results.add(ITERATION_0_1);
@@ -71,6 +91,12 @@ public class TestIterationOptionsTag extends AbstractOptionsTagTestCase {
         setUpQuery(results);
     }
 
+  /**
+     * Sets the up query.
+     *
+     * @param results
+     *            the new up query
+     */
   private void setUpQuery(List results) {
     MockQuery query = new MockQuery();
     support.hibernateSession.getNamedQueryReturn = query;

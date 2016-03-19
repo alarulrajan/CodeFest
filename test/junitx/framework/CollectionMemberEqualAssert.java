@@ -13,13 +13,26 @@ package junitx.framework;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * The Class CollectionMemberEqualAssert.
+ */
 public class CollectionMemberEqualAssert extends ValueMemberEqualAssert {
+   
+   /** The equal assert. */
    private EqualAssert equalAssert;
 
+   /** Instantiates a new collection member equal assert.
+     *
+     * @param equalAssert
+     *            the equal assert
+     */
    public CollectionMemberEqualAssert(EqualAssert equalAssert) {
       this.equalAssert = equalAssert;
    }
 
+   /* (non-Javadoc)
+    * @see junitx.framework.ValueMemberEqualAssert#assertValueEquals(java.lang.String, java.lang.Object, java.lang.Object)
+    */
    @Override
    public boolean assertValueEquals(String propertyName, Object expectedValue, Object actualValue) {
        if (expectedValue != null && Collection.class.isAssignableFrom(expectedValue.getClass())) {

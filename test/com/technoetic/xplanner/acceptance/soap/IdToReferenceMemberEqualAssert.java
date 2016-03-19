@@ -8,7 +8,14 @@ import junitx.framework.MemberEqualAssert;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+/**
+ * The Class IdToReferenceMemberEqualAssert.
+ */
 public class IdToReferenceMemberEqualAssert implements MemberEqualAssert {
+    
+    /* (non-Javadoc)
+     * @see junitx.framework.MemberEqualAssert#assertEquals(java.lang.String, java.lang.Object, java.lang.Object, junitx.framework.MemberAccessStrategy)
+     */
     public boolean assertEquals(String propertyName,
                                 Object expectedObject,
                                 Object actualObject,
@@ -29,6 +36,22 @@ public class IdToReferenceMemberEqualAssert implements MemberEqualAssert {
         return true;
     }
 
+    /** Gets the property.
+     *
+     * @param object
+     *            the object
+     * @param directIdPropertyName
+     *            the direct id property name
+     * @param nestedIdPropertyName
+     *            the nested id property name
+     * @return the property
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     */
     private Property getProperty(Object object, String directIdPropertyName, String nestedIdPropertyName)
         throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         try {
@@ -38,10 +61,23 @@ public class IdToReferenceMemberEqualAssert implements MemberEqualAssert {
         }
     }
 
+    /** The Class Property.
+     */
     class Property {
+        
+        /** The name. */
         public String name;
+        
+        /** The value. */
         public Object value;
 
+        /** Instantiates a new property.
+         *
+         * @param name
+         *            the name
+         * @param value
+         *            the value
+         */
         public Property(String name, Object value) {
             this.name = name;
             this.value = value;

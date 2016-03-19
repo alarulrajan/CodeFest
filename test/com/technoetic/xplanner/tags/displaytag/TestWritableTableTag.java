@@ -22,17 +22,28 @@ import com.technoetic.xplanner.security.auth.Authorizer;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Feb 14, 2005
- * Time: 2:22:17 PM
+ * User: Mateusz Prokopowicz Date: Feb 14, 2005 Time: 2:22:17 PM.
  */
 public class TestWritableTableTag extends TestCase {
+    
+    /** The writable table tag. */
     WritableTableTag writableTableTag;
+    
+    /** The support. */
     protected XPlannerTestSupport support;
+    
+    /** The authorizer control. */
     MockControl authorizerControl;
+    
+    /** The authorizer. */
     Authorizer authorizer;
+    
+    /** The project. */
     Project project;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     public void setUp() throws Exception {
         super.setUp();
         writableTableTag = new WritableTableTag();
@@ -53,12 +64,22 @@ public class TestWritableTableTag extends TestCase {
         SystemAuthorizer.set(authorizer);
     }
 
+    /** Test is writable_empty permission list.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsWritable_emptyPermissionList() throws Exception {
         writableTableTag.setPermissions(null);
         boolean isWritable = writableTableTag.isWritable();
         assertEquals("table should be writable", true, isWritable);
     }
 
+    /** Test is writable.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsWritable() throws Exception {
         authorizerControl.expectAndReturn(authorizer.hasPermission(0, 0, project, "edit"), true);
         writableTableTag.setPermissions("edit,delete");
@@ -68,6 +89,11 @@ public class TestWritableTableTag extends TestCase {
         authorizerControl.verify();
     }
 
+    /** Test is not writable.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsNotWritable() throws Exception {
         authorizerControl.expectAndReturn(authorizer.hasPermission(0, 0, project, "edit"), false);
         authorizerControl.expectAndReturn(authorizer.hasPermission(0, 0, project, "delete"), false);

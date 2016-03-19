@@ -27,21 +27,48 @@ import com.technoetic.xplanner.soap.domain.TaskData;
 import com.technoetic.xplanner.soap.domain.TimeEntryData;
 import com.technoetic.xplanner.soap.domain.UserStoryData;
 
-//TODO: Add test for the getXXXs() methods
+//ChangeSoon: Add test for the getXXXs() methods
 
+/**
+ * The Class AbstractSoapTestCase.
+ */
 public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
+    
+    /** The Constant MS_IN_DAY. */
     private static final long MS_IN_DAY = 3600000 * 24;
+    
+    /** The xplanner. */
     protected XPlanner xplanner;
+    
+    /** The an assert. */
     private final SoapAdapterEqualAssert anAssert = new SoapAdapterEqualAssert();
+    
+    /** The user id. */
     private String userId;
+    
+    /** The password. */
     private String password;
 
+    /** Instantiates a new abstract soap test case.
+     *
+     * @param s
+     *            the s
+     */
     public AbstractSoapTestCase(String s) {
         super(s);
     }
 
+    /** Creates the x planner.
+     *
+     * @return the x planner
+     * @throws Exception
+     *             the exception
+     */
     public abstract XPlanner createXPlanner() throws Exception;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     @Override
 	public void setUp() throws Exception {
         super.setUp();
@@ -49,12 +76,20 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         commitCloseAndOpenSession();
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#tearDown()
+     */
     @Override
 	public void tearDown() throws Exception {
         super.tearDown();
     }
 
 
+    /** Test project crud.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProjectCRUD() throws Exception {
         ProjectData expected = new ProjectData();
         expected.setName("Test project");
@@ -82,6 +117,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         }
     }
 
+    /** Test project not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProjectNotFound() throws Exception {
         try {
             xplanner.removeProject(Integer.MAX_VALUE);
@@ -92,6 +132,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         fail("did not throw a ObjectNotFoundException");
     }
 
+   /** Test get current iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetCurrentIteration() throws Exception {
         Project project = newProject();
         Iteration iteration = newIteration(project);
@@ -104,6 +149,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         assertEquals("wrong iteration", iteration.getId(), data.getId());
     }
 
+   /** Test viewer access to project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testViewerAccessToProject() throws Exception {
        Project project = newProject();
        Person viewer = newPerson("soapviewer");
@@ -122,11 +172,17 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
    }
 
 
+    /** The Constant ITERATION_PROPERTIES. */
     final static private String[] ITERATION_PROPERTIES = {
         "id", "name", "statusKey", "description", "projectId",
         "estimatedHours", "startDate", "endDate", "actualHours", "adjustedEstimatedHours", "remainingHours"};
 
-    //TODO: test createiteration with some story so we can test all readonly prop of iteration
+    /** Test iteration crud.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    //ChangeSoon: test createiteration with some story so we can test all readonly prop of iteration
     public void testIterationCRUD() throws Exception {
         Project project = newProject();
         commitAndCloseSession();
@@ -194,11 +250,37 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         }
     }
 
+    /** New calendar.
+     *
+     * @param year
+     *            the year
+     * @param month
+     *            the month
+     * @param day
+     *            the day
+     * @return the calendar
+     */
     private Calendar newCalendar(int year, int month, int day) {
         Calendar start = newCalendar(year, month, day, 0, 0, 0);
         return start;
     }
 
+    /** New calendar.
+     *
+     * @param year
+     *            the year
+     * @param month
+     *            the month
+     * @param day
+     *            the day
+     * @param hr
+     *            the hr
+     * @param min
+     *            the min
+     * @param sec
+     *            the sec
+     * @return the calendar
+     */
     private Calendar newCalendar(int year, int month, int day, int hr, int min, int sec) {
         Calendar start = Calendar.getInstance();
         start.set(year, month, day, hr, min, sec);
@@ -206,6 +288,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         return start;
     }
 
+    /** Test iteration not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIterationNotFound() throws Exception {
         try {
             xplanner.removeIteration(Integer.MAX_VALUE);
@@ -216,9 +303,15 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         fail("did not throw a ObjectNotFoundException");
     }
 
+    /** The Constant STORY_PROPERTIES. */
     final public static String[] STORY_PROPERTIES = {
           "id", "iterationId", "name", "dispositionName", "description", "customerId", "trackerId", UserStory.ESTIMATED_HOURS, "priority", "actualHours"};
 
+    /** Test story crud.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testStoryCRUD() throws Exception {
         Project project = newProject();
         Iteration iteration = newIteration(project);
@@ -296,6 +389,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         }
     }
 
+    /** Test remove user story not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testRemoveUserStoryNotFound() throws Exception {
         try {
             xplanner.removeUserStory(Integer.MAX_VALUE);
@@ -306,12 +404,18 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         fail("did not throw a ObjectNotFoundException");
     }
 
+    /** The Constant TASK_PROPERTIES. */
     public final static String[] TASK_PROPERTIES = {
         "acceptorId", "actualHours", "adjustedEstimatedHours", "completed",
         "createdDate", "description", "dispositionName", "estimatedHours", "id",
         "name", "estimatedOriginalHours", "remainingHours",
         "storyId", "type"};
 
+    /** Test task crud.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testTaskCRUD() throws Exception {
         Project project = newProject();
         Iteration iteration = newIteration(project);
@@ -381,6 +485,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
 //        }
     }
 
+    /** Test task not found.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testTaskNotFound() throws Exception {
         try {
             xplanner.removeTask(Integer.MAX_VALUE);
@@ -392,6 +501,7 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
     }
 
 
+    /** The Constant FEATURE_PROPERTIES. */
     public final static String[] FEATURE_PROPERTIES = {"id","name", "description", "storyId"};
 //FEATURE:
 //    public void testFeatureCRUD() throws Exception {
@@ -439,10 +549,16 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
 //        fail("did not throw a ObjectNotFoundException");
 //    }
 
-    public static final String[] TIME_ENTRY_PROPERTIES = {
+    /** The Constant TIME_ENTRY_PROPERTIES. */
+public static final String[] TIME_ENTRY_PROPERTIES = {
         "id", "taskId", "startTime", "endTime", "person1Id", "person2Id", "description"
     };
 
+    /** Test time entry crud.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testTimeEntryCRUD() throws Exception {
        Project project = newProject();
        Iteration iteration = newIteration(project);
@@ -483,7 +599,7 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
        assertEquals(expected, actual, TIME_ENTRY_PROPERTIES);
 
        // test update removing persons.
-       // TODO should not be possible to remove both persons ;-)
+       // ChangeSoon should not be possible to remove both persons ;-)
        expected.setPerson1Id(0);
        expected.setPerson2Id(0);
        xplanner.update(expected);
@@ -503,6 +619,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
     }
 
 
+    /** Test person task queries.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPersonTaskQueries() throws Exception {
         Person person = newPerson();
         // Only checking that errors don't occur
@@ -510,10 +631,20 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
         /*TaskData[] currentTasks =*/ xplanner.getCurrentTasksForPerson(person.getId());
     }
 
+   /** Test notes.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testNotes() throws Exception {
        doGetNotesTest();
    }
 
+   /** Test attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAttributes() throws Exception {
        Project project = newProject();
        commitCloseAndOpenSession();
@@ -557,6 +688,11 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
    }
 
 
+    /** Do get notes test.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void doGetNotesTest() throws Exception {
         List expectedNotes = getSession().find("from note in class " + Note.class.getName() + " where id < 1000");
         List soapNotes = new ArrayList();
@@ -569,27 +705,65 @@ public abstract class AbstractSoapTestCase extends AbstractDatabaseTestScript {
             "attachedToId", "authorId", "body", "subject", "submissionTime"});
     }
 
+    /** Assert equal collections.
+     *
+     * @param expectedObjects
+     *            the expected objects
+     * @param actualObjects
+     *            the actual objects
+     * @param properties
+     *            the properties
+     * @throws Exception
+     *             the exception
+     */
     private void assertEqualCollections(List expectedObjects, List actualObjects, String[] properties)
             throws Exception {
         anAssert.assertEquals(expectedObjects, actualObjects, properties);
     }
 
+    /** Assert equals.
+     *
+     * @param expectedObject
+     *            the expected object
+     * @param actualObject
+     *            the actual object
+     * @param properties
+     *            the properties
+     */
     private void assertEquals(Object expectedObject, Object actualObject, String[] properties) {
         anAssert.assertEquals(expectedObject, actualObject, properties);
     }
 
+    /** Gets the user id.
+     *
+     * @return the user id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /** Sets the user id.
+     *
+     * @param userId
+     *            the new user id
+     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
+    /** Gets the password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /** Sets the password.
+     *
+     * @param password
+     *            the new password
+     */
     public void setPassword(String password) {
         this.password = password;
     }

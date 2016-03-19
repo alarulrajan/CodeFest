@@ -20,17 +20,38 @@ import com.technoetic.xplanner.mail.EmailNotificationSupport;
 import com.technoetic.xplanner.mail.MissingTimeEntryNotifier;
 
 
+/**
+ * The Class TaskPageTestScript.
+ */
 public class TaskPageTestScript extends AbstractPageTestScript {
+   
+   /** The last time slot nbr. */
    public int lastTimeSlotNbr;
+   
+   /** The Constant TIME_ENTRY_TABLE_ID. */
    private static final String TIME_ENTRY_TABLE_ID = "time_entries";
+   
+   /** The mail tester. */
    private MailTester mailTester = new MailTester(tester);
+   
+   /** The new test task estimated hours. */
    private String newTestTaskEstimatedHours = "15.0";
+   
+   /** The xplanner properties. */
    public XPlannerProperties xplannerProperties;
 
+   /** Instantiates a new task page test script.
+     *
+     * @param test
+     *            the test
+     */
    public TaskPageTestScript(String test) {
       super(test);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    public void setUp() throws Exception {
 //      new Timer().run(new Callable() {
 //         public void run() throws Exception { mySetUp(); }
@@ -54,6 +75,9 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       xplannerProperties = new XPlannerProperties();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    public void tearDown() throws Exception {
 //      new Timer().run(new Callable() {
 //         public void run() throws Exception { myTearDown(); }
@@ -70,6 +94,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       super.tearDown();
    }
 
+   /** Test content and links.
+     */
    public void testContentAndLinks() {
       tester.assertOnTaskPage();
       tester.assertTextPresent(testTaskName);
@@ -140,6 +166,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.clickLinkWithText(testTaskName);
    }
 
+   /** Test adding time log_ no reestimation.
+     */
    public void testAddingTimeLog_NoReestimation() {
       double hoursToLog = 3.0;
       addTimeEntry("" + hoursToLog, "");
@@ -152,6 +180,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.clickLinkWithKey("action.edittime.task");
    }
 
+   /** Test delete time log.
+     */
    public void testDeleteTimeLog() {
       addTimeEntry("1.0", "");
       tester.clickLinkWithKey("action.edittime.task");
@@ -161,6 +191,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
 
    }
 
+   /** Test adding time log_ less remaining hours.
+     */
    public void testAddingTimeLog_LessRemainingHours() {
       tester.assertOnTaskPage();
       double hoursToLog = 1.0;
@@ -173,6 +205,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       assertTimeEntry("" + expectedActualHours);
    }
 
+   /** Test adding time log_ more remaining hours.
+     */
    public void testAddingTimeLog_MoreRemainingHours() {
       tester.assertOnTaskPage();
       double hoursToLog = 1.0;
@@ -186,6 +220,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
    }
 
 
+   /** Test default disposition.
+     */
    public void testDefaultDisposition() {
       tester.assertOnTaskPage();
       String hoursToLog = "3";
@@ -194,6 +230,8 @@ public class TaskPageTestScript extends AbstractPageTestScript {
                                  tester.getMessage(TaskDisposition.DISCOVERED.getNameKey()));
    }
 
+   /** Test description.
+     */
    public void testDescription() {
       addTimeEntry("1.0", "", null, "The description");
       tester.assertOnTaskPage();
@@ -204,6 +242,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.assertFormElementEquals("description[0]", "The description");
    }
 
+   /** Test send missing time entry notification to project specific leads.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSendMissingTimeEntryNotificationToProjectSpecificLeads() throws Exception {
       turnOffAcceptorMissingTimeEntryReminderEmail();
       Person editor = createLeadPerson("Editor");
@@ -260,6 +303,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
 //      tester.deleteObjects(Person.class, "name", adminLeadName);
    }
 
+   /** Adds the today time entry to task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void addTodayTimeEntryToTask() throws Exception {
       gotoTestTaskPage();
       final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -268,6 +316,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
    }
 
 
+   /** Test missing time entry notification reminder.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMissingTimeEntryNotificationReminder() throws Exception {
       //DEBT(DYNAMICFIELDS) Should have a way to force this project notification option
       assertSendEmailNotificationFromProject(project);
@@ -291,6 +344,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       mailTester.assertEmailHasNotBeenReceived(expectedEmail);
    }
 
+   /** Assert send email notification from project.
+     *
+     * @param project
+     *            the project
+     */
    private void assertSendEmailNotificationFromProject(Project project) {
       DomainSpecificPropertiesFactory propertiesFactory =
             new DomainSpecificPropertiesFactory(GlobalSessionFactory.get(), new XPlannerProperties().get());
@@ -299,31 +357,65 @@ public class TaskPageTestScript extends AbstractPageTestScript {
                  emailNotificationSupport.isProjectToBeNotified(project));
    }
 
+   /** Wait n days.
+     *
+     * @param days
+     *            the days
+     * @throws UnsupportedEncodingException
+     *             the unsupported encoding exception
+     */
    private void waitNDays(int days) throws UnsupportedEncodingException {
       mailTester.moveCurrentDayAndSendEmail(days);
    }
 
+   /** Wait one day.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void waitOneDay() throws Exception {
       waitNDays(1);
    }
 
+   /** Test adding and deleting notes.
+     */
    public void testAddingAndDeletingNotes() {
       runNotesTests(XPlannerWebTester.TASK_PAGE);
    }
 
+   /** Test pdf export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPdfExport() throws Exception {
       checkExportUri("task", "pdf");
    }
 
+   /** Test xml export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testXmlExport() throws Exception {
       tester.clickLinkWithText(testIterationName);
       checkExportUri("iteration", "xml");
    }
 
+   /** Test report export.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testReportExport() throws Exception {
       checkExportUri("task", "jrpdf");
    }
 
+   /** Test org est hours in not started iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursInNotStartedIteration() throws Exception {
       setUpProjectForOrgEstHoursTest();
       tester.clickLinkWithKey("action.edit.task");
@@ -333,6 +425,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.assertTextPresent("(" + newTestTaskEstimatedHours + ")");
    }
 
+   /** Test org est hours in started iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOrgEstHoursInStartedIteration() throws Exception {
       setUpProjectForOrgEstHoursTest();
       tester.gotoProjectsPage();
@@ -347,6 +444,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.assertTextPresent("(" + testTaskEstimatedHours + ")");
    }
 
+   /** Sets the up project for org est hours test.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void setUpProjectForOrgEstHoursTest() throws Exception {
       setUpTestProject();
       setUpTestIterationAndStory_();
@@ -360,11 +462,20 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.clickLinkWithText(testTaskName);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+    */
    protected void traverseLinkWithKeyAndReturn(String key) throws Exception {
       tester.clickLinkWithKey(key);
       tester.gotoPage("view", "projects", 0);
    }
 
+   /** Gets the expected body elements of leads email notification.
+     *
+     * @param resource
+     *            the resource
+     * @return the expected body elements of leads email notification
+     */
    private List getExpectedBodyElementsOfLeadsEmailNotification(ResourceBundle resource) {
       List emailBodyElements = new ArrayList();
       emailBodyElements.add(resource.getString(MissingTimeEntryNotifier.EMAIL_BODY_HEADER_FOR_PROJECT_LEADERS));
@@ -375,6 +486,14 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       return emailBodyElements;
    }
 
+   /** Creates the lead person.
+     *
+     * @param role
+     *            the role
+     * @return the person
+     * @throws Exception
+     *             the exception
+     */
    private Person createLeadPerson(String role) throws Exception {
       Person person = mom.newPerson("lead");
       person.setInitials(developerInitials);
@@ -384,18 +503,29 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       return person;
    }
 
+   /** Turn off acceptor missing time entry reminder email.
+     */
    private void turnOffAcceptorMissingTimeEntryReminderEmail() {
       gotoTestProjectEditPage();
       tester.uncheckCheckbox("sendemail");
       tester.submit();
    }
 
+   /** Goto test project edit page.
+     */
    private void gotoTestProjectEditPage() {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);
       tester.clickLinkWithKey("action.edit.project");
    }
 
+   /** Adds the person to recipients of missing time entry report.
+     *
+     * @param personName
+     *            the person name
+     * @throws Exception
+     *             the exception
+     */
    private void addPersonToRecipientsOfMissingTimeEntryReport(String personName) throws Exception {
       gotoTestProjectEditPage();
       tester.selectOption("personToAddId", personName);
@@ -404,6 +534,13 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       gotoTestTaskPage();
    }
 
+   /** Removes the person to recipients of missing time entry report.
+     *
+     * @param personName
+     *            the person name
+     * @throws Exception
+     *             the exception
+     */
    private void removePersonToRecipientsOfMissingTimeEntryReport(String personName) throws Exception {
       gotoTestProjectEditPage();
       tester.clickDeleteLinkForRowWithText(personName);
@@ -411,6 +548,17 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.submit();
    }
 
+   /** Assert task timing.
+     *
+     * @param expectedEstimatedHours
+     *            the expected estimated hours
+     * @param expectedOriginalEstimatedHours
+     *            the expected original estimated hours
+     * @param expectedRemainingHours
+     *            the expected remaining hours
+     * @param expectedActualHours
+     *            the expected actual hours
+     */
    private void assertTaskTiming(double expectedEstimatedHours,
                                  double expectedOriginalEstimatedHours, double expectedRemainingHours,
                                  double expectedActualHours) {
@@ -435,14 +583,37 @@ public class TaskPageTestScript extends AbstractPageTestScript {
    }
 
 
+   /** Adds the time entry in hours.
+     *
+     * @param val
+     *            the val
+     */
    private void addTimeEntryInHours(String val) {
       this.addTimeEntry(val, null);
    }
 
+   /** Adds the time entry.
+     *
+     * @param val
+     *            the val
+     * @param remainingHours
+     *            the remaining hours
+     */
    private void addTimeEntry(String val, String remainingHours) {
       this.addTimeEntry(val, remainingHours, null, null);
    }
 
+   /** Adds the time entry.
+     *
+     * @param val
+     *            the val
+     * @param remainingHours
+     *            the remaining hours
+     * @param reportDate
+     *            the report date
+     * @param description
+     *            the description
+     */
    private void addTimeEntry(String val, String remainingHours, String reportDate, String description) {
       tester.assertOnTaskPage();
       tester.clickLinkWithKey("action.edittime.task");
@@ -456,11 +627,23 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       lastTimeSlotNbr++;
    }
 
+   /** Assert time entry.
+     *
+     * @param value
+     *            the value
+     */
    private void assertTimeEntry(String value) {
       tester.assertOnTaskPage();
       tester.assertTextInTable(TIME_ENTRY_TABLE_ID, value);
    }
 
+   /** Assert test task column equals.
+     *
+     * @param columnKey
+     *            the column key
+     * @param expectedText
+     *            the expected text
+     */
    private void assertTestTaskColumnEquals(String columnKey, String expectedText) {
       tester.clickLinkWithText(storyName);
       tester.assertCellTextForRowWithTextAndColumnKeyEquals(XPlannerWebTester.MAIN_TABLE_ID,
@@ -471,6 +654,11 @@ public class TaskPageTestScript extends AbstractPageTestScript {
       tester.clickLinkWithText(testTaskName);
    }
 
+   /** Goto test task page.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void gotoTestTaskPage() throws Exception {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);

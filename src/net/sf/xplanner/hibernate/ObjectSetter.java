@@ -12,13 +12,36 @@ import org.hibernate.property.PropertyAccessor;
 import org.hibernate.property.PropertyAccessorFactory;
 import org.hibernate.property.Setter;
 
+/**
+ * The Class ObjectSetter.
+ */
 public class ObjectSetter implements Setter {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1836514640217855044L;
+	
+	/** The getter. */
 	private final Getter getter;
+	
+	/** The is new. */
 	private final boolean isNew;
+	
+	/** The domain class. */
 	private final Class domainClass;
+	
+	/** The setter. */
 	private final Setter setter;
 
+	/**
+     * Instantiates a new object setter.
+     *
+     * @param getter
+     *            the getter
+     * @param property
+     *            the property
+     * @param isNew
+     *            the is new
+     */
 	public ObjectSetter(final Getter getter, final String property,
 			final boolean isNew) {
 		this.getter = getter;
@@ -34,16 +57,25 @@ public class ObjectSetter implements Setter {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.property.Setter#getMethod()
+	 */
 	@Override
 	public Method getMethod() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.property.Setter#getMethodName()
+	 */
 	@Override
 	public String getMethodName() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.property.Setter#set(java.lang.Object, java.lang.Object, org.hibernate.engine.SessionFactoryImplementor)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void set(final Object target, final Object value,

@@ -12,9 +12,20 @@ import org.apache.struts.action.ActionMapping;
 
 import com.technoetic.xplanner.domain.Identifiable;
 
+/**
+ * The Class ViewObjectAction.
+ *
+ * @param <T>
+ *            the generic type
+ */
 public class ViewObjectAction<T extends Identifiable> extends AbstractAction<T> {
+	
+	/** The authorization required. */
 	private boolean authorizationRequired = true;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -29,6 +40,17 @@ public class ViewObjectAction<T extends Identifiable> extends AbstractAction<T> 
 		return new ActionForward(forwardPath);
 	}
 
+	/**
+     * Gets the forward path.
+     *
+     * @param actionMapping
+     *            the action mapping
+     * @param request
+     *            the request
+     * @return the forward path
+     * @throws UnsupportedEncodingException
+     *             the unsupported encoding exception
+     */
 	private String getForwardPath(final ActionMapping actionMapping,
 			final HttpServletRequest request)
 			throws UnsupportedEncodingException {
@@ -41,10 +63,23 @@ public class ViewObjectAction<T extends Identifiable> extends AbstractAction<T> 
 		return forwardPath;
 	}
 
+	/**
+     * Checks if is secure.
+     *
+     * @param actionMapping
+     *            the action mapping
+     * @return true, if is secure
+     */
 	private boolean isSecure(final ActionMapping actionMapping) {
 		return this.authorizationRequired;
 	}
 
+	/**
+     * Sets the authorization required.
+     *
+     * @param authorizationRequired
+     *            the new authorization required
+     */
 	public void setAuthorizationRequired(final boolean authorizationRequired) {
 		this.authorizationRequired = authorizationRequired;
 	}

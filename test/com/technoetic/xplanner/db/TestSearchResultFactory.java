@@ -13,15 +13,30 @@ import junit.framework.TestCase;
 
 import com.technoetic.xplanner.domain.SearchResult;
 
+/**
+ * A factory for creating TestSearchResult objects.
+ */
 public class TestSearchResultFactory extends TestCase {
+    
+    /** The helper. */
     SearchResultFactory helper;
+    
+    /** The Constant EXPECTED_SEARCH_CRITERIA. */
     public static final String EXPECTED_SEARCH_CRITERIA = "Some";
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         helper = new SearchResultFactory(new HashMap());
     }
 
+    /** Test convert object to search result_ null description.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_NullDescription() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", ""), EXPECTED_SEARCH_CRITERIA);
@@ -31,6 +46,11 @@ public class TestSearchResultFactory extends TestCase {
         assertFalse(searchResult.isMatchInDescription());
     }
 
+    /** Test convert object to search result_ match in description front.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionFront() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "Some Text"), EXPECTED_SEARCH_CRITERIA);
@@ -40,6 +60,11 @@ public class TestSearchResultFactory extends TestCase {
         assertEquals(" Text", searchResult.getMatchSuffix());
     }
 
+    /** Test convert object to search result_ match in description back.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionBack() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "Some Text"), "text");
@@ -49,6 +74,12 @@ public class TestSearchResultFactory extends TestCase {
         assertEquals("", searchResult.getMatchSuffix());
     }
 
+    /** Test convert object to search result_ match in description within
+     * word.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionWithinWord() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "Description"), "IPT");
@@ -58,6 +89,12 @@ public class TestSearchResultFactory extends TestCase {
         assertTrue(searchResult.isMatchInDescription());
     }
 
+    /** Test convert object to search result_ match in description long
+     * prefix.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionLongPrefix() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "Description with the word search in it"),
@@ -68,6 +105,12 @@ public class TestSearchResultFactory extends TestCase {
         assertTrue(searchResult.isMatchInDescription());
     }
 
+    /** Test convert object to search result_ match in description long
+     * suffix.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionLongSuffix() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "The word search is in the description"),
@@ -77,6 +120,12 @@ public class TestSearchResultFactory extends TestCase {
         assertEquals(" is in the description", searchResult.getMatchSuffix());
     }
 
+    /** Test convert object to search result_ match in description case
+     * different.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInDescriptionCaseDifferent() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(
             new FakeNameable(0, "The title", "The word SEARCH is in the description"),
@@ -86,6 +135,11 @@ public class TestSearchResultFactory extends TestCase {
         assertEquals(" is in the description", searchResult.getMatchSuffix());
     }
 
+    /** Test convert object to search result_ match in title.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testConvertObjectToSearchResult_MatchInTitle() throws Exception {
         SearchResult searchResult = helper.convertObjectToSearchResult(new FakeNameable(0,
                                                                                         "The title",

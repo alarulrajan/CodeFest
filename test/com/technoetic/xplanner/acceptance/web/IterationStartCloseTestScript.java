@@ -14,23 +14,48 @@ import com.technoetic.xplanner.views.IterationPage;
 
 //DEBT Review how these could be duplicated so badly with all Iteration test scripts
 
+/**
+ * The Class IterationStartCloseTestScript.
+ */
 public class IterationStartCloseTestScript extends AbstractIterationTestScript {
+   
+   /** The Constant LOG. */
    public static final Logger LOG = Logger.getLogger(IterationStartCloseTestScript.class);
+   
+   /** The start date. */
    private Date startDate;
+   
+   /** The end date. */
    private Date endDate;
+   
+   /** The tester name in viewer role. */
    private String testerNameInViewerRole;
+   
+   /** The tester name in editor role. */
    private String testerNameInEditorRole;
+   
+   /** The data sample tester. */
    private DataSampleTester dataSampleTester = new DataSampleTester(iterationTester);
 
+   /** Instantiates a new iteration start close test script.
+     *
+     * @param test
+     *            the test
+     */
    public IterationStartCloseTestScript(String test) {
       super(test);
       LOG.debug("initialized using IterationStartCloseTestScript(String)");
    }
 
+   /** Instantiates a new iteration start close test script.
+     */
    public IterationStartCloseTestScript() {
       LOG.debug("initialized using IterationStartCloseTestScript()");
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractIterationTestScript#setUp()
+    */
    public void setUp() throws Exception {
 //      new Timer().run("setUp", new Callable() {
 //         public Object run() throws Exception {
@@ -57,6 +82,9 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("setUp()...done");
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractIterationTestScript#tearDown()
+    */
    public void tearDown() throws Exception {
 //      new Timer().run("tearDown", new Callable() {
 //         public Object run() throws Exception {
@@ -79,11 +107,19 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
 //      tearDownTestPerson();
    }
 
+   /** Assert no future iteration available.
+     */
    private void assertNoFutureIterationAvailable() {
       tester.assertKeyPresent("iteration.continue.unfinished.stories");
       tester.assertKeyPresent("iteration.status.editor.no_future_iteration");
    }
 
+   /** Test on iteration start propose to close already started iterations
+     * only if there are.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOnIterationStartProposeToCloseAlreadyStartedIterationsOnlyIfThereAre() throws Exception {
       String iterationName_1 = testIterationName;
       testIterationName += "_2";
@@ -111,12 +147,22 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       iterationTester.assertCurrentIterationClosed();
    }
 
+   /** Go to iteration.
+     *
+     * @param iterationName_1
+     *            the iteration name_1
+     */
    private void goToIteration(String iterationName_1) {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);
       tester.clickLinkWithText(iterationName_1);
    }
 
+   /** Test starting and stopping iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testStartingAndStoppingIteration() throws Exception {
       LOG.debug("testStartingAndStoppingIteration()...");
       iterationTester.assertOnIterationPage();
@@ -142,6 +188,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testStartingAndStoppingIteration()...done");
    }
 
+   /** Test auto start iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAutoStartIteration() throws Exception {
       LOG.debug("testAutoStartIteration()...");
       iterationTester.assertOnIterationPage();
@@ -158,6 +209,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testAutoStartIteration()...done");
    }
 
+   /** Test cancel auto start iteration_ time entries should not be added.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testCancelAutoStartIteration_TimeEntriesShouldNotBeAdded() throws Exception {
       LOG.debug("testCancelAutoStartIteration_TimeEntriesShouldNotBeAdded()...");
       iterationTester.assertOnIterationPage();
@@ -171,6 +227,8 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testCancelAutoStartIteration_TimeEntriesShouldNotBeAdded()...done");
    }
 
+   /** Start iteration by entering time entries.
+     */
    private void startIterationByEnteringTimeEntries() {
       LOG.debug("startIterationByEnteringTimeEntries()...");
       gotoTestTask();
@@ -184,6 +242,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       gotoTestTask();
    }
 
+   /** Test restart iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRestartIteration() throws Exception {
       LOG.debug("testRestartIteration()...");
       iterationTester.assertOnIterationPage();
@@ -236,6 +299,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testRestartIteration()...done");
    }
 
+   /** Test restart iteration_ in the next day.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRestartIteration_InTheNextDay() throws Exception {
       LOG.debug("testRestartIteration_InTheNextDay()...");
       LOG.debug("Start Smtp server to support notification func. while putTheClockForward(...) called");
@@ -301,6 +369,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testRestartIteration_InTheNextDay()...done");
    }
 
+   /** Test restart iteration_ in the same day.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRestartIteration_InTheSameDay() throws Exception {
       LOG.debug("testRestartIteration_InTheSameDay()...");
       iterationTester.assertOnIterationPage();
@@ -355,6 +428,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testRestartIteration_InTheSameDay()...done");
    }
 
+   /** Test change iteration status not in editor role.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testChangeIterationStatusNotInEditorRole() throws Exception {
       LOG.debug("testChangeIterationStatusNotInEditorRole()...");
       try {
@@ -374,6 +452,13 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       LOG.debug("testChangeIterationStatusNotInEditorRole()...done");
    }
 
+   /** Log in different role.
+     *
+     * @param userName
+     *            the user name
+     * @throws Exception
+     *             the exception
+     */
    private void logInDifferentRole(String userName) throws Exception {
       tester.gotoRelativeUrl("/do/login");
       tester.login(userName, XPlannerWebTester.DEFAULT_PASSWORD);
@@ -381,12 +466,23 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
    }
 
 
+   /** Goto test task.
+     */
    private void gotoTestTask() {
       tester.clickLinkWithText(storyName);
       tester.clickLinkWithText(testTaskName);
       tester.assertOnTaskPage();
    }
 
+   /** Enter time for task.
+     *
+     * @param slot
+     *            the slot
+     * @param offset
+     *            the offset
+     * @param hoursToLog
+     *            the hours to log
+     */
    private void enterTimeForTask(int slot, int offset, int hoursToLog) {
       tester.clickLinkWithText(storyName);
       tester.assertOnStoryPage();
@@ -395,6 +491,15 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       tester.setTimeEntry(slot, offset, offset + hoursToLog, developer.getName());
    }
 
+   /** Sets the up tester person.
+     *
+     * @param testerName
+     *            the tester name
+     * @param role
+     *            the role
+     * @throws Exception
+     *             the exception
+     */
    private void setUpTesterPerson(String testerName, String role) throws Exception {
       String email = "ap@nowhere.com";
       String phone = "212-555-5555";
@@ -411,6 +516,11 @@ public class IterationStartCloseTestScript extends AbstractIterationTestScript {
       tester.assertKeyNotPresent("errors.header");
    }
 
+   /** Tear down tester person.
+     *
+     * @param testerName
+     *            the tester name
+     */
    private void tearDownTesterPerson(String testerName) {
       tester.deleteObjects(Person.class, "name", testerName);
    }

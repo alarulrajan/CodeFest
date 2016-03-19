@@ -32,15 +32,36 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.domain.repository.ObjectRepository;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 
+/**
+ * The Class EmailMessageImpl.
+ */
 // DEBT: Should not have ANY sql or hql in any domain class. Instead it should be injected with one of the repository
 public class EmailMessageImpl implements EmailMessage {
+	
+	/** The log. */
 	protected Logger log = Logger.getLogger(this.getClass());
+	
+	/** The msg. */
 	private final Message msg;
+	
+	/** The body writer. */
 	private StringWriter bodyWriter;
+	
+	/** The attachments. */
 	private final ArrayList attachments = new ArrayList();
+	
+	/** The hibernate operations wrapper. */
 	HibernateOperationsWrapper hibernateOperationsWrapper;
+	
+	/** The object repository. */
 	private ObjectRepository objectRepository;
 
+	/**
+     * Instantiates a new email message impl.
+     *
+     * @throws MessagingException
+     *             the messaging exception
+     */
 	/* package scope */
 	EmailMessageImpl() throws MessagingException {
 		this.hibernateOperationsWrapper = new HibernateOperationsWrapper(
@@ -75,18 +96,30 @@ public class EmailMessageImpl implements EmailMessage {
 		this.msg.setSentDate(new Date());
 	}
 
+	/**
+     * Sets the hibernate operations.
+     *
+     * @param hibernateOperations
+     *            the new hibernate operations
+     */
 	public void setHibernateOperations(
 			final HibernateOperations hibernateOperations) {
 		this.hibernateOperationsWrapper = new HibernateOperationsWrapper(
 				hibernateOperations);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setFrom(java.lang.String)
+	 */
 	@Override
 	public void setFrom(final String from) throws AddressException,
 			MessagingException {
 		this.msg.setFrom(new InternetAddress(from));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setRecipient(int)
+	 */
 	@Override
 	public void setRecipient(final int personId) throws MessagingException {
 		try {
@@ -103,15 +136,30 @@ public class EmailMessageImpl implements EmailMessage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setObjectRepository(com.technoetic.xplanner.domain.repository.ObjectRepository)
+	 */
 	@Override
 	public void setObjectRepository(final ObjectRepository objectRepository) {
 		this.objectRepository = objectRepository;
 	}
 
+	/**
+     * Gets the person.
+     *
+     * @param personId
+     *            the person id
+     * @return the person
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private Person getPerson(final int personId) throws RepositoryException {
 		return (Person) this.objectRepository.load(personId);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setRecipients(java.lang.String)
+	 */
 	@Override
 	public void setRecipients(final String recipients) throws AddressException,
 			MessagingException {
@@ -120,6 +168,9 @@ public class EmailMessageImpl implements EmailMessage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setRecipients(java.lang.String[])
+	 */
 	@Override
 	public void setRecipients(final String[] recipients)
 			throws AddressException, MessagingException {
@@ -130,6 +181,9 @@ public class EmailMessageImpl implements EmailMessage {
 		this.msg.setRecipients(Message.RecipientType.TO, addresses);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setCcRecipients(java.lang.String)
+	 */
 	@Override
 	public void setCcRecipients(final String recipients)
 			throws MessagingException, AddressException {
@@ -138,6 +192,18 @@ public class EmailMessageImpl implements EmailMessage {
 		}
 	}
 
+	/**
+     * Sets the recipients.
+     *
+     * @param recipientType
+     *            the recipient type
+     * @param recipients
+     *            the recipients
+     * @throws AddressException
+     *             the address exception
+     * @throws MessagingException
+     *             the messaging exception
+     */
 	private void setRecipients(final Message.RecipientType recipientType,
 			final String[] recipients) throws AddressException,
 			MessagingException {
@@ -150,34 +216,52 @@ public class EmailMessageImpl implements EmailMessage {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setBody(java.lang.String)
+	 */
 	@Override
 	public void setBody(final String body) throws MessagingException {
 		this.bodyWriter = new StringWriter();
 		this.bodyWriter.write(body);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#getBodyWriter()
+	 */
 	@Override
 	public PrintWriter getBodyWriter() {
 		this.bodyWriter = new StringWriter();
 		return new PrintWriter(this.bodyWriter);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setSubject(java.lang.String)
+	 */
 	@Override
 	public void setSubject(final String subject) throws MessagingException {
 		this.msg.setSubject(subject);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#setSentDate(java.util.Date)
+	 */
 	@Override
 	public void setSentDate(final Date sentDate) throws MessagingException {
 		this.msg.setSentDate(sentDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#addAttachment(java.lang.String)
+	 */
 	@Override
 	public void addAttachment(final String filename) throws MessagingException {
 		final File file = new File(filename);
 		this.addAttachment(file.getName(), file);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#addAttachment(java.lang.String, java.io.File)
+	 */
 	@Override
 	public void addAttachment(final String filename, final File file)
 			throws MessagingException {
@@ -188,6 +272,9 @@ public class EmailMessageImpl implements EmailMessage {
 		this.attachments.add(part);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailMessage#send()
+	 */
 	@Override
 	public void send() throws MessagingException {
 		final MimeMultipart parts = new MimeMultipart();

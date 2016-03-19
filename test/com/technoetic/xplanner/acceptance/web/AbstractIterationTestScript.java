@@ -6,15 +6,32 @@
  */
 package com.technoetic.xplanner.acceptance.web;
 
+/**
+ * The Class AbstractIterationTestScript.
+ */
 public abstract class AbstractIterationTestScript extends AbstractPageTestScript {
+   
+   /** The iteration id. */
    protected String iterationId;
+   
+   /** The task id. */
    protected String taskId;
 
+   /** Instantiates a new abstract iteration test script.
+     *
+     * @param test
+     *            the test
+     */
    public AbstractIterationTestScript(String test) { super(test); }
 
+   /** Instantiates a new abstract iteration test script.
+     */
    public AbstractIterationTestScript() {
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    public void setUp() throws Exception
    {
        super.setUp();
@@ -26,6 +43,11 @@ public abstract class AbstractIterationTestScript extends AbstractPageTestScript
        setUpTestIteration();
    }
 
+   /** Sets the up test iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    protected void setUpTestIteration()
         throws Exception
     {
@@ -39,6 +61,8 @@ public abstract class AbstractIterationTestScript extends AbstractPageTestScript
         iterationId = tester.getCurrentPageObjectId();
    }
 
+   /** Sets the up test story and task.
+     */
    protected void setUpTestStoryAndTask() {
       tester.addUserStory(storyName, testStoryDescription, "23.5", "1");
       tester.assertTextPresent(storyName);
@@ -50,11 +74,21 @@ public abstract class AbstractIterationTestScript extends AbstractPageTestScript
       tester.clickLinkWithText(testIterationName);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    public void tearDown() throws Exception
     {
         super.tearDown();
     }
 
+   /** Adds the iteration.
+     *
+     * @param iterationName
+     *            the iteration name
+     * @throws Exception
+     *             the exception
+     */
    protected void addIteration(String iterationName)
        throws Exception
    {

@@ -20,12 +20,26 @@ import com.technoetic.xplanner.forms.PeopleImportResult;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 import com.technoetic.xplanner.util.InputStreamFormFile;
 
+/**
+ * The Class TestImportPeopleAction.
+ */
 public class TestImportPeopleAction extends AbstractActionTestCase{
+    
+    /** The mock import people form. */
     private ImportPeopleForm mockImportPeopleForm;
+    
+    /** The import people action. */
     private ImportPeopleAction importPeopleAction;
+    
+    /** The test form file. */
     private FormFile testFormFile;
+    
+    /** The person dao. */
     private PersonDao personDao;
     
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+     */
     protected void setUp() throws Exception
     {
         action = importPeopleAction = new ImportPeopleAction();
@@ -42,12 +56,20 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
     }
 
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+     */
     protected void tearDown() throws Exception
     {
         SystemAuthorizer.set(null);
         super.tearDown();
     }
 
+    /** Test import_ success.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testImport_Success() throws Exception
     {
         setUpImportFile("importtestperson1,Import test person 1,tester1@sabre.com,MP,23456");
@@ -66,6 +88,11 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
         verify();
     }
 
+    /** Test import_ person already exists.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test(expected=DuplicateUserIdException.class)
     public void testImport_PersonAlreadyExists() throws Exception{
         Person person = new Person("importtestperson1");
@@ -82,6 +109,11 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
                      ((PeopleImportResult) mockImportPeopleForm.getResults().get(0)).getStatus());
     }
 
+    /** Test import_ no user id.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testImport_NoUserId() throws Exception {
         setUpImportFile(",Import test person 1,tester1@sabre.com,MP,23456");
@@ -94,6 +126,11 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
                      ((PeopleImportResult) mockImportPeopleForm.getResults().get(0)).getStatus());
     }
 
+    /** Test import_ wrong entry format.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testImport_WrongEntryFormat() throws Exception {
         setUpImportFile(",Import test person 1,");
@@ -107,6 +144,13 @@ public class TestImportPeopleAction extends AbstractActionTestCase{
     }
 
 
+    /** Sets the up import file.
+     *
+     * @param textToImport
+     *            the new up import file
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private void setUpImportFile(String textToImport) throws IOException
     {
         testFormFile =

@@ -14,19 +14,39 @@ import org.hibernate.classic.Session;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.forms.MoveStoriesForm;
 
+/**
+ * The Class MoveStoriesAction.
+ */
 public class MoveStoriesAction extends AbstractAction<UserStory> {
+	
+	/** The Constant MOVE_ACTION. */
 	public static final String MOVE_ACTION = "Move";
 
+	/** The move continue story. */
 	private MoveContinueStory moveContinueStory;
 
+	/**
+     * Sets the move continue story.
+     *
+     * @param moveContinueStory
+     *            the new move continue story
+     */
 	public void setMoveContinueStory(final MoveContinueStory moveContinueStory) {
 		this.moveContinueStory = moveContinueStory;
 	}
 
+	/**
+     * Gets the move continue story.
+     *
+     * @return the move continue story
+     */
 	public MoveContinueStory getMoveContinueStory() {
 		return this.moveContinueStory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -62,6 +82,15 @@ public class MoveStoriesAction extends AbstractAction<UserStory> {
 		}
 	}
 
+	/**
+     * Gets the story.
+     *
+     * @param id
+     *            the id
+     * @return the story
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private UserStory getStory(final int id) throws RepositoryException {
 		return this.getCommonDao().getById(UserStory.class, id);
 	}

@@ -11,22 +11,43 @@ import org.xml.sax.SAXException;
 
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestSecurityConfig.
+ */
 public class TestSecurityConfig extends TestCase {
+    
+    /** The support. */
     private XPlannerTestSupport support;
 
+    /** Instantiates a new test security config.
+     *
+     * @param s
+     *            the s
+     */
     public TestSecurityConfig(String s) {
         super(s);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         super.tearDown();
     }
 
+    /** Test parsing.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testParsing() throws Exception {
         SecurityConfiguration config = SecurityConfiguration.load(loadTestConfiguration());
 
@@ -69,6 +90,11 @@ public class TestSecurityConfig extends TestCase {
         assertEquals("wrong urlPattern", "/x/login", config.getSecurityBypass().getUrlPatterns().iterator().next());
     }
 
+    /** Test is authorized exact match.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsAuthorizedExactMatch() throws Exception {
         SecurityConfiguration config = setUpAuthorization("/soap", "/XPlannerView", "viewer");
 
@@ -77,6 +103,11 @@ public class TestSecurityConfig extends TestCase {
         assertTrue("should be authorized", isAuthorized);
     }
 
+    /** Test is authorized prefix match.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsAuthorizedPrefixMatch() throws Exception {
         SecurityConfiguration config = setUpAuthorization("/do", "/view/something", "editor");
 
@@ -85,6 +116,11 @@ public class TestSecurityConfig extends TestCase {
         assertTrue("should be authorized", isAuthorized);
     }
 
+    /** Test is authorized extension match.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsAuthorizedExtensionMatch() throws Exception {
         SecurityConfiguration config = setUpAuthorization("", "xyz.foo", "editor");
 
@@ -93,6 +129,11 @@ public class TestSecurityConfig extends TestCase {
         assertTrue("should be authorized", isAuthorized);
     }
 
+    /** Test is authorized no constraints.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testIsAuthorizedNoConstraints() throws Exception {
         SecurityConfiguration config = setUpAuthorization("", "abcdef", "editor");
 
@@ -109,7 +150,13 @@ public class TestSecurityConfig extends TestCase {
 //        assertFalse("should not be authorized", isAuthorized);
 //    }
 
-    public void testIsAuthorizedBypass() throws Exception {
+    /**
+ * Test is authorized bypass.
+ *
+ * @throws Exception
+ *             the exception
+ */
+public void testIsAuthorizedBypass() throws Exception {
         SecurityConfiguration config = setUpAuthorization("/x", "/login", "viewer");
 
         boolean isAuthorized = config.isAuthorized(support.request);
@@ -117,6 +164,20 @@ public class TestSecurityConfig extends TestCase {
         assertTrue("should be authorized", isAuthorized);
     }
 
+    /** Sets the up authorization.
+     *
+     * @param servletPath
+     *            the servlet path
+     * @param pathInfo
+     *            the path info
+     * @param role
+     *            the role
+     * @return the security configuration
+     * @throws SAXException
+     *             the SAX exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private SecurityConfiguration setUpAuthorization(String servletPath, String pathInfo, String role) throws SAXException, IOException {
         SecurityConfiguration config = SecurityConfiguration.load(loadTestConfiguration());
         support.request.setServletPath(servletPath);
@@ -125,10 +186,15 @@ public class TestSecurityConfig extends TestCase {
         return config;
     }
 
+    /** Load test configuration.
+     *
+     * @return the input stream
+     */
     private InputStream loadTestConfiguration() {
         return new ByteArrayInputStream(testConfiguration.getBytes());
     }
 
+    /** The test configuration. */
     private String testConfiguration =
             "<security>\n" +
             "    <security-bypass>\n" +

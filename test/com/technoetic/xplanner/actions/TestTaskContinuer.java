@@ -12,12 +12,26 @@ import net.sf.xplanner.domain.UserStory;
 import com.technoetic.xplanner.domain.TaskDisposition;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class TestTaskContinuer.
+ */
 public class TestTaskContinuer extends ContinuerBaseTestCase {
+   
+   /** The story1. */
    private UserStory story1;
+   
+   /** The story2. */
    private UserStory story2;
+   
+   /** The task to move or continue. */
    private Task taskToMoveOrContinue;
+   
+   /** The Constant TASK_NAME. */
    private static final String TASK_NAME = "Test Task";
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.ContinuerBaseTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       setUpContinuers();
@@ -61,6 +75,11 @@ public class TestTaskContinuer extends ContinuerBaseTestCase {
       support.hibernateSession.loadAddReturnByClassById(iteration.getId(), iteration);
    }
 
+   /** Test task continuation.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTaskContinuation() throws Exception {
       taskToMoveOrContinue.setCompleted(false);
       taskToMoveOrContinue.setUserStory(story1);

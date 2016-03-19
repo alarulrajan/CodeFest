@@ -18,26 +18,60 @@ import org.hibernate.type.Type;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 
+/**
+ * The Class UseBeansTag.
+ */
 public class UseBeansTag extends BodyTagSupport {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The query translations. */
 	private static HashMap queryTranslations;
 
+	/** The id. */
 	private String id;
+	
+	/** The qname. */
 	private String qname;
+	
+	/** The type. */
 	private String type;
+	
+	/** The where. */
 	private String where;
+	
+	/** The order. */
 	private String order;
+	
+	/** The cache. */
 	private String cache;
+	
+	/** The size. */
 	private int size;
+	
+	/** The parameter values. */
 	private ArrayList parameterValues = new ArrayList();
+	
+	/** The parameter types. */
 	private ArrayList parameterTypes = new ArrayList();
+	
+	/** The named parameter values. */
 	private HashMap namedParameterValues = new HashMap();
+	
+	/** The named parameter types. */
 	private HashMap namedParameterTypes = new HashMap();
 
+	/**
+     * Instantiates a new use beans tag.
+     */
 	public UseBeansTag() {
 		this.initializeQueryTranslations();
 	}
 
+	/**
+     * Initialize query translations.
+     */
 	private synchronized void initializeQueryTranslations() {
 		if (UseBeansTag.queryTranslations == null) {
 			UseBeansTag.queryTranslations = new HashMap();
@@ -57,51 +91,114 @@ public class UseBeansTag extends BodyTagSupport {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+	 */
 	@Override
 	public void setId(final String id) {
 		this.id = id;
 	}
 
+	/**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
 	public void setType(final String type) {
 		this.type = type;
 	}
 
+	/**
+     * Sets the where.
+     *
+     * @param where
+     *            the new where
+     */
 	public void setWhere(final String where) {
 		this.where = where;
 	}
 
+	/**
+     * Sets the order.
+     *
+     * @param order
+     *            the new order
+     */
 	public void setOrder(final String order) {
 		this.order = order;
 	}
 
+	/**
+     * Sets the size.
+     *
+     * @param size
+     *            the new size
+     */
 	public void setSize(final int size) {
 		this.size = size;
 	}
 
+	/**
+     * Sets the qname.
+     *
+     * @param qname
+     *            the new qname
+     */
 	public void setQname(final String qname) {
 		this.qname = qname;
 	}
 
+	/**
+     * Sets the cache.
+     *
+     * @param cache
+     *            the new cache
+     */
 	public void setCache(final String cache) {
 		this.cache = cache;
 	}
 
+	/**
+     * Adds the parameter.
+     *
+     * @param value
+     *            the value
+     * @param type
+     *            the type
+     */
 	/* package */
 	void addParameter(final Object value, final Type type) {
 		this.parameterValues.add(value);
 		this.parameterTypes.add(type);
 	}
 
+	/**
+     * Adds the parameter.
+     *
+     * @param name
+     *            the name
+     * @param value
+     *            the value
+     * @param type
+     *            the type
+     */
 	void addParameter(final String name, final Object value, final Type type) {
 		this.namedParameterValues.put(name, value);
 		this.namedParameterTypes.put(name, type);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+	 */
 	@Override
 	public int doStartTag() {
 		return Tag.EVAL_BODY_INCLUDE;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		try {
@@ -150,6 +247,15 @@ public class UseBeansTag extends BodyTagSupport {
 		return Tag.EVAL_PAGE;
 	}
 
+	/**
+     * Bind parameters and execute.
+     *
+     * @param query
+     *            the query
+     * @return the list
+     * @throws Exception
+     *             the exception
+     */
 	private List bindParametersAndExecute(final Query query) throws Exception {
 		if (this.cache != null) {
 			query.setCacheable(true);
@@ -173,15 +279,32 @@ public class UseBeansTag extends BodyTagSupport {
 		return objects;
 	}
 
+	/**
+     * Translate.
+     *
+     * @param value
+     *            the value
+     * @return the object
+     */
 	private Object translate(final Object value) {
 		return UseBeansTag.queryTranslations.containsKey(value) ? UseBeansTag.queryTranslations
 				.get(value) : value;
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     * @throws Exception
+     *             the exception
+     */
 	private Session getSession() throws Exception {
 		return HibernateHelper.getSession(this.pageContext.getRequest());
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#release()
+	 */
 	@Override
 	public void release() {
 		this.id = null;

@@ -30,22 +30,21 @@ import org.apache.struts.util.RequestUtils;
 import org.apache.struts.util.ResponseUtils;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+/**
+ * The Class LinkTag.
+ */
 public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
 	// ------------------------------------------------------ Instance Vartables
-	/**
-	 * The full HREF URL
-	 */
+	/** The full HREF URL. */
 	private StringBuffer hrefURL = new StringBuffer();
 
-	/**
-	 * Tag ID
-	 */
+	/** Tag ID. */
 	private String id;
 
-	/**
-	 * Foreign Key for returnto link
-	 */
+	/** Foreign Key for returnto link. */
 	private int fkey;
 
 	/**
@@ -54,35 +53,50 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	private boolean includeProjectId = true;
 
 	// DEBT: rename useReturnto to useReturnTo. Eventually will be returnToUrl
+	/** The use returnto. */
 	// when Domain object actions/views refactoring is complete
 	private boolean useReturnto = false;
 
+	/** The remove quotes. */
 	private boolean removeQuotes = false;
 
 	// ------------------------------------------------------------- Properties
 
 	// --------------------------------------------------------- Public Methods
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+	 */
 	@Override
 	public void setId(final String id) {
 		this.id = id;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#getId()
+	 */
 	@Override
 	public String getId() {
 		return this.id;
 	}
 
+	/**
+     * Sets the use returnto.
+     *
+     * @param useReturnto
+     *            the new use returnto
+     */
 	public void setUseReturnto(final boolean useReturnto) {
 		this.useReturnto = useReturnto;
 	}
 
 	/**
-	 * Intialize the hyperlink.
-	 * 
-	 * @throws JspException
-	 *             if a JSP exception has occurred
-	 */
+     * Intialize the hyperlink.
+     *
+     * @return the int
+     * @throws JspException
+     *             if a JSP exception has occurred
+     */
 	@Override
 	public int doStartTag() throws JspException {
 
@@ -123,6 +137,15 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 		return BodyTag.EVAL_BODY_BUFFERED;
 	}
 
+	/**
+     * Adds the navigation parameters.
+     *
+     * @param parameters
+     *            the parameters
+     * @return the map
+     * @throws JspTagException
+     *             the jsp tag exception
+     */
 	private Map addNavigationParameters(Map parameters) throws JspTagException {
 		final HttpServletRequest request = (HttpServletRequest) this.pageContext
 				.getRequest();
@@ -171,13 +194,13 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	}
 
 	/**
-	 * Add a new parameter to the request
-	 * 
-	 * @param name
-	 *            the name of the request parameter
-	 * @param value
-	 *            the value of the request parameter
-	 */
+     * Add a new parameter to the request.
+     *
+     * @param name
+     *            the name of the request parameter
+     * @param value
+     *            the value of the request parameter
+     */
 	public void addRequestParameter(final String name, final String value) {
 		if (this.log.isDebugEnabled()) {
 			this.log.debug("Adding '" + name + "' with value '" + value + "'");
@@ -204,11 +227,12 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	}
 
 	/**
-	 * Render the href reference
-	 * 
-	 * @throws JspException
-	 *             if a JSP exception has occurred
-	 */
+     * Render the href reference.
+     *
+     * @return the int
+     * @throws JspException
+     *             if a JSP exception has occurred
+     */
 	@Override
 	public int doEndTag() throws JspException {
 
@@ -269,12 +293,13 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	// ----------------------------------------------------- Protected Methods
 
 	/**
-	 * Return the specified hyperlink, modified as necessary with optional
-	 * request parameters.
-	 * 
-	 * @throws JspException
-	 *             if an error occurs preparing the hyperlink
-	 */
+     * Return the specified hyperlink, modified as necessary with optional
+     * request parameters.
+     *
+     * @return the string
+     * @throws JspException
+     *             if an error occurs preparing the hyperlink
+     */
 	protected String hyperlink() throws JspException {
 
 		String href = this.href;
@@ -389,22 +414,50 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
 	}
 
+	/**
+     * Gets the fkey.
+     *
+     * @return the fkey
+     */
 	public int getFkey() {
 		return this.fkey;
 	}
 
+	/**
+     * Sets the fkey.
+     *
+     * @param fkey
+     *            the new fkey
+     */
 	public void setFkey(final int fkey) {
 		this.fkey = fkey;
 	}
 
+	/**
+     * Checks if is include project id.
+     *
+     * @return the string
+     */
 	public String isIncludeProjectId() {
 		return new Boolean(this.includeProjectId).toString();
 	}
 
+	/**
+     * Sets the include project id.
+     *
+     * @param includeProjectId
+     *            the new include project id
+     */
 	public void setIncludeProjectId(final String includeProjectId) {
 		this.includeProjectId = new Boolean(includeProjectId).booleanValue();
 	}
 
+	/**
+     * Sets the removes the quotes.
+     *
+     * @param removeQuotes
+     *            the new removes the quotes
+     */
 	public void setRemoveQuotes(final boolean removeQuotes) {
 		this.removeQuotes = removeQuotes;
 	}

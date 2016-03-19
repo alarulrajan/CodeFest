@@ -5,7 +5,14 @@ import org.apache.commons.lang.time.DateUtils;
 import com.technoetic.xplanner.testing.DateHelper;
 
 
+/**
+ * The Class ProjectPageTest.
+ */
 public class ProjectPageTest extends BaseTest {
+	
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.acceptance.web.BaseTest#setUp()
+	 */
 	public void setUp() throws Exception {
 		super.setUp();
 //		startDate = DateHelper.getDateStringDaysFromToday(0);
@@ -20,6 +27,9 @@ public class ProjectPageTest extends BaseTest {
 //		tester.clickLinkWithText("" + testProject.getId());
 	}
 	
+	/**
+     * Test project.
+     */
 	public void testProject() {
 		System.out.println(getAndLoginAsUser());
 	}

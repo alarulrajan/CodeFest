@@ -16,9 +16,17 @@ import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.LoginModule;
 import com.technoetic.xplanner.security.PersonPrincipal;
 
+/**
+ * The Class LoginSupportImpl.
+ */
 public class LoginSupportImpl implements LoginSupport {
+	
+	/** The Constant MESSAGE_STORAGE_ERROR_KEY. */
 	public static final String MESSAGE_STORAGE_ERROR_KEY = "authentication.module.message.storageError";
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.LoginSupport#populateSubjectPrincipalFromDatabase(javax.security.auth.Subject, java.lang.String)
+	 */
 	@Override
 	public Person populateSubjectPrincipalFromDatabase(final Subject subject,
 			final String userId) throws AuthenticationException {
@@ -38,6 +46,9 @@ public class LoginSupportImpl implements LoginSupport {
 		return person;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.LoginSupport#getPerson(java.lang.String)
+	 */
 	@Override
 	public Person getPerson(final String userId) throws HibernateException {
 		final Session session = ThreadSession.get();
@@ -52,6 +63,9 @@ public class LoginSupportImpl implements LoginSupport {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.LoginSupport#createSubject()
+	 */
 	@Override
 	public Subject createSubject() {
 		return new Subject();

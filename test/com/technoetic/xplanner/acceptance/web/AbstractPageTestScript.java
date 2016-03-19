@@ -31,71 +31,179 @@ import com.technoetic.xplanner.domain.repository.RoleAssociationRepositoryImpl;
 import com.technoetic.xplanner.testing.DateHelper;
 import com.thoughtworks.proxy.toys.echo.Echoing;
 
+/**
+ * The Class AbstractPageTestScript.
+ */
 public abstract class AbstractPageTestScript extends AbstractDatabaseTestScript {
 
+   /** The tester. */
    protected XPlannerWebTester tester;
+   
+   /** The iteration tester. */
    protected IterationTester iterationTester;
+   
+   /** The person tester. */
    protected PersonTester personTester;
+   
+   /** The visual handler. */
    private static VisualTesterHandler visualHandler = new VisualTesterHandler();
 
+   /** The test project name. */
    protected String testProjectName;
+   
+   /** The test project description. */
    protected String testProjectDescription;
+   
+   /** The story name. */
    protected String storyName;
+   
+   /** The test story description. */
    protected String testStoryDescription;
+   
+   /** The estimated hours string. */
    protected String estimatedHoursString = "15.5";
+   
+   /** The estimated hours. */
    protected double estimatedHours = 15.5;
+   
+   /** The developer name. */
    protected String developerName;
+   
+   /** The developer id. */
    protected String developerId;
+   
+   /** The developer user id. */
    protected String developerUserId;
+   
+   /** The developer group id. */
    protected String developerGroupId;
+   
+   /** The developer initials. */
    protected String developerInitials;
+   
+   /** The customer name. */
    protected String customerName;
+   
+   /** The customer user id. */
    protected String customerUserId;
+   
+   /** The customer group id. */
    protected String customerGroupId;
+   
+   /** The customer initials. */
    protected String customerInitials;
+   
+   /** The guest name. */
    protected String guestName;
+   
+   /** The guest user id. */
    protected String guestUserId;
+   
+   /** The guest group id. */
    protected String guestGroupId;
+   
+   /** The guest initials. */
    protected String guestInitials;
+   
+   /** The test task name. */
    protected String testTaskName;
+   
+   /** The test task description. */
    protected String testTaskDescription;
+   
+   /** The test task estimated hours. */
    protected String testTaskEstimatedHours;
+   
+   /** The test feature name. */
    protected String testFeatureName;
+   
+   /** The test feature description. */
    protected String testFeatureDescription;
+   
+   /** The test iteration name. */
    protected String testIterationName;
+   
+   /** The test iteration description. */
    protected String testIterationDescription;
+   
+   /** The test note subject. */
    protected String testNoteSubject;
+   
+   /** The test note body. */
    protected String testNoteBody;
+   
+   /** The test note attachment filename. */
    protected String testNoteAttachmentFilename;
+   
+   /** The test wiki url. */
    protected String testWikiUrl;
 
+   /** The edit image. */
    protected final String EDIT_IMAGE = "edit.gif";
+   
+   /** The delete image. */
    protected final String DELETE_IMAGE = "delete.gif";
+   
+   /** The edit time image. */
    protected final String EDIT_TIME_IMAGE = "clock2.gif";
+   
+   /** The hidden. */
    protected final boolean HIDDEN = true;
+   
+   /** The not hidden. */
    protected final boolean NOT_HIDDEN = false;
 
+   /** The no permission user name. */
    protected String noPermissionUserName = "noPermUser";
+   
+   /** The editor role user name. */
    protected String editorRoleUserName = "editorRole";
+   
+   /** The user email. */
    protected String userEmail = "ap@nowhere.com";
+   
+   /** The user phone. */
    protected String userPhone = "212-555-5555";
+   
+   /** The Constant ROLES_TABLE. */
    protected static final String ROLES_TABLE = "roles";
+   
+   /** The developer. */
    public Person developer;
+   
+   /** The project. */
    public Project project;
+   
+   /** The iteration. */
    public Iteration iteration;
+   
+   /** The story. */
    public UserStory story;
+   
+   /** The task. */
    public Task task;
+   
+   /** The Constant INITIAL_TASK_ESTIMATED_HOURS. */
    public static final double INITIAL_TASK_ESTIMATED_HOURS = 20.5;
 
+   /** Instantiates a new abstract page test script.
+     *
+     * @param test
+     *            the test
+     */
    public AbstractPageTestScript(String test) {
       super(test);
       safeInit();
    }
 
+   /** Instantiates a new abstract page test script.
+     */
    public AbstractPageTestScript() {
       safeInit();
    }
 
+   /** Safe init.
+     */
    private void safeInit() {
       try {
          init();
@@ -105,6 +213,8 @@ public abstract class AbstractPageTestScript extends AbstractDatabaseTestScript 
       }
    }
 
+   /** Inits the.
+     */
    private void init() {
       // todo - This should be in the setUp method
       tester = createTester();
@@ -146,6 +256,10 @@ public abstract class AbstractPageTestScript extends AbstractDatabaseTestScript 
       testWikiUrl = generateUniqueName("URL");
    }
 
+   /** Creates the tester.
+     *
+     * @return the x planner web tester
+     */
    private XPlannerWebTester createTester() {
       XPlannerWebTester tester = new XPlannerWebTesterImpl();
       try {
@@ -164,6 +278,14 @@ public abstract class AbstractPageTestScript extends AbstractDatabaseTestScript 
       return tester;
    }
 
+   /** Pad string to size.
+     *
+     * @param base
+     *            the base
+     * @param size
+     *            the size
+     * @return the string
+     */
    private String padStringToSize(String base, int size) {
       StringBuffer buffer = new StringBuffer(base);
       while (buffer.length() < size) {
@@ -174,9 +296,12 @@ public abstract class AbstractPageTestScript extends AbstractDatabaseTestScript 
       return buffer.toString();
    }
 
-   /**
-    * @deprecated Use setUpTestIterationAndStory_ instead
-    */
+   /** Sets the up test iteration and story.
+     *
+     * @throws Exception
+     *             the exception
+     * @deprecated Use setUpTestIterationAndStory_ instead
+     */
    @Deprecated
 public void setUpTestIterationAndStory() throws Exception {
       tester.gotoRelativeUrl("/do/view/projects");
@@ -184,13 +309,27 @@ public void setUpTestIterationAndStory() throws Exception {
       createIterationAndStory(testIterationName, storyName, 0, 14);
    }
 
+   /** Sets the up test iteration and story_.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void setUpTestIterationAndStory_() throws Exception {
       createIterationAndStory_(project, 0, 14);
    }
 
-   /**
-    * @deprecated Use createIterationAndStory_ instead
-    */
+   /** Creates the iteration and story.
+     *
+     * @param iterationName
+     *            the iteration name
+     * @param storyName
+     *            the story name
+     * @param startDateOffset
+     *            the start date offset
+     * @param endDateOffset
+     *            the end date offset
+     * @deprecated Use createIterationAndStory_ instead
+     */
    @Deprecated
 protected void createIterationAndStory(String iterationName,
                                           String storyName,
@@ -207,6 +346,17 @@ protected void createIterationAndStory(String iterationName,
       tester.clickLinkWithText(storyName);
    }
 
+   /** Creates the iteration and story_.
+     *
+     * @param project
+     *            the project
+     * @param startDateOffset
+     *            the start date offset
+     * @param endDateOffset
+     *            the end date offset
+     * @throws Exception
+     *             the exception
+     */
    protected void createIterationAndStory_(Project project,
                                            int startDateOffset,
                                            int endDateOffset) throws Exception {
@@ -218,6 +368,19 @@ protected void createIterationAndStory(String iterationName,
       story.setEstimatedHoursField(estimatedHours);
    }
 
+   /** Creates the iteration and story with attachments.
+     *
+     * @param iterationName
+     *            the iteration name
+     * @param storyName
+     *            the story name
+     * @param startDateOffset
+     *            the start date offset
+     * @param endDateOffset
+     *            the end date offset
+     * @param started
+     *            the started
+     */
    protected void createIterationAndStoryWithAttachments(String iterationName,
                                                          String storyName,
                                                          int startDateOffset,
@@ -237,6 +400,19 @@ protected void createIterationAndStory(String iterationName,
       tester.addNote(testNoteSubject + "without att.", testNoteBody, developerName);
    }
 
+   /** Sets the up test project.
+     *
+     * @param name
+     *            the name
+     * @param description
+     *            the description
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws SQLException
+     *             the SQL exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public void setUpTestProject(String name, String description)
          throws HibernateException, SQLException, RepositoryException {
       project = newProject(name, description);
@@ -245,9 +421,24 @@ protected void createIterationAndStory(String iterationName,
       commitCloseAndOpenSession();
    }
 
+   /** Sets the up test project.
+     *
+     * @throws SQLException
+     *             the SQL exception
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    public void setUpTestProject() throws SQLException, HibernateException, RepositoryException {
      setUpTestProject("", "");
    }
+   
+   /** Sets the up test person.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void setUpTestPerson() throws Exception {
       developer = newPerson();
       developerId = "" + developer.getId();
@@ -259,6 +450,13 @@ protected void createIterationAndStory(String iterationName,
       commitCloseAndOpenSession();
    }
 
+   /** Sets the up test role.
+     *
+     * @param roleName
+     *            the new up test role
+     * @throws Exception
+     *             the exception
+     */
    //DEBT Move to EditPersonHelper
    public void setUpTestRole(String roleName) throws Exception {
       EditPersonHelper editPersonHelper = new EditPersonHelper();
@@ -268,10 +466,18 @@ protected void createIterationAndStory(String iterationName,
       commitCloseAndOpenSession();
    }
 
+   /** Schedule object deletion.
+     *
+     * @param object
+     *            the object
+     */
    protected void scheduleObjectDeletion(Object object) {
       mom.registerObjectToBeDeletedOnTearDown(object);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#tearDown()
+    */
    @Override
 protected void tearDown() throws Exception {
       try {
@@ -285,33 +491,53 @@ protected void tearDown() throws Exception {
       }
    }
 
+   /** Tear down test person.
+     */
    public void tearDownTestPerson() {
       tester.deleteObjects(Person.class, "name", developerName);
    }
 
+   /** Tear down test project.
+     */
    public void tearDownTestProject() {
       tearDownTestIteration();
       tester.deleteObjects(Project.class, "name", testProjectName);
    }
 
+   /** Tear down test iteration.
+     */
    public void tearDownTestIteration() {
       tearDownTestStory();
       tester.deleteObjects(Iteration.class, "name", testIterationName);
    }
 
+   /** Tear down test story.
+     */
    public void tearDownTestStory() {
       tearDownTestTask();
       tester.deleteObjects(UserStory.class, "name", storyName);
    }
 
+   /** Tear down test task.
+     */
    public void tearDownTestTask() {
       tester.deleteObjects(Task.class, "name", testTaskName);
    }
 
+   /** Simple set up.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void simpleSetUp() throws Exception {
       simpleSetUp_();
    }
 
+   /** Simple set up_.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void simpleSetUp_() throws Exception {
       setUpTestPerson();
       setUpTestProject();
@@ -324,6 +550,11 @@ protected void tearDown() throws Exception {
       goToTestStoryPage_();
    }
 
+   /** Sets the up test task_.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void setUpTestTask_() throws Exception {
       task = newTask(story);
       task.setName(testTaskName);
@@ -334,28 +565,40 @@ protected void tearDown() throws Exception {
       commitCloseAndOpenSession();
    }
 
+   /** Simple tear down.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void simpleTearDown() throws Exception {
       tester.tearDown();
       tearDownTestProject();
       tearDownTestPerson();
    }
 
+   /** Simple tear down_.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void simpleTearDown_() throws Exception {
       tester.tearDown();
    }
 
-   /**
-    * The current implementation of <code>runNotesTests</code> is incomplete,
-    * but serves as a place holder for the acceptance test that fails due to a
-    * JavaScript incompatibility with the Rhino jar (js.jar).
-    * <p/>
-    * JavaScript functionality is required on each page that utilizes the new
-    * feature on Notes due to a bug/design flaw? in Struts.  A multipart form
-    * loses its request parameters along the way if any validation errors
-    * occur.  (These parameters probably should be mapped on line 1061 of:
-    * org.apache.struts.action.RequestProcessor).  We are sending them as
-    * part of the query string as well to work around this bug.
-    */
+   /** The current implementation of <code>runNotesTests</code> is
+     * incomplete, but serves as a place holder for the acceptance test that
+     * fails due to a JavaScript incompatibility with the Rhino jar (js.jar).
+     * <p/>
+     * JavaScript functionality is required on each page that utilizes the new
+     * feature on Notes due to a bug/design flaw? in Struts. A multipart form
+     * loses its request parameters along the way if any validation errors
+     * occur. (These parameters probably should be mapped on line 1061 of:
+     * org.apache.struts.action.RequestProcessor). We are sending them as part
+     * of the query string as well to work around this bug.
+     *
+     * @param fromPage
+     *            the from page
+     */
    public void runNotesTests(String fromPage) {
       tester.verifyNotesLink();
 
@@ -389,15 +632,36 @@ protected void tearDown() throws Exception {
 // 		tester.assertTextNotPresent(newBody);
    }
 
+   /** Generate unique name.
+     *
+     * @return the string
+     */
    protected String generateUniqueName() {
       return generateUniqueName("");
    }
 
+   /** Generate unique name.
+     *
+     * @param baseName
+     *            the base name
+     * @return the string
+     */
    protected String generateUniqueName(String baseName) {
       return IdGenerator.getUniqueId(baseName);
    }
 
    // DEBT(AT) Must move to a helper/tester object.
+   /** Sets the up role.
+     *
+     * @param person
+     *            the person
+     * @param project
+     *            the project
+     * @param roleName
+     *            the role name
+     * @throws Exception
+     *             the exception
+     */
    // EditPersonHelper.setRoleOnProject
    protected void setUpRole(Person person, Project project, String roleName) throws Exception {
       Session session = tester.getSession();
@@ -414,11 +678,35 @@ protected void tearDown() throws Exception {
 
    }
 
+   /** Adds the role association.
+     *
+     * @param session
+     *            the session
+     * @param roleId
+     *            the role id
+     * @param personId
+     *            the person id
+     * @param projectId
+     *            the project id
+     * @throws HibernateException
+     *             the hibernate exception
+     */
    private void addRoleAssociation(Session session, int roleId, int personId, int projectId) throws HibernateException {
       session.save(new PersonRole(projectId, personId, roleId));
       requestServerCacheInvalidation();
    }
 
+   /** Assert image in cell.
+     *
+     * @param table
+     *            the table
+     * @param r
+     *            the r
+     * @param c
+     *            the c
+     * @param name
+     *            the name
+     */
    protected void assertImageInCell(WebTable table, int r, int c, String name) {
       WebImage[] images = table.getTableCell(r, c).getImages();
       for (int i = 0; i < images.length; i++) {
@@ -430,6 +718,15 @@ protected void tearDown() throws Exception {
       fail("missing image in cell[" + r + "," + c + "]: " + name);
    }
 
+   /** Check export uri.
+     *
+     * @param type
+     *            the type
+     * @param format
+     *            the format
+     * @throws Exception
+     *             the exception
+     */
    protected void checkExportUri(String type, String format) throws Exception {
 //      String context = XPlannerTestSupport.getRelativeTestURL();
 //      Pattern pattern = Pattern.compile("href=" + context + "/(\\S+/export/" + type + "/" + format + "[^>]+)");
@@ -441,6 +738,13 @@ protected void tearDown() throws Exception {
 //      }
    }
 
+   /** Assert header value.
+     *
+     * @param headerName
+     *            the header name
+     * @param expectedHeaderValue
+     *            the expected header value
+     */
    public void assertHeaderValue(String headerName, String expectedHeaderValue) {
 //      String headerContent = tester.getDialog().getResponse().getHeaderField(headerName);
 //      String[] headersValues = headerContent.split(";");
@@ -454,6 +758,13 @@ protected void tearDown() throws Exception {
 //      assertTrue("header value not found for " + headerName, isFounded);
    }
 
+   /** Traverse link with key and return.
+     *
+     * @param key
+     *            the key
+     * @throws Exception
+     *             the exception
+     */
    protected void traverseLinkWithKeyAndReturn(String key) throws Exception {
 //      String url = tester.getDialog().getResponse().getURL().toString().
 //            replaceAll(tester.getTestContext().getBaseUrl(), "");
@@ -465,6 +776,13 @@ protected void tearDown() throws Exception {
    }
 
 /**
+ * Sets the up project.
+ *
+ * @param isHidden
+ *            the is hidden
+ * @return the project
+ * @throws Exception
+ *             the exception
  * @deprecated
  */
    @Deprecated
@@ -479,6 +797,16 @@ public Project setUpProject(boolean isHidden) throws Exception {
       return project;
    }
 
+   /** Creates the note for.
+     *
+     * @param attachedToId
+     *            the attached to id
+     * @param personId
+     *            the person id
+     * @return the note
+     * @throws Exception
+     *             the exception
+     */
    public Note createNoteFor(int attachedToId, int personId) throws Exception {
       Note note = new Note();
       note.setAttachedToId(attachedToId);
@@ -494,6 +822,11 @@ public Project setUpProject(boolean isHidden) throws Exception {
       return note;
    }
 
+   /** Creates the user without permission.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void createUserWithoutPermission()
          throws Exception {
       personTester.gotoPeoplePage();
@@ -506,6 +839,13 @@ public Project setUpProject(boolean isHidden) throws Exception {
       tester.clickLinkWithText("logout");
    }
 
+   /** Creates the user with editor role for project.
+     *
+     * @param projectName
+     *            the project name
+     * @throws Exception
+     *             the exception
+     */
    protected void createUserWithEditorRoleForProject(String projectName)
          throws Exception {
       personTester.gotoPeoplePage();
@@ -518,6 +858,11 @@ public Project setUpProject(boolean isHidden) throws Exception {
       tester.clickLinkWithText("logout");
    }
 
+   /** Delete local time entry.
+     *
+     * @param taskId
+     *            the task id
+     */
    //DEBT: can we make delete time entry part of tearDownTestTask()?
    public void deleteLocalTimeEntry(String taskId) {
       try {
@@ -531,6 +876,11 @@ public Project setUpProject(boolean isHidden) throws Exception {
       }
    }
 
+   /** Delete local note.
+     *
+     * @param attachedToId
+     *            the attached to id
+     */
    public void deleteLocalNote(String attachedToId) {
       try {
          Session session = openSession();
@@ -543,6 +893,11 @@ public Project setUpProject(boolean isHidden) throws Exception {
       }
    }
 
+   /** Go to test story page.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void goToTestStoryPage() throws Exception {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(testProjectName);
@@ -550,6 +905,11 @@ public Project setUpProject(boolean isHidden) throws Exception {
       tester.clickLinkWithText(storyName);
    }
 
+   /** Go to test story page_.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void goToTestStoryPage_() throws Exception {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(Integer.toString(project.getId()));

@@ -14,12 +14,21 @@ import java.util.List;
 
 import com.technoetic.xplanner.util.ClassUtil;
 
+/**
+ * The Class FieldAccessStrategy.
+ */
 public class FieldAccessStrategy extends MemberAccessStrategy {
 
+   /* (non-Javadoc)
+    * @see junitx.framework.MemberAccessStrategy#getMemberValue(java.lang.Object, java.lang.String)
+    */
    protected Object getMemberValue(Object object, String member) throws Exception {
       return ClassUtil.getFieldValue(object, member);
    }
 
+   /* (non-Javadoc)
+    * @see junitx.framework.MemberAccessStrategy#getMembers(java.lang.Object)
+    */
    protected List getMembers(Object object) throws Exception {
      return ClassUtil.getAllFieldNames(object);
    }

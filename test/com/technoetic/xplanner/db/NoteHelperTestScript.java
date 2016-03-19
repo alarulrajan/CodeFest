@@ -17,15 +17,34 @@ import com.technoetic.xplanner.domain.NoteAttachable;
  * Time: 2:26:04 PM
  */
 public class NoteHelperTestScript extends AbstractDatabaseTestScript {
+   
+   /** The task note. */
    private Note taskNote;
+   
+   /** The story note. */
    private Note storyNote;
+   
+   /** The iteration note. */
    private Note iterationNote;
+   
+   /** The project note. */
    private Note projectNote;
+   
+   /** The project. */
    private Project project;
+   
+   /** The iteration. */
    private Iteration iteration;
+   
+   /** The story. */
    private UserStory story;
+   
+   /** The task. */
    private Task task;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       super.setUp();
@@ -51,6 +70,11 @@ protected void setUp() throws Exception {
       assertSessionContains(new Note[]{projectNote, iterationNote, storyNote, taskNote});
    }
 
+   /** Test delete notes for task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDeleteNotesForTask() throws Exception
    {
       assertCorrectDeletions(task,
@@ -58,6 +82,11 @@ protected void setUp() throws Exception {
                              new Note[]{storyNote, iterationNote, projectNote});
    }
 
+   /** Test delete notes for story and task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDeleteNotesForStoryAndTask() throws Exception
    {
       assertCorrectDeletions(story,
@@ -65,6 +94,11 @@ protected void setUp() throws Exception {
                              new Note[]{iterationNote, projectNote});
    }
 
+   /** Test delete notes for iteration story and task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDeleteNotesForIterationStoryAndTask() throws Exception
    {
       assertCorrectDeletions(iteration,
@@ -72,6 +106,11 @@ protected void setUp() throws Exception {
                              new Note[]{projectNote});
    }
 
+   /** Test delete notes for project iteration story and task.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDeleteNotesForProjectIterationStoryAndTask() throws Exception
    {
       assertCorrectDeletions(project,
@@ -79,6 +118,17 @@ protected void setUp() throws Exception {
                              new Note[]{});
    }
 
+   /** Assert correct deletions.
+     *
+     * @param objectDeleted
+     *            the object deleted
+     * @param expectedDeletions
+     *            the expected deletions
+     * @param expectedRemaining
+     *            the expected remaining
+     * @throws Exception
+     *             the exception
+     */
    private void assertCorrectDeletions(NoteAttachable objectDeleted, Note[] expectedDeletions, Note[] expectedRemaining)
          throws Exception {
       NoteHelper.deleteNotesFor(objectDeleted, getSession());
@@ -87,14 +137,37 @@ protected void setUp() throws Exception {
       assertSessionContains(expectedRemaining);
    }
 
+   /** Assert not in session.
+     *
+     * @param notesToCheck
+     *            the notes to check
+     * @throws Exception
+     *             the exception
+     */
    private void assertNotInSession(Note[] notesToCheck) throws Exception {
       assertSessionState(notesToCheck, false);
    }
 
+   /** Assert session contains.
+     *
+     * @param notesToCheck
+     *            the notes to check
+     * @throws Exception
+     *             the exception
+     */
    private void assertSessionContains(Note[] notesToCheck) throws Exception {
       assertSessionState(notesToCheck, true);
    }
 
+   /** Assert session state.
+     *
+     * @param notesToCheck
+     *            the notes to check
+     * @param expected
+     *            the expected
+     * @throws Exception
+     *             the exception
+     */
    private void assertSessionState(Note[] notesToCheck, boolean expected) throws Exception {
       for (int i = 0; i < notesToCheck.length; i++) {
          Note note = notesToCheck[i];

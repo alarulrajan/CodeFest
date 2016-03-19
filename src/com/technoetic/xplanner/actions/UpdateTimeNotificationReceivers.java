@@ -19,13 +19,22 @@ import org.hibernate.classic.Session;
 import com.technoetic.xplanner.forms.ProjectEditorForm;
 
 /**
- * User: Mateusz Prokopowicz Date: Dec 30, 2004 Time: 10:43:51 AM
+ * User: Mateusz Prokopowicz Date: Dec 30, 2004 Time: 10:43:51 AM.
  */
 public class UpdateTimeNotificationReceivers extends AbstractAction {
+	
+	/** The Constant ADD. */
 	public static final String ADD = "addTimeNotification";
+	
+	/** The Constant DELETE. */
 	public static final String DELETE = "delTimeNotification";
+	
+	/** The Constant log. */
 	private static final Logger log = Logger.getLogger("UpdateTimeAction");
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -55,6 +64,21 @@ public class UpdateTimeNotificationReceivers extends AbstractAction {
 		}
 	}
 
+	/**
+     * Do action.
+     *
+     * @param session
+     *            the session
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @param actionMapping
+     *            the action mapping
+     * @return the action forward
+     * @throws Exception
+     *             the exception
+     */
 	private ActionForward doAction(final Session session,
 			final ProjectEditorForm form, final HttpServletRequest request,
 			final ActionMapping actionMapping) throws Exception {
@@ -86,6 +110,18 @@ public class UpdateTimeNotificationReceivers extends AbstractAction {
 		return new ActionForward(actionMapping.getInput());
 	}
 
+	/**
+     * Populate form.
+     *
+     * @param session
+     *            the session
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @throws Exception
+     *             the exception
+     */
 	private void populateForm(final Session session,
 			final ProjectEditorForm form, final HttpServletRequest request)
 			throws Exception {

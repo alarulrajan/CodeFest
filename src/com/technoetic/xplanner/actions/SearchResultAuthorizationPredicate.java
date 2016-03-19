@@ -13,12 +13,23 @@ import com.technoetic.xplanner.tags.DomainContext;
  * Created by IntelliJ IDEA. User: tkmower Date: Dec 14, 2004 Time: 2:02:13 PM
  */
 public class SearchResultAuthorizationPredicate implements Predicate {
+	
+	/** The remote user id. */
 	private final int remoteUserId;
 
+	/**
+     * Instantiates a new search result authorization predicate.
+     *
+     * @param remoteUserId
+     *            the remote user id
+     */
 	public SearchResultAuthorizationPredicate(final int remoteUserId) {
 		this.remoteUserId = remoteUserId;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
+	 */
 	@Override
 	public boolean evaluate(final Object o) {
 		try {
@@ -30,6 +41,17 @@ public class SearchResultAuthorizationPredicate implements Predicate {
 	}
 
 	// debt This code looks a bit like some code in
+	/**
+     * Checks if is result readable by user.
+     *
+     * @param searchResult
+     *            the search result
+     * @param remoteUserId
+     *            the remote user id
+     * @return true, if is result readable by user
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	// RepositorySecurityAdapter.checkAuthorization
 	protected boolean isResultReadableByUser(final SearchResult searchResult,
 			final int remoteUserId) throws AuthenticationException {

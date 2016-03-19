@@ -17,13 +17,36 @@ import com.technoetic.xplanner.util.TimeGenerator;
 
 //DOORDIE Test THIS!
 
+/**
+ * The Class UserStoryRepository.
+ */
 public class UserStoryRepository {
+	
+	/** The session. */
 	private final Session session;
+	
+	/** The person id. */
 	private final int personId;
+	
+	/** The authorizer. */
 	private final Authorizer authorizer;
+	
+	/** The iteration repository. */
 	private final IterationRepository iterationRepository;
+	
+	/** The Constant USER_STORY_WE_CAN_MOVE_TASKS_TO_QUERY. */
 	protected static final String USER_STORY_WE_CAN_MOVE_TASKS_TO_QUERY = "com.technoetic.xplanner.domain.StoriesOfCurrentAndFutureIterationOfAllVisibleProjects";
 
+	/**
+     * Instantiates a new user story repository.
+     *
+     * @param session
+     *            the session
+     * @param authorizer
+     *            the authorizer
+     * @param personId
+     *            the person id
+     */
 	public UserStoryRepository(final Session session,
 			final Authorizer authorizer, final int personId) {
 		this.session = session;
@@ -33,11 +56,31 @@ public class UserStoryRepository {
 				personId);
 	}
 
+	/**
+     * Gets the iteration.
+     *
+     * @param story
+     *            the story
+     * @return the iteration
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public Iteration getIteration(final UserStory story)
 			throws HibernateException {
 		return this.iterationRepository.getIterationForStory(story);
 	}
 
+	/**
+     * Fetch stories we can move tasks to.
+     *
+     * @param actualStoryId
+     *            the actual story id
+     * @return the list
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public List fetchStoriesWeCanMoveTasksTo(final int actualStoryId)
 			throws HibernateException, AuthenticationException {
 		final TimeGenerator timeGenerator = new TimeGenerator();
@@ -57,17 +100,42 @@ public class UserStoryRepository {
 		return acceptedStories;
 	}
 
+	/**
+     * Gets the user story.
+     *
+     * @param storyId
+     *            the story id
+     * @return the user story
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public UserStory getUserStory(final int storyId) throws HibernateException {
 		return (UserStory) this.session.get(UserStory.class, new Integer(
 				storyId));
 	}
 
+	/**
+     * Accept.
+     *
+     * @param story
+     *            the story
+     * @return true, if successful
+     * @throws AuthenticationException
+     *             the authentication exception
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	private boolean accept(final UserStory story)
 			throws AuthenticationException, HibernateException {
 		return this.authorizer.hasPermission(this.getIteration(story)
 				.getProject().getId(), this.personId, story, "edit");
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     */
 	protected Session getSession() {
 		return this.session;
 	}

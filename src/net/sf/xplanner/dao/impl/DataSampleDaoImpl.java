@@ -14,8 +14,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -29,11 +29,13 @@ import org.hibernate.criterion.Restrictions;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class DataSampleDaoImpl extends BaseDao<DataSample> implements
 		DataSampleDao {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.DataSampleDao#getDataSamples(java.util.Date, net.sf.xplanner.domain.Iteration, java.lang.String)
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<DataSample> getDataSamples(final Date date,

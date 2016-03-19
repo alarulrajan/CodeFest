@@ -15,17 +15,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/**
+ * The Class ViewService.
+ */
 @Path("/view")
 @Component()
 @Scope("request")
 public class ViewService {
+	
+	/** The view manager. */
 	private ViewManager viewManager;
 
+	/**
+     * Sets the view manager.
+     *
+     * @param viewManager
+     *            the new view manager
+     */
 	@Autowired
 	public void setViewManager(final ViewManager viewManager) {
 		this.viewManager = viewManager;
 	}
 
+	/**
+     * Gets the it.
+     *
+     * @return the it
+     */
 	// The Java method will process HTTP GET requests
 	@GET
 	// The Java method will produce content identified by the MIME Media
@@ -35,6 +51,13 @@ public class ViewService {
 		return "Hi there!";
 	}
 
+	/**
+     * Gets the project.
+     *
+     * @param id
+     *            the id
+     * @return the project
+     */
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/project/{projectId}")
@@ -42,6 +65,13 @@ public class ViewService {
 		return this.viewManager.getProject(id);
 	}
 
+	/**
+     * Gets the user stories.
+     *
+     * @param id
+     *            the id
+     * @return the user stories
+     */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/iteration/{iterationId}/userstories")

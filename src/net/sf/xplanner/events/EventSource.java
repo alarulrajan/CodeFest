@@ -5,8 +5,8 @@ import net.sf.xplanner.domain.Person;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym. Copyright (C) 2009 Maksym Chyrkov This program is free
  *         software: you can redistribute it and/or modify it under the terms of
  *         the GNU General Public License as published by the Free Software
@@ -20,21 +20,42 @@ import com.technoetic.xplanner.domain.Identifiable;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class EventSource {
+	
+	/** The domain object. */
 	private final Identifiable domainObject;
+	
+	/** The editor. */
 	private final Person editor;
 
+	/**
+     * Instantiates a new event source.
+     *
+     * @param domainObject
+     *            the domain object
+     * @param editor
+     *            the editor
+     */
 	public EventSource(final Identifiable domainObject, final Person editor) {
 		this.domainObject = domainObject;
 		this.editor = editor;
 	}
 
+	/**
+     * Gets the domain object.
+     *
+     * @return the domain object
+     */
 	public Identifiable getDomainObject() {
 		return this.domainObject;
 	}
 
+	/**
+     * Gets the editor.
+     *
+     * @return the editor
+     */
 	public Person getEditor() {
 		return this.editor;
 	}

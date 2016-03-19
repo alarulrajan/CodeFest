@@ -5,21 +5,40 @@ import net.sf.xplanner.domain.Project;
 
 import com.meterware.httpunit.WebTable;
 
+/**
+ * The Class TopPageTestScript.
+ */
 public class TopPageTestScript extends AbstractPageTestScript {
 
+   /** Instantiates a new top page test script.
+     *
+     * @param test
+     *            the test
+     */
    public TopPageTestScript(String test) {
       super(test);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    public void setUp() throws Exception {
       super.setUp();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    protected void tearDown() throws Exception {
       tester.logout();
       super.tearDown();
    }
 
+   /** Test top page links.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTopPageLinks() throws Exception {
       tester.login();
       tester.assertLinkPresentWithKey("projects.link.add_project");
@@ -28,18 +47,33 @@ public class TopPageTestScript extends AbstractPageTestScript {
       tester.assertLinkPresentWithKey("projects.link.aggregate.timesheet");
    }
 
+   /** Test top page in viewer role.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTopPageInViewerRole() throws Exception {
       assertTopPageInRole("viewer");
       tester.assertOnTopPage();
       tester.assertLinkNotPresentWithKey("projects.link.add_project");
    }
 
+   /** Test top page in editor role.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTopPageInEditorRole() throws Exception {
       assertTopPageInRole("editor");
       tester.assertOnTopPage();
       tester.assertLinkNotPresentWithKey("projects.link.add_project");
    }
 
+   /** Test top page in admin role.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTopPageInAdminRole() throws Exception {
       Project hiddenProject = newProject();
       hiddenProject.setHidden(true);
@@ -65,6 +99,11 @@ public class TopPageTestScript extends AbstractPageTestScript {
       traverseLinks();
    }
 
+   /** Test top page in sys admin role.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testTopPageInSysAdminRole() throws Exception {
       Project hiddenProject = newProject();
       hiddenProject.setHidden(true);
@@ -96,6 +135,11 @@ public class TopPageTestScript extends AbstractPageTestScript {
       traverseLinks();
    }
 
+   /** _test project edit and return.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void _testProjectEditAndReturn() throws Exception {
       tester.login();
       Project project = newProject();
@@ -108,6 +152,13 @@ public class TopPageTestScript extends AbstractPageTestScript {
       tester.assertKeyPresent("projects.title");
    }
 
+   /** Assert top page in role.
+     *
+     * @param roleName
+     *            the role name
+     * @throws Exception
+     *             the exception
+     */
    private void assertTopPageInRole(String roleName)
          throws Exception {
       Project hiddenProject = newProject();
@@ -122,6 +173,11 @@ public class TopPageTestScript extends AbstractPageTestScript {
       traverseLinks();
    }
 
+   /** Assert table looks right.
+     *
+     * @param project
+     *            the project
+     */
    private void assertTableLooksRight(Project project) {
       tester.assertKeyPresent("projects.title");
       tester.assertTableEquals("objecttable", new String[][]{
@@ -134,6 +190,11 @@ public class TopPageTestScript extends AbstractPageTestScript {
       });
    }
 
+   /** Traverse links.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void traverseLinks()
          throws Exception {
       traverseLinkWithKeyAndReturn("navigation.me");
@@ -141,6 +202,15 @@ public class TopPageTestScript extends AbstractPageTestScript {
       traverseLinkWithKeyAndReturn("projects.link.aggregate.timesheet");
    }
 
+   /** Assert project displayed correctly.
+     *
+     * @param expectedText
+     *            the expected text
+     * @param table
+     *            the table
+     * @param r
+     *            the r
+     */
    private void assertProjectDisplayedCorrectly(String expectedText, WebTable table, int r) {
       assertEquals(expectedText, table.getCellAsText(r, 4).trim());
       assertImageInCell(table, r, 0, EDIT_IMAGE);

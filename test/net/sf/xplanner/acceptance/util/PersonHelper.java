@@ -14,17 +14,49 @@ import net.sourceforge.jwebunit.html.Table;
 import net.sourceforge.jwebunit.junit.WebTestCase;
 
 import org.apache.commons.lang.RandomStringUtils;
+
+/**
+ * The Class PersonHelper.
+ */
 public class PersonHelper {
+	
+	/** The Constant SYSTEM_ADMIN_FIELD. */
 	public static final String SYSTEM_ADMIN_FIELD = "systemAdmin";
+	
+	/** The Constant EMAIL_FIELD. */
 	public static final String EMAIL_FIELD = "email";
+	
+	/** The Constant USER_ID_FIELD. */
 	public static final String USER_ID_FIELD = "userIdentifier";
+	
+	/** The Constant NAME_FIELD. */
 	public static final String NAME_FIELD = "name";
+	
+	/** The tester. */
 	private WebTestCase tester;
 
+	/**
+     * Instantiates a new person helper.
+     *
+     * @param tester
+     *            the tester
+     */
 	public PersonHelper(WebTestCase tester) {
 		this.tester = tester;
 	}
 
+	/**
+     * Creates the sysadmin.
+     *
+     * @param userId
+     *            the user id
+     * @param name
+     *            the name
+     * @param email
+     *            the email
+     * @param password
+     *            the password
+     */
 	public void createSysadmin(String userId, String name, String email,
 			String password) {
 		tester.clickLink(TOP_LINK_ID);
@@ -43,6 +75,11 @@ public class PersonHelper {
 		tester.assertLinkPresentWithExactText(email);
 	}
 
+	/**
+     * Gets the user.
+     *
+     * @return the user
+     */
 	public Person getUser() {
 		tester.clickLink(TOP_LINK_ID);
 		tester.clickLink(PEOPLE_LINK_ID);

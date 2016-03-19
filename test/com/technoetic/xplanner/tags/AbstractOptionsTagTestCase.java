@@ -17,25 +17,60 @@ import com.technoetic.xplanner.domain.ObjectMother;
 import com.technoetic.xplanner.security.auth.MockAuthorizer;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
+/**
+ * The Class AbstractOptionsTagTestCase.
+ */
 public class AbstractOptionsTagTestCase extends TestCase {
+    
+    /** The support. */
     protected XPlannerTestSupport support;
+    
+    /** The tag. */
     protected OptionsTag tag;
+    
+    /** The authorizer. */
     protected MockAuthorizer authorizer;
+    
+    /** The Constant DAY. */
     public static final long DAY = ObjectMother.DAY;
+    
+    /** The next id. */
     private int nextId;
+    
+    /** The Constant ITERATION_PREFIX. */
     public static final String ITERATION_PREFIX = "Test iteration ";
+    
+    /** The Constant PROJECT_PREFIX. */
     public static final String PROJECT_PREFIX = "Test project ";
+    
+    /** The Constant STORY_PREFIX. */
     public static final String STORY_PREFIX = "Test story";
 
-    //TODO Extract these variable to an ObjectMother pattern. Share implementation with AbstractDatabaseTestScript
+    /** The PROJEC t1. */
+    //ChangeSoon Extract these variable to an ObjectMother pattern. Share implementation with AbstractDatabaseTestScript
     protected static Project PROJECT1;
+    
+    /** The PROJEC t2. */
     protected static Project PROJECT2;
+    
+    /** The ITERATIO n_0_1. */
     protected static Iteration ITERATION_0_1;
+    
+    /** The ITERATIO n_1_1. */
     protected static Iteration ITERATION_1_1;
+    
+    /** The ITERATIO n_2_1. */
     protected static Iteration ITERATION_2_1;
+    
+    /** The ITERATIO n_0_2. */
     protected static Iteration ITERATION_0_2;
+    
+    /** The Constant TASK_PREFIX. */
     private static final String TASK_PREFIX = "Test Task";
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
 	protected void setUp() throws Exception {
         super.setUp();
@@ -58,6 +93,9 @@ public class AbstractOptionsTagTestCase extends TestCase {
         ITERATION_0_2 = newIteration(PROJECT2, DAY * 1);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     @Override
 	protected void tearDown() throws Exception {
         SystemAuthorizer.set(null);
@@ -65,7 +103,11 @@ public class AbstractOptionsTagTestCase extends TestCase {
         super.tearDown();
     }
 
-    // TODO: remove test object factory duplication (AbstractDatabaseTestScript)
+    /** New project.
+     *
+     * @return the project
+     */
+    // ChangeSoon: remove test object factory duplication (AbstractDatabaseTestScript)
     public Project newProject() {
         Project project = new Project();
         project.setId(nextId++);
@@ -73,6 +115,14 @@ public class AbstractOptionsTagTestCase extends TestCase {
         return project;
     }
 
+    /** New iteration.
+     *
+     * @param project
+     *            the project
+     * @param numberOfDays
+     *            the number of days
+     * @return the iteration
+     */
     public Iteration newIteration(Project project, long numberOfDays) {
         Iteration iteration = new Iteration();
         iteration.setProject(project);
@@ -84,6 +134,12 @@ public class AbstractOptionsTagTestCase extends TestCase {
         return iteration;
     }
 
+    /** New user story.
+     *
+     * @param iteration
+     *            the iteration
+     * @return the user story
+     */
     public UserStory newUserStory(Iteration iteration) {
         UserStory story = new UserStory();
         story.setId(nextId++);
@@ -92,6 +148,12 @@ public class AbstractOptionsTagTestCase extends TestCase {
         return story;
     }
 
+    /** New task.
+     *
+     * @param story
+     *            the story
+     * @return the task
+     */
     protected Task newTask(UserStory story) {
         Task task = new Task();
         task.setUserStory(story);

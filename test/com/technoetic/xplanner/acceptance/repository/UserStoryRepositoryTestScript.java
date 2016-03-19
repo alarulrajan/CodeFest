@@ -19,20 +19,46 @@ import com.technoetic.xplanner.domain.repository.UserStoryRepository;
 import com.technoetic.xplanner.security.auth.Authorizer;
 import com.technoetic.xplanner.util.TimeGenerator;
 
-//TODO Setup hypersonic to run these tests in memory only
+//ChangeSoon Setup hypersonic to run these tests in memory only
 
+/**
+ * The Class UserStoryRepositoryTestScript.
+ */
 public class UserStoryRepositoryTestScript extends AbstractDatabaseTestScript {
+   
+   /** The project. */
    private Project project;
+   
+   /** The iteration. */
    private Iteration iteration;
+   
+   /** The story. */
    private UserStory story;
+   
+   /** The current date. */
    private Date currentDate;
+   
+   /** The project2. */
    private Project project2;
+   
+   /** The project1. */
    private Project project1;
+   
+   /** The person. */
    private Person person;
+   
+   /** The time generator. */
    private TimeGenerator timeGenerator;
+   
+   /** The start date. */
    private Date startDate;
+   
+   /** The end date. */
    private Date endDate;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       timeGenerator = new TimeGenerator();
@@ -56,6 +82,12 @@ protected void setUp() throws Exception {
       setUpPersonRole(project2, person, Role.VIEWER);
    }
 
+   /** Test fetch stories we can move tasks to_ check permission for stories
+     * in current iterations.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFetchStoriesWeCanMoveTasksTo_CheckPermissionForStoriesInCurrentIterations() throws Exception {
 
       Iteration secondWritableIteration = newIteration(project1, startDate, endDate);
@@ -82,6 +114,12 @@ protected void setUp() throws Exception {
       ArrayAssert.assertEquals("stories returned", expectedStories, list.toArray());
    }
 
+   /** Test fetch stories we can move tasks to_ show only current and future
+     * iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFetchStoriesWeCanMoveTasksTo_ShowOnlyCurrentAndFutureIteration() throws Exception {
       Iteration previousIterationInTheSameProject =
             newIteration(project,
@@ -116,11 +154,31 @@ protected void setUp() throws Exception {
       ArrayAssert.assertEquivalenceArrays("stories returned", expectedStories, list.toArray());
    }
 
+   /** Creates the user story repository.
+     *
+     * @return the user story repository
+     * @throws Exception
+     *             the exception
+     */
    private UserStoryRepository createUserStoryRepository() throws Exception {
       Authorizer authorizer = createAuthorizer();
       return new UserStoryRepository(getSession(), authorizer, person.getId());
    }
 
+   /** New iteration.
+     *
+     * @param project
+     *            the project
+     * @param startDate
+     *            the start date
+     * @param endDate
+     *            the end date
+     * @return the iteration
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    private Iteration newIteration(Project project, Date startDate, Date endDate) throws HibernateException,
                                                                                         RepositoryException {
       Iteration iteration = newIteration(project);

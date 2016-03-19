@@ -10,7 +10,21 @@
  */
 package com.technoetic.xplanner.util;
 
+/**
+ * The Class PropertyUtils.
+ */
 public class PropertyUtils extends org.apache.commons.beanutils.PropertyUtils {
+	
+	/**
+     * Sets the property.
+     *
+     * @param object
+     *            the object
+     * @param property
+     *            the property
+     * @param value
+     *            the value
+     */
 	public static void setProperty(final Object object, final String property,
 			final Object value) {
 		try {
@@ -21,6 +35,15 @@ public class PropertyUtils extends org.apache.commons.beanutils.PropertyUtils {
 		}
 	}
 
+	/**
+     * Gets the property.
+     *
+     * @param object
+     *            the object
+     * @param property
+     *            the property
+     * @return the property
+     */
 	public static Object getProperty(final Object object, final String property) {
 		try {
 			return org.apache.commons.beanutils.PropertyUtils.getProperty(

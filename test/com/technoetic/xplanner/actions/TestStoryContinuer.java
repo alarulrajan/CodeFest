@@ -10,8 +10,14 @@ import net.sf.xplanner.domain.History;
 import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestStoryContinuer.
+ */
 public class TestStoryContinuer extends ContinuerBaseTestCase {
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.ContinuerBaseTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       setUpTasksStoryAndIteration();
@@ -21,6 +27,11 @@ public class TestStoryContinuer extends ContinuerBaseTestCase {
 
    }
 
+   /** Test story continuation.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testStoryContinuation() throws Exception {
 
       putContentOnMockQuery();

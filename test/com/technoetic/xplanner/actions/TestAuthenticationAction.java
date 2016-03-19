@@ -21,17 +21,38 @@ import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.MockAuthenticator;
 
+/**
+ * The Class TestAuthenticationAction.
+ */
 public class TestAuthenticationAction extends TestCase {
+    
+    /** The action. */
     private AuthenticationAction action;
+    
+    /** The properties. */
     private Properties properties;
+    
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The dyna action form. */
     private DynaActionForm dynaActionForm;
+    
+    /** The mock authenticator. */
     private MockAuthenticator mockAuthenticator;
 
+    /** Instantiates a new test authentication action.
+     *
+     * @param s
+     *            the s
+     */
     public TestAuthenticationAction(String s) {
         super(s);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         Logger.getRootLogger().setLevel(Level.OFF);
@@ -56,16 +77,29 @@ public class TestAuthenticationAction extends TestCase {
         action.setAuthenticator(mockAuthenticator);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         super.tearDown();
     }
 
+    /** Test no action in form.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testNoActionInForm() throws Exception {
         ActionForward forward = support.executeAction(action);
 
         assertEquals("wrong forward", "notAuthenticated", forward.getName());
     }
 
+    /** Test successful login.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSuccessfulLogin() throws Exception {
         dynaActionForm.set("action", "login");
 
@@ -74,6 +108,11 @@ public class TestAuthenticationAction extends TestCase {
         assertEquals("wrong forward", "authenticated", forward.getName());
     }
 
+    /** Test unsuccessful login.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testUnsuccessfulLogin() throws Exception {
         dynaActionForm.set("action", "login");
         mockAuthenticator.authenticateException = new AuthenticationException("test");

@@ -10,8 +10,8 @@ import net.sf.xplanner.domain.DataSample;
 import net.sf.xplanner.domain.Iteration;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -25,10 +25,20 @@ import net.sf.xplanner.domain.Iteration;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public interface DataSampleDao extends Dao<DataSample> {
 
+	/**
+     * Gets the data samples.
+     *
+     * @param date
+     *            the date
+     * @param iteration
+     *            the iteration
+     * @param aspect
+     *            the aspect
+     * @return the data samples
+     */
 	public List<DataSample> getDataSamples(Date date, Iteration iteration,
 			String aspect);
 

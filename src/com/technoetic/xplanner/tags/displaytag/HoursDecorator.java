@@ -6,7 +6,24 @@
  */
 package com.technoetic.xplanner.tags.displaytag;
 
+/**
+ * The Class HoursDecorator.
+ */
 public class HoursDecorator {
+	
+	/**
+     * Gets the percent completed score.
+     *
+     * @param estimatedHours
+     *            the estimated hours
+     * @param actualHours
+     *            the actual hours
+     * @param remainingHours
+     *            the remaining hours
+     * @param completed
+     *            the completed
+     * @return the percent completed score
+     */
 	public static double getPercentCompletedScore(final double estimatedHours,
 			final double actualHours, final double remainingHours,
 			final boolean completed) {
@@ -20,6 +37,17 @@ public class HoursDecorator {
 		}
 	}
 
+	/**
+     * Gets the remaining hours score.
+     *
+     * @param actualHours
+     *            the actual hours
+     * @param remainingHours
+     *            the remaining hours
+     * @param completed
+     *            the completed
+     * @return the remaining hours score
+     */
 	public static double getRemainingHoursScore(final double actualHours,
 			final double remainingHours, final boolean completed) {
 		if (completed) {
@@ -28,6 +56,15 @@ public class HoursDecorator {
 		return remainingHours;
 	}
 
+	/**
+     * Format percent difference.
+     *
+     * @param originalHours
+     *            the original hours
+     * @param finalHours
+     *            the final hours
+     * @return the string
+     */
 	public static String formatPercentDifference(final double originalHours,
 			final double finalHours) {
 		final int error = HoursDecorator.getPercentDifference(originalHours,
@@ -38,6 +75,15 @@ public class HoursDecorator {
 		return str;
 	}
 
+	/**
+     * Gets the percent difference.
+     *
+     * @param originalHours
+     *            the original hours
+     * @param finalHours
+     *            the final hours
+     * @return the percent difference
+     */
 	public static int getPercentDifference(final double originalHours,
 			final double finalHours) {
 		final double delta = finalHours - originalHours;

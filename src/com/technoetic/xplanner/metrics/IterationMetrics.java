@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.xplanner.domain.Iteration;
 import net.sf.xplanner.domain.Task;
@@ -22,24 +23,60 @@ import com.technoetic.xplanner.domain.repository.ObjectRepository;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class IterationMetrics.
+ */
 public class IterationMetrics {
-	private final Logger log = Logger.getLogger(this.getClass());
-	protected HashMap developerMetrics = new HashMap();
+	
+	/** The Constant log. */
+	private static final Logger log = Logger.getLogger(IterationMetrics.class);
+	
+	/** The developer metrics. */
+	protected Map developerMetrics = new HashMap();
+	
+	/** The total hours. */
 	private double totalHours;
+	
+	/** The total paired hours. */
 	private double totalPairedHours;
+	
+	/** The iteration id. */
 	private int iterationId;
-	private final String iterationName = null;
+	
+	/** The Constant ITERATION_NAME. */
+	private static final String ITERATION_NAME = null;
+	
+	/** The max developer hours. */
 	private double maxDeveloperHours;
-	protected HashMap names = new HashMap();
+	
+	/** The names. */
+	protected Map names = new HashMap();
+	
+	/** The Constant UNASSIGNED_ID. */
 	public static final int UNASSIGNED_ID = 0;
+	
+	/** The Constant UNASSIGNED_NAME. */
 	public static final String UNASSIGNED_NAME = "Unassigned";
+	
+	/** The session. */
 	private Session session;
+	
+	/** The iteration repository. */
 	private ObjectRepository iterationRepository;
 
+	/**
+     * Sets the iteration id.
+     *
+     * @param iterationId
+     *            the new iteration id
+     */
 	public void setIterationId(final int iterationId) {
 		this.iterationId = iterationId;
 	}
 
+	/**
+     * Analyze.
+     */
 	public void analyze() {
 		// DEBT Spring load
 		this.session = ThreadSession.get();
@@ -62,6 +99,16 @@ public class IterationMetrics {
 		}
 	}
 
+	/**
+     * Calculate developer metrics.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	public void calculateDeveloperMetrics() throws HibernateException,
 			AuthenticationException, RepositoryException {
 		final Iteration iteration = this.getIterationObject();
@@ -69,13 +116,31 @@ public class IterationMetrics {
 		this.getMetricsData(stories);
 	}
 
+	/**
+     * Gets the iteration object.
+     *
+     * @return the iteration object
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	protected Iteration getIterationObject() throws HibernateException,
 			AuthenticationException, RepositoryException {
 		final ObjectRepository repository = this.getIterationRepository();
 		return (Iteration) repository.load(this.getIterationId());
 	}
 
-	protected HashMap getMetricsData(final Collection stories) {
+	/**
+     * Gets the metrics data.
+     *
+     * @param stories
+     *            the stories
+     * @return the metrics data
+     */
+	protected Map getMetricsData(final Collection stories) {
 		for (final Iterator iterator = stories.iterator(); iterator.hasNext();) {
 			final UserStory story = (UserStory) iterator.next();
 			final Collection tasks = story.getTasks();
@@ -94,6 +159,16 @@ public class IterationMetrics {
 		return this.developerMetrics;
 	}
 
+	/**
+     * Assign hours to user.
+     *
+     * @param personId
+     *            the person id
+     * @param estimatedHours
+     *            the estimated hours
+     * @param isStoryHour
+     *            the is story hour
+     */
 	protected void assignHoursToUser(final int personId,
 			final double estimatedHours, final boolean isStoryHour) {
 		if (estimatedHours == 0) {
@@ -114,6 +189,15 @@ public class IterationMetrics {
 		}
 	}
 
+	/**
+     * Gets the names map.
+     *
+     * @param session
+     *            the session
+     * @return the names map
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	protected void getNamesMap(final Session session) throws HibernateException {
 		final List nameResults = session.getNamedQuery("namesQuery").list();
 		final Iterator iter = nameResults.iterator();
@@ -124,17 +208,40 @@ public class IterationMetrics {
 		this.addUnassignedName();
 	}
 
+	/**
+     * Adds the unassigned name.
+     */
 	protected void addUnassignedName() {
 		this.names.put(new Integer(IterationMetrics.UNASSIGNED_ID),
 				IterationMetrics.UNASSIGNED_NAME);
 	}
 
+	/**
+     * Gets the name.
+     *
+     * @param personId
+     *            the person id
+     * @return the name
+     */
 	protected String getName(final int personId) {
 		return (String) this.names.get(new Integer(personId));
 	}
 
+	/**
+     * Gets the hours worked.
+     *
+     * @param session
+     *            the session
+     * @param hoursQuery
+     *            the hours query
+     * @param names
+     *            the names
+     * @return the hours worked
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	void getHoursWorked(final Session session, final String hoursQuery,
-			final HashMap names) throws HibernateException {
+			final Map names) throws HibernateException {
 		this.totalHours = 0.0;
 		this.totalPairedHours = 0.0;
 		this.maxDeveloperHours = 0.0;
@@ -174,14 +281,39 @@ public class IterationMetrics {
 		}
 	}
 
+	/**
+     * To int.
+     *
+     * @param object
+     *            the object
+     * @return the int
+     */
 	private int toInt(final Object object) {
 		return ((Integer) object).intValue();
 	}
 
+	/**
+     * To double.
+     *
+     * @param object
+     *            the object
+     * @return the double
+     */
 	private double toDouble(final Object object) {
 		return object != null ? ((Double) object).doubleValue() : 0;
 	}
 
+	/**
+     * Gets the developer metrics.
+     *
+     * @param name
+     *            the name
+     * @param id
+     *            the id
+     * @param iterationId
+     *            the iteration id
+     * @return the developer metrics
+     */
 	protected DeveloperMetrics getDeveloperMetrics(final String name,
 			final int id, final int iterationId) {
 		DeveloperMetrics dm = (DeveloperMetrics) this.developerMetrics
@@ -196,6 +328,22 @@ public class IterationMetrics {
 		return dm;
 	}
 
+	/**
+     * Update worked hours.
+     *
+     * @param iterationId
+     *            the iteration id
+     * @param name
+     *            the name
+     * @param id
+     *            the id
+     * @param hours
+     *            the hours
+     * @param isPaired
+     *            the is paired
+     * @param isOwnTask
+     *            the is own task
+     */
 	private void updateWorkedHours(final int iterationId, final String name,
 			final int id, final double hours, final boolean isPaired,
 			final boolean isOwnTask) {
@@ -213,14 +361,29 @@ public class IterationMetrics {
 		}
 	}
 
+	/**
+     * Gets the total hours.
+     *
+     * @return the total hours
+     */
 	public double getTotalHours() {
 		return this.totalHours;
 	}
 
+	/**
+     * Gets the total paired hours.
+     *
+     * @return the total paired hours
+     */
 	public double getTotalPairedHours() {
 		return this.totalPairedHours;
 	}
 
+	/**
+     * Gets the total paired percentage.
+     *
+     * @return the total paired percentage
+     */
 	public double getTotalPairedPercentage() {
 		double result = this.totalPairedHours * 100
 				/ (this.totalHours - this.totalPairedHours);
@@ -230,14 +393,31 @@ public class IterationMetrics {
 		return result;
 	}
 
+	/**
+     * Sets the total hours.
+     *
+     * @param totalHours
+     *            the new total hours
+     */
 	public void setTotalHours(final double totalHours) {
 		this.totalHours = totalHours;
 	}
 
+	/**
+     * Sets the total paired hours.
+     *
+     * @param totalPairedHours
+     *            the new total paired hours
+     */
 	public void setTotalPairedHours(final double totalPairedHours) {
 		this.totalPairedHours = totalPairedHours;
 	}
 
+	/**
+     * Gets the developer total time.
+     *
+     * @return the developer total time
+     */
 	public Collection getDeveloperTotalTime() {
 		final ArrayList metrics = new ArrayList(this.developerMetrics.values());
 		Collections.sort(metrics, new Comparator() {
@@ -252,6 +432,11 @@ public class IterationMetrics {
 		return metrics;
 	}
 
+	/**
+     * Gets the developer own tasks worked time.
+     *
+     * @return the developer own tasks worked time
+     */
 	public Collection getDeveloperOwnTasksWorkedTime() {
 		final ArrayList metrics = new ArrayList(this.developerMetrics.values());
 		Collections.sort(metrics, new Comparator() {
@@ -266,6 +451,11 @@ public class IterationMetrics {
 		return metrics;
 	}
 
+	/**
+     * Gets the max total time.
+     *
+     * @return the max total time
+     */
 	public double getMaxTotalTime() {
 		double maxTotalTime = 0;
 		final Iterator itr = this.developerMetrics.values().iterator();
@@ -278,6 +468,11 @@ public class IterationMetrics {
 		return maxTotalTime;
 	}
 
+	/**
+     * Gets the developer accepted time.
+     *
+     * @return the developer accepted time
+     */
 	public Collection getDeveloperAcceptedTime() {
 		final ArrayList metrics = new ArrayList(this.developerMetrics.values());
 		Collections.sort(metrics, new Comparator() {
@@ -293,6 +488,11 @@ public class IterationMetrics {
 		return metrics;
 	}
 
+	/**
+     * Gets the max accepted time.
+     *
+     * @return the max accepted time
+     */
 	public double getMaxAcceptedTime() {
 		double maxAcceptedTime = 0;
 		final Iterator itr = this.developerMetrics.values().iterator();
@@ -306,23 +506,50 @@ public class IterationMetrics {
 		return maxAcceptedTime;
 	}
 
+	/**
+     * Gets the iteration id.
+     *
+     * @return the iteration id
+     */
 	public int getIterationId() {
 		return this.iterationId;
 	}
 
+	/**
+     * Gets the iteration name.
+     *
+     * @return the iteration name
+     */
 	public String getIterationName() {
-		return this.iterationName;
+		return this.ITERATION_NAME;
 	}
 
+	/**
+     * Analyze.
+     *
+     * @param iterationId
+     *            the iteration id
+     */
 	public void analyze(final int iterationId) {
 		this.setIterationId(iterationId);
 		this.analyze();
 	}
 
+	/**
+     * Gets the iteration repository.
+     *
+     * @return the iteration repository
+     */
 	private ObjectRepository getIterationRepository() {
 		return this.iterationRepository;
 	}
 
+	/**
+     * Sets the iteration repository.
+     *
+     * @param iterationRepository
+     *            the new iteration repository
+     */
 	public void setIterationRepository(
 			final ObjectRepository iterationRepository) {
 		this.iterationRepository = iterationRepository;

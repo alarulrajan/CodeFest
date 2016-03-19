@@ -30,27 +30,63 @@ import com.technoetic.xplanner.domain.repository.ObjectRepository;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class ContinuerBaseTestCase.
+ */
 // DEBT(SETUP) Use ObjectMother to simplify the setup of business objects
 public abstract class ContinuerBaseTestCase extends AbstractUnitTestCase {
+   
+   /** The Constant ITERATION_NAME. */
    protected static final String ITERATION_NAME = "Test Iteration";
+   
+   /** The Constant TARGET_ITERATION_NAME. */
    protected static final String TARGET_ITERATION_NAME = "Target Test Iteration";
+   
+   /** The Constant STORY_DESCRIPTION. */
    protected static final String STORY_DESCRIPTION = "Story description.";
+   
+   /** The Constant STORY_NAME. */
    protected static final String STORY_NAME = "Test Story";
+   
+   /** The Constant DESCRIPTION. */
    protected static final String DESCRIPTION = "";
 
+   /** The iteration. */
    protected Iteration iteration;
+   
+   /** The target iteration. */
    protected Iteration targetIteration;
+   
+   /** The story. */
    protected UserStory story;
+   
+   /** The incomplete task1. */
    protected Task incompleteTask1;
+   
+   /** The incomplete task2. */
    protected Task incompleteTask2;
+   
+   /** The notes list. */
    private List notesList;
+   
+   /** The story note. */
    private Note storyNote;
 
+   /** The initial postponed hours. */
    private final double initialPostponedHours = 4.0;
+   
+   /** The story continuer. */
    protected StoryContinuer storyContinuer;
+   
+   /** The task continuer. */
    protected TaskContinuer taskContinuer;
+   
+   /** The meta data repository. */
    protected DomainMetaDataRepository metaDataRepository;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       super.setUp();
@@ -107,6 +143,11 @@ protected void setUp() throws Exception {
       mockMetaRepository = createMockMetaRepository(mockObjectRepository);
    }
 
+   /** Sets the up continuers.
+     *
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
    protected void setUpContinuers() throws AuthenticationException {
       storyContinuer = new StoryContinuer();
       taskContinuer = new TaskContinuer();
@@ -117,6 +158,12 @@ protected void setUp() throws Exception {
       storyContinuer.init(support.hibernateSession, support.request);
    }
    
+   /** Gets the saved instances of.
+     *
+     * @param objectClass
+     *            the object class
+     * @return the saved instances of
+     */
    protected List getSavedInstancesOf(Class objectClass) {
       ArrayList foundObjects = new ArrayList();
       Iterator it = support.hibernateSession.saveObjects.iterator();
@@ -129,6 +176,13 @@ protected void setUp() throws Exception {
       return foundObjects;
    }
 
+   /** Assert task properties.
+     *
+     * @param originalTask
+     *            the original task
+     * @param continuedTask
+     *            the continued task
+     */
    protected void assertTaskProperties(Task originalTask, Task continuedTask) {
       assertEquals("acceptor", 0, continuedTask.getAcceptorId());
       assertEquals("name", originalTask.getName(), continuedTask.getName());
@@ -159,6 +213,20 @@ protected void setUp() throws Exception {
       assertEquals("continued task actual hours", 0, continuedTask.getActualHours(), 0);
    }
 
+   /** Creates the task.
+     *
+     * @param taskId
+     *            the task id
+     * @param acceptorId
+     *            the acceptor id
+     * @param estimatedHours
+     *            the estimated hours
+     * @param estimatedOriginalHours
+     *            the estimated original hours
+     * @param timeEntries
+     *            the time entries
+     * @return the task
+     */
    protected Task createTask(int taskId,
                              int acceptorId,
                              double estimatedHours,
@@ -176,6 +244,10 @@ protected void setUp() throws Exception {
    }
 
 
+   /** Creates the time entries.
+     *
+     * @return the array list
+     */
    protected ArrayList createTimeEntries() {
       long now = new Date().getTime();
       TimeEntry t1 = new TimeEntry();
@@ -190,6 +262,13 @@ protected void setUp() throws Exception {
       return timeEntries;
    }
 
+   /** Sets the up target iteration.
+     *
+     * @throws RepositoryException
+     *             the repository exception
+     * @throws HibernateException
+     *             the hibernate exception
+     */
    protected void setUpTargetIteration() throws RepositoryException, HibernateException {
       targetIteration = new Iteration();
       targetIteration.setName(TARGET_ITERATION_NAME);
@@ -197,6 +276,13 @@ protected void setUp() throws Exception {
       mockObjectRepository.insert(targetIteration);
    }
 
+   /** Sets the up tasks story and iteration.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    protected void setUpTasksStoryAndIteration() throws HibernateException, RepositoryException {
       incompleteTask1 = createTask(1, 1010, 5.0, 2.0, createTimeEntries());
       incompleteTask2 = createTask(2, 1212, 5.0, 2.0, createTimeEntries());
@@ -241,6 +327,12 @@ protected void setUp() throws Exception {
       createNotesListFor(incompleteTask1);
    }
 
+   /** Creates the mock meta repository.
+     *
+     * @param objectRepository
+     *            the object repository
+     * @return the meta repository
+     */
    protected MetaRepository createMockMetaRepository(final ObjectRepository objectRepository) {
       return new MetaRepository() {
 
@@ -253,6 +345,10 @@ protected void setUp() throws Exception {
       };
    }
 
+   /** Creates the mock object repository.
+     *
+     * @return the object repository
+     */
    protected ObjectRepository createMockObjectRepository() {
       return new ObjectRepository() {
          public void delete(int objectIdentifier) {
@@ -272,6 +368,11 @@ protected void setUp() throws Exception {
       };
    }
 
+   /** Verify continued story.
+     *
+     * @param continuedStory
+     *            the continued story
+     */
    protected void verifyContinuedStory(UserStory continuedStory) {
       assertEquals("iteration ID", 6666, continuedStory.getIteration().getId());
       assertEquals("name", story.getName(), continuedStory.getName());
@@ -326,10 +427,18 @@ protected void setUp() throws Exception {
       }
    }
 
+   /** Gets the uncompleted task remaing hours.
+     *
+     * @param task
+     *            the task
+     * @return the uncompleted task remaing hours
+     */
    private double getUncompletedTaskRemaingHours(Task task) {
       return Math.max(task.getEstimatedHours() - incompleteTask1.getActualHours(), 0.0);
    }
 
+   /** Put content on mock query.
+     */
    protected void putContentOnMockQuery() {
       support.hibernateSession.iterateReturn = notesList.iterator();
       MockNoteQuery query = createMockQuery();
@@ -338,10 +447,19 @@ protected void setUp() throws Exception {
             .put(Note.class.getName() + Note.ATTACHED_NOTES_QUERY, query);
    }
 
+   /** Creates the mock query.
+     *
+     * @return the mock note query
+     */
    private MockNoteQuery createMockQuery() {
       return new MockNoteQuery(notesList);
    }
 
+   /** Creates the notes list for.
+     *
+     * @param attachedToObject
+     *            the attached to object
+     */
    protected void createNotesListFor(DomainObject attachedToObject) {
       File file = new File();
       Note note = new Note();
@@ -360,6 +478,15 @@ protected void setUp() throws Exception {
       notesList.add(note);
    }
 
+   /** Assert history in object.
+     *
+     * @param object
+     *            the object
+     * @param description
+     *            the description
+     * @param eventType
+     *            the event type
+     */
    protected void assertHistoryInObject(DomainObject object, String description, String eventType) {
       support.assertHistoryInObject(object.getId(),
                                             eventType,
@@ -367,18 +494,35 @@ protected void setUp() throws Exception {
                                             XPlannerTestSupport.DEFAULT_PERSON_ID);
    }
 
+   /** Verify notes being continued.
+     *
+     * @param expectedNoteCount
+     *            the expected note count
+     */
    protected void verifyNotesBeingContinued(int expectedNoteCount) {
       List savedNotes = getSavedInstancesOf(Note.class);
       assertEquals("number of saved notes", expectedNoteCount, savedNotes.size());
    }
 
+   /** The Class MockNoteQuery.
+     */
    private static class MockNoteQuery extends MockQuery {
+      
+      /** The notes list. */
       private final List notesList;
 
+      /** Instantiates a new mock note query.
+         *
+         * @param notesList
+         *            the notes list
+         */
       public MockNoteQuery(List notesList) {
          this.notesList = notesList;
       }
 
+      /* (non-Javadoc)
+       * @see com.technoetic.mocks.hibernate.MockQuery#setString(java.lang.String, java.lang.String)
+       */
       @Override
 	public Query setString(String name, String val) {
          listReturn = new ArrayList();
@@ -391,6 +535,9 @@ protected void setUp() throws Exception {
          return this;
       }
 
+      /* (non-Javadoc)
+       * @see com.technoetic.mocks.hibernate.MockQuery#iterate()
+       */
       @Override
 	public Iterator iterate() {
          return listReturn.iterator();

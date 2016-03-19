@@ -11,13 +11,24 @@ import jcifs.smb.SmbSession;
 
 import org.apache.log4j.Priority;
 
+/**
+ * The Class NtlmLoginHelperImpl.
+ */
 public class NtlmLoginHelperImpl implements NtlmLoginHelper {
+	
+	/** The secure random. */
 	private final SecureRandom secureRandom = new SecureRandom();
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.ntlm.NtlmLoginHelper#setLoggingPriority(org.apache.log4j.Priority)
+	 */
 	@Override
 	public void setLoggingPriority(final Priority loggingPriority) {
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.ntlm.NtlmLoginHelper#authenticate(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void authenticate(final String userId, final String password,
 			final String domainController, final String domain)
@@ -30,6 +41,9 @@ public class NtlmLoginHelperImpl implements NtlmLoginHelper {
 		SmbSession.logon(dc, ntlm);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.module.ntlm.NtlmLoginHelper#encodePassword(java.lang.String, byte[])
+	 */
 	@Override
 	public String encodePassword(final String password, byte[] salt)
 			throws Exception {

@@ -13,14 +13,40 @@ import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetHeaderConfigurati
 import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetStoryFilter;
 import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetStoryReader;
 
+/**
+ * The Class SpreadsheetStoryImporter.
+ */
 public class SpreadsheetStoryImporter {
+	
+	/** The spreadsheet story factory. */
 	private final SpreadsheetStoryFactory spreadsheetStoryFactory;
 
+	/**
+     * Instantiates a new spreadsheet story importer.
+     *
+     * @param spreadsheetStoryFactory
+     *            the spreadsheet story factory
+     */
 	public SpreadsheetStoryImporter(
 			final SpreadsheetStoryFactory spreadsheetStoryFactory) {
 		this.spreadsheetStoryFactory = spreadsheetStoryFactory;
 	}
 
+	/**
+     * Import stories.
+     *
+     * @param iteration
+     *            the iteration
+     * @param headerConfiguration
+     *            the header configuration
+     * @param inputStream
+     *            the input stream
+     * @param onlyUncompleted
+     *            the only uncompleted
+     * @return the list
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public List importStories(final Iteration iteration,
 			final SpreadsheetHeaderConfiguration headerConfiguration,
 			final InputStream inputStream, final boolean onlyUncompleted)
@@ -54,6 +80,17 @@ public class SpreadsheetStoryImporter {
 		return newStories;
 	}
 
+	/**
+     * Read stories from spreadsheet.
+     *
+     * @param headerConfiguration
+     *            the header configuration
+     * @param inputStream
+     *            the input stream
+     * @return the list
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	protected List readStoriesFromSpreadsheet(
 			final SpreadsheetHeaderConfiguration headerConfiguration,
 			final InputStream inputStream) throws IOException {

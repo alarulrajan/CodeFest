@@ -14,7 +14,16 @@ import com.technoetic.xplanner.domain.ObjectMother;
 import com.technoetic.xplanner.domain.repository.IterationRepository;
 import com.technoetic.xplanner.security.auth.Authorizer;
 
+/**
+ * The Class IterationRepositoryTestScript.
+ */
 public class IterationRepositoryTestScript extends AbstractDatabaseTestScript{
+    
+    /** Test.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void test() throws Exception {
         final Project writableProject = newProject();
         final Project readableProject = newProject();

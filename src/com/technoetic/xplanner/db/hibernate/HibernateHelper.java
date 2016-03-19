@@ -37,14 +37,31 @@ import org.hibernate.dialect.Dialect;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.util.LogUtil;
 
-/** @noinspection ClassNamePrefixedWithPackageName */
+/**
+ * The Class HibernateHelper.
+ *
+ * @noinspection ClassNamePrefixedWithPackageName
+ */
 public class HibernateHelper {
+	
+	/** The Constant LOG. */
 	private static final Logger LOG = LogUtil.getLogger();
+	
+	/** The Constant SESSION_ATTRIBUTE_KEY. */
 	public static final String SESSION_ATTRIBUTE_KEY = "HibernateSession";
 
+	/**
+     * Instantiates a new hibernate helper.
+     */
 	private HibernateHelper() {
 	}
 
+	/**
+     * Initialize hibernate.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static void initializeHibernate() throws HibernateException {
 		if (GlobalSessionFactory.get() == null) {
 			final Configuration cfg = HibernateHelper.initializeConfiguration();
@@ -58,11 +75,25 @@ public class HibernateHelper {
 		}
 	}
 
+	/**
+     * Gets the session factory.
+     *
+     * @return the session factory
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static SessionFactory getSessionFactory() throws HibernateException {
 		HibernateHelper.initializeHibernate();
 		return GlobalSessionFactory.get();
 	}
 
+	/**
+     * Initialize configuration.
+     *
+     * @return the configuration
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static Configuration initializeConfiguration()
 			throws HibernateException {
 		final Properties properties = HibernateHelper.getProperties();
@@ -136,10 +167,22 @@ public class HibernateHelper {
 		}
 	}
 
+	/**
+     * Gets the properties.
+     *
+     * @return the properties
+     */
 	public static Properties getProperties() {
 		return new XPlannerProperties().get();
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @param request
+     *            the request
+     * @return the session
+     */
 	public static Session getSession(final ServletRequest request) {
 		final Session session = (Session) request
 				.getAttribute(HibernateHelper.SESSION_ATTRIBUTE_KEY);
@@ -152,15 +195,35 @@ public class HibernateHelper {
 		return session;
 	}
 
+	/**
+     * Sets the session.
+     *
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     */
 	public static void setSession(final ServletRequest request,
 			final Session session) {
 		request.setAttribute(HibernateHelper.SESSION_ATTRIBUTE_KEY, session);
 	}
 
+	/**
+     * Gets the dialect.
+     *
+     * @return the dialect
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public static Dialect getDialect() throws HibernateException {
 		return Dialect.getDialect(HibernateHelper.getProperties());
 	}
 
+	/**
+     * Gets the connection.
+     *
+     * @return the connection
+     */
 	static public Connection getConnection() {
 		try {
 			final Properties properties = new XPlannerProperties().get();

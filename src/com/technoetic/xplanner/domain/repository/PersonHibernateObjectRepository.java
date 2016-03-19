@@ -16,16 +16,29 @@ import org.hibernate.HibernateException;
 import com.technoetic.xplanner.domain.Nameable;
 
 /**
- * User: mprokopowicz Date: Feb 15, 2006 Time: 4:09:12 PM
+ * User: mprokopowicz Date: Feb 15, 2006 Time: 4:09:12 PM.
  */
 public class PersonHibernateObjectRepository extends HibernateObjectRepository {
+	
+	/** The Constant CHECK_PERSON_UNIQUENESS_QUERY. */
 	static final String CHECK_PERSON_UNIQUENESS_QUERY = "com.technoetic.xplanner.domain.CheckPersonUniquenessQuery";
 
+	/**
+     * Instantiates a new person hibernate object repository.
+     *
+     * @param objectClass
+     *            the object class
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public PersonHibernateObjectRepository(final Class objectClass)
 			throws HibernateException {
 		super(objectClass);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.HibernateObjectRepository#insert(com.technoetic.xplanner.domain.Nameable)
+	 */
 	@Override
 	public int insert(final Nameable domainObject) throws RepositoryException {
 		final Person person = (Person) domainObject;
@@ -35,6 +48,9 @@ public class PersonHibernateObjectRepository extends HibernateObjectRepository {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.HibernateObjectRepository#delete(int)
+	 */
 	@Override
 	public void delete(final int objectIdentifier) throws RepositoryException {
 		super.delete(objectIdentifier);
@@ -44,6 +60,12 @@ public class PersonHibernateObjectRepository extends HibernateObjectRepository {
 				new Integer(objectIdentifier));
 	}
 
+	/**
+     * Sets the up edit permission.
+     *
+     * @param person
+     *            the new up edit permission
+     */
 	void setUpEditPermission(final DomainObject person) {
 		this.getHibernateTemplate().save(
 				new Permission("system.person", person.getId(), person.getId(),
@@ -55,6 +77,14 @@ public class PersonHibernateObjectRepository extends HibernateObjectRepository {
 		// roleAssociationRepository.insertForPersonOnProject("viewer",person.getId(),0);
 	}
 
+	/**
+     * Check person uniquness.
+     *
+     * @param person
+     *            the person
+     * @throws DuplicateUserIdException
+     *             the duplicate user id exception
+     */
 	void checkPersonUniquness(final Person person)
 			throws DuplicateUserIdException {
 		final List potentialDuplicatePeople = this
@@ -76,6 +106,15 @@ public class PersonHibernateObjectRepository extends HibernateObjectRepository {
 		}
 	}
 
+	/**
+     * Checks for same user id.
+     *
+     * @param person1
+     *            the person1
+     * @param person2
+     *            the person2
+     * @return true, if successful
+     */
 	boolean hasSameUserId(final Person person1, final Person person2) {
 		// if(SecurityHelper.isAuthenticationCaseSensitive())
 		// return person1.getUserId().equals(person2.getUserId());

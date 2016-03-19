@@ -11,13 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * The Class ProjectDaoImplTest.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-text.xml"})
 public class ProjectDaoImplTest {
 	
+	/** The project dao. */
 	@Autowired
 	private ProjectDao projectDao;
 	
+	/**
+     * Test save and get.
+     */
 	@Test
 	public void testSaveAndGet(){
 		Project project = new Project();

@@ -15,21 +15,37 @@ import org.easymock.MockControl;
 import org.easymock.classextension.MockClassControl;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Sep 6, 2005
- * Time: 1:50:49 PM
+ * User: Mateusz Prokopowicz Date: Sep 6, 2005 Time: 1:50:49 PM.
  */
 public class TestPrincipalSpecificPermissionHelper extends TestCase {
+   
+   /** The Constant PRINCIPAL_ID. */
    static final int PRINCIPAL_ID = 1;
+   
+   /** The principal specific permission helper. */
    PrincipalSpecificPermissionHelper principalSpecificPermissionHelper;
+   
+   /** The mock authorizer query helper. */
    private AuthorizerQueryHelper mockAuthorizerQueryHelper;
+   
+   /** The mock authorizer query helper control. */
    private MockControl mockAuthorizerQueryHelperControl;
 
+   /** The permission2. */
    private Permission permission2;
+   
+   /** The permission1. */
    private Permission permission1;
+   
+   /** The all permissions. */
    private List allPermissions;
+   
+   /** The permission3. */
    private Permission permission3;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       mockAuthorizerQueryHelperControl = MockClassControl.createControl(AuthorizerQueryHelper.class);
@@ -47,6 +63,11 @@ public class TestPrincipalSpecificPermissionHelper extends TestCase {
 
    }
 
+   /** Test get permissions based on person roles.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetPermissionsBasedOnPersonRoles() throws Exception {
       mockAuthorizerQueryHelperControl.expectAndReturn(mockAuthorizerQueryHelper.getAllPermissions(),
                                                        allPermissions);
@@ -58,6 +79,11 @@ public class TestPrincipalSpecificPermissionHelper extends TestCase {
       mockAuthorizerQueryHelperControl.verify();
    }
 
+   /** Test get permissions specific to person.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetPermissionsSpecificToPerson() throws Exception {
       mockAuthorizerQueryHelperControl.expectAndReturn(mockAuthorizerQueryHelper.getAllPermissionsToPerson(),
                                                        allPermissions);
@@ -71,6 +97,11 @@ public class TestPrincipalSpecificPermissionHelper extends TestCase {
       assertEquals("permission not found", permission3, actualPermission);
    }
 
+   /** Test add person permissions.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAddPersonPermissions() throws Exception {
       Map<Integer,List<Permission>> projectSpecificPersonPermissionMap = new HashMap<Integer,List<Permission>>();
       projectSpecificPersonPermissionMap.put(new Integer(1), Arrays.asList(new Permission[]{permission1}));
@@ -89,6 +120,11 @@ public class TestPrincipalSpecificPermissionHelper extends TestCase {
       assertTrue(permissionForAllProjectList.contains(permission3));
    }
 
+   /** Test add permission for project.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAddPermissionForProject() throws Exception {
       Map permissionMap = new HashMap();
       int projectId = 10;

@@ -16,16 +16,38 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.forms.PersonEditorForm;
 
+/**
+ * The Class TestEditPersonAction.
+ */
 public class TestEditPersonAction extends AbstractUnitTestCase {
+   
+   /** The mock editor form. */
    private PersonEditorForm mockEditorForm;
+   
+   /** The action. */
    private EditPersonAction action;
+   
+   /** The support. */
    private XPlannerTestSupport support;
+   
+   /** The mock person. */
    private Person mockPerson;
+   
+   /** The person id. */
    private int PERSON_ID = XPlannerTestSupport.DEFAULT_PERSON_ID;
+   
+   /** The mock edit person helper control. */
    private MockControl mockEditPersonHelperControl;
+   
+   /** The mock edit person helper. */
    private EditPersonHelper mockEditPersonHelper;
+   
+   /** The Constant PERSON_USER_ID. */
    static final String PERSON_USER_ID = "mock";
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       support = new XPlannerTestSupport();
@@ -40,6 +62,11 @@ public class TestEditPersonAction extends AbstractUnitTestCase {
       action.setEditPersonHelper(mockEditPersonHelper);
    }
 
+   /** Test before object commit.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testBeforeObjectCommit() throws Exception {
       mockEditPersonHelper.modifyRoles(new HashMap(), mockPerson, false, PERSON_ID);
       replay();
@@ -51,6 +78,11 @@ public class TestEditPersonAction extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test after object commit.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAfterObjectCommit() throws Exception {
       String newPassword = "xyz";
       mockEditorForm.setNewPassword(newPassword);

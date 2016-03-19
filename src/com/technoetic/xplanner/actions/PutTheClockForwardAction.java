@@ -15,17 +15,34 @@ import org.apache.struts.action.ActionMapping;
 
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class PutTheClockForwardAction.
+ */
 public class PutTheClockForwardAction extends Action {
+	
+	/** The Constant LOG. */
 	public static final Logger LOG = Logger
 			.getLogger(PutTheClockForwardAction.class);
+	
+	/** The Constant OFFSET_IN_DAYS_KEY. */
 	public static final String OFFSET_IN_DAYS_KEY = "dayOffset";
 
+	/** The clock. */
 	private TimeGenerator clock;
 
+	/**
+     * Sets the time generator.
+     *
+     * @param clock
+     *            the new time generator
+     */
 	public void setTimeGenerator(final TimeGenerator clock) {
 		this.clock = clock;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward execute(final ActionMapping mapping,
 			final ActionForm actionForm, final HttpServletRequest request,

@@ -27,11 +27,21 @@ import com.technoetic.xplanner.forms.ReorderStoriesForm;
  */
 public class TestReorderStoriesAction extends AbstractUnitTestCase {
 
+   /** The mock action mapping. */
    private ActionMapping mockActionMapping = null;
+   
+   /** The mock reorder stories form. */
    private ReorderStoriesForm mockReorderStoriesForm = null;
+   
+   /** The action. */
    private ReorderStoriesAction action = null;
+   
+   /** The mock iteration. */
    private Iteration mockIteration = null;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       setUpRepositories();
@@ -51,10 +61,18 @@ public class TestReorderStoriesAction extends AbstractUnitTestCase {
       };
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    protected void tearDown() throws Exception {
 
    }
 
+   /** Test do execute.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDoExecute() throws Exception {
 	  Capture<int[][]> captureInt = new Capture<int[][]>();
 	  mockIteration.modifyStoryOrder(capture(captureInt));

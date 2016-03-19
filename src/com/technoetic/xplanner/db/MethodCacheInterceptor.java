@@ -11,16 +11,29 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
- * User: Mateusz Prokopowicz Date: Sep 6, 2005 Time: 6:40:13 AM
+ * User: Mateusz Prokopowicz Date: Sep 6, 2005 Time: 6:40:13 AM.
  */
 public class MethodCacheInterceptor implements MethodInterceptor {
+	
+	/** The result by args by method name. */
 	private final Map resultByArgsByMethodName;
+	
+	/** The log. */
 	Logger LOG = Logger.getLogger(MethodCacheInterceptor.class);
 
+	/**
+     * Instantiates a new method cache interceptor.
+     *
+     * @param cacheMap
+     *            the cache map
+     */
 	public MethodCacheInterceptor(final Map cacheMap) {
 		this.resultByArgsByMethodName = cacheMap;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
+	 */
 	@Override
 	public Object invoke(final MethodInvocation invocation) throws Throwable {
 		final String methodName = invocation.getMethod().getName();
@@ -28,6 +41,19 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 		return this.cache(methodName, argumentList, invocation);
 	}
 
+	/**
+     * Cache.
+     *
+     * @param methodName
+     *            the method name
+     * @param argumentList
+     *            the argument list
+     * @param invocation
+     *            the invocation
+     * @return the object
+     * @throws Throwable
+     *             the throwable
+     */
 	Object cache(final String methodName, final List argumentList,
 			final MethodInvocation invocation) throws Throwable {
 		Object retVal;

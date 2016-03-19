@@ -6,21 +6,45 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.classic.Session;
 
+/**
+ * The Class CsvExporter.
+ */
 public class CsvExporter implements Exporter {
 
+	/** The encoding. */
 	private String encoding = "UTF-8";
 
+	/**
+     * Sets the encoding.
+     *
+     * @param encoding
+     *            the new encoding
+     */
 	public void setEncoding(final String encoding) {
 		this.encoding = encoding;
 	}
 
+	/**
+     * Sets the delimiter.
+     *
+     * @param delimiter
+     *            the new delimiter
+     */
 	public void setDelimiter(final String delimiter) {
 	}
 
+	/**
+     * Gets the file extension.
+     *
+     * @return the file extension
+     */
 	public String getFileExtension() {
 		return "csv";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {
@@ -46,6 +70,9 @@ public class CsvExporter implements Exporter {
 		// out.println();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setContentType("text/csv; charset=" + this.encoding);

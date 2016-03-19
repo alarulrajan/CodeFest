@@ -9,9 +9,17 @@ import net.sf.xplanner.domain.UserStory;
 
 import com.technoetic.xplanner.domain.IterationStatus;
 
+/**
+ * The Class TestContinueUnfinishedStoriesAction.
+ */
 public class TestContinueUnfinishedStoriesAction extends ContinuerBaseTestCase {
+   
+   /** The action. */
    private ContinueUnfinishedStoriesAction action;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.ContinuerBaseTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       setUpContinuers();
@@ -26,6 +34,8 @@ public class TestContinueUnfinishedStoriesAction extends ContinuerBaseTestCase {
       support.hibernateSession.save(targetIteration);
    }
 
+   /** Adds the a complete story to iteration.
+     */
    private void addACompleteStoryToIteration() {
       UserStory completedStory = new UserStory();
 
@@ -40,6 +50,11 @@ public class TestContinueUnfinishedStoriesAction extends ContinuerBaseTestCase {
       iteration.getUserStories().add(completedStory);
    }
 
+   /** Test continue all unfinished stories.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testContinueAllUnfinishedStories() throws Exception {
 
       verifyOriginalIteration();
@@ -53,6 +68,8 @@ public class TestContinueUnfinishedStoriesAction extends ContinuerBaseTestCase {
       verifyTargetIterationAfterContinuation();
    }
 
+   /** Verify original iteration.
+     */
    private void verifyOriginalIteration() {
       Collection originalIterationStories = iteration.getUserStories();
       assertEquals("number of stories in original iteration", 2, originalIterationStories.size());
@@ -61,6 +78,8 @@ public class TestContinueUnfinishedStoriesAction extends ContinuerBaseTestCase {
       assertFalse(originalStory.isCompleted());
    }
 
+   /** Verify target iteration after continuation.
+     */
    private void verifyTargetIterationAfterContinuation() {
       assertEquals("original iteration status", IterationStatus.INACTIVE_KEY, iteration.getStatusKey());
       Collection targetIterationStories = targetIteration.getUserStories();

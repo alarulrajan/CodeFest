@@ -18,14 +18,32 @@ import org.easymock.MockControl;
 import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.tags.WritableTag;
 
+/**
+ * The Class TestActionButtonsColumnTag.
+ */
 public class TestActionButtonsColumnTag extends TestCase {
+    
+    /** The action buttons column tag. */
     ActionButtonsColumnTag actionButtonsColumnTag;
+    
+    /** The table tag. */
     TableTag tableTag;
+    
+    /** The support. */
     protected XPlannerTestSupport support;
+    
+    /** The writable parent table control. */
     private MockControl writableParentTableControl;
+    
+    /** The writable parent table tag. */
     private WritableTag writableParentTableTag;
+    
+    /** The mock action buttons tag. */
     private MockActionButtonsTag mockActionButtonsTag;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     public void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
@@ -52,6 +70,11 @@ public class TestActionButtonsColumnTag extends TestCase {
         actionButtonsColumnTag.setParent(writableParentTableTag);
     }
 
+    /** Test get action for project_ user has permission.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetActionForProject_UserHasPermission() throws Exception {
         writableParentTableControl.reset();
         writableParentTableControl.expectAndReturn(writableParentTableTag.isWritable(), true);
@@ -64,6 +87,11 @@ public class TestActionButtonsColumnTag extends TestCase {
         assertTrue("actionButtonsTag.doStartTag() has not been called", mockActionButtonsTag.wasDoStartTagCalled);
     }
 
+    /** Test get action for project_ user has no permission.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetActionForProject_UserHasNoPermission() throws Exception {
         writableParentTableControl.reset();
         writableParentTableControl.expectAndReturn(writableParentTableTag.isWritable(), false);
@@ -74,10 +102,20 @@ public class TestActionButtonsColumnTag extends TestCase {
         assertFalse("actionButtonsTag.doStartTag() has been called", mockActionButtonsTag.wasDoStartTagCalled);
     }
 
+   /** The Class MockActionButtonsTag.
+     */
    private class MockActionButtonsTag extends ActionButtonsTag
    {
+      
+      /** The do start tag_return val. */
       int doStartTag_returnVal;
+      
+      /** The was do start tag called. */
       boolean wasDoStartTagCalled = false;
+      
+      /* (non-Javadoc)
+       * @see com.technoetic.xplanner.tags.displaytag.ActionButtonsTag#doStartTag()
+       */
       public int doStartTag() throws JspException
       {
          wasDoStartTagCalled = true;

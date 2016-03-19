@@ -22,21 +22,50 @@ import net.sf.xplanner.domain.UserStory;
 import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.db.TaskQueryHelper;
 
+/**
+ * The Class TestMissingTimeEntryNotifier.
+ */
 public class TestMissingTimeEntryNotifier extends AbstractUnitTestCase {
+   
+   /** The missing time entry notifier. */
    private MissingTimeEntryNotifier missingTimeEntryNotifier;
+   
+   /** The project. */
    private Project project;
+   
+   /** The story. */
    UserStory story;
+   
+   /** The task. */
    private Task task;
+   
+   /** The receiver. */
    private Person receiver;
+   
+   /** The receiver id. */
    int receiverId = 1;
 
+   /** The mock task query helper. */
    TaskQueryHelper mockTaskQueryHelper;
+   
+   /** The mock email notification support. */
    EmailNotificationSupport mockEmailNotificationSupport;
+   
+   /** The end date. */
    private Date endDate;
+   
+   /** The task with no time entry list. */
    private List taskWithNoTimeEntryList;
+   
+   /** The projects to be notified. */
    private Map projectsToBeNotified;
+   
+   /** The notification email map. */
    private Map notificationEmailMap;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       project = new Project();
@@ -58,10 +87,18 @@ public class TestMissingTimeEntryNotifier extends AbstractUnitTestCase {
       taskWithNoTimeEntryList.add(new Object[]{task, story, project});
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    public void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /** Test send missing time entry report to leads.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSendMissingTimeEntryReportToLeads() throws Exception {
       Person acceptor = new Person();
       acceptor.setId(2);
@@ -79,6 +116,12 @@ public class TestMissingTimeEntryNotifier extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test send missing time entry reminder to acceptors_ project to be
+     * notified set.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSendMissingTimeEntryReminderToAcceptors_ProjectToBeNotifiedSet() throws Exception {
       expect(mockTaskQueryHelper.getTaskAcceptorsEmailNotification(endDate)).andReturn(
                                                  taskWithNoTimeEntryList);
@@ -96,6 +139,12 @@ public class TestMissingTimeEntryNotifier extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test send missing time entry reminder to acceptors_ project to be
+     * notified not set.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSendMissingTimeEntryReminderToAcceptors_ProjectToBeNotifiedNotSet() throws Exception {
       expect(mockTaskQueryHelper.getTaskAcceptorsEmailNotification(endDate)).andReturn(taskWithNoTimeEntryList);
       expect(mockEmailNotificationSupport.isProjectToBeNotified(

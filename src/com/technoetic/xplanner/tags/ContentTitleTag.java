@@ -11,17 +11,32 @@ import org.apache.struts.Globals;
 import org.apache.struts.taglib.TagUtils;
 import org.apache.struts.util.MessageResources;
 
+/**
+ * The Class ContentTitleTag.
+ */
 public class ContentTitleTag extends BodyTagSupport {
+	
+	/** The title arguments. */
 	private ArrayList titleArguments;
+	
+	/** The title. */
 	private String title;
+	
+	/** The title key. */
 	private String titleKey;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		this.titleArguments = new ArrayList();
 		return super.doStartTag();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		String formattedTitle = null;
@@ -48,18 +63,39 @@ public class ContentTitleTag extends BodyTagSupport {
 		return super.doEndTag();
 	}
 
+	/**
+     * Sets the title.
+     *
+     * @param title
+     *            the new title
+     */
 	public void setTitle(final String title) {
 		this.title = title;
 	}
 
+	/**
+     * Sets the title key.
+     *
+     * @param titleKey
+     *            the new title key
+     */
 	public void setTitleKey(final String titleKey) {
 		this.titleKey = titleKey;
 	}
 
+	/**
+     * Adds the title argument.
+     *
+     * @param value
+     *            the value
+     */
 	public void addTitleArgument(final Object value) {
 		this.titleArguments.add(value);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#release()
+	 */
 	@Override
 	public void release() {
 		this.title = null;

@@ -12,15 +12,30 @@ import org.hibernate.HibernateException;
 
 import com.technoetic.xplanner.domain.repository.UserStoryRepository;
 
+/**
+ * The Class TestStoryOptionsTag.
+ */
 public class TestStoryOptionsTag extends AbstractOptionsTagTestCase {
+    
+    /** The STOR y1. */
     private UserStory STORY1;
+    
+    /** The STOR y2. */
     private UserStory STORY2;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.tags.AbstractOptionsTagTestCase#setUp()
+     */
     protected void setUp() throws Exception {
         tag = new DummyStoryOptionsTag();
         super.setUp();
     }
 
+    /** Test get options simple case.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetOptionsSimpleCase() throws Exception {
         STORY1 = newUserStory(ITERATION_0_1);
         STORY2 = newUserStory(ITERATION_0_1);
@@ -40,10 +55,21 @@ public class TestStoryOptionsTag extends AbstractOptionsTagTestCase {
         assertStoriesEquals(expectedOptions, actualStories.toArray());
     }
 
+    /** Gets the tag.
+     *
+     * @return the tag
+     */
     private DummyStoryOptionsTag getTag() {
         return (DummyStoryOptionsTag) tag;
     }
 
+    /** Assert stories equals.
+     *
+     * @param expectedOptions
+     *            the expected options
+     * @param options
+     *            the options
+     */
     private void assertStoriesEquals(StoryModel[] expectedOptions, Object[] options) {
         assertNotNull(expectedOptions);
         assertNotNull(options);
@@ -56,8 +82,12 @@ public class TestStoryOptionsTag extends AbstractOptionsTagTestCase {
         }
     }
 
+    /** The Class DummyStoryOptionsTag.
+     */
     private class DummyStoryOptionsTag extends StoryOptionsTag
     {
+        
+        /** The user story repository. */
         private UserStoryRepository userStoryRepository = new UserStoryRepository(null, null, 0) {
             public List fetchStoriesWeCanMoveTasksTo(int actualStoryId) {
                 return editableStories;
@@ -76,10 +106,14 @@ public class TestStoryOptionsTag extends AbstractOptionsTagTestCase {
            }
         };
 
+        /* (non-Javadoc)
+         * @see com.technoetic.xplanner.tags.StoryOptionsTag#getUserStoryRepository()
+         */
         protected UserStoryRepository getUserStoryRepository() {
             return userStoryRepository;
         }
 
+        /** The editable stories. */
         public ArrayList editableStories;
     }
 

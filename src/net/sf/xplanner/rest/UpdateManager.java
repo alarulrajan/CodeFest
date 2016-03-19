@@ -4,13 +4,35 @@ import net.sf.xplanner.dao.TaskDao;
 import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.enums.TaskStatus;
 
+/**
+ * The Class UpdateManager.
+ */
 public class UpdateManager {
+	
+	/** The task dao. */
 	private TaskDao taskDao;
 
+	/**
+     * Sets the task dao.
+     *
+     * @param taskDao
+     *            the new task dao
+     */
 	public void setTaskDao(final TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
 
+	/**
+     * Update task status.
+     *
+     * @param id
+     *            the id
+     * @param status
+     *            the status
+     * @param originalEstimate
+     *            the original estimate
+     * @return the result
+     */
 	@SuppressWarnings("boxing")
 	public Result updateTaskStatus(final int id, final String status,
 			final double originalEstimate) {

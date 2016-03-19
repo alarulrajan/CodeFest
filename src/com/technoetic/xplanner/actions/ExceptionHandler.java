@@ -12,9 +12,17 @@ import org.apache.struts.action.ActionForward;
 
 import com.technoetic.xplanner.util.LogUtil;
 
+/**
+ * The Class ExceptionHandler.
+ */
 public class ExceptionHandler extends org.apache.struts.action.ExceptionHandler {
+	
+	/** The Constant LOG. */
 	protected static final Logger LOG = LogUtil.getLogger();
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.ExceptionHandler#storeException(javax.servlet.http.HttpServletRequest, java.lang.String, org.apache.struts.action.ActionError, org.apache.struts.action.ActionForward, java.lang.String)
+	 */
 	@Override
 	protected void storeException(final HttpServletRequest request,
 			final String property, final ActionError error,

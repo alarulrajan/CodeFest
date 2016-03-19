@@ -17,21 +17,47 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.technoetic.xplanner.Command;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class DataSamplingCommand.
+ */
 public class DataSamplingCommand extends HibernateDaoSupport implements Command {
+	
+	/** The Constant LOG. */
 	public static final Logger LOG = Logger
 			.getLogger(DataSamplingCommand.class);
+	
+	/** The Constant ITERATION_TO_SAMPLE_QUERY. */
 	public static final String ITERATION_TO_SAMPLE_QUERY = "com.technoetic.xplanner.domain.IterationToSample";
+	
+	/** The data sampler. */
 	private DataSampler dataSampler;
+	
+	/** The time generator. */
 	private TimeGenerator timeGenerator;
 
+	/**
+     * Sets the time generator.
+     *
+     * @param timeGenerator
+     *            the new time generator
+     */
 	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
+	/**
+     * Sets the data sampler.
+     *
+     * @param dataSampler
+     *            the new data sampler
+     */
 	public void setDataSampler(final DataSampler dataSampler) {
 		this.dataSampler = dataSampler;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.Command#execute()
+	 */
 	@Override
 	public void execute() {
 		final Date samplingDate = this.timeGenerator.getTodaysMidnight();
@@ -56,6 +82,13 @@ public class DataSamplingCommand extends HibernateDaoSupport implements Command 
 		}
 	}
 
+	/**
+     * Gets the iteration list.
+     *
+     * @param samplingDate
+     *            the sampling date
+     * @return the iteration list
+     */
 	public List getIterationList(final Date samplingDate) {
 		final Date prevSamplingDate = TimeGenerator.shiftDate(samplingDate,
 				Calendar.DAY_OF_MONTH, -1);

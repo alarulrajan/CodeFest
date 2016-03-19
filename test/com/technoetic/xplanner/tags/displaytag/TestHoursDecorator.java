@@ -11,9 +11,19 @@ package com.technoetic.xplanner.tags.displaytag;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestHoursDecorator.
+ */
 public class TestHoursDecorator extends TestCase {
+    
+    /** The decorator. */
     UserStoryDecorator decorator;
 
+    /** Test get percent completed score.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetPercentCompletedScore() throws Exception {
         double pct1 = HoursDecorator.getPercentCompletedScore(10, 10, 0, true);
         double pct2 = HoursDecorator.getPercentCompletedScore(10, 9, 0, true);

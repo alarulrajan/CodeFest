@@ -13,10 +13,24 @@ import net.sf.xplanner.domain.Role;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.security.module.LoginModuleLoader;
 
+/**
+ * The Class SecurityHelper.
+ */
 public class SecurityHelper {
+	
+	/** The Constant SECURITY_SUBJECT_KEY. */
 	public static final String SECURITY_SUBJECT_KEY = "SECURITY_SUBJECT";
+	
+	/** The Constant SAVED_URL_KEY. */
 	private static final String SAVED_URL_KEY = "SAVED_URL";
 
+	/**
+     * Checks if is user authenticated.
+     *
+     * @param request
+     *            the request
+     * @return true, if is user authenticated
+     */
 	public static boolean isUserAuthenticated(final HttpServletRequest request) {
 		try {
 			return SecurityHelper.getSubject(request) != null
@@ -28,18 +42,45 @@ public class SecurityHelper {
 		}
 	}
 
+	/**
+     * Gets the remote user id.
+     *
+     * @param request
+     *            the request
+     * @return the remote user id
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public static int getRemoteUserId(final HttpServletRequest request)
 			throws AuthenticationException {
 		return ((PersonPrincipal) SecurityHelper.getUserPrincipal(request))
 				.getPerson().getId();
 	}
 
+	/**
+     * Gets the remote user id.
+     *
+     * @param context
+     *            the context
+     * @return the remote user id
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public static int getRemoteUserId(final PageContext context)
 			throws AuthenticationException {
 		return SecurityHelper.getRemoteUserId((HttpServletRequest) context
 				.getRequest());
 	}
 
+	/**
+     * Checks if is user in role.
+     *
+     * @param request
+     *            the request
+     * @param roleName
+     *            the role name
+     * @return true, if is user in role
+     */
 	public static boolean isUserInRole(final HttpServletRequest request,
 			final String roleName) {
 		final Subject subject = SecurityHelper.getSubject(request);
@@ -55,22 +96,53 @@ public class SecurityHelper {
 		return false;
 	}
 
+	/**
+     * Sets the subject.
+     *
+     * @param request
+     *            the request
+     * @param subject
+     *            the subject
+     */
 	public static void setSubject(final HttpServletRequest request,
 			final Subject subject) {
 		request.getSession(true).setAttribute(
 				SecurityHelper.SECURITY_SUBJECT_KEY, subject);
 	}
 
+	/**
+     * Gets the subject.
+     *
+     * @param request
+     *            the request
+     * @return the subject
+     */
 	public static Subject getSubject(final HttpServletRequest request) {
 		return (Subject) request.getSession().getAttribute(
 				SecurityHelper.SECURITY_SUBJECT_KEY);
 	}
 
+	/**
+     * Gets the subject.
+     *
+     * @param context
+     *            the context
+     * @return the subject
+     */
 	public static Subject getSubject(final PageContext context) {
 		return SecurityHelper.getSubject((HttpServletRequest) context
 				.getRequest());
 	}
 
+	/**
+     * Gets the user principal.
+     *
+     * @param subject
+     *            the subject
+     * @return the user principal
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public static Principal getUserPrincipal(final Subject subject)
 			throws AuthenticationException {
 		if (subject != null) {
@@ -83,6 +155,12 @@ public class SecurityHelper {
 		throw new AuthenticationException("no user principal in session");
 	}
 
+	/**
+     * Save url.
+     *
+     * @param request
+     *            the request
+     */
 	public static void saveUrl(final HttpServletRequest request) {
 		request.getSession().setAttribute(
 				SecurityHelper.SAVED_URL_KEY,
@@ -90,17 +168,42 @@ public class SecurityHelper {
 						+ request.getQueryString());
 	}
 
+	/**
+     * Gets the saved url.
+     *
+     * @param request
+     *            the request
+     * @return the saved url
+     */
 	public static String getSavedUrl(final HttpServletRequest request) {
 		return (String) request.getSession().getAttribute(
 				SecurityHelper.SAVED_URL_KEY);
 	}
 
+	/**
+     * Gets the user principal.
+     *
+     * @param request
+     *            the request
+     * @return the user principal
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public static Principal getUserPrincipal(final HttpServletRequest request)
 			throws AuthenticationException {
 		return SecurityHelper.getUserPrincipal(SecurityHelper
 				.getSubject(request));
 	}
 
+	/**
+     * Adds the roles to subject.
+     *
+     * @param subject
+     *            the subject
+     * @param roles
+     *            the roles
+     * @return the subject
+     */
 	public static Subject addRolesToSubject(Subject subject,
 			final ArrayList roles) {
 		// This approach is required because some servlet ISP's set up
@@ -115,6 +218,11 @@ public class SecurityHelper {
 	}
 
 	// FIXME: Is it right that the authentication be case sensitive if at least
+	/**
+     * Checks if is authentication case sensitive.
+     *
+     * @return true, if is authentication case sensitive
+     */
 	// one module is?
 	public static boolean isAuthenticationCaseSensitive() {
 		final XPlannerProperties properties = new XPlannerProperties();

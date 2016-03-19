@@ -17,18 +17,29 @@ import com.technoetic.xplanner.forms.ImportStoriesForm;
 import com.technoetic.xplanner.importer.spreadsheet.SpreadsheetHeaderConfiguration;
 import com.technoetic.xplanner.views.IterationStoriesPage;
 
+/**
+ * The Class IterationImportStoriesTestScript.
+ */
 public class IterationImportStoriesTestScript extends AbstractIterationTestScript
    {
 
+   /** The start date. */
    private String startDate;
+   
+   /** The end date. */
    private String endDate;
 
+   /** Instantiates a new iteration import stories test script.
+     */
    public IterationImportStoriesTestScript()
    {
       startDate = getFormatedDate(2004, 6, 13);
       endDate = getFormatedDate(2004, 6, 26);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractIterationTestScript#setUpTestIteration()
+    */
    protected void setUpTestIteration()
       throws Exception
    {
@@ -40,6 +51,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       iterationId = tester.getCurrentPageObjectId();
    }
 
+   /** Test import success.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportSuccess() throws Exception
    {
       runImport(IterationImportStoriesTestScript.class.getResourceAsStream("/data/Cookbook.xls"), false);
@@ -47,6 +63,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       assertImportedStory("Story 2", 1, 1);
    }
 
+   /** Test double import_every story should apear two times.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDoubleImport_everyStoryShouldApearTwoTimes() throws Exception
    {
       runImport(IterationImportStoriesTestScript.class.getResourceAsStream("/data/Cookbook.xls"), false);
@@ -55,18 +76,33 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       assertImportedStory("Story 2", 1, 2);
    }
 
+   /** Test import failed_ due to missing cookbook fields.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportFailed_DueToMissingCookbookFields() throws Exception
    {
       runImport(IterationImportStoriesTestScript.class.getResourceAsStream("/data/Cookbook-MissingName.xls"), false);
       tester.assertTextPresent("Some stories did not have <i>name</i> specified");
    }
 
+   /** Test import failed_ due to missing worksheet.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportFailed_DueToMissingWorksheet() throws Exception
    {
       runImport(IterationImportStoriesTestScript.class.getResourceAsStream("/data/Cookbook-MissingWorksheet.xls"), false);
       tester.assertTextPresent("Could not find worksheet named <i>" + SpreadsheetHeaderConfiguration.DEFAULT_WORKSHEET_NAME + "</i>. Please check the name and try again.");
    }
 
+   /** Test import failed_ due to wrong cookbook file format.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportFailed_DueToWrongCookbookFileFormat() throws Exception
    {
       ByteArrayInputStream corruptedCookbookStream = new ByteArrayInputStream("file is corrupted".getBytes());
@@ -74,6 +110,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertKeyPresent("import.status.corrupted_file");
    }
 
+   /** Test import failed_ missing required header name.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportFailed_MissingRequiredHeaderName() throws Exception
    {
       tester.clickLinkWithKey(IterationStoriesPage.IMPORT_STORIES_LINK);
@@ -89,6 +130,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertKeyPresent(ImportStoriesForm.NO_TITLE_COLUMN_KEY);
    }
 
+   /** Test import failed_ wrong required header name.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportFailed_WrongRequiredHeaderName() throws Exception
    {
       tester.clickLinkWithKey(IterationStoriesPage.IMPORT_STORIES_LINK);
@@ -100,6 +146,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertTextPresent("Could not find a column with <i>Wrong name</i> as the header in the cookbook file. Please check the headers and try again.");
    }
 
+   /** Test import success_only uncompleted stories.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportSuccess_onlyUncompletedStories() throws Exception
    {
       runImport(IterationImportStoriesTestScript.class.getResourceAsStream("/data/Cookbook.xls"), true);
@@ -107,6 +158,11 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertTextNotPresent("Story 1");
    }
 
+   /** Test reset.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testReset() throws Exception
    {
       tester.clickLinkWithKey(IterationStoriesPage.IMPORT_STORIES_LINK);
@@ -122,6 +178,8 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertTextNotPresent("Please enter the status for completed stories.");
    }
 
+   /** Atest save form in cookies.
+     */
    //todo MPP investigate why  httpunitdialog doesn't support cookies
    public void atestSaveFormInCookies()
    {
@@ -139,6 +197,16 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.assertTextInElement("statusColumn", newStatusHeader);
    }
 
+   /** Gets the formated date.
+     *
+     * @param year
+     *            the year
+     * @param month
+     *            the month
+     * @param day
+     *            the day
+     * @return the formated date
+     */
    private String getFormatedDate(int year, int month, int day)
    {
       Calendar calendar = Calendar.getInstance();
@@ -149,6 +217,13 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       return format.format(date);
    }
 
+   /** Run import.
+     *
+     * @param contents
+     *            the contents
+     * @param onlyIncomplete
+     *            the only incomplete
+     */
    private void runImport(InputStream contents, boolean onlyIncomplete)
    {
       assertNotNull("no contents - is the speadsheet really there?", contents);
@@ -161,6 +236,15 @@ public class IterationImportStoriesTestScript extends AbstractIterationTestScrip
       tester.submit();
    }
 
+   /** Assert imported story.
+     *
+     * @param storyName
+     *            the story name
+     * @param priority
+     *            the priority
+     * @param occurCnt
+     *            the occur cnt
+     */
    private void assertImportedStory(String storyName, int priority, int occurCnt)
    {
       tester.assertCellNumberForRowWithKey("objecttable",

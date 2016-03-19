@@ -18,6 +18,9 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
  */
 public class DeleteNoteAction extends DeleteObjectAction<Note> {
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.DeleteObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,

@@ -28,13 +28,23 @@ import net.sf.xplanner.domain.UserStory;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class MpxExporter.
+ */
 public class MpxExporter implements Exporter {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setHeader("Content-type", "application/mpx");
 		response.setHeader("Content-disposition", "inline; filename=export.mpx");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {
@@ -69,10 +79,27 @@ public class MpxExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Filter string.
+     *
+     * @param s
+     *            the s
+     * @return the string
+     */
 	private String filterString(final String s) {
 		return s.replaceAll("\r", "");
 	}
 
+	/**
+     * Export project.
+     *
+     * @param file
+     *            the file
+     * @param project
+     *            the project
+     * @param resources
+     *            the resources
+     */
 	protected void exportProject(final ProjectFile file, final Project project,
 			final ResourceRegistry resources) {
 		final ProjectHeader header = file.getProjectHeader();
@@ -111,6 +138,19 @@ public class MpxExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Export iteration.
+     *
+     * @param file
+     *            the file
+     * @param projectLevelTask
+     *            the project level task
+     * @param iteration
+     *            the iteration
+     * @param resources
+     *            the resources
+     * @return the task
+     */
 	protected Task exportIteration(final ProjectFile file,
 			final Task projectLevelTask, final Iteration iteration,
 			final ResourceRegistry resources) {
@@ -137,6 +177,16 @@ public class MpxExporter implements Exporter {
 		return iterationLevelTask;
 	}
 
+	/**
+     * Export user story.
+     *
+     * @param iterationLevelTask
+     *            the iteration level task
+     * @param userStory
+     *            the user story
+     * @param resources
+     *            the resources
+     */
 	protected void exportUserStory(final Task iterationLevelTask,
 			final UserStory userStory, final ResourceRegistry resources) {
 		final Task storyLevelTask = iterationLevelTask.addTask();
@@ -210,6 +260,17 @@ public class MpxExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Export time entries.
+     *
+     * @param task
+     *            the task
+     * @param taskLevelTask
+     *            the task level task
+     * @param earliestTaskStartTime
+     *            the earliest task start time
+     * @return the long
+     */
 	private long exportTimeEntries(final net.sf.xplanner.domain.Task task,
 			final Task taskLevelTask, long earliestTaskStartTime) {
 		long startTime = Long.MAX_VALUE;
@@ -230,6 +291,15 @@ public class MpxExporter implements Exporter {
 		return earliestTaskStartTime;
 	}
 
+	/**
+     * Gets the start time.
+     *
+     * @param iterationLevelTask
+     *            the iteration level task
+     * @param task
+     *            the task
+     * @return the start time
+     */
 	private Date getStartTime(final Task iterationLevelTask,
 			final net.sf.xplanner.domain.Task task) {
 		Date start = null;
@@ -254,9 +324,22 @@ public class MpxExporter implements Exporter {
 		return start;
 	}
 
+	/**
+     * The Class ResourceRegistry.
+     */
 	protected static class ResourceRegistry {
+		
+		/** The resources. */
 		private final HashMap resources = new HashMap();
 
+		/**
+         * Instantiates a new resource registry.
+         *
+         * @param people
+         *            the people
+         * @param mpxFile
+         *            the mpx file
+         */
 		public ResourceRegistry(final List people, final ProjectFile mpxFile) {
 			try {
 				for (int i = 0; i < people.size(); i++) {
@@ -270,6 +353,13 @@ public class MpxExporter implements Exporter {
 			}
 		}
 
+		/**
+         * Gets the resource.
+         *
+         * @param i
+         *            the i
+         * @return the resource
+         */
 		public Resource getResource(final int i) {
 			return (Resource) this.resources.get(new Integer(i));
 		}

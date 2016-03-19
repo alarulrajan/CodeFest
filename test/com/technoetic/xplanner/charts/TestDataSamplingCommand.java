@@ -22,17 +22,36 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class TestDataSamplingCommand.
+ */
 public class TestDataSamplingCommand extends AbstractUnitTestCase {
+   
+   /** The data sampling support. */
    private DataSamplingCommand dataSamplingSupport;
+   
+   /** The mock time generator. */
    private TimeGenerator mockTimeGenerator;
+   
+   /** The mock hibernate template. */
    private HibernateTemplate mockHibernateTemplate;
+   
+   /** The active iteration. */
    private Iteration activeIteration;
+   
+   /** The mock data sampler. */
    private DataSampler mockDataSampler;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    public void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       mockTimeGenerator = createLocalMock(TimeGenerator.class);
@@ -49,6 +68,8 @@ public class TestDataSamplingCommand extends AbstractUnitTestCase {
    }
 
 
+   /** Test generate data samples.
+     */
    public void testGenerateDataSamples() {
       Date todayMidnight = TimeGenerator.getMidnight(new Date());
       Date yesterdayMidnight = TimeGenerator.shiftDate(todayMidnight, Calendar.DATE, -1);

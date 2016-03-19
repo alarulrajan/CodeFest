@@ -14,9 +14,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * User: Mateusz Prokopowicz Date: Aug 2, 2005 Time: 12:29:23 PM
+ * User: Mateusz Prokopowicz Date: Aug 2, 2005 Time: 12:29:23 PM.
  */
 public class ChangeLocaleAction extends Action {
+	
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward execute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,

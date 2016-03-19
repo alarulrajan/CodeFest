@@ -9,26 +9,53 @@ import org.xml.sax.SAXException;
 
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class PeoplePageTestScript.
+ */
 public class PeoplePageTestScript extends AbstractPageTestScript
 {
+    
+    /** The Constant IMPORT_PEOPLE_SUCCESSFULLY. */
     private static final String IMPORT_PEOPLE_SUCCESSFULLY =
           "importtestperson1,Import test person 1,tester1@sabre.com,T1,123456\n" +
           "importtestperson2,Import test person 2,tester2@sabre.com,T2,12345";
+    
+    /** The Constant IMPORT_PEOPLE_PARTIALLY_FAILED. */
     private static final String IMPORT_PEOPLE_PARTIALLY_FAILED =
           "importtestperson1,Import test person 1,tester1@sabre.com,TS1,123456\n" +
           "importtestperson2,Import test person 2,12345";
+    
+    /** The name. */
     private String name = generateUniqueName();
+    
+    /** The case_sens_name. */
     private String case_sens_name = null;
+    
+    /** The first project name. */
     private final String firstProjectName = "FirstProject";
+    
+    /** The second project name. */
     private final String secondProjectName = "SecondProject";
+    
+    /** The user a. */
     private String userA;
+    
+    /** The user b. */
     private String userB;
 
+   /** Instantiates a new people page test script.
+     *
+     * @param test
+     *            the test
+     */
    public PeoplePageTestScript(String test)
    {
       super(test);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    public void setUp() throws Exception
    {
       super.setUp();
@@ -39,6 +66,9 @@ public class PeoplePageTestScript extends AbstractPageTestScript
 
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    protected void tearDown() throws Exception
    {
       if (name != null)
@@ -57,6 +87,11 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       super.tearDown();
    }
 
+   /** Test unique user id.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testUniqueUserId() throws Exception
    {
       name = "A. Persona1 " + System.currentTimeMillis();
@@ -68,6 +103,11 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       tester.assertKeyPresent("person.editor.userid_exist");
    }
 
+   /** Test case sensitive unique user id.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testCaseSensitiveUniqueUserId() throws Exception
    {
       personTester.assertOnPeoplePage();
@@ -80,7 +120,7 @@ public class PeoplePageTestScript extends AbstractPageTestScript
                                       developerInitials,
                                       "email",
                                       "000");
-      //TODO refactor according to case sensitive func. in login module
+      //ChangeSoon refactor according to case sensitive func. in login module
       assertTrue(SecurityHelper.isAuthenticationCaseSensitive());
       //{
       tester.assertKeyPresent("person.editor.userid_exist");
@@ -94,12 +134,19 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       //}
    }
 
+   /** Test content and links.
+     */
    public void testContentAndLinks()
    {
       personTester.assertOnPeoplePage();
       tester.clickLinkWithKey("navigation.top");
    }
 
+   /** Test manipulating people.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testManipulatingPeople() throws Exception
    {
       tester.gotoProjectsPage();
@@ -136,12 +183,20 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       tester.assertTextPresent(newEmail);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+    */
    protected void traverseLinkWithKeyAndReturn(String key) throws Exception
    {
       tester.clickLinkWithKey(key);
       tester.gotoPage("view", "projects", 0);
    }
 
+   /** Test import people_ success.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportPeople_Success() throws Exception
    {
       tester.clickLinkWithKey("people.link.import_people");
@@ -150,6 +205,11 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       assertImportStatus("importtestperson2", "Success");
    }
 
+   /** Test import people_ partially failed.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportPeople_PartiallyFailed() throws Exception
    {
       tester.clickLinkWithKey("people.link.import_people");
@@ -158,6 +218,11 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       assertImportStatus("importtestperson2", "Entry is not formated properly");
    }
 
+   /** Test import people_ users already exists.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testImportPeople_UsersAlreadyExists() throws Exception
    {
       tester.clickLinkWithKey("people.link.import_people");
@@ -168,6 +233,13 @@ public class PeoplePageTestScript extends AbstractPageTestScript
    }
 
 
+   /** Assert import status.
+     *
+     * @param personName
+     *            the person name
+     * @param status
+     *            the status
+     */
    private void assertImportStatus(String personName, String status)
    {
       tester.assertCellTextForRowWithTextAndColumnKeyEquals("objecttable",
@@ -176,6 +248,11 @@ public class PeoplePageTestScript extends AbstractPageTestScript
                                                             status);
    }
 
+    /** Test import people_ failed_ no import file.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testImportPeople_Failed_NoImportFile() throws Exception
     {
         tester.clickLinkWithKey("people.link.import_people");
@@ -184,12 +261,24 @@ public class PeoplePageTestScript extends AbstractPageTestScript
 
    }
 
+   /** Send import file.
+     *
+     * @param importFileName
+     *            the import file name
+     * @param fileContents
+     *            the file contents
+     */
    private void sendImportFile(String importFileName, String fileContents)
    {
       tester.uploadFile("formFile", importFileName, new ByteArrayInputStream(fileContents.getBytes()));
       tester.submit();
    }
 
+   /** Test downgrade people.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testDowngradePeople() throws Exception
    {
       personTester.addPerson(userA, userA, userA, "userA email", "userA phone", true);
@@ -221,23 +310,53 @@ public class PeoplePageTestScript extends AbstractPageTestScript
 
    }
 
+   /** Login as.
+     *
+     * @param userid
+     *            the userid
+     * @throws Exception
+     *             the exception
+     */
    private void loginAs(String userid) throws Exception
    {
       tester.logout();
       tester.login(userid, XPlannerWebTester.DEFAULT_PASSWORD);
    }
 
+   /** Edits the profile.
+     *
+     * @param userid
+     *            the userid
+     */
    private void editProfile(String userid)
    {
       tester.clickLinkWithKey("navigation.people");
       tester.clickImageLinkInTableForRowWithText(EDIT_IMAGE, "objecttable", userid);
    }
 
+   /** Sets the role.
+     *
+     * @param project
+     *            the project
+     * @param role
+     *            the role
+     * @throws SAXException
+     *             the SAX exception
+     */
    private void setRole(String project, String role) throws SAXException
    {
       selectRoleForProject(project, tester.getMessage(role));
    }
 
+   /** Verify content and change role for the first project.
+     *
+     * @param userid
+     *            the userid
+     * @param roleOnProject
+     *            the role on project
+     * @throws SAXException
+     *             the SAX exception
+     */
    private void verifyContentAndChangeRoleForTheFirstProject(String userid, String roleOnProject) throws SAXException
    {
       tester.clickImageLinkInTableForRowWithText(EDIT_IMAGE, "objecttable", userid);
@@ -250,6 +369,15 @@ public class PeoplePageTestScript extends AbstractPageTestScript
       tester.submit();
    }
 
+   /** Select role for project.
+     *
+     * @param projectName
+     *            the project name
+     * @param role
+     *            the role
+     * @throws SAXException
+     *             the SAX exception
+     */
    private void selectRoleForProject(String projectName, String role) throws SAXException
    {
       int[] rows = tester.getRowNumbersWithText(ROLES_TABLE, projectName);

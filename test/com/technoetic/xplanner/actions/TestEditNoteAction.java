@@ -16,17 +16,38 @@ import com.technoetic.xplanner.file.FileSystem;
 import com.technoetic.xplanner.forms.NoteEditorForm;
 import com.technoetic.xplanner.util.InputStreamFormFile;
 
+/**
+ * The Class TestEditNoteAction.
+ */
 public class TestEditNoteAction extends AbstractUnitTestCase {
+    
+    /** The action. */
     private EditNoteAction action;
+    
+    /** The test note. */
     private Note testNote;
+    
+    /** The note form. */
     private NoteEditorForm noteForm;
 
+    /** The file content. */
     private String fileContent;
+    
+    /** The blob. */
     private MockBlob blob;
+    
+    /** The test form file. */
     private InputStreamFormFile testFormFile;
+    
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The mock file system. */
     private FileSystem mockFileSystem;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         support = new XPlannerTestSupport();
@@ -45,6 +66,11 @@ public class TestEditNoteAction extends AbstractUnitTestCase {
         action.setFileSystem(mockFileSystem);
     }
 
+    /** Test populate.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPopulate() throws Exception {
         Note actualNote = new Note();
         actualNote.setSubmissionTime(testNote.getSubmissionTime());

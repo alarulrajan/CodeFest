@@ -14,20 +14,37 @@ import com.technoetic.xplanner.domain.repository.RoleRepository;
 import com.technoetic.xplanner.security.auth.Authorizer;
 
 /**
- * User: Mateusz Prokopowicz
- * Date: Dec 9, 2004
- * Time: 1:37:26 PM
+ * User: Mateusz Prokopowicz Date: Dec 9, 2004 Time: 1:37:26 PM.
  */
 public class TestEditPersonHelper extends AbstractUnitTestCase {
+   
+   /** The person id. */
    private int PERSON_ID = XPlannerTestSupport.DEFAULT_PERSON_ID;
+   
+   /** The project id string. */
    private String PROJECT_ID_STRING = "22";
+   
+   /** The project id. */
    private int PROJECT_ID = 22;
+   
+   /** The edit person helper. */
    private EditPersonHelper editPersonHelper;
+   
+   /** The mock role repository. */
    private RoleRepository mockRoleRepository;
+   
+   /** The mock role assocation repository. */
    private RoleAssociationRepository mockRoleAssocationRepository;
+   
+   /** The mock authorizer. */
    private Authorizer mockAuthorizer;
+   
+   /** The mock person. */
    private Person mockPerson;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    public void setUp() throws Exception {
       super.setUp();
       mockPerson = new Person("mock");
@@ -41,6 +58,11 @@ public class TestEditPersonHelper extends AbstractUnitTestCase {
    }
 
 
+   /** Test modify roles_ when authorized and sysadmin.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testModifyRoles_WhenAuthorizedAndSysadmin() throws Exception {
       mockRoleAssocationRepository.deleteAllForPersonOnProject(PERSON_ID, PROJECT_ID);
       mockRoleAssocationRepository.insertForPersonOnProject("role", PERSON_ID, PROJECT_ID);
@@ -60,6 +82,11 @@ public class TestEditPersonHelper extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test modify roles_ when not authorized and not sysadmin.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testModifyRoles_WhenNotAuthorizedAndNotSysadmin() throws Exception {
       mockRoleAssocationRepository.deleteAllForPersonOnProject(PERSON_ID, PROJECT_ID);
       mockRoleAssocationRepository.insertForPersonOnProject("role", PERSON_ID, PROJECT_ID);
@@ -75,6 +102,11 @@ public class TestEditPersonHelper extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test modify roles_ when not authorized and sysadmin.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testModifyRoles_WhenNotAuthorizedAndSysadmin() throws Exception {
       expect(mockAuthorizer.hasPermission(PROJECT_ID,
                                                                          PERSON_ID,
@@ -96,6 +128,11 @@ public class TestEditPersonHelper extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test modify roles_ when authorized and not sysadmin.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testModifyRoles_WhenAuthorizedAndNotSysadmin() throws Exception {
       mockRoleAssocationRepository.deleteAllForPersonOnProject(PERSON_ID, PROJECT_ID);
 		mockRoleAssocationRepository.insertForPersonOnProject("role",

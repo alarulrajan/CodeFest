@@ -5,34 +5,83 @@ import net.sf.xplanner.domain.Project;
 import net.sf.xplanner.domain.Task;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class SearchFormTestScript.
+ */
 public class SearchFormTestScript extends AbstractPageTestScript {
+   
+   /** The project to search. */
    private String projectToSearch = testProjectName + "-findMe";
+   
+   /** The iteration to find. */
    private String iterationToFind = testIterationName + "yoohoo";
+   
+   /** The story to find. */
    private String storyToFind = storyName + "peekaboo";
+   
+   /** The task to find. */
    private String taskToFind = testTaskName + "heythere";
+   
+   /** The project description to find. */
    private String projectDescriptionToFind = testProjectDescription + "proojaaactooor";
+   
+   /** The iteration description to find. */
    private String iterationDescriptionToFind = testIterationDescription + "widget";
+   
+   /** The story description to find. */
    private String storyDescriptionToFind = testStoryDescription + "gadget";
+   
+   /** The task description to find. */
    private String taskDescriptionToFind = testTaskDescription + "thingamajig";
+   
+   /** The forbidden project name. */
    private String forbiddenProjectName = projectToSearch + "-duplicated";
 
+   /** The Constant SUBJECT_SUFFIX. */
    public static final String SUBJECT_SUFFIX = " Note Subject";
+   
+   /** The Constant PROJECT_NOTE_SUBJECT. */
    public static final String PROJECT_NOTE_SUBJECT = "Project" + SUBJECT_SUFFIX;
+   
+   /** The Constant ITERATION_NOTE_SUBJECT. */
    public static final String ITERATION_NOTE_SUBJECT = "Iteration" + SUBJECT_SUFFIX;
+   
+   /** The Constant STORY_NOTE_SUBJECT. */
    public static final String STORY_NOTE_SUBJECT = "Story" + SUBJECT_SUFFIX;
+   
+   /** The Constant TASK_NOTE_SUBJECT. */
    public static final String TASK_NOTE_SUBJECT = "Task" + SUBJECT_SUFFIX;
 
+   /** The Constant NOTE_BODY_SUFFIX. */
    public static final String NOTE_BODY_SUFFIX = " Note Body";
+   
+   /** The Constant PROJECT_NOTE_BODY. */
    public static final String PROJECT_NOTE_BODY = "Project" + NOTE_BODY_SUFFIX;
+   
+   /** The Constant ITERATION_NOTE_BODY. */
    public static final String ITERATION_NOTE_BODY = "Iteration" + NOTE_BODY_SUFFIX;
+   
+   /** The Constant STORY_NOTE_BODY. */
    public static final String STORY_NOTE_BODY = "Story" + NOTE_BODY_SUFFIX;
+   
+   /** The Constant TASK_NOTE_BODY. */
    public static final String TASK_NOTE_BODY = "Task" + NOTE_BODY_SUFFIX;
 
+   /** The Constant GLOBAL_SCOPE_ENABLE_PROPERTY. */
    public static final String GLOBAL_SCOPE_ENABLE_PROPERTY = "search.content.globalScopeEnable";
+   
+   /** The task id. */
    private String taskId;
+   
+   /** The story id. */
    private String storyId;
+   
+   /** The iteration id. */
    private String iterationId;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    public void setUp() throws Exception {
 //      new Timer().run(new Callable() { public void run() throws Exception { mySetUp(); } });
 //   }
@@ -64,6 +113,9 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tester.editProperty(GLOBAL_SCOPE_ENABLE_PROPERTY, "true");
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    public void tearDown() throws Exception {
 //         new Timer().run(new Callable() { public void run() throws Exception { myTearDown(); } });
 //      }
@@ -84,11 +136,21 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tearDownTestPerson();
    }
 
+   /** Test search form.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchForm() throws Exception {
       searchForTextInTitle();
       searchForTextInDescription();
    }
 
+   /** Test search without permissions.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchWithoutPermissions() throws Exception {
       createUserWithoutPermission();
 
@@ -97,6 +159,11 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tester.assertKeyPresent("empty.search.results");
    }
 
+   /** Test search with editor permissions.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchWithEditorPermissions() throws Exception {
       createUserWithEditorRoleForProject(projectToSearch);
 
@@ -106,6 +173,11 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       searchForTextInDescription();
    }
 
+   /** Test search with editor permissions_ one project should not be found.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchWithEditorPermissions_OneProjectShouldNotBeFound() throws Exception {
       tester.gotoProjectsPage();
       tester.addProject(forbiddenProjectName, projectDescriptionToFind);
@@ -117,6 +189,11 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       searchForTextInDescription();
    }
 
+   /** Test search with editor permissions_ restricted scope.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchWithEditorPermissions_RestrictedScope() throws Exception {
       tester.editProperty(GLOBAL_SCOPE_ENABLE_PROPERTY, "false");
       tester.gotoProjectsPage();
@@ -140,10 +217,14 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       searchForTextInTitle();
    }
 
+   /** Assert no content search form.
+     */
    private void assertNoContentSearchForm() {
       tester.assertFormNotPresent("search");
    }
 
+   /** Search for text in description.
+     */
    private void searchForTextInDescription() {
       searchFor("proojaaactooor");
       tester.assertLinkPresentWithText(projectToSearch);
@@ -166,6 +247,8 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tester.assertOnTaskPage();
    }
 
+   /** Search for text in title.
+     */
    private void searchForTextInTitle() {
       searchFor("findMe");
       tester.assertLinkPresentWithText(projectToSearch);
@@ -189,6 +272,11 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tester.assertOnTaskPage();
    }
 
+   /** Search for.
+     *
+     * @param textToFind
+     *            the text to find
+     */
    private void searchFor(String textToFind) {
       tester.assertFormPresent("search");
       tester.setWorkingForm("search");
@@ -197,6 +285,11 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       tester.assertKeyPresent("search.results");
    }
 
+   /** Test note links.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testNoteLinks() throws Exception {
       searchForNote("Project");
       searchForNote("Iteration");
@@ -204,12 +297,22 @@ public class SearchFormTestScript extends AbstractPageTestScript {
       searchForNote("Task");
    }
 
+   /** Test search orphan note.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchOrphanNote() throws Exception {
       tester.deleteObjects(UserStory.class, "name", storyToFind);
       searchFor("Story" + SUBJECT_SUFFIX);
       tester.assertLinkNotPresentWithText("Story" + SUBJECT_SUFFIX);
    }
 
+   /** Search for note.
+     *
+     * @param prefix
+     *            the prefix
+     */
    private void searchForNote(String prefix) {
       searchFor(prefix + SUBJECT_SUFFIX);
       tester.assertLinkPresentWithText(prefix + SUBJECT_SUFFIX);

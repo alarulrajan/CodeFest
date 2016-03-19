@@ -13,9 +13,17 @@ import org.apache.struts.action.ActionMapping;
 import com.technoetic.xplanner.domain.repository.ObjectRepository;
 import com.technoetic.xplanner.metrics.IterationMetrics;
 
+/**
+ * The Class ViewIterationMetricsAction.
+ */
 public class ViewIterationMetricsAction extends ViewObjectAction<Iteration> {
+	
+	/** The iteration metrics. */
 	private IterationMetrics iterationMetrics;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.ViewObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -31,10 +39,29 @@ public class ViewIterationMetricsAction extends ViewObjectAction<Iteration> {
 		return super.doExecute(actionMapping, form, request, reply);
 	}
 
+	/**
+     * Sets the iteration metrics.
+     *
+     * @param iterationMetrics
+     *            the new iteration metrics
+     */
 	public void setIterationMetrics(final IterationMetrics iterationMetrics) {
 		this.iterationMetrics = iterationMetrics;
 	}
 
+	/**
+     * Gets the repository.
+     *
+     * @param actionMapping
+     *            the action mapping
+     * @param request
+     *            the request
+     * @return the repository
+     * @throws ClassNotFoundException
+     *             the class not found exception
+     * @throws ServletException
+     *             the servlet exception
+     */
 	protected ObjectRepository getRepository(final ActionMapping actionMapping,
 			final HttpServletRequest request) throws ClassNotFoundException,
 			ServletException {

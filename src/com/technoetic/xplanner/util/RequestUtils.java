@@ -6,7 +6,18 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+/**
+ * The Class RequestUtils.
+ */
 public class RequestUtils {
+	
+	/**
+     * To string.
+     *
+     * @param request
+     *            the request
+     * @return the string
+     */
 	public static String toString(final ServletRequest request) {
 		final Map parameterMap = request.getParameterMap();
 		final ArrayList names = new ArrayList(parameterMap.keySet());
@@ -26,11 +37,29 @@ public class RequestUtils {
 		return str.toString();
 	}
 
+	/**
+     * Checks if is parameter true.
+     *
+     * @param request
+     *            the request
+     * @param paramName
+     *            the param name
+     * @return true, if is parameter true
+     */
 	public static boolean isParameterTrue(final ServletRequest request,
 			final String paramName) {
 		return Boolean.valueOf(request.getParameter(paramName)).booleanValue();
 	}
 
+	/**
+     * Checks if is attribute true.
+     *
+     * @param request
+     *            the request
+     * @param attrName
+     *            the attr name
+     * @return true, if is attribute true
+     */
 	public static boolean isAttributeTrue(final ServletRequest request,
 			final String attrName) {
 		final Object value = request.getAttribute(attrName);

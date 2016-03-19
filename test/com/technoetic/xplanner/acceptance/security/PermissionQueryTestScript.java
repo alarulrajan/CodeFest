@@ -21,14 +21,29 @@ import com.technoetic.xplanner.security.auth.AuthorizerQueryHelper;
 import com.technoetic.xplanner.security.auth.PrincipalSpecificPermissionHelper;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
+/**
+ * The Class PermissionQueryTestScript.
+ */
 public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
+    
+    /** The person. */
     private Person person;
+    
+    /** The permission tester. */
     private String permissionTester = "permissionTester";
 
+    /** Instantiates a new permission query test script.
+     *
+     * @param name
+     *            the name
+     */
     public PermissionQueryTestScript(String name) {
         super(name);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#tearDown()
+     */
     protected void tearDown() throws Exception {
        try {
           deletePersonIfExists(getSession());
@@ -38,6 +53,11 @@ public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
        }
     }
 
+    /** Test simple permission query.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSimplePermissionQuery() throws Exception {
         person = (Person)getObject(getSession(), Person.class, permissionTester);
         deletePersonIfExists(getSession());
@@ -63,6 +83,15 @@ public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
 
     }
 
+    /** Verify permission.
+     *
+     * @param projectId
+     *            the project id
+     * @param personId
+     *            the person id
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
     private void verifyPermission(int projectId, int personId)
         throws AuthenticationException
     {
@@ -97,6 +126,14 @@ public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
         assertFalse("wrong result", result);
     }
 
+    /** Creates the person and permission.
+     *
+     * @param projectId
+     *            the project id
+     * @return the int
+     * @throws HibernateException
+     *             the hibernate exception
+     */
     private int createPersonAndPermission(int projectId)
         throws HibernateException
     {
@@ -110,6 +147,15 @@ public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
         return personId;
     }
 
+    /** Delete person if exists.
+     *
+     * @param session
+     *            the session
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws SQLException
+     *             the SQL exception
+     */
     private void deletePersonIfExists(Session session) throws HibernateException, SQLException
     {
         if (person != null) {
@@ -119,17 +165,54 @@ public class PermissionQueryTestScript extends AbstractDatabaseTestScript {
         }
     }
 
+    /** Gets the role id.
+     *
+     * @param session
+     *            the session
+     * @param roleName
+     *            the role name
+     * @return the role id
+     * @throws HibernateException
+     *             the hibernate exception
+     */
     private int getRoleId(Session session, String roleName) throws HibernateException {
         return ((Role)getObject(session, Role.class, roleName)).getId();
 
     }
 
+    /** Adds the permission.
+     *
+     * @param session
+     *            the session
+     * @param personId
+     *            the person id
+     * @param resourceType
+     *            the resource type
+     * @param resourceId
+     *            the resource id
+     * @param permissionName
+     *            the permission name
+     * @throws HibernateException
+     *             the hibernate exception
+     */
     private void addPermission(Session session, int personId, String resourceType, int resourceId, String permissionName)
             throws HibernateException {
         Permission permission = new Permission(resourceType, resourceId, personId, permissionName);
         session.save(permission);
     }
 
+    /** Gets the object.
+     *
+     * @param session
+     *            the session
+     * @param clazz
+     *            the clazz
+     * @param name
+     *            the name
+     * @return the object
+     * @throws HibernateException
+     *             the hibernate exception
+     */
     private Object getObject(Session session, Class clazz, String name) throws HibernateException {
         List objects = session.find("from object in class " + clazz.getName() + " where object.name = ?",
                 name, Hibernate.STRING);

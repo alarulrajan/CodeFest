@@ -17,14 +17,37 @@ import javax.swing.SwingUtilities;
 
 import com.technoetic.xplanner.format.DecimalFormat;
 
+/**
+ * The Class ProgressBarImage.
+ */
 public class ProgressBarImage extends BufferedImage {
+	
+	/** The value. */
 	private final double value;
+	
+	/** The max value. */
 	private final double maxValue;
+	
+	/** The value color. */
 	private Color valueColor = Color.BLUE;
+	
+	/** The max value color. */
 	private Color maxValueColor = Color.RED;
+	
+	/** The format. */
 	private final DecimalFormat format;
+	
+	/** The caption value. */
 	private final double captionValue;
 
+	/**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public static void main(final String[] args) throws IOException {
 		final JFrame jFrame = new JFrame("Test");
 		jFrame.setSize(800, 700);
@@ -43,16 +66,55 @@ public class ProgressBarImage extends BufferedImage {
 		jFrame.show();
 	}
 
+	/**
+     * The Class Model.
+     */
 	public static class Model {
+		
+		/** The width. */
 		public int width;
+		
+		/** The height. */
 		public int height;
+		
+		/** The value. */
 		public double value;
+		
+		/** The value color. */
 		public Color valueColor;
+		
+		/** The max value. */
 		public double maxValue;
+		
+		/** The max value color. */
 		public Color maxValueColor;
+		
+		/** The format. */
 		public DecimalFormat format;
+		
+		/** The caption value. */
 		private final double captionValue;
 
+		/**
+         * Instantiates a new model.
+         *
+         * @param width
+         *            the width
+         * @param height
+         *            the height
+         * @param value
+         *            the value
+         * @param valueColor
+         *            the value color
+         * @param maxValue
+         *            the max value
+         * @param maxValueColor
+         *            the max value color
+         * @param format
+         *            the format
+         * @param captionValue
+         *            the caption value
+         */
 		public Model(final int width, final int height, final double value,
 				final Color valueColor, final double maxValue,
 				final Color maxValueColor, final DecimalFormat format,
@@ -68,6 +130,24 @@ public class ProgressBarImage extends BufferedImage {
 		}
 	}
 
+	/**
+     * Instantiates a new progress bar image.
+     *
+     * @param width
+     *            the width
+     * @param height
+     *            the height
+     * @param value
+     *            the value
+     * @param valueColor
+     *            the value color
+     * @param maxValue
+     *            the max value
+     * @param maxValueColor
+     *            the max value color
+     * @param format
+     *            the format
+     */
 	public ProgressBarImage(final int width, final int height,
 			final double value, final Color valueColor, final double maxValue,
 			final Color maxValueColor, final DecimalFormat format) {
@@ -75,6 +155,12 @@ public class ProgressBarImage extends BufferedImage {
 				maxValueColor, format, value));
 	}
 
+	/**
+     * Instantiates a new progress bar image.
+     *
+     * @param model
+     *            the model
+     */
 	public ProgressBarImage(final Model model) {
 		super(model.width, model.height /* model.height */,
 				BufferedImage.TYPE_INT_RGB);
@@ -87,6 +173,9 @@ public class ProgressBarImage extends BufferedImage {
 		this.init();
 	}
 
+	/**
+     * Inits the.
+     */
 	private void init() {
 		final Graphics2D drawGraphics = this.createGraphics();
 		final Graphics2D textGraphics = this.getTextGraphics();
@@ -111,6 +200,16 @@ public class ProgressBarImage extends BufferedImage {
 		// 2, maxValue, Color.BLACK);
 	}
 
+	/**
+     * Draw value.
+     *
+     * @param g
+     *            the g
+     * @param x
+     *            the x
+     * @param y
+     *            the y
+     */
 	private void drawValue(final Graphics2D g, final int x, final int y) {
 		final int textWidth = this.getValueTextWidth(g);
 		int xText = x;
@@ -123,6 +222,18 @@ public class ProgressBarImage extends BufferedImage {
 		this.drawValue(g, xText, y, this.getTextColor(bgColor));
 	}
 
+	/**
+     * Draw value.
+     *
+     * @param g
+     *            the g
+     * @param x
+     *            the x
+     * @param y
+     *            the y
+     * @param color
+     *            the color
+     */
 	private void drawValue(final Graphics2D g, final int x, final int y,
 			final Color color) {
 		g.setColor(color);
@@ -136,15 +247,32 @@ public class ProgressBarImage extends BufferedImage {
 		g.setFont(oldFont);
 	}
 
+	/**
+     * Gets the caption.
+     *
+     * @return the caption
+     */
 	private String getCaption() {
 		return this.format.format(this.captionValue);
 	}
 
+	/**
+     * Gets the value text width.
+     *
+     * @param g
+     *            the g
+     * @return the value text width
+     */
 	private int getValueTextWidth(final Graphics2D g) {
 		return SwingUtilities.computeStringWidth(g.getFontMetrics(),
 				this.getCaption());
 	}
 
+	/**
+     * Gets the text graphics.
+     *
+     * @return the text graphics
+     */
 	private Graphics2D getTextGraphics() {
 		final Graphics2D g = this.createGraphics();
 		g.setFont(new Font("SansSerif", Font.BOLD, this.getFontSize()));
@@ -155,10 +283,22 @@ public class ProgressBarImage extends BufferedImage {
 		return g;
 	}
 
+	/**
+     * Gets the font size.
+     *
+     * @return the font size
+     */
 	private int getFontSize() {
 		return (int) Math.round(this.getHeight() * 0.91);
 	}
 
+	/**
+     * Gets the text color.
+     *
+     * @param bgColor
+     *            the bg color
+     * @return the text color
+     */
 	private Color getTextColor(final Color bgColor) {
 		Color color = null;
 		if (bgColor.equals(Color.RED) || bgColor.equals(Color.BLUE)) {
@@ -169,21 +309,66 @@ public class ProgressBarImage extends BufferedImage {
 		return color;
 	}
 
+	/**
+     * Draw bar.
+     *
+     * @param g
+     *            the g
+     * @param x
+     *            the x
+     * @param width
+     *            the width
+     * @param height
+     *            the height
+     * @param color
+     *            the color
+     */
 	private void drawBar(final Graphics2D g, final int x, final int width,
 			final int height, final Color color) {
 		this.drawRectangle(g, x, 0, width, height, color);
 	}
 
+	/**
+     * Draw rectangle.
+     *
+     * @param g
+     *            the g
+     * @param x
+     *            the x
+     * @param y
+     *            the y
+     * @param width
+     *            the width
+     * @param height
+     *            the height
+     * @param color
+     *            the color
+     */
 	private void drawRectangle(final Graphics2D g, final int x, final int y,
 			final int width, final int height, final Color color) {
 		g.setColor(color);
 		g.fillRect(x, y, width, height);
 	}
 
+	/**
+     * Gets the pixels for value.
+     *
+     * @return the pixels for value
+     */
 	private int getPixelsForValue() {
 		return (int) Math.round(this.getWidth() / this.maxValue * this.value);
 	}
 
+	/**
+     * Encode jpeg.
+     *
+     * @param outputStream
+     *            the output stream
+     * @param outputQuality
+     *            the output quality
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public void encodeJPEG(final OutputStream outputStream,
 			final float outputQuality) throws java.io.IOException {
 		final int outputWidth = this.getWidth(null);

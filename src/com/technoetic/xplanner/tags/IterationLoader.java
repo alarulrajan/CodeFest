@@ -13,9 +13,29 @@ import org.hibernate.HibernateException;
 import com.technoetic.xplanner.domain.repository.IterationRepository;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class IterationLoader.
+ */
 public class IterationLoader {
+	
+	/** The page context. */
 	private PageContext pageContext;
 
+	/**
+     * Gets the iteration options.
+     *
+     * @param projectId
+     *            the project id
+     * @param onlyCurrentProject
+     *            the only current project
+     * @param startDate
+     *            the start date
+     * @return the iteration options
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public List getIterationOptions(final int projectId,
 			final boolean onlyCurrentProject, final Date startDate)
 			throws HibernateException, AuthenticationException {
@@ -45,6 +65,12 @@ public class IterationLoader {
 		return options;
 	}
 
+	/**
+     * Sets the page context.
+     *
+     * @param pageContext
+     *            the new page context
+     */
 	public void setPageContext(final PageContext pageContext) {
 		this.pageContext = pageContext;
 	}

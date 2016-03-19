@@ -16,9 +16,26 @@ import net.sf.xplanner.domain.Project;
 import com.technoetic.xplanner.acceptance.web.XPlannerWebTester;
 import com.technoetic.xplanner.views.IterationPage;
 
+/**
+ * The Class IterationTester.
+ */
 public class IterationTester {
+   
+   /** The tester. */
    XPlannerWebTester tester;
 
+   /** Adds the iteration.
+     *
+     * @param iterationName
+     *            the iteration name
+     * @param startDateString
+     *            the start date string
+     * @param endDateString
+     *            the end date string
+     * @param description
+     *            the description
+     * @return the string
+     */
    public String addIteration(String iterationName,
                               String startDateString,
                               String endDateString,
@@ -43,16 +60,28 @@ public class IterationTester {
    }
 
 
+   /** Start.
+     *
+     * @param iteration
+     *            the iteration
+     */
    public void start(Iteration iteration) {
       goToDefaultView(iteration);
       startCurrentIteration();
    }
 
+   /** Close.
+     *
+     * @param iteration
+     *            the iteration
+     */
    public void close(Iteration iteration) {
       goToDefaultView(iteration);
       closeCurrentIteration();
    }
 
+   /** Start current iteration.
+     */
    public void startCurrentIteration() {
       assertOnIterationPage();
       tester.clickLinkWithKey(IterationPage.START_ACTION);
@@ -60,6 +89,8 @@ public class IterationTester {
       assertCurrentIterationStarted();
    }
 
+   /** Confirm start current iteration.
+     */
    private void confirmStartCurrentIteration() {
 //      if (tester.getDialog().getElement("start") != null) {
 //         if(tester.getDialog().getElement("closeIterations") != null) {
@@ -69,22 +100,49 @@ public class IterationTester {
 //      }
    }
 
+   /** Assert on start iteration prompt page and start.
+     */
    public void assertOnStartIterationPromptPageAndStart() {
       assertOnStartIterationPromptPage();
       confirmStartCurrentIteration();
    }
 
+   /** Assert on start iteration prompt page.
+     */
    public void assertOnStartIterationPromptPage() {
       tester.assertKeyPresent("iteration.status.editor.message_4");
    }
 
+   /** Close current iteration.
+     */
    public void closeCurrentIteration() {
       assertOnIterationPage();
       tester.clickLinkWithKey(IterationPage.CLOSE_ACTION);
    }
 
+   /** Go to default view.
+     *
+     * @param iteration
+     *            the iteration
+     */
    public void goToDefaultView(Iteration iteration) {goToDefaultView(iteration.getId());}
+   
+   /** Go to default view.
+     *
+     * @param iterationId
+     *            the iteration id
+     */
    public void goToDefaultView(int iterationId) {tester.gotoPage("view", "iteration", iterationId);}
+   
+   /** Go to view.
+     *
+     * @param project
+     *            the project
+     * @param iteration
+     *            the iteration
+     * @param view
+     *            the view
+     */
    public void goToView(Project project, Iteration iteration, String view) {
       tester.gotoProjectsPage();
       tester.clickLinkWithText(Integer.toString(project.getId()));
@@ -92,6 +150,8 @@ public class IterationTester {
       tester.clickLinkWithKey(view);
    }
 
+   /** Assert on iteration page.
+     */
    public void assertOnIterationPage() {
       tester.assertKeyPresent("iteration.prefix");
       tester.assertLinkPresentWithKey("navigation.top");
@@ -103,16 +163,25 @@ public class IterationTester {
       tester.assertKeyPresent("notes.label.notes");
    }
 
+   /** Assert current iteration started.
+     */
    public void assertCurrentIterationStarted() {
       tester.assertKeyNotPresent(IterationPage.START_ACTION);
       tester.assertKeyPresent(IterationPage.CLOSE_ACTION);
    }
 
+   /** Assert current iteration closed.
+     */
    public void assertCurrentIterationClosed() {
       tester.assertKeyPresent(IterationPage.START_ACTION);
       tester.assertKeyNotPresent(IterationPage.CLOSE_ACTION);
    }
 
+   /** Instantiates a new iteration tester.
+     *
+     * @param tester
+     *            the tester
+     */
    public IterationTester(XPlannerWebTester tester) {
       this.tester = tester;
    }

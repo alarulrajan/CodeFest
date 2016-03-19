@@ -21,26 +21,44 @@ import com.technoetic.xplanner.importer.SpreadsheetStory;
 import com.technoetic.xplanner.importer.SpreadsheetStoryFactory;
 import com.technoetic.xplanner.util.MainBeanFactory;
 
+/**
+ * The Class TestSpreadsheetStoryReader.
+ */
 public class TestSpreadsheetStoryReader extends BaseTestCase
 {
+   
+   /** The reader. */
    SpreadsheetStoryReader reader;
+   
+   /** The header configuration. */
    private SpreadsheetHeaderConfiguration headerConfiguration = new SpreadsheetHeaderConfiguration("Feature/Story Title",
                                                                                                    "Iteration End Date",
                                                                                                    "Priority  (1 thru n)",
                                                                                                    "Status",
                                                                                                    "Work Unit Estimate");
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.importer.BaseTestCase#setUp()
+    */
    protected void setUp() throws Exception
    {
       super.setUp();
       MainBeanFactory.initBeanProperties(this);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.importer.BaseTestCase#tearDown()
+    */
    protected void tearDown() throws Exception
    {
       super.tearDown();
    }
 
+   /** Test spreadsheet reader.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSpreadsheetReader() throws Exception
    {
       InputStream stream = TestSpreadsheetStoryReader.class.getResourceAsStream("/data/Cookbook.xls");
@@ -62,6 +80,13 @@ public class TestSpreadsheetStoryReader extends BaseTestCase
       validateExpectedDates(expectedStories, stories);
    }
 
+   /** Validate expected dates.
+     *
+     * @param expectedStories
+     *            the expected stories
+     * @param stories
+     *            the stories
+     */
    private void validateExpectedDates(ArrayList expectedStories, List stories)
    {
       for (Iterator iterator = expectedStories.iterator(), actualStoriesIt = stories.iterator(); iterator.hasNext();)
@@ -75,6 +100,10 @@ public class TestSpreadsheetStoryReader extends BaseTestCase
 
    }
 
+   /** Gets the base date.
+     *
+     * @return the base date
+     */
    private Calendar getBaseDate()
    {
       Calendar cal = Calendar.getInstance();
@@ -83,11 +112,20 @@ public class TestSpreadsheetStoryReader extends BaseTestCase
       return cal;
    }
 
+   /** Gets the reader.
+     *
+     * @return the reader
+     */
    public SpreadsheetStoryReader getReader()
    {
       return reader;
    }
 
+   /** Sets the reader.
+     *
+     * @param reader
+     *            the new reader
+     */
    public void setReader(SpreadsheetStoryReader reader)
    {
       this.reader = reader;

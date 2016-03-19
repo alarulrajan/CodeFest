@@ -28,10 +28,27 @@ import com.technoetic.xplanner.util.Callable;
  }
  */
 public class Timer {
+   
+   /** Run.
+     *
+     * @param c
+     *            the c
+     * @throws Exception
+     *             the exception
+     */
    public void run (Callable c) throws Exception {
       run(CallLog.getCallerMethod(), c);
    }
 
+   /** Run.
+     *
+     * @param message
+     *            the message
+     * @param c
+     *            the c
+     * @throws Exception
+     *             the exception
+     */
    public void run(String message, Callable c) throws Exception {
       long start = System.currentTimeMillis();
       c.run();
@@ -46,6 +63,19 @@ public class Timer {
       logTime(message, h, m, s, ms);
    }
 
+   /** Log time.
+     *
+     * @param message
+     *            the message
+     * @param h
+     *            the h
+     * @param m
+     *            the m
+     * @param s
+     *            the s
+     * @param ms
+     *            the ms
+     */
    static private void logTime(String message, long h, long m, long s, long ms) {
       System.out.println(MessageFormat.format("{0}={1,number,00}:{2,number,00}:{3,number,00}.{4,number,000}",
                                               new Object[] {message,
@@ -55,6 +85,11 @@ public class Timer {
                                                             new Long(ms)}));
    }
 
+   /** The main method.
+     *
+     * @param args
+     *            the arguments
+     */
    public static void main(String[] args) {
       logTime("test", 1,2,3,4);
    }

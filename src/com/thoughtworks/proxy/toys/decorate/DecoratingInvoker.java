@@ -26,8 +26,14 @@ import com.thoughtworks.proxy.kit.PrivateInvoker;
  * @since 0.1
  */
 public class DecoratingInvoker implements Invoker {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8293471912861497447L;
+	
+	/** The decorated. */
 	private final Invoker decorated;
+	
+	/** The decorator. */
 	private final InvocationDecorator decorator;
 
 	/**
@@ -59,6 +65,9 @@ public class DecoratingInvoker implements Invoker {
 		this(new PrivateInvoker(delegate), decorator);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.thoughtworks.proxy.Invoker#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	public Object invoke(final Object proxy, final Method method,
 			final Object[] args) throws Throwable {
@@ -87,6 +96,11 @@ public class DecoratingInvoker implements Invoker {
 		return null;
 	}
 
+	/**
+     * Gets the decorated.
+     *
+     * @return the decorated
+     */
 	public Invoker getDecorated() {
 		return this.decorated;
 	}

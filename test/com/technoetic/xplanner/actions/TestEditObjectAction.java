@@ -12,11 +12,23 @@ import org.junit.Before;
 
 import com.technoetic.xplanner.forms.AbstractEditorForm;
 
+/**
+ * The Class TestEditObjectAction.
+ */
 public class TestEditObjectAction extends AbstractActionTestCase {
+    
+    /** The mock abstract editor form. */
     private AbstractEditorForm mockAbstractEditorForm;
+    
+    /** The mock domain object. */
     private Project mockDomainObject;
+    
+    /** The oid. */
     private final int OID = 11;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+     */
     @Override
 	@Before
     public void setUp() throws Exception {
@@ -31,11 +43,19 @@ public class TestEditObjectAction extends AbstractActionTestCase {
     }
 
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+	 */
 	@Override
 	public void tearDown() throws Exception {
         super.tearDown();
     }
 
+    /** Test pre submit new object.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPreSubmitNewObject() throws Exception {
         // The action should redirect to the "input" page.
         EasyMock.expect(mockAbstractEditorForm.isSubmitted()).andReturn(false);
@@ -50,6 +70,11 @@ public class TestEditObjectAction extends AbstractActionTestCase {
         assertEquals("wrong forward", "editor.jsp", forward.getPath());
     }
 
+    /** Test pre submit existing object.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPreSubmitExistingObject() throws Exception {
         expectObjectRepositoryAccess(Project.class);
         expect(mockObjectRepository.load(OID)).andReturn(mockDomainObject);
@@ -74,6 +99,11 @@ public class TestEditObjectAction extends AbstractActionTestCase {
         assertEquals("wrong forward", "editor.jsp", forward.getPath());
     }
 
+    /** Test submit existing object.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSubmitExistingObject() throws Exception {
         expectObjectRepositoryAccess(Project.class);
         EasyMock.expect(mockAbstractEditorForm.getId()).andReturn(OID);
@@ -96,6 +126,11 @@ public class TestEditObjectAction extends AbstractActionTestCase {
         assertEquals("wrong forward", "object.jsp", forward.getPath());
     }
 
+    /** Test submit new object.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSubmitNewObject() throws Exception {
         expectObjectRepositoryAccess(Project.class);
         EasyMock.expect(mockAbstractEditorForm.isSubmitted()).andReturn(true);
@@ -117,6 +152,11 @@ public class TestEditObjectAction extends AbstractActionTestCase {
         assertEquals("wrong forward", "object.jsp", forward.getPath());
     }
 
+    /** Test no return to.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testNoReturnTo() throws Exception {
         expectObjectRepositoryAccess(Project.class);
         EasyMock.expect(mockAbstractEditorForm.isSubmitted()).andReturn(true);

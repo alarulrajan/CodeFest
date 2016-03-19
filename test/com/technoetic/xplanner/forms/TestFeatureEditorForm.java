@@ -9,14 +9,29 @@ import org.apache.struts.action.ActionErrors;
 
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestFeatureEditorForm.
+ */
 public class TestFeatureEditorForm extends TestCase {
+    
+    /** Instantiates a new test feature editor form.
+     *
+     * @param name
+     *            the name
+     */
     public TestFeatureEditorForm(String name) {
         super(name);
     }
 
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The form. */
     private FeatureEditorForm form;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         support = new XPlannerTestSupport();
         support.resources.setMessage("format.date", "yyyy-MM-dd");
@@ -24,6 +39,8 @@ public class TestFeatureEditorForm extends TestCase {
         form.setName("name");
     }
 
+    /** Test reset.
+     */
     public void testReset() {
         form.reset(support.mapping, support.request);
 
@@ -33,12 +50,16 @@ public class TestFeatureEditorForm extends TestCase {
         assertEquals("variable not reset", 0, form.getStoryId());
     }
 
+    /** Test validate form ok.
+     */
     public void testValidateFormOk() {
         ActionErrors errors = form.validate(support.mapping, support.request);
 
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing name not submitted.
+     */
     public void testValidateMissingNameNotSubmitted() {
         form.setName(null);
 
@@ -47,6 +68,8 @@ public class TestFeatureEditorForm extends TestCase {
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing name.
+     */
     public void testValidateMissingName() {
         form.setName(null);
         form.setAction("Update");

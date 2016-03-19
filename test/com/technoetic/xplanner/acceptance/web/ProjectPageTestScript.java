@@ -6,25 +6,53 @@ import net.sf.xplanner.domain.Project;
 
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class ProjectPageTestScript.
+ */
 public class ProjectPageTestScript extends AbstractPageTestScript
 {
+    
+    /** The start date. */
     private String startDate;
+    
+    /** The end date. */
     private String endDate;
+    
+    /** The test project. */
     private Project testProject;
+    
+    /** The test task id. */
     private String testTaskId;
 
+    /** The wiki property. */
     private String wikiProperty = "twiki.scheme.wiki";
+    
+    /** The description element name. */
     private String descriptionElementName = "description";
+    
+    /** The wiki url element name. */
     private String wikiUrlElementName = "wikiUrl";
+    
+    /** The wiki link text. */
     private String wikiLinkText = "newLink";
+    
+    /** The new wiki url. */
     private String newWikiUrl = "http://newwikilocation/$1";
 
+   /** Instantiates a new project page test script.
+     *
+     * @param test
+     *            the test
+     */
    public ProjectPageTestScript(String test)
    {
        super(test);
    }
 
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     public void setUp() throws Exception
     {
         startDate = tester.dateStringForNDaysAway(0);
@@ -40,12 +68,17 @@ public class ProjectPageTestScript extends AbstractPageTestScript
         tester.clickLinkWithText(""+ testProject.getId());
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+     */
     public void tearDown() throws Exception
     {
         tester.logout();
         super.tearDown();
     }
 
+    /** Test wiki rendering in description.
+     */
     public void testWikiRenderingInDescription() {
        tester.gotoProjectsPage();
        tester.clickLinkWithText(String.valueOf(testProject.getId()));
@@ -66,6 +99,11 @@ Assert.fail();
 //       assertTrue("There is no wiki link: " + projectWikiLink, index != -1);
     }
 
+    /** Test action buttons on view page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testActionButtonsOnViewPage() throws Exception
     {
        tester.gotoProjectsPage();
@@ -74,6 +112,11 @@ Assert.fail();
        tester.assertLinkPresentWithKey("action.delete.project");
     }
 
+    /** Test project attributes settings.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProjectAttributesSettings() throws Exception
     {
         //tester.gotoProjectsPage();
@@ -94,6 +137,11 @@ Assert.fail();
     }
 
 
+    /** Test project page content and links.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProjectPageContentAndLinks() throws Exception
     {
         tester.assertOnProjectPage();
@@ -104,6 +152,8 @@ Assert.fail();
         tester.assertLinkPresentWithKey("project.link.create_iteration");
     }
 
+    /** _test adding editing and deleting iterations.
+     */
     //FIXME Commented out due to failure on the build machine
     public void _testAddingEditingAndDeletingIterations()
     {
@@ -134,27 +184,54 @@ Assert.fail();
     }
 
 
+    /** Test adding and deleting notes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testAddingAndDeletingNotes() throws Exception
     {
         runNotesTests(XPlannerWebTester.PROJECT_PAGE);
     }
 
+    /** Test xml export.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testXmlExport() throws Exception
     {
         checkExportUri("project", "xml");
     }
 
+    /** Test mpx export.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testMpxExport() throws Exception
     {
         checkExportUri("project", "mpx");
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#traverseLinkWithKeyAndReturn(java.lang.String)
+     */
     protected void traverseLinkWithKeyAndReturn(String key) throws Exception
     {
         tester.clickLinkWithKey(key);
         tester.gotoPage("view", "projects", 0);
     }
 
+    /** Initialize iteration.
+     *
+     * @param originalStoryEstimation
+     *            the original story estimation
+     * @param taskEstimation
+     *            the task estimation
+     * @param taskEntryDuration
+     *            the task entry duration
+     */
     private void initializeIteration(String originalStoryEstimation, String taskEstimation, int taskEntryDuration)
     {
         tester.clickLinkWithText(testIterationName);
@@ -171,6 +248,25 @@ Assert.fail();
         tester.clickLinkWithText(testProjectName);
     }
 
+    /** Assert iteration present.
+     *
+     * @param iterationName
+     *            the iteration name
+     * @param status
+     *            the status
+     * @param startDate
+     *            the start date
+     * @param endDate
+     *            the end date
+     * @param daysWorked
+     *            the days worked
+     * @param actualHours
+     *            the actual hours
+     * @param estimatedHours
+     *            the estimated hours
+     * @param remainingHours
+     *            the remaining hours
+     */
     private void assertIterationPresent(String iterationName, String status, String startDate,
                                         String endDate, String daysWorked, String actualHours,
                                         String estimatedHours, String remainingHours)
@@ -180,7 +276,7 @@ Assert.fail();
         tester.assertKeyPresent("iterations.tableheading.startDate");
         tester.assertKeyPresent("iterations.tableheading.endDate");
         tester.assertKeyPresent("iterations.tableheading.days_worked");
-        //TODO The following columns on iteration page are taken out for performance reason
+        //ChangeSoon The following columns on iteration page are taken out for performance reason
 //        if (!"image".equals(new com.technoetic.xplanner.XPlannerProperties().getProperty("xplanner.progressbar.impl"))) {
 //            tester.assertKeyPresent("iterations.tableheading.actual_hours");
 //        }
@@ -201,7 +297,7 @@ Assert.fail();
                                                               "iterations.tableheading.endDate", endDate);
         tester.assertCellTextForRowWithTextAndColumnKeyEquals(XPlannerWebTester.MAIN_TABLE_ID, iterationName,
                                                               "iterations.tableheading.days_worked", daysWorked);
-        //TODO The following columns on iteration page are taken out for performance reason
+        //ChangeSoon The following columns on iteration page are taken out for performance reason
 //        if (!"image".equals(new com.technoetic.xplanner.XPlannerProperties().getProperty("xplanner.progressbar.impl"))) {
 //            tester.assertCellTextForRowWithTextAndColumnKeyEquals(XPlannerWebTester.MAIN_TABLE_ID, iterationName,
 //                    "iterations.tableheading.actual_hours", actualHours);

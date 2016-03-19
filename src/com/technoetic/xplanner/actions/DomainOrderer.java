@@ -5,7 +5,18 @@ import java.util.Iterator;
 
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class DomainOrderer.
+ */
 public class DomainOrderer {
+	
+	/**
+     * Builds the story id new order array.
+     *
+     * @param stories
+     *            the stories
+     * @return the int[][]
+     */
 	public static int[][] buildStoryIdNewOrderArray(final Collection stories) {
 		final int[][] storyIdAndNewOrder = new int[stories.size()][2];
 		int index = 0;

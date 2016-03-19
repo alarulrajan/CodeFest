@@ -5,11 +5,23 @@ package com.technoetic.xplanner.domain;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestDisposition.
+ */
 public class TestDisposition extends TestCase {
+   
+   /** The story disposition. */
    private StoryDisposition storyDisposition;
+   
+   /** The task disposition. */
    private TaskDisposition taskDisposition;
 
 
+   /** Test from int.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFromInt() throws Exception {
       storyDisposition = StoryDisposition.fromCode('p');
       assertEquals("Disposition name", StoryDisposition.PLANNED_NAME, storyDisposition.getName());
@@ -27,6 +39,11 @@ public class TestDisposition extends TestCase {
       assertEquals("Disposition name", TaskDisposition.OVERHEAD_NAME, taskDisposition.getName());
    }
 
+   /** Test value of.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testValueOf() throws Exception {
       storyDisposition = StoryDisposition.PLANNED;
       assertEquals("PLANNED",
@@ -58,6 +75,11 @@ public class TestDisposition extends TestCase {
                    taskDisposition.getName());
    }
 
+   /** Test value of throws exception if bad name.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testValueOfThrowsExceptionIfBadName() throws Exception {
       try {
          StoryDisposition.valueOf("Not valid");
@@ -77,7 +99,13 @@ public class TestDisposition extends TestCase {
 //      assertEquals("code of added", 2, StoryDisposition.ADDED.toInt());
 //   }
 
-   public void testToString() throws Exception {
+   /**
+ * Test to string.
+ *
+ * @throws Exception
+ *             the exception
+ */
+public void testToString() throws Exception {
       storyDisposition = StoryDisposition.PLANNED;
       assertEquals("planned", StoryDisposition.PLANNED_NAME, storyDisposition.toString());
       storyDisposition = StoryDisposition.CARRIED_OVER;

@@ -10,7 +10,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * A factory for creating IOStream objects.
+ */
 public class IOStreamFactory {
+	
+	/**
+     * New input stream.
+     *
+     * @param path
+     *            the path
+     * @return the input stream
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public InputStream newInputStream(final String path) throws IOException {
 		return new FileInputStream(path);
 	}

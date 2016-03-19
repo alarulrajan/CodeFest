@@ -3,16 +3,31 @@ package com.technoetic.xplanner.acceptance.web;
 import net.sf.xplanner.domain.Person;
 import net.sf.xplanner.domain.Project;
 
+/**
+ * The Class ChangePersonRoleTestScript.
+ */
 public class ChangePersonRoleTestScript extends AbstractPageTestScript {
+   
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       tester.login();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    protected void tearDown() throws Exception {
        super.tearDown();
    }
 
+   /** Test bug user not listed after added as editor.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testBugUserNotListedAfterAddedAsEditor() throws Exception {
       setUpTestProject();
       setUpTestPerson();
@@ -24,6 +39,11 @@ public class ChangePersonRoleTestScript extends AbstractPageTestScript {
       assertPersonCanAcceptTask();
     }
 
+   /** Test project admin can assign role to other people.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testProjectAdminCanAssignRoleToOtherPeople() throws Exception
    {
       Project project1 = newProject();
@@ -37,6 +57,18 @@ public class ChangePersonRoleTestScript extends AbstractPageTestScript {
       commitCloseAndOpenSession();
    }
 
+   /** Adds the person with role on project.
+     *
+     * @param userId
+     *            the user id
+     * @param project
+     *            the project
+     * @param roleName
+     *            the role name
+     * @return the person
+     * @throws Exception
+     *             the exception
+     */
    private Person addPersonWithRoleOnProject(String userId, Project project, String roleName) throws Exception {
       Person person = mom.newPerson(userId);
       setUpPersonRole(project, person,  roleName);
@@ -44,12 +76,19 @@ public class ChangePersonRoleTestScript extends AbstractPageTestScript {
       return person;
    }
 
+   /** Assert person can accept task.
+     */
    private void assertPersonCanAcceptTask() {
        tester.clickLinkWithText(testTaskName);
        tester.clickLinkWithKey("action.edit.task");
        tester.assertOptionListed("acceptorId", developer.getName());
    }
 
+    /** Assert person can track story.
+     *
+     * @throws Exception
+     *             the exception
+     */
     private void assertPersonCanTrackStory() throws Exception {
         tester.gotoProjectsPage();
         tester.clickLinkWithText(testProjectName);
@@ -61,6 +100,8 @@ public class ChangePersonRoleTestScript extends AbstractPageTestScript {
         tester.submit();
     }
 
+   /** Adds the task to story.
+     */
    private void addTaskToStory() {
        tester.clickLinkWithKey("story.link.create_task");
        tester.assertKeyPresent("task.prefix");

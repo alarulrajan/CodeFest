@@ -16,7 +16,7 @@
 	</licenses>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<baseDir>C:\Users\139512\Desktop\xplanner-plus-master</baseDir>
+		<baseDir>/media/alarulrajan/Storage/GitRepos/CodeFest/CodeFest</baseDir>
 		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
 	<dependencies>

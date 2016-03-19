@@ -25,16 +25,35 @@ import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.tags.DomainContext;
 
+/**
+ * The Class AbstractRequestUnitTestCase.
+ */
 public abstract class AbstractRequestUnitTestCase extends AbstractUnitTestCase {
 
+	/** The page context. */
 	protected PageContext pageContext;
+	
+	/** The request. */
 	protected HttpServletRequest request;
+	
+	/** The application context. */
 	private WebApplicationContext applicationContext;
+	
+	/** The response. */
 	protected ServletResponse response;
+	
+	/** The servlet context. */
 	private ServletContext servletContext;
+	
+	/** The locale resolver. */
 	private LocaleResolver localeResolver;
+	
+	/** The http session. */
 	protected HttpSession httpSession;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -56,6 +75,9 @@ public abstract class AbstractRequestUnitTestCase extends AbstractUnitTestCase {
 		expect(request.getAttribute(HibernateHelper.SESSION_ATTRIBUTE_KEY)).andReturn(mockSession).anyTimes();
 	}
 
+	/**
+     * Sets the up servlet.
+     */
 	private void setUpServlet() {
 		request = easymockHelper.createGlobalMock(HttpServletRequest.class);
 		response = easymockHelper.createGlobalMock(HttpServletResponse.class);
@@ -70,11 +92,20 @@ public abstract class AbstractRequestUnitTestCase extends AbstractUnitTestCase {
 		expect(pageContext.findAttribute("project")).andReturn(new Project()).anyTimes();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+	 */
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 	
+	/**
+     * Sets the up domain context.
+     *
+     * @param id
+     *            the new up domain context
+     */
 	public void setUpDomainContext(int id) {
         DomainContext context = new DomainContext();
         context.setProjectId(id);

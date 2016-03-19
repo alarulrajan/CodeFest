@@ -17,10 +17,20 @@ import net.sf.xplanner.domain.UserStory;
 
 import com.technoetic.xplanner.AbstractUnitTestCase;
 
+/**
+ * The Class TestDomainMetaDataRepository.
+ */
 public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
+   
+   /** The repository. */
    //DEBT(DATADRIVEN) Should not depend on any production configuration of the repository. This test should create its own so not to be impacted by changes in xplanner business model
    DomainMetaDataRepository repository = DomainMetaDataRepository.getInstance();
 
+   /** Test set parent.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSetParent() throws Exception
    {
       Project project = new Project();
@@ -32,6 +42,11 @@ public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
       ListAssert.assertEquals(Arrays.asList(new Object []{iteration}), new ArrayList(project.getIterations()));
    }
 
+   /** Test get parent.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetParent() throws Exception {
       setUpThreadSession(false);
       Project project = new Project();
@@ -48,6 +63,11 @@ public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test get parent id when parent is an id field.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetParentIdWhenParentIsAnIdField() throws Exception {
       Iteration iteration = new Iteration();
       Project project = new Project();
@@ -56,6 +76,11 @@ public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
       assertEquals(1, repository.getParentId(iteration));
    }
 
+   /** Test get parent id when parent is a relationship.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetParentIdWhenParentIsARelationship() throws Exception {
       Task task = new Task();
       UserStory userStory = new UserStory();
@@ -64,6 +89,11 @@ public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
       assertEquals(1, repository.getParentId(task));
    }
 
+   /** Test get object.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetObject() throws Exception
    {
      setUpThreadSession(false);
@@ -78,6 +108,11 @@ public class TestDomainMetaDataRepository extends AbstractUnitTestCase {
 
    }
 
+   /** Test class to type name.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testClassToTypeName() throws Exception {
       assertEquals(DomainMetaDataRepository.PROJECT_TYPE_NAME, repository.classToTypeName(Project.class));
    }

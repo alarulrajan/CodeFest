@@ -31,49 +31,104 @@ import javax.persistence.Table;
 
 import net.sf.xplanner.domain.enums.SettingScope;
 
+/**
+ * The Class Setting.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "object_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "setting")
 public class Setting extends NamedObject {
+	
+	/** The category. */
 	private String category;
+	
+	/** The default value. */
 	private String defaultValue;
+	
+	/** The scope. */
 	private SettingScope scope;
+	
+	/** The object type. */
 	private ObjectType objectType;
 
+	/**
+     * Gets the object type.
+     *
+     * @return the object type
+     */
 	@ManyToOne(optional = false)
 	public ObjectType getObjectType() {
 		return this.objectType;
 	}
 
+	/**
+     * Gets the category.
+     *
+     * @return the category
+     */
 	@Column(name = "category", length = 255)
 	public String getCategory() {
 		return this.category;
 	}
 
+	/**
+     * Gets the default value.
+     *
+     * @return the default value
+     */
 	@Column(name = "defaultValue", length = 255)
 	public String getDefaultValue() {
 		return this.defaultValue;
 	}
 
+	/**
+     * Gets the scope.
+     *
+     * @return the scope
+     */
 	@Column(name = "setting_scope")
 	@Enumerated(EnumType.ORDINAL)
 	public SettingScope getScope() {
 		return this.scope;
 	}
 
+	/**
+     * Sets the category.
+     *
+     * @param category
+     *            the new category
+     */
 	public void setCategory(final String category) {
 		this.category = category;
 	}
 
+	/**
+     * Sets the default value.
+     *
+     * @param defaultValue
+     *            the new default value
+     */
 	public void setDefaultValue(final String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 
+	/**
+     * Sets the scope.
+     *
+     * @param scope
+     *            the new scope
+     */
 	public void setScope(final SettingScope scope) {
 		this.scope = scope;
 	}
 
+	/**
+     * Sets the object type.
+     *
+     * @param objectType
+     *            the new object type
+     */
 	public void setObjectType(final ObjectType objectType) {
 		this.objectType = objectType;
 	}

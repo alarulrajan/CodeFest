@@ -15,17 +15,44 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class PlannedTaskQuery.
+ */
 public class PlannedTaskQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The query. */
 	private static String query;
+	
+	/** The future query. */
 	private static String futureQuery;
+	
+	/** The tasks. */
 	private final java.util.Collection tasks = new ArrayList();
+	
+	/** The person id. */
 	private int personId;
 
+	/**
+     * Checks for current tasks.
+     *
+     * @return true, if successful
+     * @throws QueryException
+     *             the query exception
+     */
 	public boolean hasCurrentTasks() throws QueryException {
 		return this.getTasks().size() > 0;
 	}
 
+	/**
+     * Gets the tasks.
+     *
+     * @return the tasks
+     * @throws QueryException
+     *             the query exception
+     */
 	public java.util.Collection getTasks() throws QueryException {
 		if (this.personId == 0) {
 			throw new QueryException("no person specified for query");
@@ -72,18 +99,43 @@ public class PlannedTaskQuery {
 		return this.tasks;
 	}
 
+	/**
+     * Sets the person id.
+     *
+     * @param personId
+     *            the new person id
+     */
 	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
+	/**
+     * Gets the person id.
+     *
+     * @return the person id
+     */
 	public int getPersonId() {
 		return this.personId;
 	}
 
+	/**
+     * Checks for future tasks.
+     *
+     * @return true, if successful
+     * @throws QueryException
+     *             the query exception
+     */
 	public boolean hasFutureTasks() throws QueryException {
 		return this.getFutureTasks().size() > 0;
 	}
 
+	/**
+     * Gets the future tasks.
+     *
+     * @return the future tasks
+     * @throws QueryException
+     *             the query exception
+     */
 	public java.util.Collection getFutureTasks() throws QueryException {
 		if (this.personId == 0) {
 			throw new QueryException("no person specified for query");

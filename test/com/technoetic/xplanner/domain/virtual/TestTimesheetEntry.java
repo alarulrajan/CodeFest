@@ -4,21 +4,51 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestTimesheetEntry.
+ */
 public class TestTimesheetEntry extends TestCase {
+    
+    /** The timesheet entry. */
     private TimesheetEntry timesheetEntry = null;
+    
+    /** The Constant PROJECT_ID. */
     public static final int PROJECT_ID = 7;
+    
+    /** The Constant PROJECT_NAME. */
     public static final String PROJECT_NAME = "Test Project";
+    
+    /** The Constant ITERATION_ID. */
     public static final int ITERATION_ID = 18;
+    
+    /** The Constant ITERATION_NAME. */
     public static final String ITERATION_NAME = "Test Iteration";
+    
+    /** The Constant STORY_ID. */
     public static final int STORY_ID = 24;
+    
+    /** The Constant STORY_NAME. */
     public static final String STORY_NAME = "Test Story";
+    
+    /** The Constant PERSON_NAME. */
     public static final String PERSON_NAME = "Test Person";
+    
+    /** The Constant DURATION. */
     public static final BigDecimal DURATION = new BigDecimal(7.5);
 
+    /** Instantiates a new test timesheet entry.
+     *
+     * @param name
+     *            the name
+     */
     public TestTimesheetEntry(String name) {
         super(name);
     }
 
+    /** Gets the test timesheet entry.
+     *
+     * @return the test timesheet entry
+     */
     public static TimesheetEntry getTestTimesheetEntry() {
         TimesheetEntry te = new TimesheetEntry();
         te.setPersonName(PERSON_NAME);
@@ -32,16 +62,27 @@ public class TestTimesheetEntry extends TestCase {
         return te;
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         this.timesheetEntry = getTestTimesheetEntry();
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         timesheetEntry = null;
         super.tearDown();
     }
 
+    /** Test properties.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProperties() throws Exception {
         assertEquals("Invalid Project ID", PROJECT_ID,
                 this.timesheetEntry.getProjectId());

@@ -44,24 +44,25 @@ import org.apache.commons.logging.LogFactory;
  * @see com.tacitknowledge.util.migration.MigrationProcess
  */
 public class MigrationInformation {
-	/** Class logger */
+	
+	/** Class logger. */
 	private static Log log = LogFactory.getLog(MigrationInformation.class);
 
 	/**
-	 * Private constructor - this object shouldn't be instantiated
-	 */
+     * Private constructor - this object shouldn't be instantiated.
+     */
 	private MigrationInformation() {
 		// does nothing
 	}
 
 	/**
-	 * Get the migration level information for the given system name
-	 * 
-	 * @param arguments
-	 *            the command line arguments, if any (none are used)
-	 * @exception Exception
-	 *                if anything goes wrong
-	 */
+     * Get the migration level information for the given system name.
+     *
+     * @param arguments
+     *            the command line arguments, if any (none are used)
+     * @exception Exception
+     *                if anything goes wrong
+     */
 	public static void main(final String[] arguments) throws Exception {
 		final MigrationInformation info = new MigrationInformation();
 		String migrationName = System.getProperty("migration.systemname");
@@ -74,13 +75,14 @@ public class MigrationInformation {
 	}
 
 	/**
-	 * Get the migration level information for the given system name
-	 * 
-	 * @param systemName
-	 *            the name of the system
-	 * @throws Exception
-	 *             if anything goes wrong
-	 */
+     * Get the migration level information for the given system name.
+     *
+     * @param systemName
+     *            the name of the system
+     * @return the migration information
+     * @throws Exception
+     *             if anything goes wrong
+     */
 	public void getMigrationInformation(final String systemName)
 			throws Exception {
 		if (systemName == null) {

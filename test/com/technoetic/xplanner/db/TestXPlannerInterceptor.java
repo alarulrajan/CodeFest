@@ -10,15 +10,35 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.XPlannerInterceptor;
 
+/**
+ * The Class TestXPlannerInterceptor.
+ */
 public class TestXPlannerInterceptor extends TestCase {
+    
+    /** The interceptor. */
     private XPlannerInterceptor interceptor;
+    
+    /** The mock entity. */
     private Object mockEntity;
+    
+    /** The mock id. */
     private Serializable mockId;
+    
+    /** The mock current state. */
     private Object[] mockCurrentState;
+    
+    /** The mock previous state. */
     private Object[] mockPreviousState;
+    
+    /** The mock property names. */
     private String[] mockPropertyNames;
+    
+    /** The mock types. */
     private Type[] mockTypes;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         mockEntity = new Object();
@@ -30,6 +50,8 @@ public class TestXPlannerInterceptor extends TestCase {
         interceptor = new XPlannerInterceptor();
     }
 
+    /** Test on flush dirty update last update time.
+     */
     public void testOnFlushDirtyUpdateLastUpdateTime() {
         mockPropertyNames = new String[]{"foo", "lastUpdateTime"};
 
@@ -40,6 +62,8 @@ public class TestXPlannerInterceptor extends TestCase {
         assertTrue("wrong value in state", mockCurrentState[1] instanceof Date);
     }
 
+    /** Test on save update last update time.
+     */
     public void testOnSaveUpdateLastUpdateTime() {
         mockPropertyNames = new String[]{"foo", "lastUpdateTime"};
 
@@ -49,6 +73,8 @@ public class TestXPlannerInterceptor extends TestCase {
         assertTrue("wrong value in state", mockCurrentState[1] instanceof Date);
     }
 
+    /** Test on flush dirty update no last update time.
+     */
     public void testOnFlushDirtyUpdateNoLastUpdateTime() {
         mockPropertyNames = new String[]{"foo", "bar"};
 
@@ -59,6 +85,8 @@ public class TestXPlannerInterceptor extends TestCase {
         assertFalse("wrong value in state", mockCurrentState[1] instanceof Date);
     }
 
+    /** Test on save update no last update time.
+     */
     public void testOnSaveUpdateNoLastUpdateTime() {
         mockPropertyNames = new String[]{"foo", "bar"};
 

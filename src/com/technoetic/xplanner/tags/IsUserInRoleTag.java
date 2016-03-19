@@ -8,44 +8,102 @@ import javax.servlet.jsp.tagext.TagSupport;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class IsUserInRoleTag.
+ */
 public class IsUserInRoleTag extends TagSupport {
+	
+	/** The role. */
 	private String role;
+	
+	/** The admin role. */
 	private String adminRole;
+	
+	/** The negate. */
 	private boolean negate;
+	
+	/** The userid. */
 	private String userid;
 
+	/**
+     * Gets the role.
+     *
+     * @return the role
+     */
 	public String getRole() {
 		return this.role;
 	}
 
+	/**
+     * Sets the role.
+     *
+     * @param role
+     *            the new role
+     */
 	public void setRole(final String role) {
 		this.role = role;
 	}
 
+	/**
+     * Sets the negate.
+     *
+     * @param negate
+     *            the new negate
+     */
 	public void setNegate(final boolean negate) {
 		this.negate = negate;
 	}
 
+	/**
+     * Checks if is negate.
+     *
+     * @return true, if is negate
+     */
 	public boolean isNegate() {
 		return this.negate;
 	}
 
+	/**
+     * Sets the userid.
+     *
+     * @param userid
+     *            the new userid
+     */
 	public void setUserid(final String userid) {
 		this.userid = userid;
 	}
 
+	/**
+     * Gets the userid.
+     *
+     * @return the userid
+     */
 	public String getUserid() {
 		return this.userid;
 	}
 
+	/**
+     * Gets the admin role.
+     *
+     * @return the admin role
+     */
 	public String getAdminRole() {
 		return this.adminRole;
 	}
 
+	/**
+     * Sets the admin role.
+     *
+     * @param adminRole
+     *            the new admin role
+     */
 	public void setAdminRole(final String adminRole) {
 		this.adminRole = adminRole;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		boolean skipBody = true;

@@ -15,8 +15,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -30,10 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class TaskDaoImpl extends BaseDao<Task> implements TaskDao {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.TaskDao#getCurrentTasksForPerson(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)

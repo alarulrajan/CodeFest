@@ -12,13 +12,23 @@ import net.sf.xplanner.domain.Project;
 
 import org.hibernate.classic.Session;
 
+/**
+ * The Class MspdiExporter.
+ */
 public class MspdiExporter extends MpxExporter {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.MpxExporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setHeader("Content-type", "application/mspdi");
 		response.setHeader("Content-disposition", "inline; filename=export.xml");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.MpxExporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {

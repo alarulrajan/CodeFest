@@ -8,7 +8,17 @@ import com.clarkware.junitperf.TimedTest;
 import com.technoetic.xplanner.acceptance.web.IterationMoveContinueStoryTestScript;
 import com.technoetic.xplanner.acceptance.web.StoryPageTestScript;
 
+/**
+ * The Class ContinueMovePerformanceTest.
+ */
 public class ContinueMovePerformanceTest extends TestCase {
+    
+    /** Suite.
+     *
+     * @return the test
+     * @throws Exception
+     *             the exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite();
         suite.addTest(

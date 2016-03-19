@@ -27,8 +27,8 @@ import com.technoetic.xplanner.tags.DomainContext;
 import com.technoetic.xplanner.tags.db.DatabaseTagSupport;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym. Copyright (C) 2009 Maksym Chyrkov This program is free
  *         software: you can redistribute it and/or modify it under the terms of
  *         the GNU General Public License as published by the Free Software
@@ -42,53 +42,122 @@ import com.technoetic.xplanner.tags.db.DatabaseTagSupport;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class NavigationBarTag extends DatabaseTagSupport {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4509893685722734469L;
+	
+	/** The object. */
 	private Object object;
+	
+	/** The inclusive. */
 	private boolean inclusive;
+	
+	/** The back. */
 	private boolean back;
+	
+	/** The oid. */
 	private int oid;
+	
+	/** The type. */
 	private String type;
+	
+	/** The Constant PROJECT_NAVIGATION_LINK_KEY. */
 	public static final String PROJECT_NAVIGATION_LINK_KEY = "navigation.project";
+	
+	/** The Constant ITERATION_NAVIGATION_LINK_KEY. */
 	public static final String ITERATION_NAVIGATION_LINK_KEY = "navigation.iteration";
+	
+	/** The Constant STORY_NAVIGATION_LINK_KEY. */
 	public static final String STORY_NAVIGATION_LINK_KEY = "navigation.story";
+	
+	/** The Constant TASK_NAVIGATION_LINK_KEY. */
 	public static final String TASK_NAVIGATION_LINK_KEY = "navigation.task";
+	
+	/** The Constant FEATURE_NAVIGATION_LINK_KEY. */
 	public static final String FEATURE_NAVIGATION_LINK_KEY = "navigation.feature";
 
+	/**
+     * Sets the object.
+     *
+     * @param object
+     *            the new object
+     */
 	public void setObject(final Object object) {
 		this.object = object;
 	}
 
+	/**
+     * Sets the oid.
+     *
+     * @param oid
+     *            the new oid
+     */
 	public void setOid(final int oid) {
 		this.oid = oid;
 	}
 
+	/**
+     * Gets the oid.
+     *
+     * @return the oid
+     */
 	public int getOid() {
 		return this.oid;
 	}
 
+	/**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
 	public void setType(final String type) {
 		this.type = type;
 	}
 
+	/**
+     * Gets the type.
+     *
+     * @return the type
+     */
 	public String getType() {
 		return this.type;
 	}
 
+	/**
+     * Sets the back.
+     *
+     * @param back
+     *            the new back
+     */
 	public void setBack(final boolean back) {
 		this.back = back;
 	}
 
+	/**
+     * Gets the back.
+     *
+     * @return the back
+     */
 	public boolean getBack() {
 		return this.back;
 	}
 
+	/**
+     * Sets the inclusive.
+     *
+     * @param inclusive
+     *            the new inclusive
+     */
 	public void setInclusive(final boolean inclusive) {
 		this.inclusive = inclusive;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 
@@ -123,6 +192,14 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		return Tag.EVAL_PAGE;
 	}
 
+	/**
+     * Sets the object.
+     *
+     * @param objectId
+     *            the new object
+     * @throws Exception
+     *             the exception
+     */
 	private void setObject(final int objectId) throws Exception {
 		if (StringUtils.isBlank(this.type)) {
 			this.setObject(((IdSearchHelper) this.getRequestContext()
@@ -140,6 +217,15 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		}
 	}
 
+	/**
+     * Gets the context.
+     *
+     * @param subject
+     *            the subject
+     * @return the context
+     * @throws Exception
+     *             the exception
+     */
 	private DomainContext getContext(final Object subject) throws Exception {
 		DomainContext domainContext = DomainContext.get(this.pageContext
 				.getRequest());
@@ -151,6 +237,17 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		return domainContext;
 	}
 
+	/**
+     * Gets the object.
+     *
+     * @param objectId
+     *            the object id
+     * @param typeName
+     *            the type name
+     * @return the object
+     * @throws Exception
+     *             the exception
+     */
 	private Object getObject(final int objectId, final String typeName)
 			throws Exception {
 		final Session session = this.getSession();
@@ -158,10 +255,15 @@ public class NavigationBarTag extends DatabaseTagSupport {
 	}
 
 	/**
-	 * @param context
-	 * @throws IOException
-	 * @throws JspException
-	 */
+     * Render.
+     *
+     * @param context
+     *            the context
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws JspException
+     *             the jsp exception
+     */
 	private void render(final DomainContext context) throws IOException,
 			JspException {
 		final List<Link> links = new ArrayList<Link>();
@@ -213,11 +315,35 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		this.pageContext.setAttribute("navigation", links);
 	}
 
+	/**
+     * Gets the message.
+     *
+     * @param key
+     *            the key
+     * @return the message
+     * @throws JspException
+     *             the jsp exception
+     */
 	protected String getMessage(final String key) throws JspException {
 		return TagUtils.getInstance()
 				.message(this.pageContext, null, null, key);
 	}
 
+	/**
+     * Creates the link.
+     *
+     * @param titleKey
+     *            the title key
+     * @param objectType
+     *            the object type
+     * @param objectId
+     *            the object id
+     * @return the link
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Link createLink(final String titleKey, final String objectType,
 			final int objectId) throws IOException, JspException {
 		final Map<String, Object> params = new HashMap<String, Object>();
@@ -225,12 +351,48 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		return this.createLink(null, titleKey, objectType, params);
 	}
 
+	/**
+     * Creates the link.
+     *
+     * @param linkId
+     *            the link id
+     * @param titleKey
+     *            the title key
+     * @param objectType
+     *            the object type
+     * @param params
+     *            the params
+     * @return the link
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Link createLink(final String linkId, final String titleKey,
 			final String objectType, final Map<String, Object> params)
 			throws IOException, JspException {
 		return this.createLink(linkId, titleKey, objectType, params, "");
 	}
 
+	/**
+     * Creates the link.
+     *
+     * @param linkId
+     *            the link id
+     * @param titleKey
+     *            the title key
+     * @param objectType
+     *            the object type
+     * @param params
+     *            the params
+     * @param urlSuffix
+     *            the url suffix
+     * @return the link
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Link createLink(final String linkId, final String titleKey,
 			final String objectType, final Map<String, Object> params,
 			final String urlSuffix) throws IOException, JspException {
@@ -250,10 +412,16 @@ public class NavigationBarTag extends DatabaseTagSupport {
 	}
 
 	/**
-	 * @param titleKey
-	 * @param url
-	 * @return
-	 */
+     * Creates the link to content.
+     *
+     * @param linkId
+     *            the link id
+     * @param title
+     *            the title
+     * @param url
+     *            the url
+     * @return the link
+     */
 	private Link createLinkToContent(final String linkId, final String title,
 			final String url) {
 		final Link link = new Link();
@@ -263,6 +431,19 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		return link;
 	}
 
+	/**
+     * Creates the link.
+     *
+     * @param linkId
+     *            the link id
+     * @param titleKey
+     *            the title key
+     * @param url
+     *            the url
+     * @return the link
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Link createLink(final String linkId, final String titleKey,
 			final String url) throws JspException {
 		final Link link = new Link();
@@ -274,6 +455,9 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		return link;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#release()
+	 */
 	@Override
 	public void release() {
 		this.object = null;
@@ -284,6 +468,9 @@ public class NavigationBarTag extends DatabaseTagSupport {
 		super.release();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.tags.RequestContextAwareTag#doStartTagInternal()
+	 */
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		return Tag.SKIP_BODY;

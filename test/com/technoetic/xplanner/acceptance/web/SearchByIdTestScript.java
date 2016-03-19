@@ -11,14 +11,30 @@ import net.sf.xplanner.domain.UserStory;
 import org.hibernate.Hibernate;
 
 
+/**
+ * The Class SearchByIdTestScript.
+ */
 public class SearchByIdTestScript extends AbstractPageTestScript
 {
+   
+   /** The project. */
    private Project project;
+   
+   /** The iteration. */
    private Iteration iteration;
+   
+   /** The project note. */
    private Note projectNote;
+   
+   /** The iteration note. */
    private Note iterationNote;
+   
+   /** The story. */
    private UserStory story;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -37,11 +53,19 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       commitCloseAndOpenSession();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    protected void tearDown() throws Exception
    {
       super.tearDown();
    }
 
+   /** Test search by id_ sysadmin finds all types of object.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchById_SysadminFindsAllTypesOfObject() throws Exception
    {
       tester.login();
@@ -68,6 +92,12 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       assertNoteStuff(iterationNote);
    }
 
+   /** Test search by id_ sysadmin doest not find object and gets aid not
+     * found error.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchById_SysadminDoestNotFindObjectAndGetsAIDNotFoundError() throws Exception
    {
       tester.login();
@@ -76,6 +106,12 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       tester.assertKeyPresent("idsearch.error.idNotFound", new Integer(-1));
    }
 
+   /** Test search by id_ editor doest not find object and gets aid not
+     * found error.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchById_EditorDoestNotFindObjectAndGetsAIDNotFoundError() throws Exception
    {
       tester.login();
@@ -89,6 +125,12 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       tester.assertKeyPresent("idsearch.error.idNotFound", new Integer(-1));
    }
 
+   /** Test search by id_ editor finds object but has no right to view it
+     * and gets a unauthrorized action error.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchById_EditorFindsObjectButHasNoRightToViewItAndGetsAUnauthrorizedActionError() throws Exception
    {
       tester.login();
@@ -101,6 +143,11 @@ public class SearchByIdTestScript extends AbstractPageTestScript
 
    }
 
+   /** Test search by id_ editor finds object and has right to view it.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSearchById_EditorFindsObjectAndHasRightToViewIt() throws Exception
    {
       tester.login();
@@ -117,6 +164,11 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       tester.assertTextPresent(project.getName());
    }
 
+   /** Search by.
+     *
+     * @param searchedId
+     *            the searched id
+     */
    private void searchBy(int searchedId)
    {
       tester.assertFormPresent("idSearchForm");
@@ -125,6 +177,11 @@ public class SearchByIdTestScript extends AbstractPageTestScript
       tester.submit();
    }
 
+   /** Assert note stuff.
+     *
+     * @param note
+     *            the note
+     */
    private void assertNoteStuff(Note note)
    {
       tester.assertTextPresent(note.getSubject());

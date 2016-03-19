@@ -28,15 +28,26 @@ import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class XmlExporter.
+ */
 public class XmlExporter implements Exporter {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setHeader("Content-type", "text/xml");
 		response.setHeader("Content-disposition", "inline; filename=export.xml");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {
@@ -78,6 +89,14 @@ public class XmlExporter implements Exporter {
 	}
 
 	// todo - Find a way to eliminate this hack as Hibernate dependencies are
+	/**
+     * Install circular relationships hack.
+     *
+     * @param beanWriter
+     *            the bean writer
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
 	// added.
 	private void installCircularRelationshipsHack(final BeanWriter beanWriter)
 			throws IntrospectionException {
@@ -91,6 +110,20 @@ public class XmlExporter implements Exporter {
 				"project.id");
 	}
 
+	/**
+     * Install relationship mapper.
+     *
+     * @param beanWriter
+     *            the bean writer
+     * @param aClass
+     *            the a class
+     * @param property
+     *            the property
+     * @param propertyPath
+     *            the property path
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
 	private void installRelationshipMapper(final BeanWriter beanWriter,
 			final Class aClass, final String property, final String propertyPath)
 			throws IntrospectionException {
@@ -115,6 +148,19 @@ public class XmlExporter implements Exporter {
 		});
 	}
 
+	/**
+     * Gets the element descriptor.
+     *
+     * @param xmlIntrospector
+     *            the xml introspector
+     * @param beanClass
+     *            the bean class
+     * @param property
+     *            the property
+     * @return the element descriptor
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
 	private ElementDescriptor getElementDescriptor(
 			final XMLIntrospector xmlIntrospector, final Class beanClass,
 			final String property) throws IntrospectionException {
@@ -135,6 +181,14 @@ public class XmlExporter implements Exporter {
 		return descriptor;
 	}
 
+	/**
+     * Configure bindings.
+     *
+     * @param beanWriter
+     *            the bean writer
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
 	private void configureBindings(final BeanWriter beanWriter)
 			throws IntrospectionException {
 		XMLBeanInfo beanInfo;
@@ -153,6 +207,17 @@ public class XmlExporter implements Exporter {
 		XmlExporter.hideProperty(beanInfo, "hibernateLazyInitializer");
 	}
 
+	/**
+     * Configure bean info.
+     *
+     * @param beanWriter
+     *            the bean writer
+     * @param beanClass
+     *            the bean class
+     * @return the XML bean info
+     * @throws IntrospectionException
+     *             the introspection exception
+     */
 	private XMLBeanInfo configureBeanInfo(final BeanWriter beanWriter,
 			final Class beanClass) throws IntrospectionException {
 		XMLBeanInfo beanInfo;
@@ -196,6 +261,14 @@ public class XmlExporter implements Exporter {
 	//
 	// }
 
+	/**
+     * Hide property.
+     *
+     * @param beanInfo
+     *            the bean info
+     * @param property
+     *            the property
+     */
 	private static void hideProperty(final XMLBeanInfo beanInfo,
 			final String property) {
 		final ArrayList elementDescriptors = new ArrayList();
@@ -223,22 +296,51 @@ public class XmlExporter implements Exporter {
 								.size()]));
 	}
 
+	/**
+     * The Class XPlannerData.
+     */
 	public static class XPlannerData {
+		
+		/** The people. */
 		private List people;
+		
+		/** The objects. */
 		private List objects;
 
+		/**
+         * Gets the people.
+         *
+         * @return the people
+         */
 		public List getPeople() {
 			return this.people;
 		}
 
+		/**
+         * Sets the people.
+         *
+         * @param people
+         *            the new people
+         */
 		public void setPeople(final List people) {
 			this.people = people;
 		}
 
+		/**
+         * Sets the objects.
+         *
+         * @param objects
+         *            the new objects
+         */
 		public void setObjects(final List objects) {
 			this.objects = objects;
 		}
 
+		/**
+         * Gets the objects.
+         *
+         * @return the objects
+         */
 		public List getObjects() {
 			return this.objects;
 		}

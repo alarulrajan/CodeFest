@@ -19,6 +19,12 @@ import org.displaytag.util.TagConstants;
  */
 public class ColumnTag extends org.displaytag.tags.ColumnTag {
 
+	/**
+     * Sets the html title.
+     *
+     * @param htmlTitle
+     *            the new html title
+     */
 	public void setHtmlTitle(final String htmlTitle) {
 		this.getHeaderAttributeMap().put(TagConstants.ATTRIBUTE_TITLE,
 				htmlTitle);

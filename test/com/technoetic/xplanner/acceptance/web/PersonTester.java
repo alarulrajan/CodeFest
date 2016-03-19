@@ -2,14 +2,39 @@ package com.technoetic.xplanner.acceptance.web;
 
 import org.xml.sax.SAXException;
 
+/**
+ * The Class PersonTester.
+ */
 public class PersonTester {
+   
+   /** The tester. */
    private XPlannerWebTester tester;
 
 
+   /** Instantiates a new person tester.
+     *
+     * @param tester
+     *            the tester
+     */
    public PersonTester(XPlannerWebTester tester) {
       this.tester = tester;
    }
 
+   /** Adds the person.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @throws Exception
+     *             the exception
+     */
    public void addPerson(String name,
                          String userId,
                          String initials,
@@ -18,6 +43,23 @@ public class PersonTester {
       addPerson(name, userId, initials, email, phone, true);
    }
 
+   /** Adds the person.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @param createSystemAdminIfPossible
+     *            the create system admin if possible
+     * @throws Exception
+     *             the exception
+     */
    public void addPerson(String name,
                          String userId,
                          String initials,
@@ -33,6 +75,21 @@ public class PersonTester {
       tester.assertKeyNotPresent("errors.header");
    }
 
+   /** Adds the person with error.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @throws Exception
+     *             the exception
+     */
    public void addPersonWithError(String name,
                                   String userId,
                                   String initials,
@@ -41,6 +98,23 @@ public class PersonTester {
       addPersonWithError(name, userId, initials, email, phone, true);
    }
 
+   /** Adds the person with error.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @param createSystemAdminIfPossible
+     *            the create system admin if possible
+     * @throws Exception
+     *             the exception
+     */
    public void addPersonWithError(String name,
                                   String userId,
                                   String initials,
@@ -54,6 +128,25 @@ public class PersonTester {
       tester.submit();
    }
 
+   /** Adds the person with role.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @param projectName
+     *            the project name
+     * @param roleName
+     *            the role name
+     * @throws Exception
+     *             the exception
+     */
    public void addPersonWithRole(String name,
                                  String userId,
                                  String initials,
@@ -72,7 +165,10 @@ public class PersonTester {
 
 // --------------------- Interface WebTester ---------------------
 
-   public void assertOnPeoplePage() {
+   /**
+ * Assert on people page.
+ */
+public void assertOnPeoplePage() {
       tester.assertKeyPresent("people.title");
       tester.assertKeyPresent("people.tableheading.name");
       tester.assertKeyPresent("people.tableheading.initials");
@@ -81,11 +177,27 @@ public class PersonTester {
       tester.assertKeyPresent("people.tableheading.actions");
    }
 
+   /** Assert on person page.
+     *
+     * @param userIdentifier
+     *            the user identifier
+     */
    public void assertOnPersonPage(String userIdentifier) {
       tester.assertKeyPresent("person.editor.edit_prefix");
       tester.assertFormElementEquals("userIdentifier", userIdentifier);
    }
 
+   /** Assign role to person on project.
+     *
+     * @param developerName
+     *            the developer name
+     * @param projectName
+     *            the project name
+     * @param roleName
+     *            the role name
+     * @throws SAXException
+     *             the SAX exception
+     */
    public void assignRoleToPersonOnProject(String developerName, String projectName, String roleName) throws
                                                                                                       SAXException {
       gotoPeoplePage();
@@ -95,12 +207,29 @@ public class PersonTester {
       tester.submit();
    }
 
+   /** Goto people page.
+     */
    public void gotoPeoplePage() {
       tester.gotoProjectsPage();
       tester.clickLinkWithKey("projects.link.people");
       assertOnPeoplePage();
    }
 
+   /** Populate person form.
+     *
+     * @param name
+     *            the name
+     * @param userId
+     *            the user id
+     * @param initials
+     *            the initials
+     * @param email
+     *            the email
+     * @param phone
+     *            the phone
+     * @param createSystemAdminIfPossible
+     *            the create system admin if possible
+     */
    public void populatePersonForm(String name,
                                   String userId,
                                   String initials,

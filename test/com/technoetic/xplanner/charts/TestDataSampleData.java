@@ -17,13 +17,26 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestDataSampleData.
+ */
 public class TestDataSampleData extends TestCase {
+   
+   /** The data sample data. */
    private DataSampleData dataSampleData;
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       dataSampleData = new DataSampleData();
    }
 
+   /** Test get latest date.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetLatestDate() throws Exception {
       Date today = new Date();
       Calendar calendar = Calendar.getInstance();

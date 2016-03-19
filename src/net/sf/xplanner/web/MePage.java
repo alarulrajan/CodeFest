@@ -15,15 +15,31 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.technoetic.xplanner.domain.repository.TaskRepository;
 
+/**
+ * The Class MePage.
+ */
 @Controller
 public class MePage extends BasePage<Person> {
+	
+	/** The task dao. */
 	@Autowired
 	private TaskDao taskDao;
+	
+	/** The user story dao. */
 	@Autowired
 	private UserStoryDao userStoryDao;
+	
+	/** The task repository. */
 	@Autowired
 	private TaskRepository taskRepository;
 
+	/**
+     * List.
+     *
+     * @param id
+     *            the id
+     * @return the model and view
+     */
 	@RequestMapping("/me/status/{id}")
 	public ModelAndView list(@PathVariable final Integer id) {
 		final ModelAndView modelAndView = this.getModelAndView("view/meStatus",
@@ -46,14 +62,32 @@ public class MePage extends BasePage<Person> {
 		return modelAndView;
 	}
 
+	/**
+     * Sets the task repository.
+     *
+     * @param taskRepository
+     *            the new task repository
+     */
 	public void setTaskRepository(final TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
 	}
 
+	/**
+     * Sets the task dao.
+     *
+     * @param taskDao
+     *            the new task dao
+     */
 	public void setTaskDao(final TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
 
+	/**
+     * Sets the user story dao.
+     *
+     * @param userStoryDao
+     *            the new user story dao
+     */
 	public void setUserStoryDao(final UserStoryDao userStoryDao) {
 		this.userStoryDao = userStoryDao;
 	}

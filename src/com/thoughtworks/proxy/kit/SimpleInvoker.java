@@ -23,8 +23,11 @@ import com.thoughtworks.proxy.Invoker;
  * @since 0.2, 0.1 in package com.thoughtworks.proxy.toy.decorate
  */
 public class SimpleInvoker implements Invoker {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The target. */
 	private final Object target;
 
 	/**
@@ -38,6 +41,9 @@ public class SimpleInvoker implements Invoker {
 		this.target = target;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.thoughtworks.proxy.Invoker#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	public Object invoke(final Object proxy, final Method method,
 			final Object[] args) throws Throwable {

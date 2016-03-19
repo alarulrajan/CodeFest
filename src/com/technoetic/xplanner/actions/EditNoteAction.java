@@ -16,9 +16,17 @@ import org.apache.struts.upload.FormFile;
 import com.technoetic.xplanner.file.FileSystem;
 import com.technoetic.xplanner.forms.NoteEditorForm;
 
+/**
+ * The Class EditNoteAction.
+ */
 public class EditNoteAction extends EditObjectAction<Note> {
+	
+	/** The file system. */
 	private FileSystem fileSystem;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#populateObject(javax.servlet.http.HttpServletRequest, java.lang.Object, org.apache.struts.action.ActionForm)
+	 */
 	@Override
 	protected void populateObject(final HttpServletRequest request,
 			final Object object, final ActionForm form) throws Exception {
@@ -53,6 +61,12 @@ public class EditNoteAction extends EditObjectAction<Note> {
 		}
 	}
 
+	/**
+     * Sets the file system.
+     *
+     * @param fileSystem
+     *            the new file system
+     */
 	public void setFileSystem(final FileSystem fileSystem) {
 		this.fileSystem = fileSystem;
 	}

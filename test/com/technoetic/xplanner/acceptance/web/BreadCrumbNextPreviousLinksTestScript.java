@@ -11,13 +11,24 @@ import org.hibernate.HibernateException;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.views.IterationPage;
 
+/**
+ * The Class BreadCrumbNextPreviousLinksTestScript.
+ */
 public class BreadCrumbNextPreviousLinksTestScript extends AbstractPageTestScript {
 
+   /** The middle project. */
    private Project middleProject;
+   
+   /** The middle story. */
    private UserStory middleStory;
+   
+   /** The middle iteration. */
    private Iteration middleIteration;
 
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
 //      new Timer().run(new Callable() { public Object run() throws Exception { mySetUp(); } });
@@ -33,6 +44,9 @@ protected void setUp() throws Exception {
       tester.login();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.acceptance.web.AbstractPageTestScript#tearDown()
+    */
    @Override
 protected void tearDown() throws Exception {
 //      new Timer().run(new Callable() { public Object run() throws Exception { myTearDown(); } });
@@ -41,6 +55,11 @@ protected void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /** Test context traverse links.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testContextTraverseLinks() throws Exception {
       Task task = (Task) middleStory.getTasks().toArray()[1];
 
@@ -78,11 +97,31 @@ protected void tearDown() throws Exception {
                             "iteration.label.current_status");
    }
 
+   /** Assert traversal on view.
+     *
+     * @param project
+     *            the project
+     * @param iteration
+     *            the iteration
+     * @param view
+     *            the view
+     * @param expectedKey
+     *            the expected key
+     */
    private void assertTraversalOnView(Project project, Iteration iteration, String view, String expectedKey) {
       iterationTester.goToView(project, iteration, view);
       assertTraversingMaintainTab("i_asc", "i_desc", expectedKey);
    }
 
+   /** Assert traversing maintain tab.
+     *
+     * @param asc
+     *            the asc
+     * @param desc
+     *            the desc
+     * @param expectedKey
+     *            the expected key
+     */
    private void assertTraversingMaintainTab(String asc, String desc, String expectedKey) {
       tester.assertKeyPresent(expectedKey);
       tester.clickLink(asc);
@@ -93,6 +132,12 @@ protected void tearDown() throws Exception {
       tester.clickLink(asc);
    }
 
+   /** Adds the project structure.
+     *
+     * @return the project
+     * @throws Exception
+     *             the exception
+     */
    private Project addProjectStructure() throws Exception {
       Project project = newProject();
       for (int i = 0; i < 3; i++) {
@@ -107,6 +152,15 @@ protected void tearDown() throws Exception {
       return project;
    }
 
+   /** Creates the stories for middle iteration.
+     *
+     * @param iteration
+     *            the iteration
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws RepositoryException
+     *             the repository exception
+     */
    private void createStoriesForMiddleIteration(Iteration iteration) throws HibernateException, RepositoryException {
       int[] ordersOppositeToPriorities = new int[]{2, 0, 1};
       for (int j = 0; j < 3; j++) {

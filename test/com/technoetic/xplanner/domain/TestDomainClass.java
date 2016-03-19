@@ -5,8 +5,16 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 import net.sf.xplanner.domain.Project;
 
+/**
+ * The Class TestDomainClass.
+ */
 public class TestDomainClass extends TestCase {
 
+   /** Test add mapping.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAddMapping() throws Exception {
       DomainClass domainClass = new DomainClass("project", Project.class);
 

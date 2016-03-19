@@ -14,16 +14,38 @@ import org.apache.struts.util.RequestUtils;
 
 import com.technoetic.xplanner.domain.CharacterEnum;
 
+/**
+ * The Class CharacterEnumSelectTag.
+ */
 public class CharacterEnumSelectTag extends SelectTag {
+	
+	/** The Constant EDIT_MODE. */
 	public static final String EDIT_MODE = "edit";
+	
+	/** The Constant VIEW_MODE. */
 	public static final String VIEW_MODE = "view";
+	
+	/** The mode. */
 	private String mode;
+	
+	/** The enum property. */
 	private String enumProperty;
+	
+	/** The object. */
 	private Object object;
+	
+	/** The object name. */
 	private String objectName;
+	
+	/** The resource bundle. */
 	private ResourceBundle resourceBundle;
+	
+	/** The resource type. */
 	private String resourceType;
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.taglib.html.SelectTag#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		this.resourceBundle = ResourceBundle.getBundle("ResourceBundle");
@@ -35,6 +57,9 @@ public class CharacterEnumSelectTag extends SelectTag {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.taglib.html.SelectTag#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		try {
@@ -53,6 +78,12 @@ public class CharacterEnumSelectTag extends SelectTag {
 		return Tag.EVAL_PAGE;
 	}
 
+	/**
+     * Render html text.
+     *
+     * @throws JspException
+     *             the jsp exception
+     */
 	private void renderHtmlText() throws JspException {
 		try {
 			final JspWriter out = this.pageContext.getOut();
@@ -63,6 +94,13 @@ public class CharacterEnumSelectTag extends SelectTag {
 		}
 	}
 
+	/**
+     * Render select option element.
+     *
+     * @param anEnum
+     *            the an enum
+     * @return the string
+     */
 	private String renderSelectOptionElement(final CharacterEnum anEnum) {
 		final StringBuffer sb = new StringBuffer();
 		sb.append("<option ");
@@ -76,6 +114,13 @@ public class CharacterEnumSelectTag extends SelectTag {
 		return sb.toString();
 	}
 
+	/**
+     * Gets the enum object.
+     *
+     * @return the enum object
+     * @throws JspException
+     *             the jsp exception
+     */
 	private CharacterEnum getEnumObject() throws JspException {
 		final Object resource = this.getResource();
 		try {
@@ -86,6 +131,13 @@ public class CharacterEnumSelectTag extends SelectTag {
 		}
 	}
 
+	/**
+     * Gets the resource.
+     *
+     * @return the resource
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Object getResource() throws JspException {
 		Object resource = this.object;
 		if (this.object instanceof String) {
@@ -105,27 +157,60 @@ public class CharacterEnumSelectTag extends SelectTag {
 		return resource;
 	}
 
+	/**
+     * Sets the mode.
+     *
+     * @param mode
+     *            the new mode
+     */
 	public void setMode(final String mode) {
 		this.mode = mode;
 	}
 
+	/**
+     * Sets the enum property.
+     *
+     * @param enumProperty
+     *            the new enum property
+     */
 	public void setEnumProperty(final String enumProperty) {
 		this.enumProperty = enumProperty;
 	}
 
+	/**
+     * Sets the object name.
+     *
+     * @param objectName
+     *            the new object name
+     */
 	public void setObjectName(final String objectName) {
 		this.objectName = objectName;
 	}
 
+	/**
+     * Sets the object.
+     *
+     * @param object
+     *            the new object
+     */
 	public void setObject(final Object object) {
 		this.object = object;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.taglib.html.SelectTag#setName(java.lang.String)
+	 */
 	@Override
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Sets the resource type.
+     *
+     * @param resourceType
+     *            the new resource type
+     */
 	public void setResourceType(final String resourceType) {
 		this.resourceType = resourceType;
 	}

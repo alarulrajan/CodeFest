@@ -18,10 +18,19 @@ import com.technoetic.xplanner.XPlannerProperties;
  * To change this template use File | Settings | File Templates.
  */
 public class EditPropertiesAction extends Action {
+	
+	/** The Constant PROPERTY_NAME_PARAM. */
 	protected static final String PROPERTY_NAME_PARAM = "propertyName";
+	
+	/** The Constant PROPERTY_VALUE_PARAM. */
 	protected static final String PROPERTY_VALUE_PARAM = "propertyValue";
+	
+	/** The Constant RETURN_TO_PARAM. */
 	protected static final String RETURN_TO_PARAM = "returnto";
 
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward execute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -44,6 +53,13 @@ public class EditPropertiesAction extends Action {
 		}
 	}
 
+	/**
+     * Gets the properties to update.
+     *
+     * @param properties
+     *            the properties
+     * @return the properties to update
+     */
 	protected Properties getPropertiesToUpdate(
 			final XPlannerProperties properties) {
 		return properties.get();

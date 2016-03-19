@@ -11,14 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * The Class SettingDaoImplTest.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-text.xml"})
 public class SettingDaoImplTest {
+	
+	/** The setting dao. */
 	@Autowired
 	private SettingDao settingDao;
+	
+	/** The object type dao. */
 	@Autowired
 	private ObjectTypeDao objectTypeDao;
 
+	/**
+     * Test save setting.
+     */
 	@Test
 	public void testSaveSetting() {
 		ObjectType objectType = new ObjectType();

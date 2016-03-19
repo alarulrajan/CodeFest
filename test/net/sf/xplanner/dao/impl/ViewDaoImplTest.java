@@ -15,14 +15,24 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * The Class ViewDaoImplTest.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-text.xml"})
 public class ViewDaoImplTest {
+	
+	/** The view manager. */
 	@Autowired
 	private ViewManager viewManager;
+	
+	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	/**
+     * Test get by id.
+     */
 	@Test
 	public void testGetById() {
 		Session session = SessionFactoryUtils.getSession(sessionFactory, true);

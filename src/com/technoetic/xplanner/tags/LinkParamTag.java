@@ -23,105 +23,100 @@ import com.technoetic.xplanner.util.LogUtil;
  */
 
 public class LinkParamTag extends BodyTagSupport {
+	
+	/** The cat. */
 	// ----------------------------------------------------- Logging
 	Logger cat = LogUtil.getLogger();
 
 	// ----------------------------------------------------- Instance variables
-	/**
-	 * The name of the request parameter
-	 */
+	/** The name of the request parameter. */
 	private String id = null;
 
-	/**
-	 * The value of the request parameter
-	 */
+	/** The value of the request parameter. */
 	private String value = null;
 
-	/**
-	 * The source bean
-	 */
+	/** The source bean. */
 	private String name = null;
 
-	/**
-	 * The source bean property
-	 */
+	/** The source bean property. */
 	private String property = null;
 
-	/**
-	 * The scope of the source bean
-	 */
+	/** The scope of the source bean. */
 	private String scope = null;
 
 	// ----------------------------------------------------- Properties
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+	 */
 	@Override
 	public void setId(final String id) {
 		this.id = id;
 	}
 
 	/**
-	 * Returns the request parameter name
-	 * 
-	 * @return the request parameter name
-	 */
+     * Returns the request parameter name.
+     *
+     * @return the request parameter name
+     */
 	@Override
 	public String getId() {
 		return this.id;
 	}
 
 	/**
-	 * Sets the request parameter value
-	 * 
-	 * @param value
-	 *            the request parameter value
-	 */
+     * Sets the request parameter value.
+     *
+     * @param value
+     *            the request parameter value
+     */
 	public void setValue(final String value) {
 		this.value = value;
 	}
 
 	/**
-	 * Returns the request parameter value
-	 * 
-	 * @return the request parameter value
-	 */
+     * Returns the request parameter value.
+     *
+     * @return the request parameter value
+     */
 	public String getValue() {
 		return this.value;
 	}
 
 	/**
-	 * Sets the source bean name
-	 * 
-	 * @param sourceBean
-	 *            the source bean name
-	 */
+     * Sets the source bean name.
+     *
+     * @param sourceBean
+     *            the source bean name
+     */
 	public void setName(final String sourceBean) {
 		this.name = sourceBean;
 	}
 
 	/**
-	 * Returns the source bean name
-	 * 
-	 * @return the source bean name
-	 */
+     * Returns the source bean name.
+     *
+     * @return the source bean name
+     */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Sets the source bean property
-	 * 
-	 * @param sourceProperty
-	 *            the source property
-	 */
+     * Sets the source bean property.
+     *
+     * @param sourceProperty
+     *            the source property
+     */
 	public void setProperty(final String sourceProperty) {
 		this.property = sourceProperty;
 	}
 
 	/**
-	 * Returns the source bean property
-	 * 
-	 * @return the source property
-	 */
+     * Returns the source bean property.
+     *
+     * @return the source property
+     */
 	public String getProperty() {
 		return this.property;
 	}
@@ -137,18 +132,22 @@ public class LinkParamTag extends BodyTagSupport {
 	}
 
 	/**
-	 * Returns the source bean scope
-	 * 
-	 * @return the source bean scope
-	 */
+     * Returns the source bean scope.
+     *
+     * @return the source bean scope
+     */
 	public String getScope() {
 		return this.scope;
 	}
 
 	// ------------------------------------------------------ Public Methods
 	/**
-	 * Add the parameter and its value to the link tag
-	 */
+     * Add the parameter and its value to the link tag.
+     *
+     * @return the int
+     * @throws JspException
+     *             the jsp exception
+     */
 	@Override
 	public int doAfterBody() throws JspException {
 		// parent tag must be a LinkTag, gives access to methods in parent
@@ -168,6 +167,9 @@ public class LinkParamTag extends BodyTagSupport {
 		return Tag.SKIP_BODY;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		// parent tag must be a LinkTag, gives access to methods in parent
@@ -182,8 +184,12 @@ public class LinkParamTag extends BodyTagSupport {
 	}
 
 	/**
-	 * Process the start tag
-	 */
+     * Process the start tag.
+     *
+     * @return the int
+     * @throws JspException
+     *             the jsp exception
+     */
 	@Override
 	public int doStartTag() throws javax.servlet.jsp.JspException {
 

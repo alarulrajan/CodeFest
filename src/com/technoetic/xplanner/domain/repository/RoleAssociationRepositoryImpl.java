@@ -7,14 +7,28 @@ import net.sf.xplanner.domain.Role;
 
 import org.hibernate.HibernateException;
 
+/**
+ * The Class RoleAssociationRepositoryImpl.
+ */
 public class RoleAssociationRepositoryImpl extends HibernateObjectRepository
 		implements RoleAssociationRepository {
+	
+	/** The role repository. */
 	private RoleRepository roleRepository;
 
+	/**
+     * Instantiates a new role association repository impl.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public RoleAssociationRepositoryImpl() throws HibernateException {
 		super(PersonRole.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.RoleAssociationRepository#deleteAllForPersonOnProject(int, int)
+	 */
 	@Override
 	public void deleteAllForPersonOnProject(final int personId,
 			final int projectId) throws RepositoryException {
@@ -28,6 +42,9 @@ public class RoleAssociationRepositoryImpl extends HibernateObjectRepository
 		this.getHibernateTemplate().deleteAll(list);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.RoleAssociationRepository#deleteForPersonOnProject(java.lang.String, int, int)
+	 */
 	@Override
 	public void deleteForPersonOnProject(final String roleName,
 			final int personId, final int projectId) throws RepositoryException {
@@ -44,6 +61,9 @@ public class RoleAssociationRepositoryImpl extends HibernateObjectRepository
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.RoleAssociationRepository#insertForPersonOnProject(java.lang.String, int, int)
+	 */
 	@Override
 	public void insertForPersonOnProject(final String roleName,
 			final int personId, final int projectId) throws RepositoryException {
@@ -54,6 +74,12 @@ public class RoleAssociationRepositoryImpl extends HibernateObjectRepository
 		}
 	}
 
+	/**
+     * Sets the role repository.
+     *
+     * @param roleRepository
+     *            the new role repository
+     */
 	public void setRoleRepository(final RoleRepository roleRepository) {
 		this.roleRepository = roleRepository;
 	}

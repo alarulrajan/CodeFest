@@ -21,12 +21,26 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import com.technoetic.xplanner.AbstractUnitTestCase;
 
+/**
+ * A factory for creating TestObjectRepositorory objects.
+ */
 public class TestObjectRepositororyFactory extends AbstractUnitTestCase {
+   
+   /** The object repositorory factory. */
    private ObjectRepositororyFactory objectRepositororyFactory;
+   
+   /** The mock bean factory control. */
    private MockControl mockBeanFactoryControl;
+   
+   /** The mock bean factory. */
    private AutowireCapableBeanFactory mockBeanFactory;
+   
+   /** The delegates chain. */
    private List delegatesChain;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       mockBeanFactoryControl = MockControl.createControl(AutowireCapableBeanFactory.class);
@@ -37,6 +51,11 @@ public class TestObjectRepositororyFactory extends AbstractUnitTestCase {
       objectRepositororyFactory.setDelegates(delegatesChain);
    }
 
+   /** Test create.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testCreate() throws Exception {
       ObjectRepository repository = new HibernateObjectRepository(Project.class);
       mockBeanFactory.autowireBeanProperties(repository, AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, false);
@@ -51,7 +70,13 @@ public class TestObjectRepositororyFactory extends AbstractUnitTestCase {
       assertEquals(repository.getClass(), objectRepository.getClass());
    }
 
+   /** The Class AutowireBeanPropertiesArgumentsMatcher.
+     */
    private static class AutowireBeanPropertiesArgumentsMatcher implements ArgumentsMatcher {
+      
+      /* (non-Javadoc)
+       * @see org.easymock.ArgumentsMatcher#matches(java.lang.Object[], java.lang.Object[])
+       */
       public boolean matches(Object[] expected, Object[] actual) {
          Class expectedRepositoryClass = expected[0].getClass();
          Class actualRepositoryClass = actual[0].getClass();
@@ -60,6 +85,9 @@ public class TestObjectRepositororyFactory extends AbstractUnitTestCase {
                 expected[2].equals(actual[2]);
       }
 
+      /* (non-Javadoc)
+       * @see org.easymock.ArgumentsMatcher#toString(java.lang.Object[])
+       */
       public String toString(Object[] arguments) {
          return StringUtils.join(arguments, ", ");
       }

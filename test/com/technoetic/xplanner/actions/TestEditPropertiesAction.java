@@ -16,12 +16,26 @@ import org.apache.struts.action.ActionForward;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestEditPropertiesAction.
+ */
 public class TestEditPropertiesAction extends TestCase {
+   
+   /** The edit properties action. */
    private EditPropertiesAction editPropertiesAction;
+   
+   /** The support. */
    private XPlannerTestSupport support;
+   
+   /** The properties. */
    private Properties properties;
+   
+   /** The Constant TEST_PROPERTY_NAME. */
    protected static final String TEST_PROPERTY_NAME = "test.property.name";
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       properties = new Properties();
       properties.setProperty(TEST_PROPERTY_NAME, "value");
@@ -33,6 +47,11 @@ public class TestEditPropertiesAction extends TestCase {
       };
    }
 
+   /** Test edit properties.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testEditProperties() throws Exception {
       assertEquals("value", properties.getProperty(TEST_PROPERTY_NAME));
       support.request.setParameterValue(EditPropertiesAction.PROPERTY_NAME_PARAM, new String[]{TEST_PROPERTY_NAME});

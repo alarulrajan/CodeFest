@@ -16,10 +16,20 @@ import com.technoetic.xplanner.importer.BaseTestCase;
 import com.technoetic.xplanner.importer.SpreadsheetStoryFactory;
 import com.technoetic.xplanner.importer.util.IOStreamFactory;
 
+/**
+ * The Class TestSpreadsheet.
+ */
 public class TestSpreadsheet extends BaseTestCase
 {
+   
+   /** The spreadsheet. */
    Spreadsheet spreadsheet;
 
+   /** Test open.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testOpen() throws Exception
    {
       String path = "jkhjhk:\\No-such path";

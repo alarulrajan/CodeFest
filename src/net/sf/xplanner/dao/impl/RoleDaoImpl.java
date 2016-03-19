@@ -13,8 +13,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -28,10 +28,12 @@ import org.hibernate.criterion.Restrictions;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 public class RoleDaoImpl extends BaseDao<Role> implements RoleDao {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.RoleDao#getRoles(int, int, boolean)
+	 */
 	@Override
 	public List<Role> getRoles(final int personId, final int projectId,
 			final boolean includeWildcardProject) {
@@ -39,7 +41,7 @@ public class RoleDaoImpl extends BaseDao<Role> implements RoleDao {
 		criteria.add(Restrictions.isNotEmpty("right"));
 		DetachedCriteria.forEntityName("Role");
 
-		// TODO Auto-generated method stub
+		// ChangeSoon 
 		return null;
 	}
 

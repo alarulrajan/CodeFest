@@ -11,12 +11,42 @@ import java.util.Date;
  * Released under the Apache Software License, Version 1.1
  */
 
+/**
+ * A factory for creating SpreadsheetStory objects.
+ */
 public class SpreadsheetStoryFactory {
+	
+	/**
+     * New instance.
+     *
+     * @param title
+     *            the title
+     * @param status
+     *            the status
+     * @param estimate
+     *            the estimate
+     * @return the spreadsheet story
+     */
 	public SpreadsheetStory newInstance(final String title,
 			final String status, final double estimate) {
 		return new SpreadsheetStory(title, status, estimate);
 	}
 
+	/**
+     * New instance.
+     *
+     * @param storyEndDate
+     *            the story end date
+     * @param title
+     *            the title
+     * @param status
+     *            the status
+     * @param estimate
+     *            the estimate
+     * @param priority
+     *            the priority
+     * @return the spreadsheet story
+     */
 	public SpreadsheetStory newInstance(final Date storyEndDate,
 			final String title, final String status, final double estimate,
 			final int priority) {
@@ -24,6 +54,11 @@ public class SpreadsheetStoryFactory {
 				priority);
 	}
 
+	/**
+     * New instance.
+     *
+     * @return the spreadsheet story
+     */
 	public SpreadsheetStory newInstance() {
 		return new SpreadsheetStory("", "", 0);
 	}

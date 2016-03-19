@@ -20,18 +20,35 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.util.HttpClient;
 
+/**
+ * The Class TestEmailFormatterImpl.
+ */
 public class TestEmailFormatterImpl extends AbstractUnitTestCase
 {
+   
+   /** The email formatter impl. */
    EmailFormatterImpl emailFormatterImpl;
+   
+   /** The mock http client. */
    HttpClient mockHttpClient;
+   
+   /** The properties. */
    XPlannerProperties properties = new XPlannerProperties();
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       mockHttpClient = createLocalMock(HttpClient.class);
       emailFormatterImpl = new EmailFormatterImpl();
    }
 
+   /** Test format email entry.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testFormatEmailEntry() throws Exception
    {
       List entryList = new ArrayList();
@@ -58,10 +75,17 @@ public class TestEmailFormatterImpl extends AbstractUnitTestCase
       assertTrue("Velocity has not been called", mockTemplate.mergeCalled);
    }
 
+   /** The Class MockTemplate.
+     */
    private static class MockTemplate extends Template
    {
+      
+      /** The merge called. */
       boolean mergeCalled = false;
 
+      /* (non-Javadoc)
+       * @see org.apache.velocity.Template#merge(org.apache.velocity.context.Context, java.io.Writer)
+       */
       public void merge(Context context, Writer writer)
       {
          mergeCalled = true;

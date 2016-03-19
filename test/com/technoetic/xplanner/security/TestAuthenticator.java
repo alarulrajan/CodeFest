@@ -19,20 +19,47 @@ import com.technoetic.xplanner.security.module.LoginModuleLoader;
 import com.technoetic.xplanner.security.module.MockLoginModule;
 import com.technoetic.xplanner.util.MainBeanFactory;
 
+/**
+ * The Class TestAuthenticator.
+ */
 public class TestAuthenticator extends TestCase {
+    
+    /** The authenticator. */
     private AuthenticatorImpl authenticator;
+    
+    /** The properties. */
     private Properties properties;
+    
+    /** The saved properties. */
     private Properties savedProperties;
+    
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The Constant MODULE_PREFIX. */
     private static final String MODULE_PREFIX = "Mock";
+   
+   /** The Constant MODULE_2_NAME. */
    public static final String MODULE_2_NAME = MODULE_PREFIX +"2";
+   
+   /** The Constant MODULE_2_CLASS. */
    public static final String MODULE_2_CLASS = MockLoginModule.class.getName()+"2";
+   
+   /** The next module index. */
    public int nextModuleIndex = 0;
 
+   /** Instantiates a new test authenticator.
+     *
+     * @param s
+     *            the s
+     */
    public TestAuthenticator(String s) {
        super(s);
    }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
        super.setUp();
        Logger.getRootLogger().setLevel(Level.OFF);
@@ -47,6 +74,8 @@ public class TestAuthenticator extends TestCase {
        authenticator = new AuthenticatorImpl(new LoginContext(null));
     }
 
+   /** Adds the login module to properties.
+     */
    private void addLoginModuleToProperties() {
       properties.put(MessageFormat.format(LoginModuleLoader.LOGIN_MODULE_CLASS_KEY, new Integer[] {new Integer(nextModuleIndex)}),
                      MockLoginModule.class.getName()+nextModuleIndex);
@@ -56,6 +85,9 @@ public class TestAuthenticator extends TestCase {
       nextModuleIndex++;
    }
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#tearDown()
+    */
    protected void tearDown() throws Exception {
       properties.clear();
       properties.putAll(savedProperties);
@@ -63,6 +95,11 @@ public class TestAuthenticator extends TestCase {
       super.tearDown();
    }
 
+    /** Test successful login.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSuccessfulLogin() throws Exception {
         Person person = new Person("foo");
         support.hibernateSession.find2Return = new ArrayList();
@@ -79,6 +116,11 @@ public class TestAuthenticator extends TestCase {
         assertTrue(SecurityHelper.isUserAuthenticated(support.request));
     }
 
+    /** Test chain successful login.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testChainSuccessfulLogin() throws Exception {
        addLoginModuleToProperties();
         Person person = new Person("foo");
@@ -97,6 +139,11 @@ public class TestAuthenticator extends TestCase {
         assertTrue(SecurityHelper.isUserAuthenticated(support.request));
     }
 
+    /** Test successful login when already logged in.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testSuccessfulLoginWhenAlreadyLoggedIn() throws Exception {
         Person person = new Person("foo");
         support.hibernateSession.find2Return = new ArrayList();
@@ -118,6 +165,11 @@ public class TestAuthenticator extends TestCase {
         assertTrue(SecurityHelper.isUserAuthenticated(support.request));
     }
 
+    /** Test unsuccessful login.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testUnsuccessfulLogin() throws Exception {
         LoginContext loginContext =authenticator.getLoginContext();
         MockLoginModule mockLoginModule = (MockLoginModule)loginContext.getLoginModules()[0];

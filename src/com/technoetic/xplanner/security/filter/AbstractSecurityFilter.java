@@ -17,10 +17,20 @@ import org.apache.log4j.Logger;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.config.SecurityConfiguration;
 
+/**
+ * The Class AbstractSecurityFilter.
+ */
 public abstract class AbstractSecurityFilter implements Filter {
+	
+	/** The log. */
 	protected Logger log = Logger.getLogger(this.getClass());
+	
+	/** The security configuration. */
 	private SecurityConfiguration securityConfiguration;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	@Override
 	public final void init(final FilterConfig filterConfig)
 			throws ServletException {
@@ -45,9 +55,20 @@ public abstract class AbstractSecurityFilter implements Filter {
 		}
 	}
 
+	/**
+     * Do init.
+     *
+     * @param filterConfig
+     *            the filter config
+     * @throws ServletException
+     *             the servlet exception
+     */
 	protected abstract void doInit(FilterConfig filterConfig)
 			throws ServletException;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	@Override
 	public final void doFilter(final ServletRequest servletRequest,
 			final ServletResponse servletResponse, final FilterChain filterChain)
@@ -65,29 +86,78 @@ public abstract class AbstractSecurityFilter implements Filter {
 		}
 	}
 
+	/**
+     * Checks if is secure request.
+     *
+     * @param request
+     *            the request
+     * @return true, if is secure request
+     */
 	// do-before-release unit test
 	private boolean isSecureRequest(final HttpServletRequest request) {
 		return this.securityConfiguration == null
 				|| this.securityConfiguration.isSecureRequest(request);
 	}
 
+	/**
+     * Checks if is authenticated.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @return true, if is authenticated
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	protected abstract boolean isAuthenticated(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException;
 
+	/**
+     * On authentication failure.
+     *
+     * @param request
+     *            the request
+     * @param response
+     *            the response
+     * @return true, if successful
+     * @throws ServletException
+     *             the servlet exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	protected abstract boolean onAuthenticationFailure(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() {
 		// empty
 	}
 
+	/**
+     * Sets the security configuration.
+     *
+     * @param securityConfiguration
+     *            the new security configuration
+     */
 	public void setSecurityConfiguration(
 			final SecurityConfiguration securityConfiguration) {
 		this.securityConfiguration = securityConfiguration;
 	}
 
+	/**
+     * Checks if is subject in session.
+     *
+     * @param request
+     *            the request
+     * @return true, if is subject in session
+     */
 	protected boolean isSubjectInSession(final HttpServletRequest request) {
 		return SecurityHelper.isUserAuthenticated(request);
 	}

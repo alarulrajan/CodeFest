@@ -22,12 +22,26 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestPersonHibernateObjectRepository.
+ */
 public class TestPersonHibernateObjectRepository extends AbstractUnitTestCase {
+   
+   /** The person hibernate object repository. */
    private PersonHibernateObjectRepository personHibernateObjectRepository;
+   
+   /** The mock hibernate template. */
    private HibernateTemplate mockHibernateTemplate;
+   
+   /** The person. */
    private Person person;
+   
+   /** The Constant TEST_PERSON_USER_ID. */
    static final String TEST_PERSON_USER_ID = "testPerson";
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
 	   super.setUp();
       person = new Person(TEST_PERSON_USER_ID);
@@ -37,6 +51,11 @@ public class TestPersonHibernateObjectRepository extends AbstractUnitTestCase {
       personHibernateObjectRepository.setHibernateTemplate(mockHibernateTemplate);
    }
 
+   /** Test set up edit permission.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSetUpEditPermission() throws Exception {
       setUpThreadSession(false);
       expect(mockHibernateTemplate.save(new Permission("system.person",
@@ -50,6 +69,11 @@ public class TestPersonHibernateObjectRepository extends AbstractUnitTestCase {
    }
 
 
+   /** Test check person uniquness.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testCheckPersonUniquness() throws Exception {
       Person personWhoAlreadyExist = new Person(TEST_PERSON_USER_ID);
       List expectedPeopleList = Arrays.asList(new Object[]{personWhoAlreadyExist});

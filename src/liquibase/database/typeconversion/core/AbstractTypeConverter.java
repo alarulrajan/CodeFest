@@ -49,8 +49,14 @@ import liquibase.logging.LogFactory;
 import liquibase.statement.DatabaseFunction;
 import liquibase.util.StringUtils;
 
+/**
+ * The Class AbstractTypeConverter.
+ */
 public abstract class AbstractTypeConverter implements TypeConverter {
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#convertDatabaseValueToObject(java.lang.Object, int, int, int, liquibase.database.Database)
+	 */
 	@Override
 	public Object convertDatabaseValueToObject(final Object value,
 			final int databaseDataType, final int firstParameter,
@@ -69,6 +75,9 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getDataType(java.lang.Object)
+	 */
 	@Override
 	public DataType getDataType(final Object object) {
 		if (object instanceof BigInteger) {
@@ -101,6 +110,23 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 		}
 	}
 
+	/**
+     * Convert to correct object type.
+     *
+     * @param value
+     *            the value
+     * @param dataType
+     *            the data type
+     * @param columnSize
+     *            the column size
+     * @param decimalDigits
+     *            the decimal digits
+     * @param database
+     *            the database
+     * @return the object
+     * @throws ParseException
+     *             the parse exception
+     */
 	protected Object convertToCorrectObjectType(String value,
 			final int dataType, final int columnSize, final int decimalDigits,
 			final Database database) throws ParseException {
@@ -187,10 +213,16 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 	}
 
 	/**
-	 * Returns the database-specific datatype for the given column
-	 * configuration. This method will convert some generic column types (e.g.
-	 * boolean, currency) to the correct type for the current database.
-	 */
+     * Returns the database-specific datatype for the given column
+     * configuration. This method will convert some generic column types (e.g.
+     * boolean, currency) to the correct type for the current database.
+     *
+     * @param columnTypeString
+     *            the column type string
+     * @param autoIncrement
+     *            the auto increment
+     * @return the data type
+     */
 	@Override
 	public DataType getDataType(final String columnTypeString,
 			final Boolean autoIncrement) {
@@ -229,6 +261,21 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 				precision, additionalInformation);
 	}
 
+	/**
+     * Gets the data type.
+     *
+     * @param columnTypeString
+     *            the column type string
+     * @param autoIncrement
+     *            the auto increment
+     * @param dataTypeName
+     *            the data type name
+     * @param precision
+     *            the precision
+     * @param additionalInformation
+     *            the additional information
+     * @return the data type
+     */
 	protected DataType getDataType(final String columnTypeString,
 			final Boolean autoIncrement, final String dataTypeName,
 			final String precision, final String additionalInformation) {
@@ -303,6 +350,16 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 		return returnTypeName;
 	}
 
+	/**
+     * Adds the precision to type.
+     *
+     * @param precision
+     *            the precision
+     * @param returnTypeName
+     *            the return type name
+     * @throws NumberFormatException
+     *             the number format exception
+     */
 	protected void addPrecisionToType(final String precision,
 			final DataType returnTypeName) throws NumberFormatException {
 		if (precision != null) {
@@ -314,6 +371,9 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getDataType(liquibase.change.ColumnConfig)
+	 */
 	@Override
 	public DataType getDataType(final ColumnConfig columnConfig) {
 		return this.getDataType(columnConfig.getType(),
@@ -321,54 +381,70 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 	}
 
 	/**
-	 * Returns the actual database-specific data type to use a "date" (no time
-	 * information) column.
-	 */
+     * Returns the actual database-specific data type to use a "date" (no time
+     * information) column.
+     *
+     * @return the date type
+     */
 	@Override
 	public DateType getDateType() {
 		return new DateType();
 	}
 
 	/**
-	 * Returns the actual database-specific data type to use a "time" column.
-	 */
+     * Returns the actual database-specific data type to use a "time" column.
+     *
+     * @return the time type
+     */
 	@Override
 	public TimeType getTimeType() {
 		return new TimeType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getDateTimeType()
+	 */
 	@Override
 	public DateTimeType getDateTimeType() {
 		return new DateTimeType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getBigIntType()
+	 */
 	@Override
 	public BigIntType getBigIntType() {
 		return new BigIntType();
 	}
 
 	/**
-	 * Returns the actual database-specific data type to use for a "char"
-	 * column.
-	 */
+     * Returns the actual database-specific data type to use for a "char"
+     * column.
+     *
+     * @return the char type
+     */
 	@Override
 	public CharType getCharType() {
 		return new CharType();
 	}
 
 	/**
-	 * Returns the actual database-specific data type to use for a "varchar"
-	 * column.
-	 */
+     * Returns the actual database-specific data type to use for a "varchar"
+     * column.
+     *
+     * @return the varchar type
+     */
 	@Override
 	public VarcharType getVarcharType() {
 		return new VarcharType();
 	}
 
 	/**
-	 * Returns the actual database-specific data type to use for a "varchar"
-	 * column.
-	 */
+     * Returns the actual database-specific data type to use for a "varchar"
+     * column.
+     *
+     * @return the n varchar type
+     */
 	public NVarcharType getNVarcharType() {
 		return new NVarcharType();
 	}
@@ -416,48 +492,82 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 		return new TinyIntType();
 	}
 
+	/**
+     * Gets the small int type.
+     *
+     * @return the small int type
+     */
 	public SmallIntType getSmallIntType() {
 		return new SmallIntType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getBooleanType()
+	 */
 	@Override
 	public BooleanType getBooleanType() {
 		return new BooleanType();
 	}
 
+	/**
+     * Gets the number type.
+     *
+     * @return the number type
+     */
 	public NumberType getNumberType() {
 		return new NumberType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getCurrencyType()
+	 */
 	@Override
 	public CurrencyType getCurrencyType() {
 		return new CurrencyType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getUUIDType()
+	 */
 	@Override
 	public UUIDType getUUIDType() {
 		return new UUIDType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getTextType()
+	 */
 	public TextType getTextType() {
 		return this.getClobType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getClobType()
+	 */
 	@Override
 	public ClobType getClobType() {
 		return new ClobType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getBlobType()
+	 */
 	@Override
 	public BlobType getBlobType() {
 		return new BlobType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#getLongBlobType()
+	 */
 	@Override
 	public BlobType getLongBlobType() {
 		return this.getBlobType();
 	}
 
+	/* (non-Javadoc)
+	 * @see liquibase.database.typeconversion.TypeConverter#convertToDatabaseTypeString(liquibase.database.structure.Column, liquibase.database.Database)
+	 */
 	@Override
 	public String convertToDatabaseTypeString(final Column referenceColumn,
 			final Database database) {

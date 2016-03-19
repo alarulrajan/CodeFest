@@ -1,6 +1,15 @@
 package com.tacitknowledge.util.migration.jdbc;
 
+/**
+ * The Class MigrationLauncherFactoryLoader.
+ */
 public class MigrationLauncherFactoryLoader {
+	
+	/**
+     * Creates the factory.
+     *
+     * @return the jdbc migration launcher factory
+     */
 	public static JdbcMigrationLauncherFactory createFactory() {
 		String factoryName = System.getProperties().getProperty(
 				"migration.factory");

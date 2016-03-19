@@ -26,26 +26,61 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class TestDataSamplerImpl.
+ */
 public class TestDataSamplerImpl extends AbstractUnitTestCase {
+   
+   /** The data sampler. */
    DataSamplerImpl dataSampler;
+   
+   /** The iteration. */
    Iteration iteration;
+   
+   /** The time generator. */
    TimeGenerator timeGenerator;
+   
+   /** The mock hibernate operations. */
    HibernateOperations mockHibernateOperations;
+   
+   /** The active iteration. */
    Iteration activeIteration;
+   
+   /** The today midnight. */
    private Date todayMidnight;
+   
+   /** The tomorrow midnight. */
    private Date tomorrowMidnight;
+   
+   /** The properties. */
    private Properties properties;
+   
+   /** The mock time generator. */
    private TimeGenerator mockTimeGenerator;
+   
+   /** The estimated hours data samples. */
    private final List estimatedHoursDataSamples = new ArrayList();
+   
+   /** The actual hours data samples. */
    private final List actualHoursDataSamples = new ArrayList();
+   
+   /** The remaining hours data sample. */
    private final List remainingHoursDataSample = new ArrayList();
+   
+   /** The data sample dao. */
    private DataSampleDao dataSampleDao;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    @Override
 public void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    @Override
 protected void setUp() throws Exception {
       super.setUp();
@@ -88,6 +123,11 @@ protected void setUp() throws Exception {
       activeIteration.setIterationStatus(IterationStatus.ACTIVE);
    }
 
+   /** Test generate opening datasample.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     */
    public void testGenerateOpeningDatasample() throws HibernateException {
       checkIfDataSamplesHaveNotBeenAlreadyGenerated(todayMidnight, Collections.EMPTY_LIST,
                                                     Collections.EMPTY_LIST,
@@ -98,6 +138,8 @@ protected void setUp() throws Exception {
       verify();
    }
 
+   /** Test generate datasample.
+     */
    public void testGenerateDatasample() {
       checkIfDataSamplesHaveNotBeenAlreadyGenerated(tomorrowMidnight, Collections.EMPTY_LIST,
                                                     Collections.EMPTY_LIST,
@@ -108,6 +150,8 @@ protected void setUp() throws Exception {
       verify();
    }
 
+   /** Test update datasample.
+     */
    public void testUpdateDatasample() {
       checkIfDataSamplesHaveNotBeenAlreadyGenerated(tomorrowMidnight, estimatedHoursDataSamples,
                                                     actualHoursDataSamples,
@@ -119,6 +163,8 @@ protected void setUp() throws Exception {
    }
 
 
+   /** Test generate closing datasample on iteration end date.
+     */
    public void testGenerateClosingDatasampleOnIterationEndDate() {
       iteration.setEndDate(TimeGenerator.shiftDate(timeGenerator.getCurrentTime(),
                                                  Calendar.MINUTE,
@@ -133,6 +179,8 @@ protected void setUp() throws Exception {
       verify();
    }
 
+   /** Test generate closing datasample after iteration end date.
+     */
    public void testGenerateClosingDatasampleAfterIterationEndDate() {
       iteration.setEndDate(TimeGenerator.shiftDate(timeGenerator.getCurrentTime(),
                                                  Calendar.MINUTE,
@@ -148,6 +196,11 @@ protected void setUp() throws Exception {
 
    }
 
+   /** Test extend iteration end date if needed_ turned off.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExtendIterationEndDateIfNeeded_TurnedOff() throws Exception {
       iteration.setEndDate(todayMidnight);
 
@@ -159,6 +212,12 @@ protected void setUp() throws Exception {
       assertEquals(todayMidnight, iteration.getEndDate());
    }
 
+   /** Test extend iteration end date if needed_ turned on iteration is
+     * active.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExtendIterationEndDateIfNeeded_TurnedOnIterationIsActive() throws Exception {
       iteration.setEndDate(todayMidnight);
       iteration.setIterationStatus(IterationStatus.ACTIVE);
@@ -170,6 +229,12 @@ protected void setUp() throws Exception {
       assertEquals(tomorrowMidnight, iteration.getEndDate());
    }
 
+   /** Test extend iteration end date if needed_ turned on iteration is
+     * inactive.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExtendIterationEndDateIfNeeded_TurnedOnIterationIsInactive() throws Exception {
       iteration.setEndDate(todayMidnight);
       setAutomaticallyExtendIterationEndDate(true);
@@ -180,6 +245,17 @@ protected void setUp() throws Exception {
       assertEquals(todayMidnight, iteration.getEndDate());
    }
 
+   /** Check if data samples have not been already generated.
+     *
+     * @param samplingDate
+     *            the sampling date
+     * @param estimatedHoursDataSamples
+     *            the estimated hours data samples
+     * @param actualHoursDataSamples
+     *            the actual hours data samples
+     * @param remainingHoursDataSample
+     *            the remaining hours data sample
+     */
    private void checkIfDataSamplesHaveNotBeenAlreadyGenerated(Date samplingDate, List estimatedHoursDataSamples,
                                                               List actualHoursDataSamples,
                                                               List remainingHoursDataSample) {
@@ -188,14 +264,23 @@ protected void setUp() throws Exception {
 	   expect(dataSampleDao.getDataSamples(samplingDate, iteration, "remainingHours")).andReturn(remainingHoursDataSample).times(0, 1);
    }
 
+   /** Save data samples.
+     */
    private void saveDataSamples() {
       expect(dataSampleDao.save((DataSample) anyObject())).andReturn(1).times(0,3);
    }
 
+   /** Update data samples.
+     */
    private void updateDataSamples() {
 	   expect(dataSampleDao.save((DataSample) anyObject())).andReturn(1).times(3);
    }
 
+   /** Sets the automatically extend iteration end date.
+     *
+     * @param automaticallyExtend
+     *            the new automatically extend iteration end date
+     */
    private void setAutomaticallyExtendIterationEndDate(boolean automaticallyExtend) {
       properties.setProperty(DataSamplerImpl.AUTOMATICALLY_EXTEND_END_DATE_PROP, Boolean.toString(automaticallyExtend));
    }

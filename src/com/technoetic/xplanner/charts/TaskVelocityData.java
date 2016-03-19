@@ -23,22 +23,39 @@ import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 import de.laures.cewolf.links.CategoryItemLinkGenerator;
 
+/**
+ * The Class TaskVelocityData.
+ */
 public class TaskVelocityData implements DatasetProducer,
 		CategoryItemLinkGenerator,
 		org.jfree.chart.labels.CategoryToolTipGenerator, Serializable {
+	
+	/** The Constant log. */
 	private static final Category log = Category
 			.getInstance("TaskVelocityData");
 
+	/** The Constant COMPLETED_SERIES. */
 	private static final int COMPLETED_SERIES = 0;
+	
+	/** The Constant REQUIRED_SERIES. */
 	private static final int REQUIRED_SERIES = 1;
 
+	/** The series names. */
 	private final String[] seriesNames = new String[TaskVelocityData.REQUIRED_SERIES + 1];
+	
+	/** The series prefix. */
 	private final String[] seriesPrefix = new String[TaskVelocityData.REQUIRED_SERIES + 1];
+	
+	/** The major formatter. */
 	private SimpleDateFormat majorFormatter = null;
 
+	/** The values. */
 	private Integer[][] values = null;
+	
+	/** The data set. */
 	private DefaultCategoryDataset dataSet = null;
 
+	/** The Constant keyFormatter. */
 	private static final SimpleDateFormat keyFormatter = new SimpleDateFormat(
 			"yyyy.MM.dd");
 
@@ -319,6 +336,12 @@ public class TaskVelocityData implements DatasetProducer,
 
 	// Public methods =======================================================
 
+	/**
+     * Sets the statistics.
+     *
+     * @param statistics
+     *            the new statistics
+     */
 	public void setStatistics(final IterationStatisticsQuery statistics) {
 		// Before generating the graph data ensure all the required objects are
 		// set
@@ -418,17 +441,26 @@ public class TaskVelocityData implements DatasetProducer,
 
 	// DatasetProducer methods ===============================================
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#produceDataset(java.util.Map)
+	 */
 	@Override
 	public Object produceDataset(final Map params)
 			throws DatasetProduceException {
 		return this.dataSet;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#hasExpired(java.util.Map, java.util.Date)
+	 */
 	@Override
 	public boolean hasExpired(final Map params, final Date since) {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#getProducerId()
+	 */
 	@Override
 	public String getProducerId() {
 		return TaskVelocityData.class.getName();
@@ -436,6 +468,9 @@ public class TaskVelocityData implements DatasetProducer,
 
 	// CategoryItemLinkGenerator methods ====================================
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.links.CategoryItemLinkGenerator#generateLink(java.lang.Object, int, java.lang.Object)
+	 */
 	@Override
 	public String generateLink(final Object data, final int series,
 			final Object category) {
@@ -444,6 +479,9 @@ public class TaskVelocityData implements DatasetProducer,
 
 	// CategoryToolTipGenerator methods =====================================
 
+	/* (non-Javadoc)
+	 * @see org.jfree.chart.labels.CategoryToolTipGenerator#generateToolTip(org.jfree.data.category.CategoryDataset, int, int)
+	 */
 	@Override
 	public String generateToolTip(final CategoryDataset categoryDataset,
 			final int series, final int category) {

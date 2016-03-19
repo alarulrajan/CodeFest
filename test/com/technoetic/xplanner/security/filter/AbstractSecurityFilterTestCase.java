@@ -14,16 +14,35 @@ import com.technoetic.xplanner.security.PersonPrincipal;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.config.SecurityConfiguration;
 
+/**
+ * The Class AbstractSecurityFilterTestCase.
+ */
 public abstract class AbstractSecurityFilterTestCase extends TestCase {
+    
+    /** The support. */
     protected XPlannerTestSupport support;
+    
+    /** The mock filter chain. */
     protected MockFilterChain mockFilterChain;
+    
+    /** The context. */
     protected final String CONTEXT = "/xplanner";
+    
+    /** The subject. */
     protected Subject subject;
 
+    /** Instantiates a new abstract security filter test case.
+     *
+     * @param s
+     *            the s
+     */
     public AbstractSecurityFilterTestCase(String s) {
         super(s);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         ByteArrayInputStream config = new ByteArrayInputStream((
@@ -54,19 +73,35 @@ public abstract class AbstractSecurityFilterTestCase extends TestCase {
         ThreadSession.set(support.hibernateSession);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         ThreadSession.set(null);
         super.tearDown();
     }
 
+    /** Gets the security filter.
+     *
+     * @return the security filter
+     */
     protected abstract AbstractSecurityFilter getSecurityFilter();
 
+    /** Sets the up subject.
+     */
     protected void setUpSubject() {
         subject = new Subject();
         subject.getPrincipals().add(new PersonPrincipal(new Person("xyz")));
         SecurityHelper.setSubject(support.request, subject);
     }
 
+    /** Sets the up request.
+     *
+     * @param servletPath
+     *            the servlet path
+     * @param uri
+     *            the uri
+     */
     protected void setUpRequest(String servletPath, String uri) {
         support.request.setMethod(1);
         support.request.setServletPath(servletPath);

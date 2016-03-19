@@ -12,7 +12,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The Class ClassUtil.
+ */
 public class ClassUtil {
+	
+	/**
+     * Gets the field value.
+     *
+     * @param object
+     *            the object
+     * @param fieldName
+     *            the field name
+     * @return the field value
+     * @throws Exception
+     *             the exception
+     */
 	public static Object getFieldValue(final Object object,
 			final String fieldName) throws Exception {
 		final Field field = ClassUtil.getField(object, fieldName);
@@ -20,6 +35,18 @@ public class ClassUtil {
 		return field.get(object);
 	}
 
+	/**
+     * Sets the field value.
+     *
+     * @param object
+     *            the object
+     * @param fieldName
+     *            the field name
+     * @param value
+     *            the value
+     * @throws Exception
+     *             the exception
+     */
 	public static void setFieldValue(final Object object,
 			final String fieldName, final Object value) throws Exception {
 		final Field field = ClassUtil.getField(object, fieldName);
@@ -27,6 +54,17 @@ public class ClassUtil {
 		field.set(object, value);
 	}
 
+	/**
+     * Gets the field.
+     *
+     * @param object
+     *            the object
+     * @param fieldName
+     *            the field name
+     * @return the field
+     * @throws NoSuchFieldException
+     *             the no such field exception
+     */
 	private static Field getField(final Object object, final String fieldName)
 			throws NoSuchFieldException {
 		final Map allFields = ClassUtil.getAllFieldByNames(object.getClass());
@@ -38,16 +76,41 @@ public class ClassUtil {
 		return field;
 	}
 
+	/**
+     * Gets the all field names.
+     *
+     * @param object
+     *            the object
+     * @return the all field names
+     * @throws Exception
+     *             the exception
+     */
 	public static List getAllFieldNames(final Object object) throws Exception {
 		final Map allFields = ClassUtil.getAllFieldByNames(object.getClass());
 		return new ArrayList(allFields.keySet());
 	}
 
+	/**
+     * Gets the all fields.
+     *
+     * @param object
+     *            the object
+     * @return the all fields
+     * @throws Exception
+     *             the exception
+     */
 	public static List getAllFields(final Object object) throws Exception {
 		final Map allFields = ClassUtil.getAllFieldByNames(object.getClass());
 		return new ArrayList(allFields.values());
 	}
 
+	/**
+     * Gets the all field by names.
+     *
+     * @param theClass
+     *            the the class
+     * @return the all field by names
+     */
 	public static Map getAllFieldByNames(final Class theClass) {
 		Map fields;
 		final Class superclass = theClass.getSuperclass();
@@ -60,6 +123,13 @@ public class ClassUtil {
 		return fields;
 	}
 
+	/**
+     * Gets the class field by names.
+     *
+     * @param theClass
+     *            the the class
+     * @return the class field by names
+     */
 	private static Map getClassFieldByNames(final Class theClass) {
 		final Field[] fields = theClass.getDeclaredFields();
 		final Map fieldNames = new HashMap(fields.length);

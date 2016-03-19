@@ -8,7 +8,16 @@ import net.sf.xplanner.domain.UserStory;
 import com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript;
 import com.technoetic.xplanner.db.hibernate.IdGenerator;
 
+/**
+ * The Class DatabaseMappingsTestScript.
+ */
 public class DatabaseMappingsTestScript extends AbstractDatabaseTestScript {
+   
+   /** Test mappings.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testMappings() throws Exception {
       Project project = newProject();
       Iteration iteration = newIteration(project);

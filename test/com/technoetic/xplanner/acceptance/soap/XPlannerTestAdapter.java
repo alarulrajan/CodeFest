@@ -19,8 +19,14 @@ import com.technoetic.xplanner.soap.domain.DomainData;
  * web application in the IDE debugger and use the remote soap test.
  */
 public class XPlannerTestAdapter implements InvocationHandler {
+    
+    /** The xplanner. */
     private XPlanner xplanner = new XPlanner();
 
+    /** Creates the.
+     *
+     * @return the com.technoetic.xplanner.soap. x planner
+     */
     public static com.technoetic.xplanner.soap.XPlanner create() {
         return (com.technoetic.xplanner.soap.XPlanner)Proxy.newProxyInstance(
             XPlannerTestAdapter.class.getClassLoader(),
@@ -28,6 +34,9 @@ public class XPlannerTestAdapter implements InvocationHandler {
             new XPlannerTestAdapter());
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
         try {
@@ -70,6 +79,20 @@ public class XPlannerTestAdapter implements InvocationHandler {
         }
     }
 
+    /** Translate result.
+     *
+     * @param result
+     *            the result
+     * @return the object
+     * @throws InstantiationException
+     *             the instantiation exception
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws ClassNotFoundException
+     *             the class not found exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     */
     private Object translateResult(Object result)
             throws InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException {
         Object clientObject = result;
@@ -81,11 +104,24 @@ public class XPlannerTestAdapter implements InvocationHandler {
         return clientObject;
     }
 
+    /** Gets the client result class.
+     *
+     * @param result
+     *            the result
+     * @return the client result class
+     * @throws ClassNotFoundException
+     *             the class not found exception
+     */
     private Class getClientResultClass(Object result) throws ClassNotFoundException {
         return Class.forName(result.getClass().getName().
                             replaceFirst("soap.domain", "soap.client"));
     }
 
+    /** Translate arguments.
+     *
+     * @param args
+     *            the args
+     */
     private void translateArguments(Object[] args) {
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
@@ -102,6 +138,16 @@ public class XPlannerTestAdapter implements InvocationHandler {
         }
     }
 
+    /** Gets the delegate method.
+     *
+     * @param method
+     *            the method
+     * @param args
+     *            the args
+     * @return the delegate method
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     */
     private Method getDelegateMethod(Method method, Object[] args) throws NoSuchMethodException {
         Class[] methodParameterTypes = method.getParameterTypes();
         for (int i = 0; i < args.length; i++) {

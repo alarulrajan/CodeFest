@@ -19,9 +19,18 @@ import org.apache.log4j.Logger;
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.filters.ThreadServletRequest;
 
+/**
+ * The Class DomainObjectSchemeHandler.
+ */
 public class DomainObjectSchemeHandler implements SchemeHandler {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The action. */
 	private final String action;
+	
+	/** The scheme classes. */
 	private static HashMap schemeClasses = new HashMap();
 
 	static {
@@ -33,10 +42,19 @@ public class DomainObjectSchemeHandler implements SchemeHandler {
 		DomainObjectSchemeHandler.schemeClasses.put("person", Person.class);
 	}
 
+	/**
+     * Instantiates a new domain object scheme handler.
+     *
+     * @param action
+     *            the action
+     */
 	public DomainObjectSchemeHandler(final String action) {
 		this.action = action;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.SchemeHandler#translate(java.util.Properties, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public String translate(final Properties properties, final String scheme,
 			String location, String linkText) {

@@ -15,8 +15,15 @@ import com.technoetic.xplanner.domain.virtual.TimesheetEntry;
 
 // todo These queries should be converted to Hibernate
 
+/**
+ * The Class PersonTimesheetQuery.
+ */
 public class PersonTimesheetQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The summary query. */
 	private static String summaryQuery = "SELECT person.name as person_name, "
 			+ "project.id as project_id, "
 			+ "project.name as project_name, "
@@ -39,6 +46,7 @@ public class PersonTimesheetQuery {
 			+ "iteration.name, story.id, story.name "
 			+ "ORDER BY person.name, project.name, iteration.name, story.name ";
 
+	/** The daily query by report date. */
 	private static String dailyQueryByReportDate = "SELECT "
 			+ "time_entry.report_date as report_date, "
 			+ "Sum(time_entry.duration) AS total_duration "
@@ -50,6 +58,7 @@ public class PersonTimesheetQuery {
 			+ "GROUP BY time_entry.report_date "
 			+ "ORDER BY time_entry.report_date ";
 
+	/** The daily query by start date. */
 	private static String dailyQueryByStartDate = "SELECT "
 			+ "time_entry.start_time as report_date, "
 			+ "Sum(time_entry.duration) AS total_duration "
@@ -61,15 +70,33 @@ public class PersonTimesheetQuery {
 			+ "GROUP BY time_entry.start_time "
 			+ "ORDER BY time_entry.start_time ";
 
+	/** The person id. */
 	private int personId;
+	
+	/** The end date. */
 	private java.util.Date endDate = new Date();
+	
+	/** The start date. */
 	private java.util.Date startDate = new Date();
+	
+	/** The session. */
 	private final Session session;
 
+	/**
+     * Instantiates a new person timesheet query.
+     *
+     * @param session
+     *            the session
+     */
 	public PersonTimesheetQuery(final Session session) {
 		this.session = session;
 	}
 
+	/**
+     * Gets the timesheet.
+     *
+     * @return the timesheet
+     */
 	public Timesheet getTimesheet() {
 		final Timesheet timesheet = new Timesheet(this.startDate, this.endDate);
 		try {
@@ -113,6 +140,18 @@ public class PersonTimesheetQuery {
 		return timesheet;
 	}
 
+	/**
+     * Do daily query.
+     *
+     * @param conn
+     *            the conn
+     * @param timesheet
+     *            the timesheet
+     * @param query
+     *            the query
+     * @throws SQLException
+     *             the SQL exception
+     */
 	private void doDailyQuery(final Connection conn, final Timesheet timesheet,
 			final String query) throws SQLException {
 		final PreparedStatement stmt = conn.prepareStatement(query);
@@ -132,26 +171,59 @@ public class PersonTimesheetQuery {
 		}
 	}
 
+	/**
+     * Sets the person id.
+     *
+     * @param personId
+     *            the new person id
+     */
 	public void setPersonId(final int personId) {
 		this.personId = personId;
 	}
 
+	/**
+     * Gets the person id.
+     *
+     * @return the person id
+     */
 	public int getPersonId() {
 		return this.personId;
 	}
 
+	/**
+     * Gets the start date.
+     *
+     * @return the start date
+     */
 	public java.util.Date getStartDate() {
 		return this.startDate;
 	}
 
+	/**
+     * Sets the start date.
+     *
+     * @param startDate
+     *            the new start date
+     */
 	public void setStartDate(final java.util.Date startDate) {
 		this.startDate = startDate;
 	}
 
+	/**
+     * Gets the end date.
+     *
+     * @return the end date
+     */
 	public java.util.Date getEndDate() {
 		return this.endDate;
 	}
 
+	/**
+     * Sets the end date.
+     *
+     * @param endDate
+     *            the new end date
+     */
 	public void setEndDate(final java.util.Date endDate) {
 		this.endDate = endDate;
 	}

@@ -11,14 +11,29 @@ import org.apache.struts.upload.FormFile;
 
 import com.technoetic.xplanner.XPlannerTestSupport;
 
+/**
+ * The Class TestNoteEditorForm.
+ */
 public class TestNoteEditorForm extends TestCase {
+    
+    /** Instantiates a new test note editor form.
+     *
+     * @param name
+     *            the name
+     */
     public TestNoteEditorForm(String name) {
         super(name);
     }
 
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The form. */
     private NoteEditorForm form;
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         support = new XPlannerTestSupport();
         form = new NoteEditorForm();
@@ -29,6 +44,8 @@ public class TestNoteEditorForm extends TestCase {
         form.setAuthorId(100);
     }
 
+    /** Test reset.
+     */
     public void testReset() {
         form.reset(support.mapping, support.request);
 
@@ -40,12 +57,16 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("variable not reset", 0, form.getAttachedToId());
     }
 
+    /** Test validate form ok.
+     */
     public void testValidateFormOk() {
         ActionErrors errors = form.validate(support.mapping, support.request);
 
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing subject not submitted.
+     */
     public void testValidateMissingSubjectNotSubmitted() {
         form.setSubject(null);
 
@@ -54,6 +75,8 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing subject.
+     */
     public void testValidateMissingSubject() {
         form.setSubject(null);
         form.setAction("Update");
@@ -66,6 +89,8 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("wrong key", "note.editor.missing_subject", error.getKey());
     }
 
+    /** Test validate missing body.
+     */
     public void testValidateMissingBody() {
         form.setBody(null);
         form.setAction("Update");
@@ -78,6 +103,8 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("wrong key", "note.editor.missing_body", error.getKey());
     }
 
+    /** Test validate missing author.
+     */
     public void testValidateMissingAuthor() {
         form.setAuthorId(0);
         form.setAction("Update");
@@ -90,6 +117,8 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("wrong key", "note.editor.missing_author", error.getKey());
     }
 
+    /** Test validate missing file on update ok.
+     */
     public void testValidateMissingFileOnUpdateOk() {
         form.setFormFile(null);
         form.setAction(com.technoetic.xplanner.actions.EditObjectAction.UPDATE_ACTION);
@@ -99,6 +128,8 @@ public class TestNoteEditorForm extends TestCase {
         assertEquals("unexpected errors", 0, errors.size());
     }
 
+    /** Test validate missing file on create ok.
+     */
     public void testValidateMissingFileOnCreateOk() {
         form.setFormFile(null);
         form.setAction(com.technoetic.xplanner.actions.EditObjectAction.CREATE_ACTION);

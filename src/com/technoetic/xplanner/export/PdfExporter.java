@@ -30,21 +30,38 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * The Class PdfExporter.
+ */
 public class PdfExporter implements Exporter {
+	
+	/** The Constant SCALE_FACTOR. */
 	public static final int SCALE_FACTOR = 2;
+	
+	/** The Constant NORMAL_TEXT_FONT. */
 	public static final Font NORMAL_TEXT_FONT = new Font(Font.HELVETICA,
 			14 * PdfExporter.SCALE_FACTOR, Font.NORMAL);
+	
+	/** The Constant BOLD_TEXT_FONT. */
 	public static final Font BOLD_TEXT_FONT = new Font(Font.HELVETICA,
 			14 * PdfExporter.SCALE_FACTOR, Font.BOLD);
+	
+	/** The Constant TITLE_FONT. */
 	public static final Font TITLE_FONT = new Font(Font.HELVETICA,
 			24 * PdfExporter.SCALE_FACTOR, Font.BOLD);
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setHeader("Content-type", "application/pdf");
 		response.setHeader("Content-disposition", "inline; filename=export.pdf");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {
@@ -62,6 +79,16 @@ public class PdfExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Export to pdf.
+     *
+     * @param object
+     *            the object
+     * @param output
+     *            the output
+     * @throws DocumentException
+     *             the document exception
+     */
 	public void exportToPdf(final Object object, final OutputStream output)
 			throws DocumentException {
 
@@ -91,6 +118,20 @@ public class PdfExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Write.
+     *
+     * @param iteration
+     *            the iteration
+     * @param document
+     *            the document
+     * @param pageRectangle
+     *            the page rectangle
+     * @param docWriter
+     *            the doc writer
+     * @throws DocumentException
+     *             the document exception
+     */
 	private void write(final Iteration iteration, final Document document,
 			final Rectangle pageRectangle, final PdfWriter docWriter)
 			throws DocumentException {
@@ -101,6 +142,20 @@ public class PdfExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Write.
+     *
+     * @param story
+     *            the story
+     * @param document
+     *            the document
+     * @param pageRectangle
+     *            the page rectangle
+     * @param docWriter
+     *            the doc writer
+     * @throws DocumentException
+     *             the document exception
+     */
 	private void write(final UserStory story, final Document document,
 			final Rectangle pageRectangle, final PdfWriter docWriter)
 			throws DocumentException {
@@ -127,6 +182,20 @@ public class PdfExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Write.
+     *
+     * @param task
+     *            the task
+     * @param document
+     *            the document
+     * @param pageRectangle
+     *            the page rectangle
+     * @param docWriter
+     *            the doc writer
+     * @throws DocumentException
+     *             the document exception
+     */
 	private void write(final Task task, final Document document,
 			final Rectangle pageRectangle, final PdfWriter docWriter)
 			throws DocumentException {
@@ -144,6 +213,26 @@ public class PdfExporter implements Exporter {
 						.getName());
 	}
 
+	/**
+     * Write card.
+     *
+     * @param document
+     *            the document
+     * @param pageRectangle
+     *            the page rectangle
+     * @param docWriter
+     *            the doc writer
+     * @param title
+     *            the title
+     * @param description
+     *            the description
+     * @param fields
+     *            the fields
+     * @param containerTitle
+     *            the container title
+     * @throws DocumentException
+     *             the document exception
+     */
 	private void writeCard(final Document document,
 			final Rectangle pageRectangle, final PdfWriter docWriter,
 			final String title, final String description, final Field[] fields,
@@ -187,6 +276,15 @@ public class PdfExporter implements Exporter {
 				docWriter.getDirectContent());
 	}
 
+	/**
+     * New table.
+     *
+     * @param pageRectangle
+     *            the page rectangle
+     * @param columns
+     *            the columns
+     * @return the pdf p table
+     */
 	private PdfPTable newTable(final Rectangle pageRectangle, final int columns) {
 		final PdfPTable table = new PdfPTable(columns);
 		table.getDefaultCell().setBorderWidth(0);
@@ -194,24 +292,57 @@ public class PdfExporter implements Exporter {
 		return table;
 	}
 
+	/**
+     * The Class Field.
+     */
 	class Field {
+		
+		/** The title. */
 		private final String title;
+		
+		/** The value. */
 		private final String value;
 
+		/**
+         * Instantiates a new field.
+         *
+         * @param title
+         *            the title
+         * @param value
+         *            the value
+         */
 		public Field(final String title, final String value) {
 			this.title = StringUtils.defaultString(title);
 			this.value = StringUtils.defaultString(value);
 		}
 
+		/**
+         * Gets the title.
+         *
+         * @return the title
+         */
 		public String getTitle() {
 			return this.title;
 		}
 
+		/**
+         * Gets the value.
+         *
+         * @return the value
+         */
 		public String getValue() {
 			return this.value;
 		}
 	}
 
+	/**
+     * Adds the field cell.
+     *
+     * @param table
+     *            the table
+     * @param field
+     *            the field
+     */
 	private void addFieldCell(final PdfPTable table, final Field field) {
 		final Phrase cell = new Phrase(new Chunk("" + field.getTitle() + ": ",
 				PdfExporter.BOLD_TEXT_FONT));
@@ -220,6 +351,14 @@ public class PdfExporter implements Exporter {
 		table.addCell(cell);
 	}
 
+	/**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     * @throws Exception
+     *             the exception
+     */
 	public static void main(final String[] args) throws Exception {
 		final FileOutputStream stream = new FileOutputStream(
 				"XPlannerStories.pdf");
@@ -237,6 +376,19 @@ public class PdfExporter implements Exporter {
 
 	}
 
+	/**
+     * New story.
+     *
+     * @param name
+     *            the name
+     * @param customer
+     *            the customer
+     * @param estimatedHours
+     *            the estimated hours
+     * @param tasks
+     *            the tasks
+     * @return the user story
+     */
 	private static UserStory newStory(final String name, final Person customer,
 			final double estimatedHours, final List<Task> tasks) {
 		final UserStory story = new UserStory();
@@ -247,6 +399,17 @@ public class PdfExporter implements Exporter {
 		return story;
 	}
 
+	/**
+     * New task.
+     *
+     * @param name
+     *            the name
+     * @param description
+     *            the description
+     * @param estimatedHours
+     *            the estimated hours
+     * @return the task
+     */
 	private static Task newTask(final String name, final String description,
 			final double estimatedHours) {
 		final Task task = new Task();

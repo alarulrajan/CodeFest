@@ -12,17 +12,36 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.Authenticator;
 
+/**
+ * The Class BasicSecurityFilter.
+ */
 public class BasicSecurityFilter extends AbstractSecurityFilter {
+	
+	/** The authenticator. */
 	private Authenticator authenticator;
+	
+	/** The basic prefix. */
 	private final String BASIC_PREFIX = "Basic ";
 
+	/**
+     * Instantiates a new basic security filter.
+     */
 	public BasicSecurityFilter() {
 	}
 
+	/**
+     * Instantiates a new basic security filter.
+     *
+     * @param authenticator
+     *            the authenticator
+     */
 	public BasicSecurityFilter(final Authenticator authenticator) {
 		this.authenticator = authenticator;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#doInit(javax.servlet.FilterConfig)
+	 */
 	@Override
 	protected void doInit(final FilterConfig filterConfig)
 			throws ServletException {
@@ -32,6 +51,9 @@ public class BasicSecurityFilter extends AbstractSecurityFilter {
 						"authenticator");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#isAuthenticated(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected boolean isAuthenticated(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
@@ -40,6 +62,15 @@ public class BasicSecurityFilter extends AbstractSecurityFilter {
 				|| this.isChallengeAuthenticated(request);
 	}
 
+	/**
+     * Checks if is challenge authenticated.
+     *
+     * @param request
+     *            the request
+     * @return true, if is challenge authenticated
+     * @throws ServletException
+     *             the servlet exception
+     */
 	private boolean isChallengeAuthenticated(final HttpServletRequest request)
 			throws ServletException {
 		boolean isAuthenticated = false;
@@ -66,6 +97,9 @@ public class BasicSecurityFilter extends AbstractSecurityFilter {
 		return isAuthenticated;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.filter.AbstractSecurityFilter#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected boolean onAuthenticationFailure(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
@@ -74,6 +108,12 @@ public class BasicSecurityFilter extends AbstractSecurityFilter {
 		return false;
 	}
 
+	/**
+     * Challenge.
+     *
+     * @param response
+     *            the response
+     */
 	private void challenge(final HttpServletResponse response) {
 		response.setHeader("WWW-Authenticate", "Basic realm=\"XPlanner\"");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -27,19 +27,44 @@ import com.technoetic.xplanner.AbstractUnitTestCase;
 import com.technoetic.xplanner.DomainSpecificPropertiesFactory;
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class TestEmailNotificationSupport.
+ */
 public class TestEmailNotificationSupport extends AbstractUnitTestCase {
+   
+   /** The email notification support. */
    private EmailNotificationSupport emailNotificationSupport;
+   
+   /** The person id. */
    private int personId;
+   
+   /** The project. */
    Project project;
+   
+   /** The story. */
    UserStory story;
+   
+   /** The task. */
    Task task;
 
+   /** The mock email message factory. */
    EmailMessageFactory mockEmailMessageFactory;
+   
+   /** The mock email message. */
    EmailMessage mockEmailMessage;
+   
+   /** The mock email formatter. */
    EmailFormatter mockEmailFormatter;
+   
+   /** The mock domain specific properties factory. */
    DomainSpecificPropertiesFactory mockDomainSpecificPropertiesFactory;
+   
+   /** The Constant FROM_EMAIL. */
    protected static final String FROM_EMAIL = "fromEmail";
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       project = new Project();
@@ -62,10 +87,18 @@ public class TestEmailNotificationSupport extends AbstractUnitTestCase {
 
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    public void tearDown() throws Exception {
       super.tearDown();
    }
 
+   /** Test send notification.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSendNotification() throws Exception {
       ResourceBundle bundle = ResourceBundle.getBundle("ResourceBundle");
       String emailHeader = bundle.getString(MissingTimeEntryNotifier.EMAIL_BODY_HEADER_FOR_PROJECT_LEADERS);
@@ -100,6 +133,11 @@ public class TestEmailNotificationSupport extends AbstractUnitTestCase {
       verify();
    }
 
+   /** Test compile email.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testCompileEmail() throws Exception {
       Map notificationEmails = new HashMap();
       emailNotificationSupport.compileEmail(notificationEmails, personId, null, task, story);
@@ -107,6 +145,11 @@ public class TestEmailNotificationSupport extends AbstractUnitTestCase {
    }
 
 
+   /** Test is project to be notified.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testIsProjectToBeNotified() throws Exception {
       Map projectToBeNotifiedMap = new HashMap();
       Properties properties = new Properties();

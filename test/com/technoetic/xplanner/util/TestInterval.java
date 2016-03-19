@@ -2,12 +2,22 @@ package com.technoetic.xplanner.util;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestInterval.
+ */
 public class TestInterval extends TestCase {
 
+    /** Instantiates a new test interval.
+     *
+     * @param s
+     *            the s
+     */
     public TestInterval(String s) {
         super(s);
     }
 
+    /** Test compare to.
+     */
     public void testCompareTo() {
         Interval i1 = new Interval(5, 10);
         Interval i2 = new Interval(15, 20);
@@ -27,6 +37,8 @@ public class TestInterval extends TestCase {
         assertTrue("wrong result", i2.compareTo(i1) < 0);
     }
 
+    /** Test adjacent.
+     */
     public void testAdjacent() {
         Interval i1 = new Interval(5, 10);
         Interval i2 = new Interval(15, 20);
@@ -42,6 +54,8 @@ public class TestInterval extends TestCase {
         assertTrue("wrong result", i1.adjacent(i2));
     }
 
+    /** Test overlaps.
+     */
     public void testOverlaps() {
         Interval i1 = new Interval(5, 10);
         Interval i2 = new Interval(15, 20);

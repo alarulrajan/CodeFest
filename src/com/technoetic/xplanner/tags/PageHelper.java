@@ -8,7 +8,20 @@ import org.apache.commons.lang.StringUtils;
 
 //DEBT Should be a spring loaded service bean 
 
+/**
+ * The Class PageHelper.
+ */
 public class PageHelper {
+	
+	/**
+     * Gets the project id.
+     *
+     * @param resource
+     *            the resource
+     * @param request
+     *            the request
+     * @return the project id
+     */
 	public static int getProjectId(final Object resource,
 			final ServletRequest request) {
 		int projectId = 0;

@@ -28,13 +28,35 @@ import com.technoetic.xplanner.domain.repository.RoleAssociationRepositoryImpl;
 import com.technoetic.xplanner.domain.repository.RoleRepositoryImpl;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class PersistentObjectMother.
+ */
 public class PersistentObjectMother extends ObjectMother{
 
+  /** The test objects. */
   protected List testObjects = new ArrayList();
+  
+  /** The session. */
   private Session session;
+  
+  /** The hibernate template simulation. */
   private HibernateTemplate hibernateTemplateSimulation;
+  
+  /** The meta repository. */
   private MetaRepository metaRepository;
   
+  /**
+     * Delete test objects.
+     *
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws SQLException
+     *             the SQL exception
+     * @throws RepositoryException
+     *             the repository exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
   public void deleteTestObjects()
         throws HibernateException, SQLException, RepositoryException, AuthenticationException {
      if (testObjects.size() == 0) return;
@@ -60,11 +82,27 @@ public class PersistentObjectMother extends ObjectMother{
      }
   }
 
+  /**
+     * Removes the objects.
+     *
+     * @param classType
+     *            the class type
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   private void removeObjects(Class classType) throws HibernateException {
      List particularObjects = getSavedInstancesOf(testObjects, classType);
      removeSavedObjectsOf(particularObjects);
   }
 
+  /**
+     * Removes the saved objects of.
+     *
+     * @param savedObject
+     *            the saved object
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   private void removeSavedObjectsOf(List savedObject) throws HibernateException {
      for (int i = savedObject.size() - 1; i >= 0; i--) {
         Object object = savedObject.get(i);
@@ -73,6 +111,14 @@ public class PersistentObjectMother extends ObjectMother{
 //       commitSession();
   }
 
+  /**
+     * Delete object.
+     *
+     * @param object
+     *            the object
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   public void deleteObject(Object object) throws HibernateException {
      if (PersistentObjectMother.LOG.isDebugEnabled()) PersistentObjectMother.LOG.debug("deleting " + object);
      try {
@@ -85,6 +131,15 @@ public class PersistentObjectMother extends ObjectMother{
      testObjects.remove(object);
   }
 
+  /**
+     * Gets the saved instances of.
+     *
+     * @param testObjects
+     *            the test objects
+     * @param objectClass
+     *            the object class
+     * @return the saved instances of
+     */
   public List getSavedInstancesOf(List testObjects, Class objectClass) {
      List foundObjects = new ArrayList();
      Iterator it = testObjects.iterator();
@@ -99,6 +154,12 @@ public class PersistentObjectMother extends ObjectMother{
      return foundObjects;
   }
 
+  /**
+     * Register object to be deleted on tear down.
+     *
+     * @param object
+     *            the object
+     */
   public void registerObjectToBeDeletedOnTearDown(Object object) {
      if (object == null) {
         RuntimeException e = new RuntimeException("Cannot register a null object for deletion");
@@ -108,6 +169,14 @@ public class PersistentObjectMother extends ObjectMother{
      testObjects.add(object);
   }
 
+  /**
+     * Sets the session.
+     *
+     * @param session
+     *            the new session
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   public void setSession(final Session session) throws HibernateException {
      this.session = session;
      this.hibernateTemplateSimulation = new HibernateTemplateSimulation(session);
@@ -125,10 +194,30 @@ public class PersistentObjectMother extends ObjectMother{
      metaRepository.setRepository(Person.class, repository);
   }
 
+  /**
+     * Creates the repository.
+     *
+     * @param objectClass
+     *            the object class
+     * @return the hibernate object repository
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   public HibernateObjectRepository createRepository(Class objectClass) throws HibernateException {
      return createRepository(objectClass, HibernateObjectRepository.class);
   }
 
+  /**
+     * Creates the repository.
+     *
+     * @param objectClass
+     *            the object class
+     * @param repositoryClass
+     *            the repository class
+     * @return the hibernate object repository
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   public HibernateObjectRepository createRepository(Class objectClass, Class repositoryClass)
         throws HibernateException {
      HibernateObjectRepository repository = new HibernateObjectRepository(objectClass);
@@ -137,6 +226,13 @@ public class PersistentObjectMother extends ObjectMother{
      return repository;
   }
 
+  /**
+     * Creates the role association repository.
+     *
+     * @return the role association repository impl
+     * @throws HibernateException
+     *             the hibernate exception
+     */
   public RoleAssociationRepositoryImpl createRoleAssociationRepository() throws HibernateException {
      RoleAssociationRepositoryImpl roleAssociationRepository = new RoleAssociationRepositoryImpl();
      RoleRepositoryImpl roleRepository = new RoleRepositoryImpl();
@@ -146,6 +242,9 @@ public class PersistentObjectMother extends ObjectMother{
      return roleAssociationRepository;
   }
 
+  /* (non-Javadoc)
+   * @see com.technoetic.xplanner.domain.ObjectMother#saveAndRegisterForDelete(java.lang.Object)
+   */
   protected void saveAndRegisterForDelete(Object object) throws HibernateException, RepositoryException {
      ObjectRepository repository = metaRepository.getRepository(object.getClass());
      if (repository != null) {

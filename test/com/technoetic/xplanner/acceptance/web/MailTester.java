@@ -17,20 +17,52 @@ import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class MailTester.
+ */
 public class MailTester {
+   
+   /** The current day offset. */
    private int currentDayOffset = 0;
+   
+   /** The tester. */
    private XPlannerWebTester tester;
 
+   /** Gets the current day offset.
+     *
+     * @return the current day offset
+     */
    public int getCurrentDayOffset() {
       return currentDayOffset;
    }
 
+   /** The Class Email.
+     */
    public static class Email {
+      
+      /** The subject. */
       public String subject;
+      
+      /** The recipients. */
       public String[] recipients;
+      
+      /** The from. */
       public String from;
+      
+      /** The body elements. */
       public List bodyElements;
 
+      /** Instantiates a new email.
+         *
+         * @param from
+         *            the from
+         * @param recipients
+         *            the recipients
+         * @param subject
+         *            the subject
+         * @param bodyElements
+         *            the body elements
+         */
       public Email(String from, String[] recipients, String subject, List bodyElements){
          this.subject = subject;
          this.recipients = recipients;
@@ -38,10 +70,25 @@ public class MailTester {
          this.bodyElements = bodyElements;
       }
 
+      /** Instantiates a new email.
+         *
+         * @param from
+         *            the from
+         * @param subject
+         *            the subject
+         * @param bodyElements
+         *            the body elements
+         */
       public Email(String from, String subject, List bodyElements){
          this(from, new String[0], subject, bodyElements);
       }
 
+      /** Checks if is equal.
+         *
+         * @param message
+         *            the message
+         * @return true, if is equal
+         */
       public boolean isEqual(SmtpMessage message) {
          if (!isSubjectEqual(message)) return false;
          if (!isFromAddressEqual(message)) return false;
@@ -50,6 +97,12 @@ public class MailTester {
 
       }
 
+      /** Checks if is recipients equal.
+         *
+         * @param message
+         *            the message
+         * @return true, if is recipients equal
+         */
       private boolean isRecipientsEqual(SmtpMessage message) {
          List messageRecipients = new ArrayList();
          messageRecipients.addAll(Arrays.asList(message.getHeaderValues("To")));
@@ -58,6 +111,12 @@ public class MailTester {
          return messageRecipients.containsAll(Arrays.asList(recipients));
       }
 
+      /** Checks if is body containing elements.
+         *
+         * @param message
+         *            the message
+         * @return true, if is body containing elements
+         */
       private boolean isBodyContainingElements(SmtpMessage message) {
          String trimmedBody = StringUtils.deleteWhitespace(message.getBody());
          for (Iterator iterator = bodyElements.iterator(); iterator.hasNext();) {
@@ -70,14 +129,29 @@ public class MailTester {
          return true;
       }
 
+      /** Checks if is from address equal.
+         *
+         * @param message
+         *            the message
+         * @return true, if is from address equal
+         */
       protected boolean isFromAddressEqual(SmtpMessage message) {
          return StringUtils.equals(from, message.getHeaderValue("From"));
       }
 
+      /** Checks if is subject equal.
+         *
+         * @param message
+         *            the message
+         * @return true, if is subject equal
+         */
       private boolean isSubjectEqual(SmtpMessage message) {
          return StringUtils.equals(subject, message.getHeaderValue("Subject"));
       }
 
+      /* (non-Javadoc)
+       * @see java.lang.Object#toString()
+       */
       public String toString() {
          String result = "Email(from=" + from + ", " + "to={";
          for (int i=0; i<recipients.length; i++){
@@ -94,12 +168,25 @@ public class MailTester {
       }
    }
 
+   /** The smtp server. */
    private SimpleSmtpServer smtpServer;
 
+   /** Instantiates a new mail tester.
+     *
+     * @param tester
+     *            the tester
+     */
    public MailTester(XPlannerWebTester tester) {
       this.tester = tester;
    }
 
+   /** Assert number of email received by.
+     *
+     * @param expectedNumberOfEmailReceived
+     *            the expected number of email received
+     * @param receiver
+     *            the receiver
+     */
    public void assertNumberOfEmailReceivedBy(int expectedNumberOfEmailReceived, String receiver) {
       int cnt = 0;
       for (Iterator iterator = smtpServer.getReceivedEmail(); iterator.hasNext();) {
@@ -115,16 +202,39 @@ public class MailTester {
       }
    }
 
+   /** Assert email has not been received.
+     *
+     * @param email
+     *            the email
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    public void assertEmailHasNotBeenReceived(Email email) throws InterruptedException {
       boolean isFound = hasEmailBeenReceived(email);
       Assert.assertFalse("A message " + email + " has been sent", isFound);
    }
 
+   /** Assert email has not been received.
+     *
+     * @param recipient
+     *            the recipient
+     * @param email
+     *            the email
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    public void assertEmailHasNotBeenReceived(String recipient, Email email) throws InterruptedException {
       email.recipients = new String[]{recipient};
       assertEmailHasNotBeenReceived(email);
    }
 
+   /** Assert email has been received.
+     *
+     * @param expectedEmail
+     *            the expected email
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    public void assertEmailHasBeenReceived(Email expectedEmail) throws InterruptedException {
       boolean isFound = hasEmailBeenReceived(expectedEmail);
       if (!isFound) {
@@ -132,13 +242,31 @@ public class MailTester {
       }
    }
 
+   /** Assert email has been received.
+     *
+     * @param recipient
+     *            the recipient
+     * @param email
+     *            the email
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    public void assertEmailHasBeenReceived(String recipient, Email email) throws InterruptedException {
       email.recipients = new String[] {recipient};
       assertEmailHasBeenReceived(email);
    }
 
+   /** The Constant SECOND. */
    public static final int SECOND = 2;
 
+   /** Checks for email been received.
+     *
+     * @param email
+     *            the email
+     * @return true, if successful
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    private boolean hasEmailBeenReceived(Email email) throws InterruptedException {
       int timeout = 4 * SECOND;
       while (--timeout > 0) {
@@ -148,6 +276,12 @@ public class MailTester {
       return false;
    }
 
+   /** Checks for email arrived.
+     *
+     * @param email
+     *            the email
+     * @return true, if successful
+     */
    private boolean hasEmailArrived(Email email) {
       for (Iterator it = smtpServer.getReceivedEmail(); it.hasNext();) {
          SmtpMessage message = (SmtpMessage) it.next();
@@ -156,11 +290,21 @@ public class MailTester {
       return false;
    }
 
+   /** Sets the up.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void setUp() throws Exception{
       currentDayOffset = 0;
       startSmtp();
    }
 
+   /** Start smtp.
+     *
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    private void startSmtp() throws InterruptedException {
       int port = Integer.parseInt(new XPlannerProperties().getProperty("xplanner.mail.smtp.port"));
       smtpServer = new SimpleSmtpServer(port);
@@ -168,6 +312,15 @@ public class MailTester {
       tryStartNTimes(t, 10);
    }
 
+   /** Try start n times.
+     *
+     * @param t
+     *            the t
+     * @param tries
+     *            the tries
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
    private void tryStartNTimes(Thread t, int tries) throws InterruptedException {
       while (tries > 0) {
          try {
@@ -180,21 +333,35 @@ public class MailTester {
       }
    }
 
+   /** Tear down.
+     */
    public void tearDown() {
       currentDayOffset = 0;
       stopSmtp();
    }
 
+   /** Stop smtp.
+     */
    private void stopSmtp() {
       if (smtpServer != null && !smtpServer.isStopped()) {
          smtpServer.stop();
       }
    }
 
+   /** Reset smtp.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void resetSmtp() throws Exception {
       stopSmtp();
       startSmtp();
    }
+   
+   /** Gets the all emails received.
+     *
+     * @return the all emails received
+     */
    public String getAllEmailsReceived() {
       String result = "{\n";
       Iterator email = smtpServer.getReceivedEmail();
@@ -208,6 +375,13 @@ public class MailTester {
       return result;
    }
 
+   /** Move current day and send email.
+     *
+     * @param days
+     *            the days
+     * @throws UnsupportedEncodingException
+     *             the unsupported encoding exception
+     */
    public void moveCurrentDayAndSendEmail(int days) throws UnsupportedEncodingException {
       tester.moveCurrentDay(days);
       tester.executeTask("/do/edit/missingTimeEntryNotification");

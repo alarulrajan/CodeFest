@@ -10,8 +10,14 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The Class ProjectDaoImpl.
+ */
 public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.ProjectDao#getAllProjects(net.sf.xplanner.domain.Person)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)

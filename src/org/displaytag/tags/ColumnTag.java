@@ -88,9 +88,7 @@ public class ColumnTag extends BodyTagSupport {
 	 */
 	private boolean nulls;
 
-	/**
-	 * is the column sortable?
-	 */
+	/** is the column sortable?. */
 	private boolean sortable;
 
 	/**
@@ -183,9 +181,7 @@ public class ColumnTag extends BodyTagSupport {
 	 */
 	private String decorator;
 
-	/**
-	 * is the column already sorted?
-	 */
+	/** is the column already sorted?. */
 	private boolean alreadySorted;
 
 	/**
@@ -206,15 +202,19 @@ public class ColumnTag extends BodyTagSupport {
 	private String sortProperty;
 
 	/**
-	 * getter for the "attributeMap" tag attribute.
-	 */
+     * getter for the "attributeMap" tag attribute.
+     *
+     * @return the attribute map
+     */
 	public HtmlAttributeMap getAttributeMap() {
 		return this.attributeMap;
 	}
 
 	/**
-	 * getter for the "headerAttributeMap" tag attribute.
-	 */
+     * getter for the "headerAttributeMap" tag attribute.
+     *
+     * @return the header attribute map
+     */
 	public HtmlAttributeMap getHeaderAttributeMap() {
 		return this.headerAttributeMap;
 	}
@@ -537,12 +537,12 @@ public class ColumnTag extends BodyTagSupport {
 	}
 
 	/**
-	 * Is this column configured for the media type?
-	 * 
-	 * @param mediaType
-	 *            the currentMedia type
-	 * @return true if the column should be displayed for this request
-	 */
+     * Is this column configured for the media type?.
+     *
+     * @param mediaType
+     *            the currentMedia type
+     * @return true if the column should be displayed for this request
+     */
 	public boolean availableForMedia(final MediaTypeEnum mediaType) {
 		if (this.supportedMedia == null) {
 			return true;
@@ -772,8 +772,10 @@ public class ColumnTag extends BodyTagSupport {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.Tag#release()
-	 */
+     * Release.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#release()
+     */
 	@Override
 	public void release() {
 		super.release();
@@ -799,8 +801,13 @@ public class ColumnTag extends BodyTagSupport {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-	 */
+     * Do start tag.
+     *
+     * @return the int
+     * @throws JspException
+     *             the jsp exception
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
 	@Override
 	public int doStartTag() throws JspException {
 		final TableTag tableTag = (TableTag) TagSupport.findAncestorWithClass(
@@ -824,8 +831,11 @@ public class ColumnTag extends BodyTagSupport {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
+     * To string.
+     *
+     * @return the string
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ShortToStringStyle.SHORT_STYLE) //

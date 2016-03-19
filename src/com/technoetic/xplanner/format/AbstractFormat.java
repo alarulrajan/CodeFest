@@ -10,8 +10,20 @@ import org.apache.struts.util.MessageResources;
 
 import com.technoetic.xplanner.util.LocaleUtil;
 
+/**
+ * The Class AbstractFormat.
+ */
 public class AbstractFormat {
 
+	/**
+     * Gets the format.
+     *
+     * @param request
+     *            the request
+     * @param key
+     *            the key
+     * @return the format
+     */
 	public static String getFormat(final HttpServletRequest request,
 			final String key) {
 		final HttpSession session = request.getSession();

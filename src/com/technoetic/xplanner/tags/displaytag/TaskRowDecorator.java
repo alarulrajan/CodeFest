@@ -6,6 +6,10 @@ import net.sf.xplanner.domain.Task;
  * Created by IntelliJ IDEA. User: tkmower Date: Mar 1, 2005 Time: 8:43:20 PM
  */
 public class TaskRowDecorator implements RowDecorator {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.displaytag.RowDecorator#getCssClasses(com.technoetic.xplanner.tags.displaytag.Row)
+	 */
 	@Override
 	public String getCssClasses(final Row row) {
 		try {

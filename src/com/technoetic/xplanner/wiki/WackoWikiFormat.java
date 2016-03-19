@@ -25,25 +25,56 @@ import com.technoetic.xplanner.XPlannerProperties;
 // DEBT: Completely duplicated from TwikiFormat
 
 public class WackoWikiFormat implements WikiFormat {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The perl. */
 	private final Perl5Util perl = new Perl5Util();
+	
+	/** The code stack. */
 	private final ArrayList codeStack = new ArrayList();
+	
+	/** The Constant mailSubstitution. */
 	private static final String mailSubstitution = "s/([\\s\\(])(?:mailto\\:)*([a-zA-Z0-9\\-\\_\\.\\+]+)\\@"
 			+ "([a-zA-Z0-9\\-\\_\\.]+)\\.([a-zA-Z0-9\\-\\_]+)(?=[\\s\\.\\,\\;\\:\\!\\?\\)])/"
 			+ "$1<a href=\"mailto:$2@$3.$4\">$2@$3.$4<\\/a>/go";
+	
+	/** The Constant fancyHr. */
 	private static final String fancyHr = "s@^([a-zA-Z0-9]+)----*@<table width=\"100%\"><tr><td valign=\"bottom\"><h2>$1</h2></td>"
 			+ "<td width=\"98%\" valign=\"middle\"><hr /></td></tr></table>@o";
+	
+	/** The Constant escapeRegexp. */
 	private static final String escapeRegexp = "s@([\\*\\?\\.\\[\\](\\)])@\\\\$1@g";
+	
+	/** The Constant urlPattern. */
 	private static final String urlPattern = "m@(^|[-*\\W])((\\w+):([\\w\\$\\-_\\@\\.&\\+\\?/:#%~=]+))(\\[([^\\]]+)\\]|)@";
+	
+	/** The Constant headerPattern. */
 	private static final String headerPattern = "^\\s*=(=+)([^=]+)=+\\s*$"; // '==Header=='
+	
+	/** The Constant wikiWordPattern. */
 	private static final String wikiWordPattern = "(^|[^\\w:/])(\\w+\\.|)([A-Z][a-z]\\w*[A-Z][a-z]\\w*)(\\b|$)";
+	
+	/** The Constant wikiWordMatch. */
 	private static final String wikiWordMatch = "m/"
 			+ WackoWikiFormat.wikiWordPattern + "/";
+	
+	/** The scheme handlers. */
 	private static Map schemeHandlers;
+	
+	/** The external wiki adapter. */
 	private ExternalWikiAdapter externalWikiAdapter = null;
+	
+	/** The malformed pattern. */
 	private MalformedPerl5PatternException malformedPattern = null;
+	
+	/** The properties. */
 	private Properties properties = XPlannerProperties.getProperties();
 
+	/**
+     * Instantiates a new wacko wiki format.
+     */
 	public WackoWikiFormat() {
 		WackoWikiFormat.schemeHandlers = new HashMap();
 		if (this.properties.getProperty("wackowiki.wikiadapter") != null) {
@@ -60,10 +91,19 @@ public class WackoWikiFormat implements WikiFormat {
 		}
 	}
 
+	/**
+     * Sets the scheme handlers.
+     *
+     * @param schemeHandlers
+     *            the new scheme handlers
+     */
 	public void setSchemeHandlers(final Map schemeHandlers) {
 		WackoWikiFormat.schemeHandlers = schemeHandlers;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.WikiFormat#format(java.lang.String)
+	 */
 	@Override
 	public String format(final String text) {
 		boolean inPreformattedSection = false;
@@ -359,11 +399,27 @@ public class WackoWikiFormat implements WikiFormat {
 		return outputText.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.WikiFormat#setProperties(java.util.Properties)
+	 */
 	@Override
 	public void setProperties(final Properties properties) {
 		this.properties = properties;
 	}
 
+	/**
+     * Format link.
+     *
+     * @param previousText
+     *            the previous text
+     * @param scheme
+     *            the scheme
+     * @param location
+     *            the location
+     * @param linkText
+     *            the link text
+     * @return the string
+     */
 	private String formatLink(final String previousText, final String scheme,
 			final String location, String linkText) {
 		if (scheme.equals("mailto")) {
@@ -392,6 +448,13 @@ public class WackoWikiFormat implements WikiFormat {
 		return previousText + url + "[" + linkText + "]";
 	}
 
+	/**
+     * Make anchor name.
+     *
+     * @param text
+     *            the text
+     * @return the string
+     */
 	private String makeAnchorName(String text) {
 		text = this.perl.substitute("s/^[\\s\\#\\_]*//o", text); // no leading
 																	// space nor
@@ -410,6 +473,15 @@ public class WackoWikiFormat implements WikiFormat {
 		return text;
 	}
 
+	/**
+     * Make anchor heading.
+     *
+     * @param text
+     *            the text
+     * @param level
+     *            the level
+     * @return the string
+     */
 	private String makeAnchorHeading(String text, final int level) {
 		// - Need to build '<nop><h1><a name="atext"> text </a></h1>'
 		// type markup.
@@ -437,6 +509,16 @@ public class WackoWikiFormat implements WikiFormat {
 		return text;
 	}
 
+	/**
+     * Emit code.
+     *
+     * @param result
+     *            the result
+     * @param code
+     *            the code
+     * @param depth
+     *            the depth
+     */
 	public void emitCode(final StringBuffer result, final String code,
 			final int depth) {
 		while (this.codeStack.size() > depth) {
@@ -459,6 +541,17 @@ public class WackoWikiFormat implements WikiFormat {
 		}
 	}
 
+	/**
+     * Emit table row.
+     *
+     * @param previousText
+     *            the previous text
+     * @param row
+     *            the row
+     * @param inTable
+     *            the in table
+     * @return the string
+     */
 	public String emitTableRow(final String previousText, String row,
 			final boolean inTable) {
 		final StringBuffer result = new StringBuffer();
@@ -515,11 +608,22 @@ public class WackoWikiFormat implements WikiFormat {
 		return result.toString();
 	}
 
+	/**
+     * Sets the external wiki adapter.
+     *
+     * @param wikiWordFormatter
+     *            the new external wiki adapter
+     */
 	public void setExternalWikiAdapter(
 			final ExternalWikiAdapter wikiWordFormatter) {
 		this.externalWikiAdapter = wikiWordFormatter;
 	}
 
+	/**
+     * Gets the malformed pattern exception.
+     *
+     * @return the malformed pattern exception
+     */
 	public MalformedPerl5PatternException getMalformedPatternException() {
 		return this.malformedPattern;
 	}

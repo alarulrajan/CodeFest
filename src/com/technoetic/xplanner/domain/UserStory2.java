@@ -6,11 +6,17 @@ import java.util.HashSet;
 import net.sf.xplanner.domain.NamedObject;
 import net.sf.xplanner.domain.Task;
 
+/**
+ * The Class UserStory2.
+ */
 public class UserStory2 extends NamedObject implements Nameable,
 		NoteAttachable, Describable {
 	// ------------------------------ FIELDS ------------------------------
 
+	/** The tasks. */
 	private final Collection<Task> tasks = new HashSet<Task>();
+	
+	/** The features. */
 	private final Collection features = new HashSet();
 
 	// public static final String ITERATION_START_ESTIMATED_HOURS =

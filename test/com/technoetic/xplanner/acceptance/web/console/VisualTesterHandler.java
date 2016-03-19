@@ -29,22 +29,53 @@ import net.sourceforge.jwebunit.api.ITestingEngine;
 import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.acceptance.web.XPlannerWebTester;
 
+/**
+ * The Class VisualTesterHandler.
+ */
 public class VisualTesterHandler implements InvocationHandler {
+    
+    /** The tester. */
     private XPlannerWebTester tester;
+    
+    /** The http. */
     private HttpFrame http;
+    
+    /** The continue lock. */
     private Object continueLock = new Object();
+    
+    /** The stepping. */
     private boolean stepping = false;
+    
+    /** The base file url. */
     private String baseFileUrl;
+    
+    /** The base http url. */
     private String baseHttpUrl;
 
+    /** Instantiates a new visual tester handler.
+     */
     public VisualTesterHandler() {
         baseFileUrl =  "file:///"+ (new File("").getAbsolutePath().replaceAll("\\\\", "/")) + "/war";
         baseHttpUrl = XPlannerTestSupport.getAbsoluteTestURL();
     }
 
+    /** Sets the tester.
+     *
+     * @param tester
+     *            the new tester
+     */
     public void setTester(XPlannerWebTester tester) { this.tester = tester; }
+    
+    /** Sets the stepping.
+     *
+     * @param stepping
+     *            the new stepping
+     */
     public void setStepping(boolean stepping) { this.stepping = stepping;}
 
+    /* (non-Javadoc)
+     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object res = null;
         Throwable exception = null;
@@ -59,6 +90,17 @@ public class VisualTesterHandler implements InvocationHandler {
         return res;
     }
 
+    /** Update ui.
+     *
+     * @param exception
+     *            the exception
+     * @param method
+     *            the method
+     * @param args
+     *            the args
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private void updateUI(Throwable exception, Method method, Object[] args)
         throws IOException {
         String url = "";
@@ -72,6 +114,10 @@ public class VisualTesterHandler implements InvocationHandler {
         updateUI(getTestName(), url, htmlResponse, getMethodCall(method, args), exception);
     }
 
+    /** Gets the test name.
+     *
+     * @return the test name
+     */
     private String getTestName() {
         StackTraceElement[] stackTrace = new Exception().getStackTrace();
         for (int i = 0; i < stackTrace.length; i++) {
@@ -87,6 +133,12 @@ public class VisualTesterHandler implements InvocationHandler {
         return "<unknown>";
     }
 
+    /** Gets the class.
+     *
+     * @param element
+     *            the element
+     * @return the class
+     */
     private Class getClass(StackTraceElement element) {
         try {
             return Class.forName(element.getClassName());
@@ -96,10 +148,24 @@ public class VisualTesterHandler implements InvocationHandler {
         }
     }
 
+    /** Gets the method call.
+     *
+     * @param method
+     *            the method
+     * @param args
+     *            the args
+     * @return the method call
+     */
     private String getMethodCall(Method method, Object[] args) {
         return method.getName() + "(" + formatCallArgs(args) + ")";
     }
 
+    /** Format call args.
+     *
+     * @param args
+     *            the args
+     * @return the string
+     */
     private String formatCallArgs(Object[] args) {
         if (args == null) return "";
         StringBuffer buf = new StringBuffer();
@@ -110,6 +176,19 @@ public class VisualTesterHandler implements InvocationHandler {
         return buf.toString();
     }
 
+    /** Update ui.
+     *
+     * @param testName
+     *            the test name
+     * @param url
+     *            the url
+     * @param htmlContent
+     *            the html content
+     * @param methodCall
+     *            the method call
+     * @param exception
+     *            the exception
+     */
     private void updateUI(final String testName, final String url,
                           final String htmlContent,
                           final String methodCall,
@@ -139,8 +218,11 @@ public class VisualTesterHandler implements InvocationHandler {
         waitForContinue();
     }
 
+    /** The Constant EM_TO_PX_RATIO. */
     public static final double EM_TO_PX_RATIO = 11.0/0.8;
 
+    /** Load px unit only style sheet.
+     */
     private void loadPxUnitOnlyStyleSheet() {
         try {
             URL url = new URL(baseFileUrl+"/default.css");
@@ -153,6 +235,12 @@ public class VisualTesterHandler implements InvocationHandler {
         }
     }
 
+    /** Convert em unit into px unit.
+     *
+     * @param ssContent
+     *            the ss content
+     * @return the string
+     */
     private String convertEmUnitIntoPxUnit(String ssContent) {
         NumberFormat emFormat = getEmFormat();
         NumberFormat pxFormat = getPxFormat();
@@ -164,6 +252,10 @@ public class VisualTesterHandler implements InvocationHandler {
         return ssContent;
     }
 
+    /** Gets the em format.
+     *
+     * @return the em format
+     */
     private NumberFormat getEmFormat() {
         NumberFormat format = DecimalFormat.getNumberInstance();
         format.setMinimumFractionDigits(1);
@@ -173,12 +265,24 @@ public class VisualTesterHandler implements InvocationHandler {
         return format;
     }
 
+    /** Gets the px format.
+     *
+     * @return the px format
+     */
     private NumberFormat getPxFormat() {
         NumberFormat format = DecimalFormat.getIntegerInstance();
         return format;
     }
 
 
+    /** Read file into string.
+     *
+     * @param file
+     *            the file
+     * @return the string
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     public static String readFileIntoString(File file) throws IOException {
         byte bytes[];
         FileInputStream istream = new FileInputStream(file);
@@ -189,10 +293,14 @@ public class VisualTesterHandler implements InvocationHandler {
         return new String(bytes);
     }
 
+    /** Break on exception.
+     */
     private void breakOnException() {
 
     }
 
+    /** Wait for continue.
+     */
     public void waitForContinue() {
         synchronized(continueLock) {
             if (!stepping) return;
@@ -204,12 +312,16 @@ public class VisualTesterHandler implements InvocationHandler {
         }
     }
 
+    /** Notify to continue.
+     */
     public void notifyToContinue() {
         synchronized(continueLock) {
             continueLock.notifyAll();
         }
     }
 
+    /** Inits the ui.
+     */
     public void initUI() {
         if (http != null) return;
         ActionListener stepAction = new ActionListener() {
@@ -235,6 +347,11 @@ public class VisualTesterHandler implements InvocationHandler {
         http.requestFocus();
     }
 
+    /** The main method.
+     *
+     * @param args
+     *            the arguments
+     */
     public static void main(String[] args) {
         VisualTesterHandler handler = new VisualTesterHandler();
         handler.setStepping(true);

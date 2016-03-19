@@ -15,11 +15,23 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestMethodCacheInvalidateForSelectedArgumentsInterceptor.
+ */
 public class TestMethodCacheInvalidateForSelectedArgumentsInterceptor extends TestCase {
+   
+   /** The method cache invalidate for selected arguments interceptor. */
    private MethodCacheInvalidateForSelectedArgumentsInterceptor methodCacheInvalidateForSelectedArgumentsInterceptor;
+   
+   /** The cache map. */
    private Map cacheMap;
+   
+   /** The args. */
    private Object[] args = new Object[]{"arg0", "arg1", "arg2", "arg3"};
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       cacheMap = new HashMap();
@@ -27,6 +39,11 @@ public class TestMethodCacheInvalidateForSelectedArgumentsInterceptor extends Te
             new MethodCacheInvalidateForSelectedArgumentsInterceptor(cacheMap);
    }
 
+   /** Test get method cache key.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testGetMethodCacheKey() throws Exception {
       int [] argumentIndexes = new int[]{1, 3};
       methodCacheInvalidateForSelectedArgumentsInterceptor.setArgumentIndexes(argumentIndexes);

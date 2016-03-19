@@ -14,24 +14,45 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+/**
+ * The Class TestAllNewUnitTests.
+ */
 public class TestAllNewUnitTests extends TestCase {
 
+   /** The excluded test candidate classes. */
    private static Class[] excludedTestCandidateClasses = {
    };
+   
+   /** The excluded dirs. */
    private static String[] excludedDirs = { ".dependency-info", ".svn", "acceptance"};
+   
+   /** The included patterns. */
    private static String[] includedPatterns = { "Test.*" };
+   
+   /** The excluded patterns. */
    private static String[] excludedPatterns = { "TestAll.*" };
 
+   /** Instantiates a new test all new unit tests.
+     *
+     * @param name
+     *            the name
+     */
    public TestAllNewUnitTests(String name) {
       super(name);
    }
 
+   /** Suite.
+     *
+     * @return the test
+     */
    public static Test suite() {
       BasicConfigurator.configure();
       Logger.getRootLogger().setLevel(Level.FATAL);
       return makeTestSuite();
    }
 
+   /** Prints the tests in suite.
+     */
    public static void printTestsInSuite() {
       TestSuite suite = makeTestSuite();
       java.util.Enumeration enumeration = suite.tests();
@@ -41,6 +62,10 @@ public class TestAllNewUnitTests extends TestCase {
       }
    }			
 
+   /** Make test suite.
+     *
+     * @return the test suite
+     */
    private static TestSuite makeTestSuite() {
       TestSuite suite = new TestSuite("All Tests in classpath");
       File file = new File(getTestClassPath().replaceAll("%20", " "));
@@ -49,18 +74,35 @@ public class TestAllNewUnitTests extends TestCase {
       return suite;
    }
 
+   /** Gets the test path.
+     *
+     * @return the test path
+     */
    private static String getTestPath() {
       String relativeClassFilePath = TestAllNewUnitTests.class.getName().replaceAll("\\.", "/") + ".class";
       String absoluteClassFilePath = TestAllNewUnitTests.class.getResource("/" + relativeClassFilePath).getFile();
       return absoluteClassFilePath.substring(0, absoluteClassFilePath.length() - relativeClassFilePath.length());
    }
 
+   /** Gets the test class path.
+     *
+     * @return the test class path
+     */
    private static String getTestClassPath() {
       String classPath = System.getProperty("TestPath");
       if (classPath != null) return classPath;
       return getTestPath();
    }
 
+   /** Adds the tests in hierarchy to suite.
+     *
+     * @param suite
+     *            the suite
+     * @param classPathRoot
+     *            the class path root
+     * @param currentPath
+     *            the current path
+     */
    private static void addTestsInHierarchyToSuite(TestSuite suite, File classPathRoot, List currentPath) {
       addTestsInDirectoryToSuite(suite, classPathRoot, currentPath);
       File[] tests = classPathRoot.listFiles(directoryFilter);
@@ -83,6 +125,15 @@ public class TestAllNewUnitTests extends TestCase {
       }
    }
 
+   /** Adds the tests in directory to suite.
+     *
+     * @param suite
+     *            the suite
+     * @param classPathRoot
+     *            the class path root
+     * @param currentPath
+     *            the current path
+     */
    private static void addTestsInDirectoryToSuite(TestSuite suite, File classPathRoot, List currentPath) {
       File[] tests = classPathRoot.listFiles(testFilter);
       if (tests == null) {
@@ -93,6 +144,14 @@ public class TestAllNewUnitTests extends TestCase {
       }
    }
 
+   /** Make fully qualified class name.
+     *
+     * @param currentPath
+     *            the current path
+     * @param testcaseFile
+     *            the testcase file
+     * @return the string
+     */
    private static String makeFullyQualifiedClassName(List currentPath, File testcaseFile) {
       StringBuffer fullyQualified = new StringBuffer();
       for (Iterator iterator = currentPath.iterator(); iterator.hasNext();) {
@@ -103,6 +162,15 @@ public class TestAllNewUnitTests extends TestCase {
       return fullyQualified.toString();
    }
 
+   /** Adds the test to suite.
+     *
+     * @param suite
+     *            the suite
+     * @param currentPath
+     *            the current path
+     * @param testcaseFile
+     *            the testcase file
+     */
    private static void addTestToSuite(TestSuite suite, List currentPath, File testcaseFile) {
       String fullClassName = makeFullyQualifiedClassName(currentPath, testcaseFile);
       try {
@@ -117,11 +185,18 @@ public class TestAllNewUnitTests extends TestCase {
       }
    }
 
+   /** Strip class suffix.
+     *
+     * @param filename
+     *            the filename
+     * @return the string
+     */
    private static String stripClassSuffix(String filename) {
       int endingIndex = filename.indexOf(".class");
       return filename.substring(0, endingIndex);
    }
 
+   /** The Constant directoryFilter. */
    private static final FileFilter directoryFilter = new FileFilter() {
       public boolean accept(File pathname) {
          String path = pathname.getName();
@@ -133,16 +208,33 @@ public class TestAllNewUnitTests extends TestCase {
       }
    };
 
+   /** The Constant testFilter. */
    private static final FilenameFilter testFilter = new FilenameFilter() {
       public boolean accept(File dir, String name) {
          return isTestClass(name, dir.getPath() + File.separator + name);
       }
    };
 
+   /** Checks if is test class.
+     *
+     * @param filename
+     *            the filename
+     * @param path
+     *            the path
+     * @return true, if is test class
+     */
    private static boolean isTestClass(String filename, String path) {
       return (path.contains("net/sf/xplanner") && path.endsWith("Test.class"));
    }
 
+    /** Checks if is excluded test.
+     *
+     * @param classpath
+     *            the classpath
+     * @param excludedTests
+     *            the excluded tests
+     * @return true, if is excluded test
+     */
     private static boolean isExcludedTest(String classpath, Class[] excludedTests) {
       for (int i = 0; i < excludedTests.length; i++) {
          if (classpath.endsWith(getClassPath(excludedTests[i]))) {
@@ -152,6 +244,12 @@ public class TestAllNewUnitTests extends TestCase {
       return false;
    }
 
+   /** Gets the class path.
+     *
+     * @param excludedTest
+     *            the excluded test
+     * @return the class path
+     */
    private static String getClassPath(Class excludedTest) {
       return excludedTest.getName().replace('.', File.separatorChar) + ".class";
    }

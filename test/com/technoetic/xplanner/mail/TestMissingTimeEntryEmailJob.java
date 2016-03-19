@@ -15,20 +15,44 @@ import org.easymock.MockControl;
 
 import com.technoetic.xplanner.AbstractUnitTestCase;
 
+/**
+ * The Class TestMissingTimeEntryEmailJob.
+ */
 public class TestMissingTimeEntryEmailJob extends AbstractUnitTestCase {
+   
+   /** The job. */
    private MissingTimeEntryEmailJob job;
+   
+   /** The story. */
    private UserStory story;
+   
+   /** The task. */
    private Task task;
+   
+   /** The project. */
    private Project project;
+   
+   /** The person. */
    private Person person;
+   
+   /** The time entry. */
    private TimeEntry timeEntry;
 
+   /** The mock missing time entry notifier control. */
    MockControl mockMissingTimeEntryNotifierControl;
+   
+   /** The mock missing time entry notifier. */
    MissingTimeEntryNotifier mockMissingTimeEntryNotifier;
 
+   /** The test date. */
    public Date testDate;
 
 
+   /** Xset up.
+     *
+     * @throws Exception
+     *             the exception
+     */
    protected void xsetUp() throws Exception {
       super.setUp();
 
@@ -59,10 +83,19 @@ public class TestMissingTimeEntryEmailJob extends AbstractUnitTestCase {
       testDate = new Date();
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    public void tearDown() throws Exception {
       super.tearDown();
    }
 
+/**
+ * Test execute job.
+ *
+ * @throws Exception
+ *             the exception
+ */
 // DEBT: Reenable this test
    public void testExecuteJob() throws Exception {
    }

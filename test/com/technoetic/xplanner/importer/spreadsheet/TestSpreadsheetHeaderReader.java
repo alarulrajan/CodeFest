@@ -15,8 +15,17 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import com.technoetic.xplanner.importer.BaseTestCase;
 
+/**
+ * The Class TestSpreadsheetHeaderReader.
+ */
 public class TestSpreadsheetHeaderReader extends BaseTestCase
 {
+   
+   /** Test spreadsheet header.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSpreadsheetHeader() throws Exception
    {
       InputStream stream = TestSpreadsheetHeaderReader.class.getResourceAsStream("/data/Cookbook.xls");

@@ -12,11 +12,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * The Class DateHelper.
+ */
 public class DateHelper {
+   
+   /** The Constant RESOURCE_BUNDLE_NAME. */
    public static final String RESOURCE_BUNDLE_NAME = "ResourceBundle";
 
+   /** The messages. */
    static ResourceBundle messages = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
 
+   /** Gets the date string days from today.
+     *
+     * @param daysFromToday
+     *            the days from today
+     * @return the date string days from today
+     */
    public static String getDateStringDaysFromToday(int daysFromToday)
    {
       String dateFormatString = getMessage("format.date");
@@ -24,10 +36,24 @@ public class DateHelper {
       return format.format(getDateDaysFromToday(daysFromToday));
    }
 
+   /** Gets the date days from today.
+     *
+     * @param daysFromToday
+     *            the days from today
+     * @return the date days from today
+     */
    public static Date getDateDaysFromToday(int daysFromToday) {
       return getDateDaysFromDate(new Date(), daysFromToday);
    }
 
+   /** Gets the date days from date.
+     *
+     * @param today
+     *            the today
+     * @param daysFromDate
+     *            the days from date
+     * @return the date days from date
+     */
    public static Date getDateDaysFromDate(Date today, int daysFromDate) {
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(today);
@@ -35,6 +61,12 @@ public class DateHelper {
       return calendar.getTime();
    }
 
+   /** Gets the date time string hours from now.
+     *
+     * @param hoursFromNow
+     *            the hours from now
+     * @return the date time string hours from now
+     */
    public static String getDateTimeStringHoursFromNow(int hoursFromNow)
    {
       String dateFormatString = getMessage("format.datetime");
@@ -42,6 +74,12 @@ public class DateHelper {
       return format.format(getDateHoursFromNow(hoursFromNow));
    }
 
+   /** Gets the date hours from now.
+     *
+     * @param hoursFromNow
+     *            the hours from now
+     * @return the date hours from now
+     */
    private static Date getDateHoursFromNow(int hoursFromNow) {
       Date now = new Date();
       Calendar calendar = Calendar.getInstance();
@@ -50,6 +88,12 @@ public class DateHelper {
       return calendar.getTime();
    }
 
+   /** Gets the message.
+     *
+     * @param key
+     *            the key
+     * @return the message
+     */
    public static String getMessage(String key) {
       String message;
       try {
@@ -61,6 +105,16 @@ public class DateHelper {
       return message;
    }
 
+   /** Creates the date.
+     *
+     * @param year
+     *            the year
+     * @param month
+     *            the month
+     * @param day
+     *            the day
+     * @return the date
+     */
    public static Date createDate(int year, int month, int day)
    {
       Calendar cal = Calendar.getInstance();

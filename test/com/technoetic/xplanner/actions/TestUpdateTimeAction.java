@@ -31,41 +31,91 @@ import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.format.DecimalFormat;
 import com.technoetic.xplanner.forms.TimeEditorForm;
 
+/**
+ * The Class TestUpdateTimeAction.
+ */
 public class TestUpdateTimeAction extends AbstractActionTestCase {
 
+   /** The Constant DATE_TIME_FORMAT. */
    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+   
+   /** The Constant DATE_FORMAT. */
    private static final String DATE_FORMAT = "yyyy-MM-dd";
+   
+   /** The Constant DATE_1a. */
    private static final String DATE_1a = "2002-02-02 00:00";
+   
+   /** The Constant DATE_1b. */
    private static final String DATE_1b = "2002-02-02 00:06";
+   
+   /** The Constant DATE_1c. */
    private static final String DATE_1c = "2002-02-02";
+   
+   /** The Constant DATE_2a. */
    private static final String DATE_2a = "2003-03-02 00:00";
+   
+   /** The Constant DATE_2b. */
    private static final String DATE_2b = "2003-03-02";
+   
+   /** The Constant DESCRIPTION_1. */
    private static final String DESCRIPTION_1 = "Description 1";
+   
+   /** The Constant DESCRIPTION_2. */
    private static final String DESCRIPTION_2 = "Description 2";
+   
+   /** The Constant DESCRIPTION_3. */
    private static final String DESCRIPTION_3 = "Description 3";
 
+   /** The Constant LOCALE. */
    private static final Locale LOCALE = new Locale("en", "us");
+   
+   /** The Constant DECIMAL_FORMAT. */
    private static final String DECIMAL_FORMAT = "#0.0";
 
    // Test for other locales, formats
 //    private static final Locale LOCALE = new Locale("da", "be");
 //    private static final String DECIMAL_FORMAT = "#0,0";
 
+   /** The editor form. */
    private TimeEditorFormUnderTest editorForm;
+   
+   /** The time entry1. */
    private TimeEntry timeEntry1;
+   
+   /** The time entry2. */
    private TimeEntry timeEntry2;
+   
+   /** The date time format. */
    private SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+   
+   /** The date format. */
    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+   
+   /** The log level. */
    private Level logLevel = Logger.getRootLogger().getLevel();
+   
+   /** The decimal format. */
    private DecimalFormat decimalFormat;
+   
+   /** The iteration. */
    private Iteration iteration;
+   
+   /** The story. */
    private UserStory story;
 
+   /** The mock session. */
    // DEBT: Rename mockSession to something else. It hides the super class mockSession!
    private MockSession mockSession;
+   
+   /** The mock session factory. */
    private MockSessionFactory mockSessionFactory;
+   
+   /** The task dao. */
    private TaskDao taskDao;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+    */
    public void setUp() throws Exception {
       action = new UpdateTimeAction();
       super.setUp();
@@ -97,12 +147,20 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       HibernateHelper.setSession(support.request, mockSession);
    }
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+    */
    public void tearDown() throws Exception {
       super.tearDown();
       Logger.getRootLogger().setLevel(logLevel);
       GlobalSessionFactory.set(null);
    }
 
+   /** Test populate form without time entries.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPopulateFormWithoutTimeEntries() throws Exception {
       Task task = new Task();
       task.setAcceptorId(44);
@@ -127,6 +185,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("txn rollback not called", support.connection.rollbackCalled);
    }
 
+   /** Test populate form with time entries no new row.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPopulateFormWithTimeEntriesNoNewRow() throws Exception {
       setUpTimeEntries();
       replay();
@@ -155,6 +218,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("txn rollback not called", support.connection.rollbackCalled);
    }
 
+   /** Test populate form with time entries with new row.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPopulateFormWithTimeEntriesWithNewRow() throws Exception {
       setUpTimeEntries();
       timeEntry2.setEndTime(dateTimeFormat.parse(DATE_2a));
@@ -193,6 +261,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("txn rollback not called", support.connection.rollbackCalled);
    }
 
+   /** Test populate form with time entries with duration only row.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testPopulateFormWithTimeEntriesWithDurationOnlyRow() throws Exception {
       setUpTimeEntries();
       timeEntry2.setStartTime(null);
@@ -231,6 +304,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
    }
 
 
+   /** Test action create entry.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionCreateEntry() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -286,6 +364,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("reset called", !editorForm.resetCalled);
    }
 
+   /** Test action_ inactive iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testAction_InactiveIteration() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -313,6 +396,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("redirected", !forward.getRedirect());
    }
 
+   /** Test action edit entry no end time.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionEditEntryNoEndTime() throws Exception {
       Task task = new Task();
       setUpStory(task, IterationStatus.ACTIVE);
@@ -350,6 +438,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("txn commit not called", support.connection.commitCalled);
    }
 
+   /** Test action create entry no start time.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionCreateEntryNoStartTime() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -377,6 +470,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("reset called", !editorForm.resetCalled);
    }
 
+   /** Test action update entry.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionUpdateEntry() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -411,6 +509,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("reset called", !editorForm.resetCalled);
    }
 
+   /** Test action delete entry.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionDeleteEntry() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -444,6 +547,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("reset not called", editorForm.resetCalled);
    }
 
+   /** Test action delete and update.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testActionDeleteAndUpdate() throws Exception {
       Task task = new Task();
       task.setEstimatedHours(4.0);
@@ -482,6 +590,11 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       assertTrue("txn commit not called", support.connection.commitCalled);
    }
 
+   /** Sets the up time entries.
+     *
+     * @throws Exception
+     *             the exception
+     */
    private void setUpTimeEntries() throws Exception {
       ArrayList entries = new ArrayList();
       timeEntry1 = new TimeEntry();
@@ -503,6 +616,15 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       mockSession.find2Return = entries;
    }
 
+   /** Sets the up story.
+     *
+     * @param task
+     *            the task
+     * @param iterationStatus
+     *            the iteration status
+     * @throws RepositoryException
+     *             the repository exception
+     */
    private void setUpStory(Task task, IterationStatus iterationStatus) throws RepositoryException {
       iteration = new Iteration();
       iteration.setId(11);
@@ -535,9 +657,16 @@ public class TestUpdateTimeAction extends AbstractActionTestCase {
       };
    }
 
+   /** The Class TimeEditorFormUnderTest.
+     */
    private static class TimeEditorFormUnderTest extends TimeEditorForm {
+      
+      /** The reset called. */
       public boolean resetCalled;
 
+      /* (non-Javadoc)
+       * @see com.technoetic.xplanner.forms.TimeEditorForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+       */
       public void reset(ActionMapping mapping, HttpServletRequest request) {
          resetCalled = true;
       }

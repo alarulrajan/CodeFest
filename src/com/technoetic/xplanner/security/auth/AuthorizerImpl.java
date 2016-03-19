@@ -30,14 +30,28 @@ import com.technoetic.xplanner.forms.TaskEditorForm;
 import com.technoetic.xplanner.forms.UserStoryEditorForm;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class AuthorizerImpl.
+ */
 public class AuthorizerImpl implements Authorizer {
+	
+	/** The resource types. */
 	private final Map<Class, String> resourceTypes = new HashMap<Class, String>();
+	
+	/** The Constant ANY_PROJECT. */
 	public static final Integer ANY_PROJECT = new Integer(0);
+	
+	/** The authorizer query helper. */
 	private AuthorizerQueryHelper authorizerQueryHelper;
+	
+	/** The principal specific permission helper. */
 	private PrincipalSpecificPermissionHelper principalSpecificPermissionHelper;
 
+	/**
+     * Instantiates a new authorizer impl.
+     */
 	public AuthorizerImpl() {
-		// TODO: Extract these constants
+		// ChangeSoon: Extract these constants
 		// DEBT(METADATA) Move these to the DomainMetaDataRepository
 		this.resourceTypes.put(Project.class, "system.project");
 		this.resourceTypes.put(Iteration.class, "system.project.iteration");
@@ -65,7 +79,10 @@ public class AuthorizerImpl implements Authorizer {
 		this.resourceTypes.put(Setting.class, "system.setting");
 	}
 
-	// TODO resource should be a DomainObject
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#hasPermission(int, int, java.lang.Object, java.lang.String)
+	 */
+	// ChangeSoon resource should be a DomainObject
 	@Override
 	public boolean hasPermission(final int projectId, final int personId,
 			final Object resource, final String permission)
@@ -81,6 +98,9 @@ public class AuthorizerImpl implements Authorizer {
 				this.getTypeOfResource(resource), id, permission);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#hasPermission(int, int, java.lang.String, int, java.lang.String)
+	 */
 	@Override
 	public boolean hasPermission(final int projectId, final int personId,
 			final String resourceType, final int resourceId,
@@ -101,6 +121,9 @@ public class AuthorizerImpl implements Authorizer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#getPeopleWithPermissionOnProject(java.util.List, int)
+	 */
 	@Override
 	public Collection getPeopleWithPermissionOnProject(final List allPeople,
 			final int projectId) throws AuthenticationException {
@@ -115,6 +138,9 @@ public class AuthorizerImpl implements Authorizer {
 		return people;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#getRolesForPrincipalOnProject(int, int, boolean)
+	 */
 	@Override
 	public Collection getRolesForPrincipalOnProject(final int principalId,
 			final int projectId, final boolean includeWildcardProject)
@@ -127,6 +153,9 @@ public class AuthorizerImpl implements Authorizer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#hasPermissionForSomeProject(int, java.lang.String, int, java.lang.String)
+	 */
 	@Override
 	public boolean hasPermissionForSomeProject(final int personId,
 			final String resourceType, final int resourceId,
@@ -143,6 +172,9 @@ public class AuthorizerImpl implements Authorizer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.auth.Authorizer#hasPermissionForSomeProject(java.util.Collection, int, java.lang.String, int, java.lang.String)
+	 */
 	@Override
 	public boolean hasPermissionForSomeProject(final Collection projects,
 			final int personId, final String resourceType,
@@ -158,6 +190,13 @@ public class AuthorizerImpl implements Authorizer {
 		return false;
 	}
 
+	/**
+     * Gets the type of resource.
+     *
+     * @param resource
+     *            the resource
+     * @return the type of resource
+     */
 	public String getTypeOfResource(final Object resource) {
 		final String keyClass = resource.getClass().getName();
 		for (final Object clazz : this.resourceTypes.keySet()) {
@@ -168,21 +207,55 @@ public class AuthorizerImpl implements Authorizer {
 		return null;
 	}
 
+	/**
+     * Sets the principal specific permission helper.
+     *
+     * @param principalSpecificPermissionHelper
+     *            the new principal specific permission helper
+     */
 	public void setPrincipalSpecificPermissionHelper(
 			final PrincipalSpecificPermissionHelper principalSpecificPermissionHelper) {
 		this.principalSpecificPermissionHelper = principalSpecificPermissionHelper;
 	}
 
+	/**
+     * Sets the authorizer query helper.
+     *
+     * @param authorizerQueryHelper
+     *            the new authorizer query helper
+     */
 	public void setAuthorizerQueryHelper(
 			final AuthorizerQueryHelper authorizerQueryHelper) {
 		this.authorizerQueryHelper = authorizerQueryHelper;
 	}
 
+	/**
+     * Checks if is matching.
+     *
+     * @param pattern
+     *            the pattern
+     * @param string
+     *            the string
+     * @return true, if is matching
+     */
 	private boolean isMatching(final String pattern, final String string) {
 		return pattern.endsWith("%") ? string.startsWith(pattern.substring(0,
 				pattern.length() - 1)) : string.equals(pattern);
 	}
 
+	/**
+     * Permission matches.
+     *
+     * @param permissionName
+     *            the permission name
+     * @param resourceType
+     *            the resource type
+     * @param resourceId
+     *            the resource id
+     * @param permissionsForProject
+     *            the permissions for project
+     * @return true, if successful
+     */
 	private boolean permissionMatches(final String permissionName,
 			final String resourceType, final int resourceId,
 			final List permissionsForProject) {

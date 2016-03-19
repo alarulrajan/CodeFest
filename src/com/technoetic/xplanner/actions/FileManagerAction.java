@@ -22,12 +22,19 @@ import com.technoetic.xplanner.file.FileSystem;
 import com.technoetic.xplanner.forms.FileManagerForm;
 
 /**
- * EXPERIMENTAL - File Management Action
+ * EXPERIMENTAL - File Management Action.
  */
 public class FileManagerAction extends AbstractAction {
+	
+	/** The buffer size. */
 	private final int BUFFER_SIZE = 4000;
+	
+	/** The file system. */
 	private FileSystem fileSystem;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -90,6 +97,18 @@ public class FileManagerAction extends AbstractAction {
 		}
 	}
 
+	/**
+     * Write file to response.
+     *
+     * @param response
+     *            the response
+     * @param file
+     *            the file
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     * @throws SQLException
+     *             the SQL exception
+     */
 	private void writeFileToResponse(final HttpServletResponse response,
 			final File file) throws IOException, SQLException {
 		response.setContentType(file.getContentType());
@@ -108,6 +127,12 @@ public class FileManagerAction extends AbstractAction {
 		stream.close();
 	}
 
+	/**
+     * Sets the file system.
+     *
+     * @param fileSystem
+     *            the new file system
+     */
 	public void setFileSystem(final FileSystem fileSystem) {
 		this.fileSystem = fileSystem;
 	}

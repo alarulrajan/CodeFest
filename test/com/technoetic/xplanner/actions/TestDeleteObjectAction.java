@@ -8,16 +8,28 @@ import org.apache.struts.action.ActionForward;
 
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 
+/**
+ * The Class TestDeleteObjectAction.
+ */
 public class TestDeleteObjectAction extends AbstractActionTestCase {
 
+   /** The Constant OID. */
    public static final int OID = 11;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+    */
    public void setUp() throws Exception {
        action = new DeleteObjectAction();
        super.setUp();
        expectObjectRepositoryAccess(Project.class);
     }
 
+    /** Test delete object action.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testDeleteObjectAction() throws Exception {
         setUpProjectDeletion();
         replay();
@@ -28,6 +40,11 @@ public class TestDeleteObjectAction extends AbstractActionTestCase {
 
     }
 
+    /** Sets the up project deletion.
+     *
+     * @throws RepositoryException
+     *             the repository exception
+     */
     private void setUpProjectDeletion() throws RepositoryException {
         support.setForward(AbstractAction.TYPE_KEY, Project.class.getName());
         support.request.setParameterValue("oid", new String[]{Integer.toString(OID)});
@@ -37,6 +54,11 @@ public class TestDeleteObjectAction extends AbstractActionTestCase {
         mockObjectRepository.delete(OID);
     }
 
+    /** Test delete object action with return to.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testDeleteObjectActionWithReturnTo() throws Exception {
         setUpProjectDeletion();
         support.request.setParameterValue("returnto", new String[]{ "RETURN"});
@@ -50,6 +72,11 @@ public class TestDeleteObjectAction extends AbstractActionTestCase {
         assertTrue(forward.getRedirect());
     }
 
+    /** Test delete object action without return to.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testDeleteObjectActionWithoutReturnTo() throws Exception {
         setUpProjectDeletion();
         support.setForward("view/projects", "projects.jsp");

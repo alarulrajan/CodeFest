@@ -21,17 +21,36 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 import com.technoetic.xplanner.domain.Identifiable;
 
+/**
+ * The Class ViewDaoImpl.
+ */
 public class ViewDaoImpl implements ViewDao {
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     */
 	public final Session getSession() {
 		return SessionFactoryUtils.getSession(this.sessionFactory, true);
 	}
 
+	/**
+     * Sets the session factory.
+     *
+     * @param sessionFactory
+     *            the new session factory
+     */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.ViewDao#getById(java.lang.Class, java.io.Serializable)
+	 */
 	@Override
 	public Object getById(final Class<? extends Identifiable> domainClass,
 			final Serializable id) {
@@ -49,6 +68,9 @@ public class ViewDaoImpl implements ViewDao {
 		return criteria.uniqueResult();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.xplanner.dao.ViewDao#getUserStories(java.lang.Integer)
+	 */
 	@Override
 	public List<UserStoryView> getUserStories(final Integer iterationId) {
 		final ProjectionList projectionList = Projections.projectionList();
@@ -92,6 +114,13 @@ public class ViewDaoImpl implements ViewDao {
 		return criteria.list();
 	}
 
+	/**
+     * Save.
+     *
+     * @param domainObject
+     *            the domain object
+     * @return the serializable
+     */
 	public Serializable save(final Identifiable domainObject) {
 		return this.getSession().save(domainObject);
 	}

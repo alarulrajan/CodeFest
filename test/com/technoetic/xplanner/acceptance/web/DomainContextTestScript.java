@@ -7,14 +7,27 @@ import net.sf.xplanner.domain.UserStory;
 
 import com.technoetic.xplanner.tags.DomainContext;
 
+/**
+ * The Class DomainContextTestScript.
+ */
 public class DomainContextTestScript extends com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript {
+    
+    /** The context. */
     DomainContext context;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.acceptance.AbstractDatabaseTestScript#setUp()
+     */
     @Override
 	protected void setUp() throws Exception {
         super.setUp();
     }
 
+    /** Test populate task.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPopulateTask() throws Exception {
         Project project = newProject();
         Iteration iteration = newIteration(project);
@@ -32,6 +45,11 @@ public class DomainContextTestScript extends com.technoetic.xplanner.acceptance.
         assertSame(task, context.getTargetObject());
     }
 
+    /** Test populate story.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testPopulateStory() throws Exception {
         Project project = newProject();
         Iteration iteration = newIteration(project);

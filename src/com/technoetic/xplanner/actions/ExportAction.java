@@ -11,9 +11,17 @@ import org.hibernate.classic.Session;
 import com.technoetic.xplanner.export.ExportException;
 import com.technoetic.xplanner.export.Exporter;
 
+/**
+ * The Class ExportAction.
+ */
 public class ExportAction extends AbstractAction {
+	
+	/** The exporter. */
 	private Exporter exporter;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm form, final HttpServletRequest request,
@@ -36,6 +44,12 @@ public class ExportAction extends AbstractAction {
 		return mapping.findForward("display");
 	}
 
+	/**
+     * Sets the exporter.
+     *
+     * @param exporter
+     *            the new exporter
+     */
 	public void setExporter(final Exporter exporter) {
 		this.exporter = exporter;
 	}

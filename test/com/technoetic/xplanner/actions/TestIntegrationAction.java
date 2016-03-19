@@ -15,13 +15,26 @@ import com.technoetic.xplanner.db.hibernate.GlobalSessionFactory;
 import com.technoetic.xplanner.db.hibernate.HibernateHelper;
 import com.technoetic.xplanner.domain.Integration;
 
+/**
+ * The Class TestIntegrationAction.
+ */
 public class TestIntegrationAction extends AbstractActionTestCase {
 
+    /** The mock session. */
     private MockSession mockSession;
+    
+    /** The mock session factory. */
     private MockSessionFactory mockSessionFactory;
+    
+    /** The mock integration listener. */
     private MockIntegrationListener mockIntegrationListener;
+    
+    /** The Constant PROJECT_ID. */
     public static final int PROJECT_ID = 123;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.actions.AbstractActionTestCase#setUp()
+     */
     public void setUp() throws Exception {
        action = new IntegrationAction();
        super.setUp();
@@ -43,11 +56,19 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         ((IntegrationAction)action).setIntegrationListeners(listeners);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+     */
     public void tearDown() throws Exception {
        GlobalSessionFactory.set(null);
        super.tearDown();
     }
 
+    /** Test join.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testJoin() throws Exception {
         mockSession.find3Return = new ArrayList();
         mockSession.find3Return.add(new Integration());
@@ -74,6 +95,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test join when no line and no active.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testJoinWhenNoLineAndNoActive() throws Exception {
         replay();
         mockSession.find3Returns = new ArrayList();
@@ -100,6 +126,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test join error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testJoinError() throws Exception {
         mockSession.saveHibernateException = new HibernateException("test");
         support.request.setParameterValue("action.join", new String[]{""});
@@ -114,6 +145,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertRollback();
     }
 
+    /** Test join error no person id.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testJoinErrorNoPersonId() throws Exception {
         support.request.setParameterValue("action.join", new String[]{""});
         support.request.setParameterValue("personId", new String[]{""});
@@ -128,6 +164,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertFalse("session accessed", mockSession.saveCalled);
     }
 
+    /** Test join error zero person id.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testJoinErrorZeroPersonId() throws Exception {
         support.request.setParameterValue("action.join", new String[]{""});
         support.request.setParameterValue("personId", new String[]{"0"});
@@ -142,6 +183,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertFalse("session accessed", mockSession.saveCalled);
     }
 
+    /** Test leave when not first.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLeaveWhenNotFirst() throws Exception {
         Integration integration1 = new Integration();
         integration1.setId(400);
@@ -175,6 +221,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test leave when first.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLeaveWhenFirst() throws Exception {
         Integration integration1 = new Integration();
         integration1.setId(234);
@@ -211,6 +262,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test leave when only.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLeaveWhenOnly() throws Exception {
         Integration integration1 = new Integration();
         integration1.setId(234);
@@ -240,6 +296,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test leave error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLeaveError() throws Exception {
         mockSession.loadHibernateException = new HibernateException("test");
         support.request.setParameterValue("action.leave", new String[]{""});
@@ -253,6 +314,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertRollback();
     }
 
+    /** Test start.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testStart() throws Exception {
         ArrayList activeIntegrations = new ArrayList();
         Integration integration1 = new Integration();
@@ -281,11 +347,12 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
-    /**
-     * This test makes sure that XPlanner does not start duplicate
+    /** This test makes sure that XPlanner does not start duplicate
      * integrations. This could happen if someone has not refreshed their
      * browser window.
+     *
      * @throws Exception
+     *             the exception
      */
     public void testStartWhenAlreadyStarted() throws Exception {
         Integration integration0 = new Integration();
@@ -322,6 +389,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertCommit();
     }
 
+    /** Test start error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testStartError() throws Exception {
         mockSession.findHibernateException = new HibernateException("test");
         support.request.setParameterValue("action.start", new String[]{""});
@@ -334,6 +406,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertRollback();
     }
 
+    /** Test finish.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testFinish() throws Exception {
         Integration integration1 = new Integration();
         integration1.setState(Integration.ACTIVE);
@@ -363,6 +440,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertEquals(integration2, mockIntegrationListener.onEventIntegration);
     }
 
+    /** Test finish error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testFinishError() throws Exception {
         mockSession.findHibernateException = new HibernateException("test");
         support.request.setParameterValue("action.finish", new String[]{""});
@@ -375,6 +457,11 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertRollback();
     }
 
+    /** Test cancel.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCancel() throws Exception {
         Integration integration1 = new Integration();
         integration1.setState(Integration.ACTIVE);
@@ -404,10 +491,21 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertEquals(integration2, mockIntegrationListener.onEventIntegration);
     }
 
+    /** Adds the project id.
+     *
+     * @param s
+     *            the s
+     * @return the string
+     */
     private String addProjectId(String s) {
         return s+"?projectId=123";
     }
 
+    /** Test cancel error.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testCancelError() throws Exception {
         mockSession.findHibernateException = new HibernateException("test");
         support.request.setParameterValue("action.cancel", new String[]{""});
@@ -420,10 +518,14 @@ public class TestIntegrationAction extends AbstractActionTestCase {
         assertRollback();
     }
 
+    /** Assert rollback.
+     */
     private void assertRollback() {
         assertTrue(support.connection.rollbackCalled);
     }
 
+    /** Assert commit.
+     */
     private void assertCommit() {
         assertTrue(mockSession.flushCalled);
         assertTrue(support.connection.commitCalled);

@@ -20,14 +20,32 @@ import com.technoetic.xplanner.util.TimeGenerator;
 import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 
+/**
+ * The Class DataSampleData.
+ */
 public class DataSampleData implements DatasetProducer {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The iteration. */
 	private Iteration iteration;
+	
+	/** The aspects. */
 	private String aspects;
+	
+	/** The categories. */
 	private String categories;
+	
+	/** The include weekends. */
 	private boolean includeWeekends;
+	
+	/** The Constant DAY. */
 	public static final int DAY = 60 * 60 * 1000;
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#produceDataset(java.util.Map)
+	 */
 	@Override
 	public Object produceDataset(final Map map) throws DatasetProduceException {
 		final DefaultCategoryDataset data = new DefaultCategoryDataset();
@@ -42,6 +60,16 @@ public class DataSampleData implements DatasetProducer {
 		return data;
 	}
 
+	/**
+     * Adds the data.
+     *
+     * @param data
+     *            the data
+     * @param aspect
+     *            the aspect
+     * @param category
+     *            the category
+     */
 	private void addData(final DefaultCategoryDataset data,
 			final String aspect, final String category) {
 		try {
@@ -83,10 +111,24 @@ public class DataSampleData implements DatasetProducer {
 		}
 	}
 
+	/**
+     * Gets the latest date.
+     *
+     * @param date1
+     *            the date1
+     * @param date2
+     *            the date2
+     * @return the latest date
+     */
 	protected Date getLatestDate(final Date date1, final Date date2) {
 		return date1.getTime() > date2.getTime() ? date1 : date2;
 	}
 
+	/**
+     * Gets the midnight on iteration start.
+     *
+     * @return the midnight on iteration start
+     */
 	private Calendar getMidnightOnIterationStart() {
 		final Calendar currentDay = Calendar.getInstance();
 		currentDay.setTime(this.iteration.getStartDate());
@@ -97,9 +139,17 @@ public class DataSampleData implements DatasetProducer {
 		return currentDay;
 	}
 
+	/** The date format. */
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd");
 
+	/**
+     * Format day.
+     *
+     * @param currentDay
+     *            the current day
+     * @return the string
+     */
 	private String formatDay(final Calendar currentDay) {
 		if (currentDay.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
 			return this.dateFormat.format(currentDay.getTime());
@@ -108,11 +158,29 @@ public class DataSampleData implements DatasetProducer {
 		}
 	}
 
+	/**
+     * Checks if is weekend day.
+     *
+     * @param currentDay
+     *            the current day
+     * @return true, if is weekend day
+     */
 	private boolean isWeekendDay(final Calendar currentDay) {
 		return currentDay.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
 				|| currentDay.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
 	}
 
+	/**
+     * Closest sample.
+     *
+     * @param samples
+     *            the samples
+     * @param currentDay
+     *            the current day
+     * @param precision
+     *            the precision
+     * @return the data sample
+     */
 	private DataSample closestSample(final List samples,
 			final Calendar currentDay, final long precision) {
 		final long now = currentDay.getTimeInMillis();
@@ -129,28 +197,58 @@ public class DataSampleData implements DatasetProducer {
 		return sample;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#hasExpired(java.util.Map, java.util.Date)
+	 */
 	@Override
 	public boolean hasExpired(final Map map, final Date date) {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.laures.cewolf.DatasetProducer#getProducerId()
+	 */
 	@Override
 	public String getProducerId() {
 		return Long.toString(System.currentTimeMillis());
 	}
 
+	/**
+     * Sets the iteration.
+     *
+     * @param iteration
+     *            the new iteration
+     */
 	public void setIteration(final Iteration iteration) {
 		this.iteration = iteration;
 	}
 
+	/**
+     * Sets the aspects.
+     *
+     * @param aspects
+     *            the new aspects
+     */
 	public void setAspects(final String aspects) {
 		this.aspects = aspects;
 	}
 
+	/**
+     * Sets the categories.
+     *
+     * @param categories
+     *            the new categories
+     */
 	public void setCategories(final String categories) {
 		this.categories = categories;
 	}
 
+	/**
+     * Sets the include weekends.
+     *
+     * @param includeWeekends
+     *            the new include weekends
+     */
 	public void setIncludeWeekends(final boolean includeWeekends) {
 		this.includeWeekends = includeWeekends;
 	}

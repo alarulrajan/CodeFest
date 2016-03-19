@@ -10,10 +10,20 @@ import net.sf.xplanner.domain.Iteration;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class TestStartIterationAction.
+ */
 public class TestStartIterationAction extends AbstractIterationStatusTestCase {
+   
+   /** The mock time generator. */
    TimeGenerator mockTimeGenerator;
+   
+   /** The sampling date. */
    private Date samplingDate;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.AbstractIterationStatusTestCase#setUp()
+    */
    public void setUp() throws Exception {
       action = new StartIterationAction();
       super.setUp();
@@ -23,6 +33,11 @@ public class TestStartIterationAction extends AbstractIterationStatusTestCase {
       event.setWhenHappened(samplingDate);
    }
 
+   /** Test execute with1 started iteration asks for confirmation.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExecuteWith1StartedIterationAsksForConfirmation() throws Exception {
       Iteration startedIteration = new Iteration();
       startedIteration.start();
@@ -39,6 +54,11 @@ public class TestStartIterationAction extends AbstractIterationStatusTestCase {
 
    }
 
+   /** Test execute with0 started iteration starts iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExecuteWith0StartedIterationStartsIteration() throws Exception
    {
       editorForm.setIterationStartConfirmed(false);
@@ -55,6 +75,11 @@ public class TestStartIterationAction extends AbstractIterationStatusTestCase {
 
    }
 
+   /** Test execute after confirmation starts iteration.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExecuteAfterConfirmationStartsIteration() throws Exception
    {
 

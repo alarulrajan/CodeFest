@@ -9,19 +9,46 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.TreeMap;
 
+/**
+ * The Class Timesheet.
+ */
 public class Timesheet implements Serializable {
 
+	/** The entries. */
 	private final ArrayList entries = new ArrayList();
+	
+	/** The daily entries. */
 	private final TreeMap dailyEntries = new TreeMap();
+	
+	/** The person name. */
 	private String personName;
+	
+	/** The total. */
 	private BigDecimal total = new BigDecimal(0.0);
+	
+	/** The project data. */
 	private final Hashtable projectData = new Hashtable();
+	
+	/** The iteration data. */
 	private final Hashtable iterationData = new Hashtable();
+	
+	/** The story data. */
 	private final Hashtable storyData = new Hashtable();
 
+	/**
+     * Instantiates a new timesheet.
+     */
 	public Timesheet() {
 	}
 
+	/**
+     * Instantiates a new timesheet.
+     *
+     * @param startDate
+     *            the start date
+     * @param endDate
+     *            the end date
+     */
 	public Timesheet(final Date startDate, final Date endDate) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(startDate);
@@ -34,22 +61,49 @@ public class Timesheet implements Serializable {
 		}
 	}
 
+	/**
+     * Gets the person name.
+     *
+     * @return the person name
+     */
 	public String getPersonName() {
 		return this.personName;
 	}
 
+	/**
+     * Sets the person name.
+     *
+     * @param personName
+     *            the new person name
+     */
 	public void setPersonName(final String personName) {
 		this.personName = personName;
 	}
 
+	/**
+     * Gets the entries.
+     *
+     * @return the entries
+     */
 	public Collection getEntries() {
 		return this.entries;
 	}
 
+	/**
+     * Gets the daily entries.
+     *
+     * @return the daily entries
+     */
 	public Collection getDailyEntries() {
 		return this.dailyEntries.values();
 	}
 
+	/**
+     * Adds the entry.
+     *
+     * @param entry
+     *            the entry
+     */
 	public void addEntry(final TimesheetEntry entry) {
 		this.total = this.total.add(entry.getTotalDuration());
 		this.personName = entry.getPersonName();
@@ -57,6 +111,12 @@ public class Timesheet implements Serializable {
 		this.updateGroupedData(entry);
 	}
 
+	/**
+     * Adds the daily entry.
+     *
+     * @param entry
+     *            the entry
+     */
 	public void addDailyEntry(final DailyTimesheetEntry entry) {
 		final DailyTimesheetEntry dailyEntry = (DailyTimesheetEntry) this.dailyEntries
 				.get(entry.getEntryDate());
@@ -66,10 +126,21 @@ public class Timesheet implements Serializable {
 		this.dailyEntries.put(dailyEntry.getEntryDate(), dailyEntry);
 	}
 
+	/**
+     * Gets the total.
+     *
+     * @return the total
+     */
 	public BigDecimal getTotal() {
 		return this.total.setScale(1, BigDecimal.ROUND_HALF_EVEN);
 	}
 
+	/**
+     * Update grouped data.
+     *
+     * @param entry
+     *            the entry
+     */
 	private void updateGroupedData(final TimesheetEntry entry) {
 
 		// Project Data
@@ -103,14 +174,29 @@ public class Timesheet implements Serializable {
 		this.storyData.put(entry.getStoryName(), storyTotal);
 	}
 
+	/**
+     * Gets the iteration data.
+     *
+     * @return the iteration data
+     */
 	public Hashtable getIterationData() {
 		return this.iterationData;
 	}
 
+	/**
+     * Gets the project data.
+     *
+     * @return the project data
+     */
 	public Hashtable getProjectData() {
 		return this.projectData;
 	}
 
+	/**
+     * Gets the story data.
+     *
+     * @return the story data
+     */
 	public Hashtable getStoryData() {
 		return this.storyData;
 	}

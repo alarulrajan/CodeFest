@@ -16,13 +16,27 @@ import com.technoetic.xplanner.forms.IterationStatusEditorForm;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class CloseIterationAction.
+ */
 public class CloseIterationAction extends AbstractIterationAction<Iteration> {
+	
+	/** The time generator. */
 	private TimeGenerator timeGenerator;
 
+	/**
+     * Sets the time generator.
+     *
+     * @param timeGenerator
+     *            the new time generator
+     */
 	public void setTimeGenerator(final TimeGenerator timeGenerator) {
 		this.timeGenerator = timeGenerator;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#beforeObjectCommit(com.technoetic.xplanner.domain.Identifiable, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void beforeObjectCommit(final Iteration iteration,
 			final ActionMapping actionMapping, final ActionForm actionForm,
@@ -35,6 +49,9 @@ public class CloseIterationAction extends AbstractIterationAction<Iteration> {
 				this.timeGenerator.getCurrentTime());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.AbstractAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping mapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -65,6 +82,16 @@ public class CloseIterationAction extends AbstractIterationAction<Iteration> {
 				+ "&fkey=" + iterationId, forward.getRedirect());
 	}
 
+	/**
+     * Close iteration.
+     *
+     * @param request
+     *            the request
+     * @param iteration
+     *            the iteration
+     * @throws Exception
+     *             the exception
+     */
 	public void closeIteration(final HttpServletRequest request,
 			final Iteration iteration) throws Exception {
 		iteration.setIterationStatus(IterationStatus.INACTIVE);

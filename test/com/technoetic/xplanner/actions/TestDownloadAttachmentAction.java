@@ -7,22 +7,47 @@ import net.sf.xplanner.domain.Note;
 
 import com.technoetic.mocks.hibernate.MockSession;
 
+/**
+ * The Class TestDownloadAttachmentAction.
+ */
 public class TestDownloadAttachmentAction extends TestCase {
+    
+    /** The action. */
     private DownloadAttachmentAction action;
+    
+    /** The test note. */
     private Note testNote;
 
+    /** The mock session. */
     private MockSession mockSession;
 
+    /** The file content. */
     private String fileContent;
+    
+    /** The file. */
     private byte[] file;
+    
+    /** The content type. */
     private String contentType;
+    
+    /** The file size. */
     private int fileSize;
+    
+    /** The filename. */
     private String filename;
 
+    /** Instantiates a new test download attachment action.
+     *
+     * @param s
+     *            the s
+     */
     public TestDownloadAttachmentAction(String s) {
         super(s);
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         action = new DownloadAttachmentAction();
@@ -36,10 +61,18 @@ public class TestDownloadAttachmentAction extends TestCase {
         mockSession = new MockSession();
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         super.tearDown();
     }
 
+    /** Test locate note.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLocateNote() throws Exception {
         int testId = 5;
         ArrayList notes = new ArrayList();

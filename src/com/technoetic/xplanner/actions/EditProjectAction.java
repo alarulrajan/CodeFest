@@ -25,8 +25,8 @@ import com.technoetic.xplanner.forms.ProjectEditorForm;
 import com.technoetic.xplanner.wiki.WikiFormat;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -40,19 +40,30 @@ import com.technoetic.xplanner.wiki.WikiFormat;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 
 public class EditProjectAction extends EditObjectAction<Project> {
+	
+	/** The attribute dao. */
 	private AttributeDao attributeDao;
 
+	/** The domain specific properties factory. */
 	DomainSpecificPropertiesFactory domainSpecificPropertiesFactory;
 
+	/**
+     * Sets the domain specific properties factory.
+     *
+     * @param domainSpecificPropertiesFactory
+     *            the new domain specific properties factory
+     */
 	public void setDomainSpecificPropertiesFactory(
 			final DomainSpecificPropertiesFactory domainSpecificPropertiesFactory) {
 		this.domainSpecificPropertiesFactory = domainSpecificPropertiesFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -83,6 +94,9 @@ public class EditProjectAction extends EditObjectAction<Project> {
 																			// Templates.
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#saveForm(com.technoetic.xplanner.forms.AbstractEditorForm, org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	protected void saveForm(final AbstractEditorForm form,
 			final ActionMapping actionMapping, final HttpServletRequest request)
@@ -116,6 +130,18 @@ public class EditProjectAction extends EditObjectAction<Project> {
 						.toString());
 	}
 
+	/**
+     * Save or update attribute.
+     *
+     * @param attributeName
+     *            the attribute name
+     * @param object
+     *            the object
+     * @param currentAttributeValue
+     *            the current attribute value
+     * @throws Exception
+     *             the exception
+     */
 	private void saveOrUpdateAttribute(final String attributeName,
 			final Nameable object, final String currentAttributeValue)
 			throws Exception {
@@ -143,6 +169,9 @@ public class EditProjectAction extends EditObjectAction<Project> {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#populateForm(com.technoetic.xplanner.forms.AbstractEditorForm, net.sf.xplanner.domain.DomainObject)
+	 */
 	@Override
 	protected void populateForm(final AbstractEditorForm form,
 			final DomainObject object) throws Exception {
@@ -171,6 +200,12 @@ public class EditProjectAction extends EditObjectAction<Project> {
 
 	}
 
+	/**
+     * Sets the attribute dao.
+     *
+     * @param attributeDao
+     *            the new attribute dao
+     */
 	public void setAttributeDao(final AttributeDao attributeDao) {
 		this.attributeDao = attributeDao;
 	}

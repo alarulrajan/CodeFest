@@ -13,7 +13,14 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class AttributeRepositoryImpl.
+ */
 public class AttributeRepositoryImpl implements AttributeRepository {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.AttributeRepository#setAttribute(int, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void setAttribute(final int targetId, final String name,
 			final String value) throws RepositoryException {
@@ -34,6 +41,9 @@ public class AttributeRepositoryImpl implements AttributeRepository {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.AttributeRepository#getAttribute(int, java.lang.String)
+	 */
 	@Override
 	public String getAttribute(final int targetId, final String name)
 			throws RepositoryException {
@@ -48,6 +58,9 @@ public class AttributeRepositoryImpl implements AttributeRepository {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.AttributeRepository#getAttributes(int, java.lang.String)
+	 */
 	@Override
 	public Map getAttributes(final int targetId, final String prefix)
 			throws RepositoryException {
@@ -73,6 +86,9 @@ public class AttributeRepositoryImpl implements AttributeRepository {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.repository.AttributeRepository#delete(int, java.lang.String)
+	 */
 	@Override
 	public void delete(final int targetId, final String name)
 			throws RepositoryException {

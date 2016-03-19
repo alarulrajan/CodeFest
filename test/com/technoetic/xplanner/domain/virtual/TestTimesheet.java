@@ -6,15 +6,33 @@ import java.util.GregorianCalendar;
 
 import junit.framework.TestCase;
 
+/**
+ * The Class TestTimesheet.
+ */
 public class TestTimesheet extends TestCase {
+    
+    /** The timesheet. */
     private Timesheet timesheet = null;
+    
+    /** The Constant START. */
     private static final Date START = getWeekStartDate();
+    
+    /** The Constant END. */
     private static final Date END = getWeekEndDate();
 
+    /** Instantiates a new test timesheet.
+     *
+     * @param name
+     *            the name
+     */
     public TestTimesheet(String name) {
         super(name);
     }
 
+    /** Gets the test timesheet.
+     *
+     * @return the test timesheet
+     */
     public static Timesheet getTestTimesheet() {
         Timesheet ts = new Timesheet(START, END);
         ts.addEntry(TestTimesheetEntry.getTestTimesheetEntry());
@@ -22,16 +40,27 @@ public class TestTimesheet extends TestCase {
         return ts;
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         this.timesheet = getTestTimesheet();
     }
 
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         timesheet = null;
         super.tearDown();
     }
 
+    /** Test properties.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testProperties() throws Exception {
         assertEquals("Invalid Person Name", TestTimesheetEntry.PERSON_NAME,
                 this.timesheet.getPersonName());
@@ -56,10 +85,16 @@ public class TestTimesheet extends TestCase {
 //    }
 
     /**
-     * This was originally broken (and still may be). The elapsed days can't be
-     * calculated based on elapsed ms since issues like daylight saving time will
-     * mess up the calculations.
-     */
+ * This was originally broken (and still may be). The elapsed days can't be
+ * calculated based on elapsed ms since issues like daylight saving time will
+ * mess up the calculations.
+ *
+ * @param start
+ *            the start
+ * @param end
+ *            the end
+ * @return the int
+ */
     private int elapsedDays(Date start, Date end) {
         int elapsed = 0;
         GregorianCalendar g1 = new GregorianCalendar();
@@ -94,6 +129,10 @@ public class TestTimesheet extends TestCase {
         return elapsed+1; // always include today
     }
 
+    /** Gets the week end date.
+     *
+     * @return the week end date
+     */
     private static Date getWeekEndDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -105,6 +144,10 @@ public class TestTimesheet extends TestCase {
         return cal.getTime();
     }
 
+    /** Gets the week start date.
+     *
+     * @return the week start date
+     */
     private static Date getWeekStartDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);

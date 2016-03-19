@@ -19,9 +19,17 @@ import net.sf.xplanner.domain.History;
 import com.technoetic.xplanner.domain.IterationStatus;
 import com.technoetic.xplanner.util.TimeGenerator;
 
+/**
+ * The Class TestCloseIterationAction.
+ */
 public class TestCloseIterationAction extends AbstractIterationStatusTestCase {
+   
+   /** The mock time generator. */
    private TimeGenerator mockTimeGenerator;
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.actions.AbstractIterationStatusTestCase#setUp()
+    */
    public void setUp() throws Exception {
       action = new CloseIterationAction();
       super.setUp();
@@ -29,6 +37,11 @@ public class TestCloseIterationAction extends AbstractIterationStatusTestCase {
       ((CloseIterationAction) action).setTimeGenerator(mockTimeGenerator);
    }
 
+   /** Test execute.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testExecute() throws Exception
    {
       iteration.setIterationStatus(IterationStatus.ACTIVE);

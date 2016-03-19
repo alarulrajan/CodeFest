@@ -22,16 +22,33 @@ import com.technoetic.xplanner.domain.RelationshipMappingRegistry;
 import com.technoetic.xplanner.domain.repository.RepositoryException;
 import com.technoetic.xplanner.forms.MoveContinueStoryForm;
 
+/**
+ * The Class MoveContinueStoryAction.
+ */
 public class MoveContinueStoryAction extends EditObjectAction {
+	
+	/** The Constant CONTINUE_ACTION. */
 	public static final String CONTINUE_ACTION = "Continue";
+	
+	/** The Constant MOVE_ACTION. */
 	public static final String MOVE_ACTION = "Move";
 
+	/** The move continue story. */
 	private MoveContinueStory moveContinueStory;
 
+	/**
+     * Sets the move continue story.
+     *
+     * @param moveContinueStory
+     *            the new move continue story
+     */
 	public void setMoveContinueStory(final MoveContinueStory moveContinueStory) {
 		this.moveContinueStory = moveContinueStory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -53,6 +70,18 @@ public class MoveContinueStoryAction extends EditObjectAction {
 		}
 	}
 
+	/**
+     * Save form.
+     *
+     * @param storyForm
+     *            the story form
+     * @param session
+     *            the session
+     * @param request
+     *            the request
+     * @throws Exception
+     *             the exception
+     */
 	private void saveForm(final MoveContinueStoryForm storyForm,
 			final Session session, final HttpServletRequest request)
 			throws Exception {
@@ -80,10 +109,29 @@ public class MoveContinueStoryAction extends EditObjectAction {
 		storyForm.setAction(null);
 	}
 
+	/**
+     * Gets the story.
+     *
+     * @param id
+     *            the id
+     * @return the story
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private UserStory getStory(final int id) throws RepositoryException {
 		return (UserStory) this.getCommonDao().getById(UserStory.class, id);
 	}
 
+	/**
+     * Populate form.
+     *
+     * @param storyForm
+     *            the story form
+     * @param session
+     *            the session
+     * @throws Exception
+     *             the exception
+     */
 	private void populateForm(final MoveContinueStoryForm storyForm,
 			final Session session) throws Exception {
 		final String oid = storyForm.getOid();
@@ -98,6 +146,20 @@ public class MoveContinueStoryAction extends EditObjectAction {
 		}
 	}
 
+	/**
+     * Populate many to one ids.
+     *
+     * @param form
+     *            the form
+     * @param story
+     *            the story
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     */
 	private void populateManyToOneIds(final ActionForm form,
 			final UserStory story) throws IllegalAccessException,
 			NoSuchMethodException, InvocationTargetException {

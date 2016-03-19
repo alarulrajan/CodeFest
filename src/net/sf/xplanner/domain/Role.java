@@ -14,8 +14,8 @@ import org.hibernate.annotations.GenericGenerator;
 import com.technoetic.xplanner.domain.Identifiable;
 
 /**
- * XplannerPlus, agile planning software
- * 
+ * XplannerPlus, agile planning software.
+ *
  * @author Maksym_Chyrkov. Copyright (C) 2009 Maksym Chyrkov This program is
  *         free software: you can redistribute it and/or modify it under the
  *         terms of the GNU General Public License as published by the Free
@@ -29,57 +29,117 @@ import com.technoetic.xplanner.domain.Identifiable;
  * 
  *         You should have received a copy of the GNU General Public License
  *         along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
  */
 
 @Entity
 @Table(name = "roles", uniqueConstraints = @UniqueConstraint(columnNames = "role"))
 public class Role implements java.io.Serializable, Principal, Identifiable {
+	
+	/** The Constant SYSADMIN. */
 	public static final String SYSADMIN = "sysadmin";
+	
+	/** The Constant ADMIN. */
 	public static final String ADMIN = "admin";
+	
+	/** The Constant EDITOR. */
 	public static final String EDITOR = "editor";
+	
+	/** The Constant VIEWER. */
 	public static final String VIEWER = "viewer";
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4921403899778522202L;
+	
+	/** The left. */
 	private Integer left;
+	
+	/** The right. */
 	private Integer right;
+	
+	/** The name. */
 	private String name;
+	
+	/** The id. */
 	private int id;
 
+	/**
+     * Instantiates a new role.
+     */
 	public Role() {
 	}
 
+	/**
+     * Instantiates a new role.
+     *
+     * @param name
+     *            the name
+     */
 	public Role(final String name) {
 		this.setName(name);
 	}
 
+	/**
+     * Gets the left.
+     *
+     * @return the left
+     */
 	@Column(name = "lft")
 	public Integer getLeft() {
 		return this.left;
 	}
 
+	/**
+     * Sets the left.
+     *
+     * @param lft
+     *            the new left
+     */
 	public void setLeft(final Integer lft) {
 		this.left = lft;
 	}
 
+	/**
+     * Gets the right.
+     *
+     * @return the right
+     */
 	@Column(name = "rgt")
 	public Integer getRight() {
 		return this.right;
 	}
 
+	/**
+     * Sets the right.
+     *
+     * @param rgt
+     *            the new right
+     */
 	public void setRight(final Integer rgt) {
 		this.right = rgt;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.security.Principal#getName()
+	 */
 	@Override
 	@Column(name = "role", nullable = false)
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.domain.Identifiable#getId()
+	 */
 	@Id
 	@GeneratedValue(generator = "commonId")
 	@GenericGenerator(name = "commonId", strategy = "com.technoetic.xplanner.db.hibernate.HibernateIdentityGenerator")
@@ -89,6 +149,12 @@ public class Role implements java.io.Serializable, Principal, Identifiable {
 		return this.id;
 	}
 
+	/**
+     * Sets the id.
+     *
+     * @param id
+     *            the new id
+     */
 	public void setId(final int id) {
 		this.id = id;
 	}

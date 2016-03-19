@@ -21,14 +21,30 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import com.technoetic.xplanner.AbstractUnitTestCase;
 
+/**
+ * The Class TestMethodCacheInterceptor.
+ */
 public class TestMethodCacheInterceptor extends AbstractUnitTestCase {
+   
+   /** The method cache interceptor. */
    private MethodCacheInterceptor methodCacheInterceptor;
+   
+   /** The cache map. */
    private Map cacheMap;
+   
+   /** The mock method invocation. */
    private MethodInvocation mockMethodInvocation;
+   
+   /** The Constant RETURN_VALUE. */
    static final Integer RETURN_VALUE = new Integer(1);
+   
+   /** The Constant TEST_METHOD_NAME. */
    static final String TEST_METHOD_NAME = "testMethodName";
 
 
+   /* (non-Javadoc)
+    * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       cacheMap = new HashMap();
@@ -36,6 +52,11 @@ public class TestMethodCacheInterceptor extends AbstractUnitTestCase {
       mockMethodInvocation = createLocalMock(MethodInvocation.class);
    }
 
+   /** Test cache_no data in cache.
+     *
+     * @throws Throwable
+     *             the throwable
+     */
    public void testCache_noDataInCache() throws Throwable {
       final List argumentList = Arrays.asList(new Object[]{"arg1"});
       expect(mockMethodInvocation.proceed()).andReturn(RETURN_VALUE);
@@ -50,6 +71,11 @@ public class TestMethodCacheInterceptor extends AbstractUnitTestCase {
       assertEquals(cachedValue, RETURN_VALUE);
    }
 
+   /** Test cache_arguments dont match.
+     *
+     * @throws Throwable
+     *             the throwable
+     */
    public void testCache_argumentsDontMatch() throws Throwable {
       final List arg1List = Arrays.asList(new Object[]{"arg1"});
       final List arg2List = Arrays.asList(new Object[]{"arg2"});
@@ -69,6 +95,11 @@ public class TestMethodCacheInterceptor extends AbstractUnitTestCase {
       assertEquals(2, methodCache.keySet().size());
    }
 
+   /** Test cache_get cached value.
+     *
+     * @throws Throwable
+     *             the throwable
+     */
    public void testCache_getCachedValue() throws Throwable {
       final List argList = Arrays.asList(new Object[]{"arg1"});
       final List argList2 = new ArrayList(Arrays.asList(new Object[]{"arg1"}));

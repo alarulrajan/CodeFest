@@ -29,12 +29,26 @@ import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.auth.SystemAuthorizer;
 
+/**
+ * The Class OutlineTag.
+ */
 public class OutlineTag extends TagSupport {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The br. */
 	private final String br = "<br>";
+	
+	/** The Constant PREVIOUS. */
 	public static final String PREVIOUS = "<<";
+	
+	/** The Constant NEXT. */
 	public static final String NEXT = ">>";
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		final DomainContext context = DomainContext.get(this.pageContext
@@ -45,6 +59,14 @@ public class OutlineTag extends TagSupport {
 		return Tag.EVAL_BODY_INCLUDE;
 	}
 
+	/**
+     * Do outline.
+     *
+     * @param context
+     *            the context
+     * @throws JspException
+     *             the jsp exception
+     */
 	private void doOutline(final DomainContext context) throws JspException {
 		final String spacer = this.getImageUrl("spacer.gif");
 		final String elbow = this.getImageUrl("elbow.gif");
@@ -94,6 +116,17 @@ public class OutlineTag extends TagSupport {
 		ResponseUtils.write(this.pageContext, buffer.toString());
 	}
 
+	/**
+     * Gets the next prev id.
+     *
+     * @param ids
+     *            the ids
+     * @param type
+     *            the type
+     * @return the next prev id
+     * @throws JspException
+     *             the jsp exception
+     */
 	private int[] getNextPrevId(final int[] ids, final String type)
 			throws JspException {
 		final Session session = ThreadSession.get();
@@ -173,6 +206,15 @@ public class OutlineTag extends TagSupport {
 		return null;
 	}
 
+	/**
+     * Verify project access.
+     *
+     * @param list
+     *            the list
+     * @return the list
+     * @throws JspException
+     *             the jsp exception
+     */
 	private List verifyProjectAccess(final List list) throws JspException {
 		final Iterator iterator = list.iterator();
 		final ArrayList newList = new ArrayList();
@@ -194,6 +236,15 @@ public class OutlineTag extends TagSupport {
 		return newList;
 	}
 
+	/**
+     * Calculate index.
+     *
+     * @param index
+     *            the index
+     * @param listSize
+     *            the list size
+     * @return the int[]
+     */
 	private int[] calculateIndex(final int index, final int listSize) {
 		final int[] indexes = { 0, 0 };
 		if (index > 0) {
@@ -209,6 +260,19 @@ public class OutlineTag extends TagSupport {
 		return indexes;
 	}
 
+	/**
+     * Render link.
+     *
+     * @param name
+     *            the name
+     * @param id
+     *            the id
+     * @param type
+     *            the type
+     * @param context
+     *            the context
+     * @return the string buffer
+     */
 	private StringBuffer renderLink(String name, final int id,
 			final String type, final DomainContext context) {
 		try {
@@ -262,6 +326,19 @@ public class OutlineTag extends TagSupport {
 		}
 	}
 
+	/**
+     * Gets the url.
+     *
+     * @param path
+     *            the path
+     * @param type
+     *            the type
+     * @param params
+     *            the params
+     * @return the url
+     * @throws MalformedURLException
+     *             the malformed url exception
+     */
 	private String getUrl(final String path, final String type, final Map params)
 			throws MalformedURLException {
 		String url = null;
@@ -297,16 +374,31 @@ public class OutlineTag extends TagSupport {
 		return url;
 	}
 
+	/**
+     * Gets the image url.
+     *
+     * @param imageFileName
+     *            the image file name
+     * @return the image url
+     */
 	private String getImageUrl(final String imageFileName) {
 		return "<img src=\"" + this.getContextPath() + "/images/"
 				+ imageFileName + "\">";
 	}
 
+	/**
+     * Gets the context path.
+     *
+     * @return the context path
+     */
 	private String getContextPath() {
 		return ((HttpServletRequest) this.pageContext.getRequest())
 				.getContextPath();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#release()
+	 */
 	@Override
 	public void release() {
 		super.release();

@@ -1,5 +1,8 @@
 package com.technoetic.xplanner.metrics;
 
+/**
+ * The Class UserStoryMetrics.
+ */
 @Deprecated
 public class UserStoryMetrics {
 	// private final Logger log = Logger.getLogger(getClass());

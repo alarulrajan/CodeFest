@@ -7,8 +7,28 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * The Class Functions.
+ */
 public class Functions {
 
+	/**
+     * Filter.
+     *
+     * @param objects
+     *            the objects
+     * @param fieldName
+     *            the field name
+     * @param fieldValue
+     *            the field value
+     * @return the list
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     */
 	public static List<Object> filter(final List<Object> objects,
 			final String fieldName, final Object fieldValue)
 			throws IllegalAccessException, InvocationTargetException,

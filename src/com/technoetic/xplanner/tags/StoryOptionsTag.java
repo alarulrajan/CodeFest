@@ -10,18 +10,37 @@ import org.hibernate.HibernateException;
 import com.technoetic.xplanner.domain.repository.UserStoryRepository;
 import com.technoetic.xplanner.security.AuthenticationException;
 
+/**
+ * The Class StoryOptionsTag.
+ */
 public class StoryOptionsTag extends OptionsTag {
+	
+	/** The actual story id. */
 	private int actualStoryId;
 
+	/**
+     * Sets the actual story id.
+     *
+     * @param actualStoryId
+     *            the new actual story id
+     */
 	public void setActualStoryId(final int actualStoryId) {
 		this.actualStoryId = actualStoryId;
 	}
 
+	/**
+     * Gets the user story repository.
+     *
+     * @return the user story repository
+     */
 	protected UserStoryRepository getUserStoryRepository() {
 		return new UserStoryRepository(this.getSession(), this.getAuthorizer(),
 				this.getLoggedInUserId());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.OptionsTag#getOptions()
+	 */
 	@Override
 	protected List getOptions() throws HibernateException,
 			AuthenticationException {

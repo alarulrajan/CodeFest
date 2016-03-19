@@ -1,6 +1,17 @@
 package com.technoetic.xplanner.tags;
 
+/**
+ * The Class AccessKeyTransformer.
+ */
 public class AccessKeyTransformer {
+	
+	/**
+     * Removes the mnemonic markers.
+     *
+     * @param text
+     *            the text
+     * @return the string
+     */
 	public static String removeMnemonicMarkers(final String text) {
 		if (text == null) {
 			return null;
@@ -12,6 +23,13 @@ public class AccessKeyTransformer {
 		return text.replaceAll("&&", "&");
 	}
 
+	/**
+     * Gets the html.
+     *
+     * @param text
+     *            the text
+     * @return the html
+     */
 	public static String getHtml(final String text) {
 		final char mnemonic = AccessKeyTransformer.getAccessKey(text);
 		if (mnemonic == 0) {
@@ -23,6 +41,13 @@ public class AccessKeyTransformer {
 		return properties;
 	}
 
+	/**
+     * Gets the access key.
+     *
+     * @param text
+     *            the text
+     * @return the access key
+     */
 	public static char getAccessKey(final String text) {
 		if (text == null) {
 			return 0;

@@ -15,25 +15,54 @@ import com.technoetic.xplanner.XPlannerProperties;
 import com.technoetic.xplanner.util.HttpClient;
 
 /**
- * User: Mateusz Prokopowicz Date: May 19, 2005 Time: 4:15:39 PM
+ * User: Mateusz Prokopowicz Date: May 19, 2005 Time: 4:15:39 PM.
  */
 public class EmailFormatterImpl implements EmailFormatter {
+	
+	/** The Constant SUBJECT. */
 	public static final String SUBJECT = "subject";
+	
+	/** The Constant TEMPLATE. */
 	public static final String TEMPLATE = "template";
+	
+	/** The Constant TITLE. */
 	public static final String TITLE = "title";
+	
+	/** The Constant HEADER. */
 	public static final String HEADER = "header";
+	
+	/** The Constant FOOTER. */
 	public static final String FOOTER = "footer";
+	
+	/** The velocity engine. */
 	private VelocityEngine velocityEngine;
+	
+	/** The http client. */
 	private HttpClient httpClient;
 
+	/**
+     * Sets the velocity engine.
+     *
+     * @param velocityEngine
+     *            the new velocity engine
+     */
 	public void setVelocityEngine(final VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
 	}
 
+	/**
+     * Sets the http client.
+     *
+     * @param httpClient
+     *            the new http client
+     */
 	public void setHttpClient(final HttpClient httpClient) {
 		this.httpClient = httpClient;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailFormatter#formatEmailEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.List)
+	 */
 	@Override
 	public String formatEmailEntry(final String header, final String footer,
 			final String storyLabel, final String taskLabel,
@@ -59,6 +88,9 @@ public class EmailFormatterImpl implements EmailFormatter {
 		return stringWriter.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.mail.EmailFormatter#formatEmailEntry(java.util.List, java.util.Map)
+	 */
 	@Override
 	public String formatEmailEntry(final List bodyEntryList,
 			final Map<String, Object> params) throws Exception {

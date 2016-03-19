@@ -13,11 +13,22 @@ public class HeaderCell extends org.displaytag.model.HeaderCell {
 	 */
 	private String beanSortPropertyName;
 
+	/**
+     * Gets the bean sort property name.
+     *
+     * @return the bean sort property name
+     */
 	public String getBeanSortPropertyName() {
 		return this.beanSortPropertyName != null ? this.beanSortPropertyName
 				: this.getBeanPropertyName();
 	}
 
+	/**
+     * Sets the bean sort property name.
+     *
+     * @param beanSortPropertyName
+     *            the new bean sort property name
+     */
 	public void setBeanSortPropertyName(final String beanSortPropertyName) {
 		this.beanSortPropertyName = beanSortPropertyName;
 	}

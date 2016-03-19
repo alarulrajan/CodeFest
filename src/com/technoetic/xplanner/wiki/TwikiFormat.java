@@ -14,40 +14,78 @@ import org.apache.oro.text.regex.PatternMatcherInput;
 
 import com.technoetic.xplanner.XPlannerProperties;
 
+/**
+ * The Class TwikiFormat.
+ */
 public class TwikiFormat implements WikiFormat {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The perl. */
 	private final Perl5Util perl = new Perl5Util();
+	
+	/** The code stack. */
 	private final ArrayList codeStack = new ArrayList();
+	
+	/** The Constant mailSubstitution. */
 	private static final String mailSubstitution = "s/([\\s\\(])(?:mailto\\:)*([a-zA-Z0-9\\-\\_\\.\\+]+)\\@"
 			+ "([a-zA-Z0-9\\-\\_\\.]+)\\.([a-zA-Z0-9\\-\\_]+)(?=[\\s\\.\\,\\;\\:\\!\\?\\)])/"
 			+ "$1<a href=\"mailto:$2@$3.$4\">$2@$3.$4<\\/a>/go";
+	
+	/** The Constant fancyHr. */
 	private static final String fancyHr = "s@^([a-zA-Z0-9]+)----*@<table width=\"100%\"><tr><td valign=\"bottom\"><h2>$1</h2></td>"
 			+ "<td width=\"98%\" valign=\"middle\"><hr /></td></tr></table>@o";
+	
+	/** The Constant escapeRegexp. */
 	private static final String escapeRegexp = "s@([\\*\\?\\.\\[\\](\\)])@\\\\$1@g";
+	
+	/** The Constant urlPattern. */
 	private static final String urlPattern = "m@(^|[-*\\W])((\\w+):([\\w\\$\\-_\\@\\&\\;\\.&\\+\\?/:#%~=]+))(\\[([^\\]]+)\\]|)@";
-	private static final String headerPatternDa = "^---+(\\++|\\#+)\\s+(.+)\\s*$"; // '---++
-																					// Header',
-																					// '---##
-																					// Header'
-	private static final String headerPatternSp = "^\\t(\\++|\\#+)\\s+(.+)\\s*$"; // '
-																					// ++
-																					// Header',
-																					// '
-																					// +
-																					// Header'
+	
+	/** The Constant headerPatternDa. */
+	private static final String headerPatternDa = "^---+(\\++|\\#+)\\s+(.+)\\s*$"; 
+	/*** header */
+	private static final String headerPatternSp = "^\\t(\\++|\\#+)\\s+(.+)\\s*$"; 
+	/** The
+                                                                                     * Constant
+                                                                                     * headerPatternHt
+                                                                                     * .
+                                                                                     */
 	private static final String headerPatternHt = "^<h([1-6])>\\s*(.+?)\\s*</h[1-6]>"; // '<h6>Header</h6>
+	
+	/** The Constant wikiWordPattern. */
 	private static final String wikiWordPattern = "(^|[^\\w:/])(\\w+\\.|)([A-Z][a-z]\\w*[A-Z][a-z]\\w*)(\\b|$)";
+	
+	/** The Constant wikiWordMatch. */
 	private static final String wikiWordMatch = "m/"
 			+ TwikiFormat.wikiWordPattern + "/";
+	
+	/** The scheme handlers. */
 	private static Map schemeHandlers;
+	
+	/** The external wiki adapter. */
 	private ExternalWikiAdapter externalWikiAdapter = null;
+	
+	/** The malformed pattern. */
 	private MalformedPerl5PatternException malformedPattern = null;
+	
+	/** The properties. */
 	private Properties properties = XPlannerProperties.getProperties();
 
+	/**
+     * Instantiates a new twiki format.
+     */
 	public TwikiFormat() {
 		this(new HashMap());
 	}
 
+	/**
+     * Instantiates a new twiki format.
+     *
+     * @param schemeTranslations
+     *            the scheme translations
+     */
 	public TwikiFormat(final Map schemeTranslations) {
 		TwikiFormat.schemeHandlers = schemeTranslations;
 		if (this.properties.getProperty("twiki.wikiadapter") != null) {
@@ -61,6 +99,9 @@ public class TwikiFormat implements WikiFormat {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.WikiFormat#format(java.lang.String)
+	 */
 	@Override
 	public String format(final String text) {
 		boolean inPreformattedSection = false;
@@ -383,11 +424,27 @@ public class TwikiFormat implements WikiFormat {
 		return outputText.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.wiki.WikiFormat#setProperties(java.util.Properties)
+	 */
 	@Override
 	public void setProperties(final Properties properties) {
 		this.properties = properties;
 	}
 
+	/**
+     * Format link.
+     *
+     * @param previousText
+     *            the previous text
+     * @param scheme
+     *            the scheme
+     * @param location
+     *            the location
+     * @param linkText
+     *            the link text
+     * @return the string
+     */
 	private String formatLink(final String previousText, final String scheme,
 			final String location, String linkText) {
 		if (scheme.equals("mailto")) {
@@ -423,6 +480,13 @@ public class TwikiFormat implements WikiFormat {
 		return returnFormatLink;
 	}
 
+	/**
+     * Make anchor name.
+     *
+     * @param text
+     *            the text
+     * @return the string
+     */
 	private String makeAnchorName(String text) {
 		text = this.perl.substitute("s/^[\\s\\#\\_]*//o", text); // no leading
 																	// space nor
@@ -441,6 +505,15 @@ public class TwikiFormat implements WikiFormat {
 		return text;
 	}
 
+	/**
+     * Make anchor heading.
+     *
+     * @param text
+     *            the text
+     * @param level
+     *            the level
+     * @return the string
+     */
 	private String makeAnchorHeading(String text, final int level) {
 		// - Need to build '<nop><h1><a name="atext"> text </a></h1>'
 		// type markup.
@@ -471,6 +544,16 @@ public class TwikiFormat implements WikiFormat {
 		return text;
 	}
 
+	/**
+     * Emit code.
+     *
+     * @param result
+     *            the result
+     * @param code
+     *            the code
+     * @param depth
+     *            the depth
+     */
 	public void emitCode(final StringBuffer result, final String code,
 			final int depth) {
 		while (this.codeStack.size() > depth) {
@@ -493,6 +576,17 @@ public class TwikiFormat implements WikiFormat {
 		}
 	}
 
+	/**
+     * Emit table row.
+     *
+     * @param previousText
+     *            the previous text
+     * @param row
+     *            the row
+     * @param inTable
+     *            the in table
+     * @return the string
+     */
 	public String emitTableRow(final String previousText, String row,
 			final boolean inTable) {
 		final StringBuffer result = new StringBuffer();
@@ -518,7 +612,7 @@ public class TwikiFormat implements WikiFormat {
 		this.perl.split(cells, "/\\|/", row);
 		for (int i = 0, n = cells.size() - 1; i < n; i++) {
 			String cell = (String) cells.get(i);
-			// TODO 3/21/05 JM Added during merge from the Sabre codebase.
+			// ChangeSoon 3/21/05 JM Added during merge from the Sabre codebase.
 			// Verify it was added in the Sabre codebase otherwise remove it
 			cell = this.perl.substitute("s/\\//-/go", cell);
 			String attribute = "";
@@ -552,11 +646,22 @@ public class TwikiFormat implements WikiFormat {
 		return result.toString();
 	}
 
+	/**
+     * Sets the external wiki adapter.
+     *
+     * @param wikiWordFormatter
+     *            the new external wiki adapter
+     */
 	public void setExternalWikiAdapter(
 			final ExternalWikiAdapter wikiWordFormatter) {
 		this.externalWikiAdapter = wikiWordFormatter;
 	}
 
+	/**
+     * Gets the malformed pattern exception.
+     *
+     * @return the malformed pattern exception
+     */
 	public MalformedPerl5PatternException getMalformedPatternException() {
 		return this.malformedPattern;
 	}

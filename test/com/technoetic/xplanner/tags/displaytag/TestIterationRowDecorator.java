@@ -12,10 +12,20 @@ import net.sf.xplanner.domain.Iteration;
 
 import com.technoetic.xplanner.domain.IterationStatus;
 
+/**
+ * The Class TestIterationRowDecorator.
+ */
 public class TestIterationRowDecorator extends TestCase
 {
+    
+    /** The iteration row decorator. */
     IterationRowDecorator iterationRowDecorator;
 
+    /** Test get css classes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetCssClasses() throws Exception
     {
         iterationRowDecorator = new IterationRowDecorator();

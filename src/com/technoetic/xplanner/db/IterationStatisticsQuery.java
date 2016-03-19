@@ -18,22 +18,48 @@ import org.hibernate.type.Type;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class IterationStatisticsQuery.
+ */
 public class IterationStatisticsQuery {
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(this.getClass());
 
+	/** The query. */
 	private String query;
+	
+	/** The iteration id. */
 	private int iterationId = -1;
+	
+	/** The tasks. */
 	private Collection tasks = null;
+	
+	/** The iteration. */
 	private Iteration iteration = null;
 
+	/** The task type count. */
 	private Hashtable taskTypeCount = null;
+	
+	/** The task disposition count. */
 	private Hashtable taskDispositionCount = null;
+	
+	/** The task type estimated hours. */
 	private Hashtable taskTypeEstimatedHours = null;
+	
+	/** The task disposition estimated hours. */
 	private Hashtable taskDispositionEstimatedHours = null;
+	
+	/** The task type actual hours. */
 	private Hashtable taskTypeActualHours = null;
+	
+	/** The task disposition actual hours. */
 	private Hashtable taskDispositionActualHours = null;
 
+	/** The locale. */
 	private Locale locale = null;
+	
+	/** The resources. */
 	private MessageResources resources = null;
 
 	/**
@@ -167,6 +193,11 @@ public class IterationStatisticsQuery {
 		return this.iteration;
 	}
 
+	/**
+     * Gets the task count by type.
+     *
+     * @return the task count by type
+     */
 	public Hashtable getTaskCountByType() {
 		if (this.taskTypeCount == null) {
 			this.taskTypeCount = new TypeAggregator() {
@@ -179,6 +210,11 @@ public class IterationStatisticsQuery {
 		return this.taskTypeCount;
 	}
 
+	/**
+     * Gets the task count by disposition.
+     *
+     * @return the task count by disposition
+     */
 	public Hashtable getTaskCountByDisposition() {
 		if (this.taskDispositionCount == null) {
 			this.taskDispositionCount = new DispositionAggregator() {
@@ -191,6 +227,11 @@ public class IterationStatisticsQuery {
 		return this.taskDispositionCount;
 	}
 
+	/**
+     * Gets the task estimated hours by type.
+     *
+     * @return the task estimated hours by type
+     */
 	public Hashtable getTaskEstimatedHoursByType() {
 		if (this.taskTypeEstimatedHours == null) {
 			this.taskTypeEstimatedHours = new TypeAggregator(true) {
@@ -203,6 +244,11 @@ public class IterationStatisticsQuery {
 		return this.taskTypeEstimatedHours;
 	}
 
+	/**
+     * Gets the task estimated hours by disposition.
+     *
+     * @return the task estimated hours by disposition
+     */
 	public Hashtable getTaskEstimatedHoursByDisposition() {
 		if (this.taskDispositionEstimatedHours == null) {
 			this.taskDispositionEstimatedHours = new DispositionAggregator(true) {
@@ -215,6 +261,11 @@ public class IterationStatisticsQuery {
 		return this.taskDispositionEstimatedHours;
 	}
 
+	/**
+     * Gets the task actual hours by type.
+     *
+     * @return the task actual hours by type
+     */
 	public Hashtable getTaskActualHoursByType() {
 		if (this.taskTypeActualHours == null) {
 			this.taskTypeActualHours = new TypeAggregator(true) {
@@ -227,6 +278,11 @@ public class IterationStatisticsQuery {
 		return this.taskTypeActualHours;
 	}
 
+	/**
+     * Gets the task actual hours by disposition.
+     *
+     * @return the task actual hours by disposition
+     */
 	public Hashtable getTaskActualHoursByDisposition() {
 		if (this.taskDispositionActualHours == null) {
 			this.taskDispositionActualHours = new DispositionAggregator(true) {
@@ -239,16 +295,35 @@ public class IterationStatisticsQuery {
 		return this.taskDispositionActualHours;
 	}
 
+	/**
+     * The Class Aggregator.
+     */
 	abstract class Aggregator {
+		
+		/** The only completed task. */
 		protected boolean onlyCompletedTask;
 
+		/**
+         * Instantiates a new aggregator.
+         */
 		public Aggregator() {
 		}
 
+		/**
+         * Instantiates a new aggregator.
+         *
+         * @param onlyCompletedTask
+         *            the only completed task
+         */
 		public Aggregator(final boolean onlyCompletedTask) {
 			this.onlyCompletedTask = onlyCompletedTask;
 		}
 
+		/**
+         * Aggregate by group.
+         *
+         * @return the hashtable
+         */
 		public Hashtable aggregateByGroup() {
 			final Hashtable valuesByGroup = new Hashtable();
 
@@ -274,39 +349,90 @@ public class IterationStatisticsQuery {
 			return valuesByGroup;
 		}
 
+		/**
+         * Apply.
+         *
+         * @param task
+         *            the task
+         * @return true, if successful
+         */
 		protected boolean apply(final Task task) {
 			return !this.onlyCompletedTask || task.isCompleted();
 		}
 
+		/**
+         * Gets the value.
+         *
+         * @param task
+         *            the task
+         * @return the value
+         */
 		abstract protected double getValue(Task task);
 
+		/**
+         * Gets the group.
+         *
+         * @param task
+         *            the task
+         * @return the group
+         */
 		abstract protected String getGroup(Task task);
 	}
 
+	/**
+     * The Class TypeAggregator.
+     */
 	private abstract class TypeAggregator extends Aggregator {
 
+		/**
+         * Instantiates a new type aggregator.
+         */
 		public TypeAggregator() {
 		}
 
+		/**
+         * Instantiates a new type aggregator.
+         *
+         * @param onlyCompletedTask
+         *            the only completed task
+         */
 		public TypeAggregator(final boolean onlyCompletedTask) {
 			super(onlyCompletedTask);
 		}
 
+		/* (non-Javadoc)
+		 * @see com.technoetic.xplanner.db.IterationStatisticsQuery.Aggregator#getGroup(net.sf.xplanner.domain.Task)
+		 */
 		@Override
 		protected String getGroup(final Task task) {
 			return task.getType();
 		}
 	}
 
+	/**
+     * The Class DispositionAggregator.
+     */
 	private abstract class DispositionAggregator extends Aggregator {
 
+		/**
+         * Instantiates a new disposition aggregator.
+         */
 		public DispositionAggregator() {
 		}
 
+		/**
+         * Instantiates a new disposition aggregator.
+         *
+         * @param onlyCompletedTask
+         *            the only completed task
+         */
 		public DispositionAggregator(final boolean onlyCompletedTask) {
 			super(onlyCompletedTask);
 		}
 
+		/* (non-Javadoc)
+		 * @see com.technoetic.xplanner.db.IterationStatisticsQuery.Aggregator#getGroup(net.sf.xplanner.domain.Task)
+		 */
 		@Override
 		protected String getGroup(final Task task) {
 			return IterationStatisticsQuery.this.getResourceString(task

@@ -22,16 +22,36 @@ import com.technoetic.xplanner.DomainSpecificPropertiesFactory;
 import com.technoetic.xplanner.XPlannerProperties;
 
 /**
- * User: mprokopowicz Date: Feb 3, 2006 Time: 5:36:56 PM
+ * User: mprokopowicz Date: Feb 3, 2006 Time: 5:36:56 PM.
  */
 public class EmailNotificationSupport {
+	
+	/** The email formatter. */
 	private final EmailFormatter emailFormatter;
+	
+	/** The properties factory. */
 	private final DomainSpecificPropertiesFactory propertiesFactory;
+	
+	/** The Constant log. */
 	private static final Logger log = Logger
 			.getLogger(EmailNotificationSupport.class);
+	
+	/** The email message factory. */
 	private final EmailMessageFactory emailMessageFactory;
+	
+	/** The Constant XPLANNER_MAIL_FROM_KEY. */
 	static final String XPLANNER_MAIL_FROM_KEY = "xplanner.mail.from";
 
+	/**
+     * Instantiates a new email notification support.
+     *
+     * @param emailFormatter
+     *            the email formatter
+     * @param emailMessageFactory
+     *            the email message factory
+     * @param propertiesFactory
+     *            the properties factory
+     */
 	public EmailNotificationSupport(final EmailFormatter emailFormatter,
 			final EmailMessageFactory emailMessageFactory,
 			final DomainSpecificPropertiesFactory propertiesFactory) {
@@ -40,6 +60,14 @@ public class EmailNotificationSupport {
 		this.propertiesFactory = propertiesFactory;
 	}
 
+	/**
+     * Send notifications.
+     *
+     * @param notificationEmails
+     *            the notification emails
+     * @param params
+     *            the params
+     */
 	public void sendNotifications(
 			final Map<Integer, List<Object>> notificationEmails,
 			final Map<String, Object> params) {
@@ -72,6 +100,16 @@ public class EmailNotificationSupport {
 		}
 	}
 
+	/**
+     * Send notifications.
+     *
+     * @param notificationEmails
+     *            the notification emails
+     * @param emailHeaderKey
+     *            the email header key
+     * @param subjectKey
+     *            the subject key
+     */
 	public void sendNotifications(
 			final Map<Integer, List<Object>> notificationEmails,
 			final String emailHeaderKey, final String subjectKey) {
@@ -112,6 +150,20 @@ public class EmailNotificationSupport {
 		}
 	}
 
+	/**
+     * Compile email.
+     *
+     * @param notificationEmails
+     *            the notification emails
+     * @param receiverId
+     *            the receiver id
+     * @param acceptor
+     *            the acceptor
+     * @param task
+     *            the task
+     * @param story
+     *            the story
+     */
 	public void compileEmail(
 			final Map<Integer, List<Object>> notificationEmails,
 			final int receiverId, final Person acceptor, final Task task,
@@ -132,6 +184,15 @@ public class EmailNotificationSupport {
 		emailBodyList.add(entryList);
 	}
 
+	/**
+     * Checks if is project to be notified.
+     *
+     * @param projectsToBeNotified
+     *            the projects to be notified
+     * @param project
+     *            the project
+     * @return true, if is project to be notified
+     */
 	public boolean isProjectToBeNotified(
 			final Map<Integer, Boolean> projectsToBeNotified,
 			final Project project) {
@@ -144,6 +205,13 @@ public class EmailNotificationSupport {
 		return isNotified.booleanValue();
 	}
 
+	/**
+     * Checks if is project to be notified.
+     *
+     * @param project
+     *            the project
+     * @return true, if is project to be notified
+     */
 	public boolean isProjectToBeNotified(final Project project) {
 		final Properties projectDynamicProperties = this.propertiesFactory
 				.createPropertiesFor(project);

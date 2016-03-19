@@ -12,8 +12,15 @@ import org.hibernate.classic.Session;
 
 import com.technoetic.xplanner.db.hibernate.ThreadSession;
 
+/**
+ * The Class FileSystemImpl.
+ */
 // Repository for files and directories
 public class FileSystemImpl implements FileSystem {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#getRootDirectory()
+	 */
 	@Override
 	public Directory getRootDirectory() throws HibernateException {
 		final Session session = ThreadSession.get();
@@ -34,6 +41,9 @@ public class FileSystemImpl implements FileSystem {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#getDirectory(org.hibernate.classic.Session, int)
+	 */
 	@Override
 	public Directory getDirectory(final Session session, final int directoryId)
 			throws HibernateException {
@@ -41,6 +51,9 @@ public class FileSystemImpl implements FileSystem {
 				directoryId));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#getDirectory(java.lang.String)
+	 */
 	@Override
 	public Directory getDirectory(final String path) throws HibernateException {
 		final String[] pathElements = path.split("/");
@@ -65,6 +78,9 @@ public class FileSystemImpl implements FileSystem {
 		return dir;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#createFile(org.hibernate.classic.Session, net.sf.xplanner.domain.Directory, java.lang.String, java.lang.String, long, java.io.InputStream)
+	 */
 	@Override
 	public File createFile(final Session session, final Directory directory,
 			final String name, final String contentType, final long size,
@@ -82,6 +98,9 @@ public class FileSystemImpl implements FileSystem {
 		return file;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#createFile(org.hibernate.classic.Session, int, java.lang.String, java.lang.String, long, java.io.InputStream)
+	 */
 	@Override
 	public File createFile(final Session session, final int directoryId,
 			final String name, final String contentType, final long size,
@@ -92,12 +111,18 @@ public class FileSystemImpl implements FileSystem {
 				data);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#getFile(org.hibernate.classic.Session, int)
+	 */
 	@Override
 	public File getFile(final Session session, final int fileId)
 			throws HibernateException {
 		return (File) session.load(File.class, new Integer(fileId));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#deleteFile(org.hibernate.classic.Session, int)
+	 */
 	@Override
 	public void deleteFile(final Session session, final int fileId)
 			throws HibernateException {
@@ -105,6 +130,9 @@ public class FileSystemImpl implements FileSystem {
 				new Integer(fileId), Hibernate.INTEGER);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#createDirectory(org.hibernate.classic.Session, int, java.lang.String)
+	 */
 	@Override
 	public Directory createDirectory(final Session session,
 			final int parentDirectoryId, final String name)
@@ -113,6 +141,9 @@ public class FileSystemImpl implements FileSystem {
 		return this.createDirectory(session, parent, name);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#createDirectory(org.hibernate.classic.Session, net.sf.xplanner.domain.Directory, java.lang.String)
+	 */
 	@Override
 	public Directory createDirectory(final Session session,
 			final Directory parent, final String name)
@@ -126,6 +157,9 @@ public class FileSystemImpl implements FileSystem {
 		return subdirectory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.file.FileSystem#deleteDirectory(org.hibernate.classic.Session, int)
+	 */
 	@Override
 	public void deleteDirectory(final Session session, final int directoryId)
 			throws HibernateException {

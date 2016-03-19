@@ -12,10 +12,20 @@ package com.technoetic.xplanner.tags.displaytag;
 import junit.framework.TestCase;
 import net.sf.xplanner.domain.UserStory;
 
+/**
+ * The Class TestUserStoryDecorator.
+ */
 public class TestUserStoryDecorator extends TestCase
 {
+    
+    /** The decorator. */
     UserStoryDecorator decorator;
 
+    /** Test get percent completed.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testGetPercentCompleted() throws Exception
     {
         UserStory story1 = newStory(10, 10, 0, true);
@@ -35,6 +45,8 @@ public class TestUserStoryDecorator extends TestCase
         assertTrue(pct4 > pct5);
     }
 
+    /** Test get original estimate and actual difference formatted.
+     */
     public void testGetOriginalEstimateAndActualDifferenceFormatted()
     {
         UserStory story = newStory(10, 0, 10, false);
@@ -50,12 +62,30 @@ public class TestUserStoryDecorator extends TestCase
 
     }
 
+    /** Gets the percent completed.
+     *
+     * @param story1
+     *            the story1
+     * @return the percent completed
+     */
     private double getPercentCompleted(UserStory story1)
     {
         decorator.initRow(story1, 0, 0);
         return decorator.getPercentCompleted();
     }
 
+    /** New story.
+     *
+     * @param estimatedHours
+     *            the estimated hours
+     * @param actualHours
+     *            the actual hours
+     * @param remainingHours
+     *            the remaining hours
+     * @param completed
+     *            the completed
+     * @return the user story
+     */
     private UserStory newStory(final double estimatedHours,
                                final double actualHours,
                                final double remainingHours,

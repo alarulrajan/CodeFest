@@ -9,13 +9,29 @@ import com.technoetic.xplanner.XPlannerTestSupport;
 import com.technoetic.xplanner.domain.StoryDisposition;
 import com.technoetic.xplanner.forms.UserStoryEditorForm;
 
+/**
+ * The Class TestCharacterEnumSelectTag.
+ */
 public class TestCharacterEnumSelectTag extends TestCase {
+   
+   /** The character enum select tag. */
    private CharacterEnumSelectTag characterEnumSelectTag;
+   
+   /** The support. */
    private XPlannerTestSupport support;
+   
+   /** The story. */
    private UserStory story;
+   
+   /** The user story editor form. */
    private UserStoryEditorForm userStoryEditorForm;
+   
+   /** The Constant LF. */
    private static final String LF = System.getProperty("line.separator", "\n");
 
+   /* (non-Javadoc)
+    * @see junit.framework.TestCase#setUp()
+    */
    protected void setUp() throws Exception {
       super.setUp();
       support = new XPlannerTestSupport();
@@ -32,6 +48,11 @@ public class TestCharacterEnumSelectTag extends TestCase {
       userStoryEditorForm = new UserStoryEditorForm();
    }
 
+   /** Test render_ in view mode.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender_InViewMode() throws Exception
    {
       characterEnumSelectTag.setMode(CharacterEnumSelectTag.VIEW_MODE);
@@ -43,6 +64,11 @@ public class TestCharacterEnumSelectTag extends TestCase {
       assertEquals("Enum text value not found", "Added", out);
    }
 
+   /** Test render_ in edit mode.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender_InEditMode() throws Exception
    {
       String expected = "<select name=\"dispositionName\"><option value='p'>Planned</option>" + LF +
@@ -59,6 +85,11 @@ public class TestCharacterEnumSelectTag extends TestCase {
       assertEquals("Enum select not found", expected, out);
    }
 
+   /** Test render_ in edit mode with selected option.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testRender_InEditModeWithSelectedOption() throws Exception
    {
       String expected = "<select name=\"dispositionName\"><option value='p'>Planned</option>" + LF +

@@ -19,11 +19,23 @@ import javax.servlet.ServletRequest;
 
 import com.technoetic.xplanner.util.StringUtilities;
 
+/**
+ * The Class BoxedListTag.
+ */
 public class BoxedListTag extends BoxTag {
+	
+	/** The key values. */
 	private Map keyValues;
+	
+	/** The Constant NAME_STYLE_CLASS. */
 	public static final String NAME_STYLE_CLASS = "propertyName";
+	
+	/** The Constant VALUE_STYLE_CLASS. */
 	public static final String VALUE_STYLE_CLASS = "propertyValue";
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.util.BoxTag#renderBody(java.lang.StringBuffer)
+	 */
 	@Override
 	protected void renderBody(final StringBuffer results) {
 		results.append("<ul>");
@@ -38,6 +50,14 @@ public class BoxedListTag extends BoxTag {
 		results.append("</ul>");
 	}
 
+	/**
+     * Render row.
+     *
+     * @param results
+     *            the results
+     * @param name
+     *            the name
+     */
 	private void renderRow(final StringBuffer results, final String name) {
 		final String key = StringUtilities.htmlEncode(name);
 		final Object rawValue = this.keyValues.get(key);
@@ -45,6 +65,15 @@ public class BoxedListTag extends BoxTag {
 				+ "</li>");
 	}
 
+	/**
+     * Render property.
+     *
+     * @param key
+     *            the key
+     * @param rawValue
+     *            the raw value
+     * @return the string
+     */
 	public static String renderProperty(final String key, final Object rawValue) {
 		return BoxedListTag.span(key, BoxedListTag.NAME_STYLE_CLASS)
 				+ ": "
@@ -52,6 +81,13 @@ public class BoxedListTag extends BoxTag {
 						BoxedListTag.VALUE_STYLE_CLASS);
 	}
 
+	/**
+     * Gets the string value.
+     *
+     * @param rawValue
+     *            the raw value
+     * @return the string value
+     */
 	private static String getStringValue(final Object rawValue) {
 		String value = "";
 		if (rawValue instanceof String) {
@@ -74,10 +110,26 @@ public class BoxedListTag extends BoxTag {
 		return value;
 	}
 
+	/**
+     * Span.
+     *
+     * @param key
+     *            the key
+     * @param styleClass
+     *            the style class
+     * @return the string
+     */
 	private static String span(final String key, final String styleClass) {
 		return "<span class=\"" + styleClass + "\">" + key + "</span>";
 	}
 
+	/**
+     * Gets the request attribute map.
+     *
+     * @param request
+     *            the request
+     * @return the request attribute map
+     */
 	public static Map getRequestAttributeMap(final ServletRequest request) {
 		final Map map = new TreeMap();
 		final Enumeration attributeNames = request.getAttributeNames();
@@ -89,6 +141,12 @@ public class BoxedListTag extends BoxTag {
 		return map;
 	}
 
+	/**
+     * Sets the key values.
+     *
+     * @param keyValues
+     *            the new key values
+     */
 	public void setKeyValues(final Map keyValues) {
 		this.keyValues = keyValues;
 	}

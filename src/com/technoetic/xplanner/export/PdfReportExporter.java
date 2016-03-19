@@ -24,13 +24,23 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class PdfReportExporter.
+ */
 public class PdfReportExporter implements Exporter {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#initializeHeaders(javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	public void initializeHeaders(final HttpServletResponse response) {
 		response.setHeader("Content-type", "application/pdf");
 		response.setHeader("Content-disposition", "inline; filename=report.pdf");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.export.Exporter#export(org.hibernate.classic.Session, java.lang.Object)
+	 */
 	@Override
 	public byte[] export(final Session session, final Object object)
 			throws ExportException {
@@ -140,6 +150,15 @@ public class PdfReportExporter implements Exporter {
 		}
 	}
 
+	/**
+     * Gets the person name.
+     *
+     * @param session
+     *            the session
+     * @param id
+     *            the id
+     * @return the person name
+     */
 	public static String getPersonName(final Session session, final Integer id) {
 		if (id == null || id.intValue() == 0) {
 			return null;
@@ -159,12 +178,33 @@ public class PdfReportExporter implements Exporter {
 		return person.getName();
 	}
 
+	/**
+     * The Class UserStoryDataSource.
+     */
 	private class UserStoryDataSource implements JRDataSource {
+		
+		/** The iterator. */
 		private Iterator iterator = null;
+		
+		/** The task. */
 		private Task task = null;
+		
+		/** The acceptor. */
 		private String acceptor = null;
+		
+		/** The session. */
 		private Session session = null;
 
+		/**
+         * Instantiates a new user story data source.
+         *
+         * @param story
+         *            the story
+         * @param session
+         *            the session
+         * @throws HibernateException
+         *             the hibernate exception
+         */
 		public UserStoryDataSource(final UserStory story, final Session session)
 				throws HibernateException {
 			super();
@@ -180,6 +220,9 @@ public class PdfReportExporter implements Exporter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#next()
+		 */
 		@Override
 		public boolean next() throws JRException {
 			if (this.iterator == null || !this.iterator.hasNext()) {
@@ -192,6 +235,9 @@ public class PdfReportExporter implements Exporter {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+		 */
 		@Override
 		public Object getFieldValue(final JRField field) throws JRException {
 			final String fieldName = field.getName();
@@ -231,14 +277,39 @@ public class PdfReportExporter implements Exporter {
 		}
 	}
 
+	/**
+     * The Class TaskDataSource.
+     */
 	private class TaskDataSource implements JRDataSource {
+		
+		/** The iterator. */
 		private Iterator iterator = null;
+		
+		/** The start. */
 		private java.util.Date start = null;
+		
+		/** The duration. */
 		private Double duration = null;
+		
+		/** The pair1. */
 		private String pair1 = null;
+		
+		/** The pair2. */
 		private String pair2 = null;
+		
+		/** The session. */
 		private Session session = null;
 
+		/**
+         * Instantiates a new task data source.
+         *
+         * @param task
+         *            the task
+         * @param session
+         *            the session
+         * @throws HibernateException
+         *             the hibernate exception
+         */
 		public TaskDataSource(final Task task, final Session session)
 				throws HibernateException {
 			super();
@@ -262,6 +333,9 @@ public class PdfReportExporter implements Exporter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#next()
+		 */
 		@Override
 		public boolean next() throws JRException {
 			if (this.iterator == null || !this.iterator.hasNext()) {
@@ -281,6 +355,9 @@ public class PdfReportExporter implements Exporter {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+		 */
 		@Override
 		public Object getFieldValue(final JRField field) throws JRException {
 			final String fieldName = field.getName();
@@ -309,17 +386,48 @@ public class PdfReportExporter implements Exporter {
 		}
 	}
 
+	/**
+     * The Class PersonDataSource.
+     */
 	private class PersonDataSource implements JRDataSource {
+		
+		/** The iterator. */
 		private Iterator iterator = null;
+		
+		/** The task. */
 		private Task task = null;
+		
+		/** The user id. */
 		private int userId = 0;
+		
+		/** The currently active. */
 		private boolean currentlyActive = false;
+		
+		/** The iteration name. */
 		private String iterationName = null;
+		
+		/** The iteration start. */
 		private Date iterationStart = null;
+		
+		/** The iteration end. */
 		private Date iterationEnd = null;
+		
+		/** The story name. */
 		private String storyName = null;
+		
+		/** The story estimate. */
 		private Double storyEstimate = null;
 
+		/**
+         * Instantiates a new person data source.
+         *
+         * @param person
+         *            the person
+         * @param session
+         *            the session
+         * @throws HibernateException
+         *             the hibernate exception
+         */
 		public PersonDataSource(final Person person, final Session session)
 				throws HibernateException {
 			super();
@@ -341,6 +449,9 @@ public class PdfReportExporter implements Exporter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#next()
+		 */
 		@Override
 		public boolean next() throws JRException {
 			if (this.iterator == null || !this.iterator.hasNext()) {
@@ -369,6 +480,9 @@ public class PdfReportExporter implements Exporter {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+		 */
 		@Override
 		public Object getFieldValue(final JRField field) throws JRException {
 			final String fieldName = field.getName();

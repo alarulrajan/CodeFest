@@ -5,7 +5,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * The Class HttpClient.
+ */
 public class HttpClient {
+	
+	/**
+     * Gets the page.
+     *
+     * @param urlString
+     *            the url string
+     * @return the page
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public String getPage(final String urlString) throws IOException {
 		final URL url = new URL(urlString);
 		final URLConnection connection = url.openConnection();

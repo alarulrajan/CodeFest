@@ -13,14 +13,32 @@ import com.technoetic.xplanner.filters.ThreadServletRequest;
 import com.technoetic.xplanner.security.auth.AuthorizationException;
 import com.technoetic.xplanner.security.auth.Authorizer;
 
+/**
+ * The Class TestRepositorySecurityAdapter.
+ */
 public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
+    
+    /** The adapter. */
     private RepositorySecurityAdapter adapter;
+    
+    /** The mock hibernate template. */
     private HibernateTemplate mockHibernateTemplate;
+    
+    /** The oid. */
     private final int OID = 22;
+    
+    /** The domain object. */
     private DomainObject domainObject;
+    
+    /** The support. */
     private XPlannerTestSupport support;
+    
+    /** The mock authorizer. */
     private Authorizer mockAuthorizer;
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
         mockObjectRepository = createLocalMock(ObjectRepository.class);
@@ -35,12 +53,20 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
         adapter.setHibernateTemplate(mockHibernateTemplate);
     }
 
+    /* (non-Javadoc)
+     * @see com.technoetic.xplanner.AbstractUnitTestCase#tearDown()
+     */
     protected void tearDown() throws Exception {
         super.tearDown();
         ThreadSession.set(null);
         ThreadServletRequest.set(null);
     }
 
+    /** Test delete when authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testDeleteWhenAuthorized() throws Exception {
         expect(mockHibernateTemplate.load(DomainObject.class, new Integer(OID))).andReturn(domainObject);
         expect(mockAuthorizer.
@@ -54,6 +80,11 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
         verify();
     }
 
+    /** Test delete when not authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testDeleteWhenNotAuthorized() throws Exception {
         expect(mockHibernateTemplate.load(DomainObject.class, new Integer(OID))).andReturn(domainObject);
         expect(mockAuthorizer.
@@ -71,6 +102,11 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
         verify();
     }
 
+    /** Test insert when authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testInsertWhenAuthorized() throws Exception {
         // do-before-release uncomment this test
 //        mockAuthorizerControl.expectAndReturn(mockAuthorizer.hasPermission(0,
@@ -83,6 +119,11 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
 //        verify();
     }
 
+    /** Test insert when not authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testInsertWhenNotAuthorized() throws Exception {
         // do-before-release uncomment this test
 //        mockAuthorizerControl.expectAndReturn(mockAuthorizer.hasPermission(0,
@@ -99,6 +140,11 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
 //        verify();
     }
 
+    /** Test load when authorized.
+     *
+     * @throws Exception
+     *             the exception
+     */
     public void testLoadWhenAuthorized() throws Exception {
          expect(mockAuthorizer.hasPermission(0,XPlannerTestSupport.DEFAULT_PERSON_ID, domainObject, "read")).andReturn(true);
          expect(mockObjectRepository.load(OID)).andReturn(domainObject);
@@ -109,6 +155,11 @@ public class TestRepositorySecurityAdapter extends AbstractUnitTestCase {
          verify();
      }
 
+     /** Test load when not authorized.
+         *
+         * @throws Exception
+         *             the exception
+         */
      public void testLoadWhenNotAuthorized() throws Exception {
          expect(mockObjectRepository.load(OID)).andReturn(domainObject);
          expect(mockAuthorizer.hasPermission(0,

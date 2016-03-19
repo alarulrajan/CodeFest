@@ -20,11 +20,25 @@ import javax.swing.JTextField;
 
 import org.apache.batik.ext.swing.GridBagConstants;
 
+/**
+ * The Class SearchPanel.
+ */
 class SearchPanel extends JPanel {
+    
+    /** The content. */
     JTextArea content;
+    
+    /** The search text field. */
     private JTextField searchTextField;
+    
+    /** The button. */
     private JButton button;
 
+    /** Instantiates a new search panel.
+     *
+     * @param content
+     *            the content
+     */
     public SearchPanel(JTextArea content) {
         super(new GridBagLayout());
         this.content = content;
@@ -32,6 +46,8 @@ class SearchPanel extends JPanel {
 
     }
 
+    /** Inits the ui.
+     */
     private void initUI() {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -62,6 +78,8 @@ class SearchPanel extends JPanel {
         add(button, c);
     }
 
+    /** Search.
+     */
     private void search() {
         String textToSearch = searchTextField.getText();
         String textToBeSearched = content.getText();

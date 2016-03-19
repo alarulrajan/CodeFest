@@ -25,9 +25,17 @@ import com.technoetic.xplanner.mail.EmailNotificationSupport;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.SecurityHelper;
 
+/**
+ * The Class EditTaskAction.
+ */
 public class EditTaskAction extends EditObjectAction<Task> {
+	
+	/** The email notification support. */
 	private EmailNotificationSupport emailNotificationSupport;
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#doExecute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected ActionForward doExecute(final ActionMapping actionMapping,
 			final ActionForm actionForm, final HttpServletRequest request,
@@ -52,6 +60,22 @@ public class EditTaskAction extends EditObjectAction<Task> {
 		return forward;
 	}
 
+	/**
+     * Send notification.
+     *
+     * @param forward
+     *            the forward
+     * @param oldTask
+     *            the old task
+     * @param request
+     *            the request
+     * @param action
+     *            the action
+     * @throws NumberFormatException
+     *             the number format exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	private void sendNotification(final ActionForward forward,
 			final Task oldTask, final HttpServletRequest request,
 			final String action) throws NumberFormatException,
@@ -145,6 +169,16 @@ public class EditTaskAction extends EditObjectAction<Task> {
 		}
 	}
 
+	/**
+     * Sets the task disposition.
+     *
+     * @param form
+     *            the form
+     * @param request
+     *            the request
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private void setTaskDisposition(final TaskEditorForm form,
 			final HttpServletRequest request) throws RepositoryException {
 		if (!form.isSubmitted()) {
@@ -160,6 +194,15 @@ public class EditTaskAction extends EditObjectAction<Task> {
 		}
 	}
 
+	/**
+     * Gets the task disposition.
+     *
+     * @param story
+     *            the story
+     * @return the task disposition
+     * @throws RepositoryException
+     *             the repository exception
+     */
 	private String getTaskDisposition(final UserStory story)
 			throws RepositoryException {
 		final Iteration iteration = this.getCommonDao().getById(
@@ -167,11 +210,20 @@ public class EditTaskAction extends EditObjectAction<Task> {
 		return iteration.getNewTaskDispositionName(story);
 	}
 
+	/**
+     * Sets the email notification support.
+     *
+     * @param emailNotificationSupport
+     *            the new email notification support
+     */
 	public void setEmailNotificationSupport(
 			final EmailNotificationSupport emailNotificationSupport) {
 		this.emailNotificationSupport = emailNotificationSupport;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.actions.EditObjectAction#populateObject(javax.servlet.http.HttpServletRequest, java.lang.Object, org.apache.struts.action.ActionForm)
+	 */
 	@Override
 	protected void populateObject(final HttpServletRequest request,
 			final Object object, final ActionForm actionForm) throws Exception {

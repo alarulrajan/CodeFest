@@ -24,15 +24,38 @@ import com.technoetic.xplanner.importer.WrongImportFileSpreadsheetImporterExcept
  * To change this template use Options | File Templates.
  */
 public class SpreadsheetStoryReader implements CookbookFields {
+	
+	/** The stories. */
 	private final ArrayList stories = new ArrayList();
+	
+	/** The log. */
 	private final Logger log = Logger.getLogger(SpreadsheetStoryReader.class);
+	
+	/** The spreadsheet story factory. */
 	private final SpreadsheetStoryFactory spreadsheetStoryFactory;
 
+	/**
+     * Instantiates a new spreadsheet story reader.
+     *
+     * @param spreadsheetStoryFactory
+     *            the spreadsheet story factory
+     */
 	public SpreadsheetStoryReader(
 			final SpreadsheetStoryFactory spreadsheetStoryFactory) {
 		this.spreadsheetStoryFactory = spreadsheetStoryFactory;
 	}
 
+	/**
+     * Read stories.
+     *
+     * @param headerConfiguration
+     *            the header configuration
+     * @param input
+     *            the input
+     * @return the list
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public List readStories(
 			final SpreadsheetHeaderConfiguration headerConfiguration,
 			final InputStream input) throws IOException {
@@ -42,6 +65,17 @@ public class SpreadsheetStoryReader implements CookbookFields {
 		return this.readStories(headerConfiguration, sheet);
 	}
 
+	/**
+     * Gets the worksheet.
+     *
+     * @param input
+     *            the input
+     * @param worksheetName
+     *            the worksheet name
+     * @return the worksheet
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
 	public HSSFSheet getWorksheet(final InputStream input,
 			final String worksheetName) throws IOException {
 		POIFSFileSystem fs;
@@ -60,6 +94,15 @@ public class SpreadsheetStoryReader implements CookbookFields {
 		return sheet;
 	}
 
+	/**
+     * Read stories.
+     *
+     * @param headerConfiguration
+     *            the header configuration
+     * @param sheet
+     *            the sheet
+     * @return the list
+     */
 	private List readStories(
 			final SpreadsheetHeaderConfiguration headerConfiguration,
 			final HSSFSheet sheet) {
@@ -72,11 +115,28 @@ public class SpreadsheetStoryReader implements CookbookFields {
 		return this.stories;
 	}
 
+	/**
+     * The Class StoryRowIterator.
+     */
 	private class StoryRowIterator implements Iterator {
+		
+		/** The it. */
 		Iterator it;
+		
+		/** The next spreadsheet story. */
 		SpreadsheetStory nextSpreadsheetStory;
+		
+		/** The header configuration. */
 		SpreadsheetHeaderConfiguration headerConfiguration;
 
+		/**
+         * Instantiates a new story row iterator.
+         *
+         * @param headerConfiguration
+         *            the header configuration
+         * @param sheet
+         *            the sheet
+         */
 		public StoryRowIterator(
 				final SpreadsheetHeaderConfiguration headerConfiguration,
 				final HSSFSheet sheet) {
@@ -86,9 +146,11 @@ public class SpreadsheetStoryReader implements CookbookFields {
 		}
 
 		/**
-		 * TODO: *WARNING* Do not call multiple time. It implements a look ahead
-		 * that does not take this case into account
-		 */
+         * ChangeSoon: *WARNING* Do not call multiple time. It implements a look
+         * ahead that does not take this case into account
+         *
+         * @return true, if successful
+         */
 		@Override
 		public boolean hasNext() {
 			final boolean hasNext = this.it.hasNext();
@@ -99,6 +161,13 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			return this.nextSpreadsheetStory != null;
 		}
 
+		/**
+         * Read row.
+         *
+         * @param row
+         *            the row
+         * @return the spreadsheet story
+         */
 		private SpreadsheetStory readRow(final HSSFRow row) {
 			try {
 				final String title = this.getCellStringValue(row,
@@ -124,6 +193,15 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			}
 		}
 
+		/**
+         * Gets the cell string value.
+         *
+         * @param row
+         *            the row
+         * @param column
+         *            the column
+         * @return the cell string value
+         */
 		private String getCellStringValue(final HSSFRow row, final int column) {
 			final HSSFCell cell = row.getCell((short) column);
 			if (cell == null) {
@@ -132,6 +210,15 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			return cell.getStringCellValue();
 		}
 
+		/**
+         * Gets the cell int value.
+         *
+         * @param row
+         *            the row
+         * @param column
+         *            the column
+         * @return the cell int value
+         */
 		private int getCellIntValue(final HSSFRow row, final int column) {
 			final HSSFCell cell = row.getCell((short) column);
 			if (cell == null) {
@@ -140,6 +227,15 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			return (int) cell.getNumericCellValue();
 		}
 
+		/**
+         * Gets the cell double value.
+         *
+         * @param row
+         *            the row
+         * @param column
+         *            the column
+         * @return the cell double value
+         */
 		private double getCellDoubleValue(final HSSFRow row, final int column) {
 			final HSSFCell cell = row.getCell((short) column);
 			if (cell == null) {
@@ -148,6 +244,15 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			return cell.getNumericCellValue();
 		}
 
+		/**
+         * Gets the cell date value.
+         *
+         * @param row
+         *            the row
+         * @param column
+         *            the column
+         * @return the cell date value
+         */
 		private Date getCellDateValue(final HSSFRow row, final int column) {
 			final HSSFCell cell = row.getCell((short) column);
 			if (cell == null) {
@@ -156,11 +261,17 @@ public class SpreadsheetStoryReader implements CookbookFields {
 			return cell.getDateCellValue();
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#next()
+		 */
 		@Override
 		public Object next() {
 			return this.nextSpreadsheetStory;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#remove()
+		 */
 		@Override
 		public void remove() {
 		}

@@ -38,14 +38,15 @@ import com.technoetic.xplanner.db.hsqldb.HsqlServer;
  * @see com.tacitknowledge.util.migration.MigrationProcess
  */
 public class HsqlAwareStandaloneMigrationLauncher {
+	
 	/**
-	 * Run the migrations for the given system name
-	 * 
-	 * @param arguments
-	 *            the command line arguments, if any (none are used)
-	 * @exception Exception
-	 *                if anything goes wrong
-	 */
+     * Run the migrations for the given system name.
+     *
+     * @param arguments
+     *            the command line arguments, if any (none are used)
+     * @exception Exception
+     *                if anything goes wrong
+     */
 	public static void main(final String[] arguments) throws Exception {
 		HsqlServer.start();
 		StandaloneMigrationLauncher.main(arguments);

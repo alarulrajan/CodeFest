@@ -11,11 +11,23 @@ import junit.framework.TestCase;
 import com.technoetic.xplanner.security.module.LoginSupportImpl;
 import com.technoetic.xplanner.security.module.jaas.TestJaasLoginModuleAdapter.MockJaasLoginModule;
 
+/**
+ * A factory for creating TestJaasLoginModuleAdapter objects.
+ */
 public class TestJaasLoginModuleAdapterFactory extends TestCase
 {
+   
+   /** The Constant JAAS_LOGIN_MODULE_CLASS_NAME_KEY. */
    public static final String JAAS_LOGIN_MODULE_CLASS_NAME_KEY = JaasLoginModuleAdapterFactory.JAAS_LOGIN_MODULE_CLASS_NAME_KEY;
+   
+   /** The Constant JAAS_USER_PRINCIPAL_CLASS_NAME_KEY. */
    public static final String JAAS_USER_PRINCIPAL_CLASS_NAME_KEY = JaasLoginModuleAdapterFactory.JAAS_USER_PRINCIPAL_CLASS_NAME_KEY;
 
+   /** Test.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void test() throws Exception
    {
       Map options = new HashMap();

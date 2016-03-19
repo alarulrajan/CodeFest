@@ -59,28 +59,41 @@ import junit.framework.AssertionFailedError;
 /**
  * Thrown when an assert equals for Strings failed (class
  * <tt>junitx.framework.Assert</tt>).
- *
- * <h4>Usage</h4>
- * To use this new class, you'll have to invoke the <tt>assertEquals</tt> method
- * (for String objects) of the <tt>junitx.framework.Assert</tt> class:
- *
+ * 
+ * <h4>Usage</h4> To use this new class, you'll have to invoke the
+ * <tt>assertEquals</tt> method (for String objects) of the
+ * <tt>junitx.framework.Assert</tt> class:
+ * 
  * <pre>
- *    junitx.framework.Assert.assertEquals(message, expected, actual);
+ * junitx.framework.Assert.assertEquals(message, expected, actual);
  * </pre>
  *
+ * @author <a href="mailto:vbossica@users.sourceforge.net">Vladimir R.
+ *         Bossicard</a>
  * @version $Revision: 90 $ $Date: 2004-10-15 17:20:20 +0300 (Пт, 15 окт 2004) $
- * @author <a href="mailto:vbossica@users.sourceforge.net">Vladimir R. Bossicard</a>
  */
 public class ComparisonFailure extends AssertionFailedError {
 
+    /** The Constant MINIMAL_LENGTH. */
     private static final int MINIMAL_LENGTH = 10;
 
+    /** The expected. */
     private String expected;
+    
+    /** The actual. */
     private String actual;
+    
+    /** The message. */
     private String message = "";
 
-    /**
-     * Constructs a <tt>ComparisonFailure</tt> object.
+    /** Constructs a <tt>ComparisonFailure</tt> object.
+     *
+     * @param message
+     *            the message
+     * @param expected
+     *            the expected
+     * @param actual
+     *            the actual
      */
     public ComparisonFailure(String message,
                              String expected,
@@ -91,17 +104,27 @@ public class ComparisonFailure extends AssertionFailedError {
         this.message = createMessage(super.getMessage(), this.expected, this.actual);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Throwable#getMessage()
+     */
     public String getMessage() {
         return this.message;
     }
 
-    /**
-     * Creates the message that is returned by the <tt>getMessage</tt> method.
-     * The message is optimized so that its 'actual' part does either:
+    /** Creates the message that is returned by the <tt>getMessage</tt>
+     * method. The message is optimized so that its 'actual' part does either:
      * <ul>
      * <li>represent a word (delimited by stopper characters)
      * <li>contain 10 characters</li>
      * </ul>
+     *
+     * @param message
+     *            the message
+     * @param expected
+     *            the expected
+     * @param actual
+     *            the actual
+     * @return the string
      */
     protected static String createMessage(String message,
                                           String expected,
@@ -180,6 +203,12 @@ public class ComparisonFailure extends AssertionFailedError {
         return format(message, expectedDisplay, actualDisplay, delta);
     }
 
+    /** Checks if is stopper.
+     *
+     * @param input
+     *            the input
+     * @return true, if is stopper
+     */
     private static boolean isStopper(char input) {
         return (input == ' ') ||
                 (input == ',') || (input == ';') ||
@@ -188,6 +217,18 @@ public class ComparisonFailure extends AssertionFailedError {
                 (input == '{') || (input == '}');
     }
 
+    /** Format.
+     *
+     * @param message
+     *            the message
+     * @param expected
+     *            the expected
+     * @param actual
+     *            the actual
+     * @param delta
+     *            the delta
+     * @return the string
+     */
     private static String format(String message,
                                  String expected,
                                  String actual,

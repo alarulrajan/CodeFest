@@ -9,15 +9,26 @@ import org.displaytag.model.RowSorter;
 import org.displaytag.properties.TableProperties;
 
 /**
+ * The Class TableModel.
+ *
  * @author fgiust
  * @version $Revision: 408 $ ($Author: sg0897500 $)
  */
 public class TableModel extends org.displaytag.model.TableModel {
+	
+	/** The log. */
 	private static Log log = LogFactory
 			.getLog(org.displaytag.model.TableModel.class);
 
+	/** The id. */
 	String id;
 
+	/**
+     * Instantiates a new table model.
+     *
+     * @param tableProperties
+     *            the table properties
+     */
 	public TableModel(final TableProperties tableProperties) {
 		super(tableProperties, null);
 	}
@@ -54,6 +65,9 @@ public class TableModel extends org.displaytag.model.TableModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.displaytag.model.TableModel#setId(java.lang.String)
+	 */
 	@Override
 	public void setId(final String tableId) {
 		this.id = tableId;

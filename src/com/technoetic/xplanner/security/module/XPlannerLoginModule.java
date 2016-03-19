@@ -17,20 +17,43 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.LoginModule;
 
+/**
+ * The Class XPlannerLoginModule.
+ */
 public class XPlannerLoginModule implements LoginModule {
+	
+	/** The log. */
 	private transient final Logger log = Logger.getLogger(this.getClass());
+	
+	/** The secure random. */
 	private final transient SecureRandom secureRandom = new SecureRandom();
+	
+	/** The name. */
 	private String name;
+	
+	/** The login support. */
 	private final LoginSupport loginSupport;
 
+	/**
+     * Instantiates a new x planner login module.
+     *
+     * @param support
+     *            the support
+     */
 	public XPlannerLoginModule(final LoginSupport support) {
 		this.loginSupport = support;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setOptions(java.util.Map)
+	 */
 	@Override
 	public void setOptions(final Map options) {
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#authenticate(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Subject authenticate(final String userId, final String password)
 			throws AuthenticationException {
@@ -47,11 +70,25 @@ public class XPlannerLoginModule implements LoginModule {
 		return subject;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#isCapableOfChangingPasswords()
+	 */
 	@Override
 	public boolean isCapableOfChangingPasswords() {
 		return true;
 	}
 
+	/**
+     * Checks if is password matched.
+     *
+     * @param person
+     *            the person
+     * @param password
+     *            the password
+     * @return true, if is password matched
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	boolean isPasswordMatched(final Person person, final String password)
 			throws AuthenticationException {
 		this.log.debug("evaluating password match for " + person.getUserId());
@@ -85,6 +122,17 @@ public class XPlannerLoginModule implements LoginModule {
 		return isMatching;
 	}
 
+	/**
+     * Digest password.
+     *
+     * @param salt
+     *            the salt
+     * @param password
+     *            the password
+     * @return the byte[]
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	private byte[] digestPassword(final byte[] salt, final String password)
 			throws AuthenticationException {
 		try {
@@ -98,6 +146,9 @@ public class XPlannerLoginModule implements LoginModule {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#changePassword(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void changePassword(final String userId, final String password)
 			throws AuthenticationException {
@@ -126,22 +177,42 @@ public class XPlannerLoginModule implements LoginModule {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#logout(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public void logout(final HttpServletRequest request)
 			throws AuthenticationException {
 		request.getSession().invalidate();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#getName()
+	 */
 	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.security.LoginModule#setName(java.lang.String)
+	 */
 	@Override
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Encode password.
+     *
+     * @param password
+     *            the password
+     * @param salt
+     *            the salt
+     * @return the string
+     * @throws Exception
+     *             the exception
+     */
 	public String encodePassword(final String password, byte[] salt)
 			throws Exception {
 		if (salt == null) {
@@ -159,6 +230,12 @@ public class XPlannerLoginModule implements LoginModule {
 				com.sabre.security.jndi.util.Base64.encode(storedPassword));
 	}
 
+	/**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
 	// This main can be used to generate a hashed password by hand, if needed.
 	public static void main(final String[] args) {
 		try {

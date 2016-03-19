@@ -18,20 +18,43 @@ import com.technoetic.xplanner.db.hibernate.ThreadSession;
 import com.technoetic.xplanner.security.AuthenticationException;
 import com.technoetic.xplanner.security.auth.Authorizer;
 
-//TODO Should be turn into a Query object
-//TODO Create a spring context including IterationRepository and others for every web session (logged in user)
+//ChangeSoon Should be turn into a Query object
+/**
+ * The Class IterationRepository.
+ */
+//ChangeSoon Create a spring context including IterationRepository and others for every web session (logged in user)
 public class IterationRepository {
+	
+	/** The log. */
 	private static Logger log = Logger.getLogger(IterationRepository.class);
+	
+	/** The Constant EDITABLE_ITERATIONS_QUERY_STRING. */
 	public static final String EDITABLE_ITERATIONS_QUERY_STRING = "select i from "
 			+ Iteration.class.getName()
 			+ " i, "
 			+ Project.class.getName()
 			+ " p "
 			+ "where p.hidden = false and i.projectId = p.id order by p.name, i.startDate";
+	
+	/** The session. */
 	private final Session session;
+	
+	/** The logged in user. */
 	private final int loggedInUser;
+	
+	/** The authorizer. */
 	private final Authorizer authorizer;
 
+	/**
+     * Instantiates a new iteration repository.
+     *
+     * @param session
+     *            the session
+     * @param authorizer
+     *            the authorizer
+     * @param loggedInUser
+     *            the logged in user
+     */
 	public IterationRepository(final Session session,
 			final Authorizer authorizer, final int loggedInUser) {
 		this.session = session;
@@ -39,12 +62,30 @@ public class IterationRepository {
 		this.authorizer = authorizer;
 	}
 
+	/**
+     * Can user edit iteration.
+     *
+     * @param iteration
+     *            the iteration
+     * @return true, if successful
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	private boolean canUserEditIteration(final Iteration iteration)
 			throws AuthenticationException {
 		return this.authorizer.hasPermission(iteration.getProject().getId(),
 				this.loggedInUser, iteration, "edit");
 	}
 
+	/**
+     * Fetch editable iterations.
+     *
+     * @return the list
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public List fetchEditableIterations() throws HibernateException,
 			AuthenticationException {
 		final List allIterations = this
@@ -62,6 +103,19 @@ public class IterationRepository {
 		return acceptedIterations;
 	}
 
+	/**
+     * Fetch editable iterations.
+     *
+     * @param projectId
+     *            the project id
+     * @param startingAfter
+     *            the starting after
+     * @return the list
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws AuthenticationException
+     *             the authentication exception
+     */
 	public List fetchEditableIterations(final int projectId,
 			final Date startingAfter) throws HibernateException,
 			AuthenticationException {
@@ -78,21 +132,51 @@ public class IterationRepository {
 		return acceptedIterations;
 	}
 
+	/**
+     * Gets the session.
+     *
+     * @return the session
+     */
 	protected Session getSession() {
 		return this.session;
 	}
 
+	/**
+     * Gets the iteration for story.
+     *
+     * @param story
+     *            the story
+     * @return the iteration for story
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public Iteration getIterationForStory(final UserStory story)
 			throws HibernateException {
 		return story.getIteration();
 	}
 
+	/**
+     * Gets the iteration.
+     *
+     * @param iterationId
+     *            the iteration id
+     * @return the iteration
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public Iteration getIteration(final int iterationId)
 			throws HibernateException {
 		return (Iteration) this.session.load(Iteration.class, new Integer(
 				iterationId));
 	}
 
+	/**
+     * Gets the current iteration.
+     *
+     * @param projectId
+     *            the project id
+     * @return the current iteration
+     */
 	public static Iteration getCurrentIteration(final int projectId) {
 		final java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
 		try {

@@ -16,18 +16,44 @@ import com.technoetic.xplanner.security.SecurityHelper;
 import com.technoetic.xplanner.security.auth.AuthorizationHelper;
 import com.technoetic.xplanner.tags.db.DatabaseTagSupport;
 
+/**
+ * The Class IsUserAuthorizedTag.
+ */
 public class IsUserAuthorizedTag extends DatabaseTagSupport {
+	
+	/** The project id. */
 	private int projectId;
+	
+	/** The principal id. */
 	private int principalId;
+	
+	/** The object. */
 	private Object object;
+	
+	/** The name. */
 	private String name;
+	
+	/** The property. */
 	private String property;
+	
+	/** The resource type. */
 	private String resourceType;
+	
+	/** The resource id. */
 	private int resourceId;
+	
+	/** The permission. */
 	private String permission;
+	
+	/** The allowed user. */
 	private int allowedUser;
+	
+	/** The negate. */
 	private boolean negate;
 
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.tags.RequestContextAwareTag#doStartTagInternal()
+	 */
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		boolean skipBody = true;
@@ -58,6 +84,13 @@ public class IsUserAuthorizedTag extends DatabaseTagSupport {
 				: Tag.EVAL_BODY_INCLUDE;
 	}
 
+	/**
+     * Gets the resource.
+     *
+     * @return the resource
+     * @throws JspException
+     *             the jsp exception
+     */
 	private Object getResource() throws JspException {
 		Object resource = this.object;
 		if (this.object instanceof String) {
@@ -77,6 +110,13 @@ public class IsUserAuthorizedTag extends DatabaseTagSupport {
 		return resource;
 	}
 
+	/**
+     * Gets the project id.
+     *
+     * @return the project id
+     * @throws JspException
+     *             the jsp exception
+     */
 	private int getProjectId() throws JspException {
 		if (this.projectId != 0) {
 			return this.projectId;
@@ -101,6 +141,9 @@ public class IsUserAuthorizedTag extends DatabaseTagSupport {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#release()
+	 */
 	@Override
 	public void release() {
 		this.projectId = 0;
@@ -114,46 +157,111 @@ public class IsUserAuthorizedTag extends DatabaseTagSupport {
 		super.release();
 	}
 
+	/**
+     * Sets the negate.
+     *
+     * @param negate
+     *            the new negate
+     */
 	public void setNegate(final boolean negate) {
 		this.negate = negate;
 	}
 
+	/**
+     * Checks if is negate.
+     *
+     * @return true, if is negate
+     */
 	public boolean isNegate() {
 		return this.negate;
 	}
 
+	/**
+     * Sets the principal id.
+     *
+     * @param principalId
+     *            the new principal id
+     */
 	public void setPrincipalId(final int principalId) {
 		this.principalId = principalId;
 	}
 
+	/**
+     * Sets the resource type.
+     *
+     * @param resourceType
+     *            the new resource type
+     */
 	public void setResourceType(final String resourceType) {
 		this.resourceType = resourceType;
 	}
 
+	/**
+     * Sets the resource id.
+     *
+     * @param resourceId
+     *            the new resource id
+     */
 	public void setResourceId(final int resourceId) {
 		this.resourceId = resourceId;
 	}
 
+	/**
+     * Sets the permission.
+     *
+     * @param permission
+     *            the new permission
+     */
 	public void setPermission(final String permission) {
 		this.permission = permission;
 	}
 
+	/**
+     * Sets the object.
+     *
+     * @param object
+     *            the new object
+     */
 	public void setObject(final Object object) {
 		this.object = object;
 	}
 
+	/**
+     * Sets the project id.
+     *
+     * @param projectId
+     *            the new project id
+     */
 	public void setProjectId(final int projectId) {
 		this.projectId = projectId;
 	}
 
+	/**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	/**
+     * Sets the property.
+     *
+     * @param property
+     *            the new property
+     */
 	public void setProperty(final String property) {
 		this.property = property;
 	}
 
+	/**
+     * Sets the allowed user.
+     *
+     * @param allowedUser
+     *            the new allowed user
+     */
 	public void setAllowedUser(final int allowedUser) {
 		this.allowedUser = allowedUser;
 	}

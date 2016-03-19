@@ -75,8 +75,9 @@ import java.io.ByteArrayOutputStream;
 public class HexUtils {
 	// Code from Ajp11, from Apache's JServ
 
+	/** The Constant DEC. */
 	// Table for HEX to DEC byte translation
-	public static final int[] DEC = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	private static final int[] DEC = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, 00, 01, 02, 03, 04, 05, 06, 07, 8, 9, -1, -1, -1,
@@ -94,16 +95,16 @@ public class HexUtils {
 			-1, -1, -1, -1, -1, -1, -1, -1, };
 
 	/**
-	 * Convert a String of hexadecimal digits into the corresponding byte array
-	 * by encoding each two hexadecimal digits as a byte.
-	 * 
-	 * @param digits
-	 *            Hexadecimal digits representation
-	 * 
-	 * @exception java.lang.IllegalArgumentException
-	 *                if an invalid hexadecimal digit is found, or the input
-	 *                string contains an odd number of hexadecimal digits
-	 */
+     * Convert a String of hexadecimal digits into the corresponding byte array
+     * by encoding each two hexadecimal digits as a byte.
+     *
+     * @param digits
+     *            Hexadecimal digits representation
+     * @return the byte[]
+     * @exception java.lang.IllegalArgumentException
+     *                if an invalid hexadecimal digit is found, or the input
+     *                string contains an odd number of hexadecimal digits
+     */
 	public static byte[] convert(final String digits) {
 
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -139,12 +140,13 @@ public class HexUtils {
 	}
 
 	/**
-	 * Convert a byte array into a printable format containing a String of
-	 * hexadecimal digit characters (two per byte).
-	 * 
-	 * @param bytes
-	 *            Byte array representation
-	 */
+     * Convert a byte array into a printable format containing a String of
+     * hexadecimal digit characters (two per byte).
+     *
+     * @param bytes
+     *            Byte array representation
+     * @return the string
+     */
 	public static String convert(final byte bytes[]) {
 
 		final StringBuffer sb = new StringBuffer(bytes.length * 2);
@@ -157,14 +159,14 @@ public class HexUtils {
 	}
 
 	/**
-	 * Convert 4 hex digits to an int, and return the number of converted bytes.
-	 * 
-	 * @param hex
-	 *            Byte array containing exactly four hexadecimal digits
-	 * 
-	 * @exception java.lang.IllegalArgumentException
-	 *                if an invalid hexadecimal digit is included
-	 */
+     * Convert 4 hex digits to an int, and return the number of converted bytes.
+     *
+     * @param hex
+     *            Byte array containing exactly four hexadecimal digits
+     * @return the int
+     * @exception java.lang.IllegalArgumentException
+     *                if an invalid hexadecimal digit is included
+     */
 	public static int convert2Int(final byte[] hex) {
 		// Code from Ajp11, from Apache's JServ
 
@@ -197,12 +199,13 @@ public class HexUtils {
 	}
 
 	/**
-	 * [Private] Convert the specified value (0 .. 15) to the corresponding
-	 * hexadecimal digit.
-	 * 
-	 * @param value
-	 *            Value to be converted
-	 */
+     * [Private] Convert the specified value (0 .. 15) to the corresponding
+     * hexadecimal digit.
+     *
+     * @param value
+     *            Value to be converted
+     * @return the char
+     */
 	private static char convertDigit(int value) {
 
 		value &= 0x0f;

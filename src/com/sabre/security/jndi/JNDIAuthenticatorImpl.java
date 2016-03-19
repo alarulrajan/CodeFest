@@ -32,24 +32,23 @@ import org.jfree.util.Log;
 import com.sabre.security.jndi.util.Base64;
 import com.sabre.security.jndi.util.HexUtils;
 
+/**
+ * The Class JNDIAuthenticatorImpl.
+ */
 public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
-	/**
-	 * Debug level
-	 */
+	/** Debug level. */
 	private int debug = 10;
 	/**
 	 * Logger.
 	 */
 	public static final Logger log = Logger
 			.getLogger(JNDIAuthenticatorImpl.class);
-	/**
-	 * Should we search the entire subtree for matching users?
-	 */
+	
+	/** Should we search the entire subtree for matching users?. */
 	private boolean userSubtree;
-	/**
-	 * Should we search the entire subtree for matching memberships?
-	 */
+	
+	/** Should we search the entire subtree for matching memberships?. */
 	private boolean roleSubtree;
 	/**
 	 * Descriptive information about this Realm implementation.
@@ -60,9 +59,8 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * assumes use of an LDAP server using the standard JNDI LDAP provider.
 	 */
 	protected String contextFactory = "com.sun.jndi.ldap.LdapCtxFactory";
-	/**
-	 * The type of authentication to use
-	 */
+	
+	/** The type of authentication to use. */
 	private String authentication;
 	/**
 	 * The connection username for the server we will contact.
@@ -104,22 +102,18 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * The base element for role searches.
 	 */
 	private String roleBase = "";
-	/**
-	 * The name of an attribute in the user's entry containing roles for that
-	 * user
-	 */
+	
+	/** The name of an attribute in the user's entry containing roles for that user. */
 	private String userRoleName;
-	/**
-	 * The name of the attribute containing roles held elsewhere
-	 */
+	
+	/** The name of the attribute containing roles held elsewhere. */
 	private String roleName;
 	/**
 	 * The directory context linking us to our directory server.
 	 */
 	protected DirContext context;
-	/**
-	 * The MessageDigest
-	 */
+	
+	/** The MessageDigest. */
 	private MessageDigest messageDigest;
 	/**
 	 * The MessageFormat object associated with the current
@@ -137,66 +131,107 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 */
 	protected MessageFormat roleFormat;
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setDigest(java.lang.String)
+	 */
 	@Override
 	public void setDigest(final String algorithm)
 			throws NoSuchAlgorithmException {
 		this.messageDigest = MessageDigest.getInstance(algorithm);
 	}
 
+	/**
+	 * Sets the debug.
+	 *
+	 * @param debug the new debug
+	 */
 	public void setDebug(final String debug) {
 		this.debug = Integer.parseInt(debug);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserSubtree(java.lang.String)
+	 */
 	@Override
 	public void setUserSubtree(final String userSubtree) {
 		this.userSubtree = Boolean.getBoolean(userSubtree);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setRoleSubtree(java.lang.String)
+	 */
 	@Override
 	public void setRoleSubtree(final String roleSubtree) {
 		this.roleSubtree = Boolean.getBoolean(roleSubtree);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setContextFactory(java.lang.String)
+	 */
 	@Override
 	public void setContextFactory(final String contextFactory) {
 		this.contextFactory = contextFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setAuthentication(java.lang.String)
+	 */
 	@Override
 	public void setAuthentication(final String authentication) {
 		this.authentication = authentication;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setConnectionUser(java.lang.String)
+	 */
 	@Override
 	public void setConnectionUser(final String connectionUser) {
 		this.connectionUser = connectionUser;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setConnectionPassword(java.lang.String)
+	 */
 	@Override
 	public void setConnectionPassword(final String connectionPassword) {
 		this.connectionPassword = connectionPassword;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setConnectionURL(java.lang.String)
+	 */
 	@Override
 	public void setConnectionURL(final String connectionURL) {
 		this.connectionURL = connectionURL;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setProtocol(java.lang.String)
+	 */
 	@Override
 	public void setProtocol(final String protocol) {
 		this.protocol = protocol;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setReferrals(java.lang.String)
+	 */
 	@Override
 	public void setReferrals(final String referrals) {
 		this.referrals = referrals;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserBase(java.lang.String)
+	 */
 	@Override
 	public void setUserBase(final String userBase) {
 		this.userBase = userBase;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserSearch(java.lang.String)
+	 */
 	@Override
 	public void setUserSearch(final String userSearch) {
 		if (userSearch == null) {
@@ -206,11 +241,17 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserPassword(java.lang.String)
+	 */
 	@Override
 	public void setUserPassword(final String userPassword) {
 		this.userPassword = userPassword;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserPattern(java.lang.String)
+	 */
 	@Override
 	public void setUserPattern(final String userPattern) {
 		this.userPattern = userPattern;
@@ -221,21 +262,33 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setRoleBase(java.lang.String)
+	 */
 	@Override
 	public void setRoleBase(final String roleBase) {
 		this.roleBase = roleBase;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setUserRoleName(java.lang.String)
+	 */
 	@Override
 	public void setUserRoleName(final String userRoleName) {
 		this.userRoleName = userRoleName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setRoleName(java.lang.String)
+	 */
 	@Override
 	public void setRoleName(final String roleName) {
 		this.roleName = roleName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setRoleSearch(java.lang.String)
+	 */
 	@Override
 	public void setRoleSearch(final String roleSearch) {
 		if (roleSearch == null) {
@@ -245,6 +298,11 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		}
 	}
 
+	/**
+	 * Log map.
+	 *
+	 * @param options the options
+	 */
 	public void logMap(final Map options) {
 		for (final Iterator iterator = options.keySet().iterator(); iterator
 				.hasNext();) {
@@ -262,12 +320,12 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * anything we return null (don't authenticate). This event is also logged,
 	 * and the connection will be closed so that a subsequent request will
 	 * automatically re-open it.
-	 * 
-	 * @param username
-	 *            Username of the Principal to look up
-	 * @param credentials
-	 *            Password or other credentials to use in authenticating this
+	 *
+	 * @param username            Username of the Principal to look up
+	 * @param credentials            Password or other credentials to use in authenticating this
 	 *            username
+	 * @return the subject
+	 * @throws AuthenticationException the authentication exception
 	 */
 	@Override
 	public synchronized Subject authenticate(final String username,
@@ -278,6 +336,13 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	}
 
+	/**
+	 * Open connection check credentials.
+	 *
+	 * @param username the username
+	 * @param credentials the credentials
+	 * @throws AuthenticationException the authentication exception
+	 */
 	private void openConnectionCheckCredentials(final String username,
 			final String credentials) throws AuthenticationException {
 
@@ -311,6 +376,9 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sabre.security.jndi.JNDIAuthenticator#setOptions(java.util.Map)
+	 */
 	@Override
 	public void setOptions(final Map options) {
 		try {
@@ -324,6 +392,14 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	}
 
+	/**
+	 * Gets the subject.
+	 *
+	 * @param username the username
+	 * @param credentials the credentials
+	 * @return the subject
+	 * @throws AuthenticationException the authentication exception
+	 */
 	private Subject getSubject(final String username, final String credentials)
 			throws AuthenticationException {
 		if (username == null || username.equals("") || credentials == null
@@ -352,11 +428,10 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * the value of that attribute is retrieved from the user's directory entry.
 	 * If the <code>userRoleName</code> configuration attribute is specified,
 	 * all values of that attribute are retrieved from the directory entry.
-	 * 
-	 * @param username
-	 *            Username to be looked up
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param username            Username to be looked up
+	 * @return the user
+	 * @throws NamingException the naming exception
 	 */
 	protected User getUser(final String username) throws NamingException {
 
@@ -389,13 +464,11 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * Use the <code>UserPattern</code> configuration attribute to locate the
 	 * directory entry for the user with the specified username and return a
 	 * User object; otherwise return <code>null</code>.
-	 * 
-	 * @param username
-	 *            The username
-	 * @param attrIds
-	 *            String[]containing names of attributes to retrieve.
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param username            The username
+	 * @param attrIds            String[]containing names of attributes to retrieve.
+	 * @return the user by pattern
+	 * @throws NamingException the naming exception
 	 */
 	protected User getUserByPattern(final String username,
 			final String[] attrIds) throws NamingException {
@@ -451,13 +524,11 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * Search the directory to return a User object containing information about
 	 * the user with the specified username, if found in the directory;
 	 * otherwise return <code>null</code>.
-	 * 
-	 * @param username
-	 *            The username
-	 * @param attrIds
-	 *            String[]containing names of attributes to retrieve.
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param username            The username
+	 * @param attrIds            String[]containing names of attributes to retrieve.
+	 * @return the user by search
+	 * @throws NamingException the naming exception
 	 */
 	protected User getUserBySearch(final String username, String[] attrIds)
 			throws NamingException {
@@ -551,19 +622,22 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		return new User(username, dn, password, roles);
 	}
 
+	/**
+	 * Checks if is anonymous connection.
+	 *
+	 * @return true, if is anonymous connection
+	 */
 	public boolean isAnonymousConnection() {
 		return this.userPattern == null && this.connectionUser == null;
 	}
 
 	/**
-	 * Check credentials by binding to the directory as the user
-	 * 
-	 * @param user
-	 *            The User to be authenticated
-	 * @param credentials
-	 *            Authentication credentials
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 * Check credentials by binding to the directory as the user.
+	 *
+	 * @param user            The User to be authenticated
+	 * @param credentials            Authentication credentials
+	 * @return true, if successful
+	 * @throws NamingException the naming exception
 	 */
 	protected boolean bindAsUser(final User user, final String credentials)
 			throws NamingException {
@@ -624,11 +698,10 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * Return a List of roles associated with the given User. Any roles present
 	 * in the user's directory entry are supplemented by a directory search. If
 	 * no roles are associated with this user, a zero-length List is returned.
-	 * 
-	 * @param user
-	 *            The User to be checked
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param user            The User to be checked
+	 * @return the roles
+	 * @throws NamingException the naming exception
 	 */
 	public List getRoles(final User user) throws NamingException {
 
@@ -702,13 +775,11 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	/**
 	 * Return a String representing the value of the specified attribute.
-	 * 
-	 * @param attrId
-	 *            Attribute name
-	 * @param attrs
-	 *            Attributes containing the required value
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param attrId            Attribute name
+	 * @param attrs            Attributes containing the required value
+	 * @return the attribute value
+	 * @throws NamingException the naming exception
 	 */
 	private String getAttributeValue(final String attrId, final Attributes attrs)
 			throws NamingException {
@@ -741,16 +812,13 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	}
 
 	/**
-	 * Add values of a specified attribute to a list
-	 * 
-	 * @param attrId
-	 *            Attribute name
-	 * @param attrs
-	 *            Attributes containing the new values
-	 * @param values
-	 *            ArrayList containing values found so far
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 * Add values of a specified attribute to a list.
+	 *
+	 * @param attrId            Attribute name
+	 * @param attrs            Attributes containing the new values
+	 * @param values            ArrayList containing values found so far
+	 * @return the list
+	 * @throws NamingException the naming exception
 	 */
 	private List addAttributeValues(final String attrId,
 			final Attributes attrs, List values) throws NamingException {
@@ -778,7 +846,9 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	/**
 	 * Create our directory context configuration.
-	 * 
+	 *
+	 * @param username the username
+	 * @param credentials the credentials
 	 * @return java.util.Hashtable the configuration for the directory context.
 	 */
 	protected Hashtable getDirectoryContextEnvironment(final String username,
@@ -803,6 +873,13 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		return env;
 	}
 
+	/**
+	 * Sets the attribute if value not null.
+	 *
+	 * @param env the env
+	 * @param attribute the attribute
+	 * @param value the value
+	 */
 	private void setAttributeIfValueNotNull(final Hashtable env,
 			final String attribute, final String value) {
 		if (value != null) {
@@ -817,13 +894,10 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	 * compared explicitly with those presented by the user. Otherwise the
 	 * presented credentials are checked by binding to the directory as the
 	 * user.
-	 * 
-	 * @param userName
-	 *            The UserName to be authenticated
-	 * @param credentials
-	 *            The credentials presented by the user
-	 * @throws com.sabre.security.jndi.AuthenticationException
-	 *             if a directory server error occurs if authentication fails
+	 *
+	 * @param userName            The UserName to be authenticated
+	 * @param credentials            The credentials presented by the user
+	 * @throws AuthenticationException the authentication exception
 	 */
 	public void checkCredentials(final String userName, final String credentials)
 			throws com.sabre.security.jndi.AuthenticationException {
@@ -878,13 +952,11 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	/**
 	 * Check whether the credentials presented by the user match those retrieved
 	 * from the directory.
-	 * 
-	 * @param info
-	 *            The User to be authenticated
-	 * @param credentials
-	 *            Authentication credentials
-	 * @throws javax.naming.NamingException
-	 *             if a directory server error occurs
+	 *
+	 * @param info            The User to be authenticated
+	 * @param credentials            Authentication credentials
+	 * @return true, if successful
+	 * @throws NamingException the naming exception
 	 */
 	protected boolean compareCredentials(final User info,
 			final String credentials) throws NamingException {
@@ -917,6 +989,12 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 		return validated;
 	}
 
+	/**
+	 * Digest.
+	 *
+	 * @param credentials the credentials
+	 * @return the string
+	 */
 	protected String digest(final String credentials) {
 		// If no MessageDigest instance is specified, return unchanged
 		if (!this.hasMessageDigest()) {
@@ -962,9 +1040,8 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 	/**
 	 * Open (if necessary) and return a connection to the configured directory
 	 * server for this Realm.
-	 * 
-	 * @throws com.sabre.security.jndi.AuthenticationException
-	 *             if a directory server error occurs
+	 *
+	 * @throws AuthenticationException the authentication exception
 	 */
 	public void open() throws com.sabre.security.jndi.AuthenticationException {
 
@@ -972,6 +1049,13 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	}
 
+	/**
+	 * Open.
+	 *
+	 * @param username the username
+	 * @param credentials the credentials
+	 * @throws AuthenticationException the authentication exception
+	 */
 	public void open(final String username, final String credentials)
 			throws com.sabre.security.jndi.AuthenticationException {
 
@@ -1007,18 +1091,39 @@ public class JNDIAuthenticatorImpl implements JNDIAuthenticator {
 
 	}
 
+	/**
+	 * Checks if is fixed user connection.
+	 *
+	 * @return true, if is fixed user connection
+	 */
 	public boolean isFixedUserConnection() {
 		return this.connectionUser != null && this.connectionPassword != null;
 	}
 
+	/**
+	 * Checks for message digest.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean hasMessageDigest() {
 		return this.messageDigest != null;
 	}
 
+	/**
+	 * Log.
+	 *
+	 * @param s the s
+	 */
 	private void log(final String s) {
 		JNDIAuthenticatorImpl.log.info(s);
 	}
 
+	/**
+	 * Log.
+	 *
+	 * @param s the s
+	 * @param ex the ex
+	 */
 	private void log(final String s, final Throwable ex) {
 		JNDIAuthenticatorImpl.log.info(s, ex);
 	}

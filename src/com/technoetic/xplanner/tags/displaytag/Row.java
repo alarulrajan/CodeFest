@@ -39,9 +39,7 @@ public class Row extends org.displaytag.model.Row {
 	 */
 	private TableModel tableModel;
 
-	/**
-	 * Default Row Decorator
-	 */
+	/** Default Row Decorator. */
 	private RowDecorator decorator;
 
 	/**
@@ -61,12 +59,15 @@ public class Row extends org.displaytag.model.Row {
 	}
 
 	/**
-	 * Constructor that allows specification of a row decorator
-	 * 
-	 * @param rowObject
-	 * @param rowNumber
-	 * @param decorator
-	 */
+     * Constructor that allows specification of a row decorator.
+     *
+     * @param rowObject
+     *            the row object
+     * @param rowNumber
+     *            the row number
+     * @param decorator
+     *            the decorator
+     */
 	public Row(final Object rowObject, final int rowNumber,
 			final RowDecorator decorator) {
 		this(rowObject, rowNumber);
@@ -86,8 +87,10 @@ public class Row extends org.displaytag.model.Row {
 	}
 
 	/**
-	 * @return true if the current row number is odd
-	 */
+     * Checks if is odd row.
+     *
+     * @return true if the current row number is odd
+     */
 	@Override
 	public boolean isOddRow() {
 		return this.rowNumber % 2 == 0;
@@ -186,11 +189,23 @@ public class Row extends org.displaytag.model.Row {
 		}
 	}
 
+	/**
+     * Gets the table model.
+     *
+     * @return the table model
+     */
 	public TableModel getTableModel() {
 		return this.tableModel;
 	}
 
+	/**
+     * The Class DefaultRowDecorator.
+     */
 	private static class DefaultRowDecorator implements RowDecorator {
+		
+		/* (non-Javadoc)
+		 * @see com.technoetic.xplanner.tags.displaytag.RowDecorator#getCssClasses(com.technoetic.xplanner.tags.displaytag.Row)
+		 */
 		@Override
 		public String getCssClasses(final Row row) {
 			return row.getTableModel().getProperties()
@@ -209,8 +224,11 @@ public class Row extends org.displaytag.model.Row {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
+     * To string.
+     *
+     * @return the string
+     * @see java.lang.Object#toString()
+     */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)

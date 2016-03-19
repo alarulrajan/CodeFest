@@ -6,6 +6,10 @@ import net.sf.xplanner.domain.Iteration;
  * Created by IntelliJ IDEA. User: tkmower Date: Mar 1, 2005 Time: 9:45:32 PM
  */
 public class IterationRowDecorator implements RowDecorator {
+	
+	/* (non-Javadoc)
+	 * @see com.technoetic.xplanner.tags.displaytag.RowDecorator#getCssClasses(com.technoetic.xplanner.tags.displaytag.Row)
+	 */
 	@Override
 	public String getCssClasses(final Row row) {
 		final Iteration iteration = (Iteration) row.getObject();

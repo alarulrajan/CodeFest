@@ -21,13 +21,36 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
+/**
+ * The Class IterationDataSource.
+ */
 public class IterationDataSource implements JRDataSource {
+	
+	/** The iterator. */
 	private Iterator iterator = null;
+	
+	/** The task. */
 	private Task task = null;
+	
+	/** The story. */
 	private UserStory story = null;
+	
+	/** The acceptor. */
 	private String acceptor = null;
+	
+	/** The session. */
 	private Session session = null;
 
+	/**
+     * Instantiates a new iteration data source.
+     *
+     * @param iteration
+     *            the iteration
+     * @param session
+     *            the session
+     * @throws HibernateException
+     *             the hibernate exception
+     */
 	public IterationDataSource(final Iteration iteration, final Session session)
 			throws HibernateException {
 
@@ -45,6 +68,9 @@ public class IterationDataSource implements JRDataSource {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRDataSource#next()
+	 */
 	@Override
 	public boolean next() throws JRException {
 		if (this.iterator == null || !this.iterator.hasNext()) {
@@ -62,11 +88,23 @@ public class IterationDataSource implements JRDataSource {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
+	 */
 	@Override
 	public Object getFieldValue(final JRField field) throws JRException {
 		return this.getFieldValue(field.getName());
 	}
 
+	/**
+     * Gets the field value.
+     *
+     * @param fieldName
+     *            the field name
+     * @return the field value
+     * @throws JRException
+     *             the JR exception
+     */
 	public Object getFieldValue(final String fieldName) throws JRException {
 		if ("StoryName".equals(fieldName)) {
 			return this.story.getName();

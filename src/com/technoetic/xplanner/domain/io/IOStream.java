@@ -31,23 +31,52 @@ import com.technoetic.xplanner.util.ClassUtil;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
 
+/**
+ * The Class IOStream.
+ */
 public class IOStream {
 
+	/**
+     * The Class Document.
+     */
 	public class Document {
+		
+		/** The domain object. */
 		public DomainObject domainObject;
+		
+		/** The persons. */
 		public Person[] persons;
 	}
 
+	/**
+     * To xml.
+     *
+     * @param object
+     *            the object
+     * @return the string
+     */
 	public String toXML(final Object object) {
 		final XStream stream = this.newXStream();
 		return stream.toXML(object);
 	}
 
+	/**
+     * From xml.
+     *
+     * @param xml
+     *            the xml
+     * @return the object
+     */
 	public Object fromXML(final String xml) {
 		final XStream stream = this.newXStream();
 		return stream.fromXML(xml);
 	}
 
+	/**
+     * New x stream.
+     *
+     * @return the x stream
+     */
 	private XStream newXStream() {
 		final XStream stream = new XStream();
 		stream.setMode(XStream.ID_REFERENCES);
@@ -75,18 +104,30 @@ public class IOStream {
 		return stream;
 	}
 
+	/**
+     * The Class IterationStatusConverter.
+     */
 	class IterationStatusConverter extends AbstractBasicConverter {
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#fromString(java.lang.String)
+		 */
 		@Override
 		protected Object fromString(final String str) {
 			return IterationStatus.fromKey(str);
 		}
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#toString(java.lang.Object)
+		 */
 		@Override
 		protected String toString(final Object obj) {
 			return ((IterationStatus) obj).getKey();
 		}
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#canConvert(java.lang.Class)
+		 */
 		@Override
 		public boolean canConvert(final Class type) {
 			return IterationStatus.class.isAssignableFrom(type);
@@ -94,10 +135,23 @@ public class IOStream {
 
 	}
 
+	/**
+     * The Class CharacterEnumConverter.
+     */
 	class CharacterEnumConverter extends AbstractBasicConverter {
+		
+		/** The enum class. */
 		Class enumClass;
+		
+		/** The from name. */
 		Method fromName;
 
+		/**
+         * Instantiates a new character enum converter.
+         *
+         * @param enumClass
+         *            the enum class
+         */
 		protected CharacterEnumConverter(final Class enumClass) {
 			this.enumClass = enumClass;
 			try {
@@ -109,11 +163,17 @@ public class IOStream {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#toString(java.lang.Object)
+		 */
 		@Override
 		protected String toString(final Object obj) {
 			return ((CharacterEnum) obj).getName();
 		}
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#fromString(java.lang.String)
+		 */
 		@Override
 		protected Object fromString(final String str) {
 			try {
@@ -125,6 +185,9 @@ public class IOStream {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see com.thoughtworks.xstream.converters.basic.AbstractBasicConverter#canConvert(java.lang.Class)
+		 */
 		@Override
 		public boolean canConvert(final Class type) {
 			return this.enumClass.isAssignableFrom(type);
@@ -132,11 +195,27 @@ public class IOStream {
 
 	}
 
+	/**
+     * The Class ReferencedPersonList.
+     */
 	class ReferencedPersonList extends ArrayList {
+		
+		/**
+         * Instantiates a new referenced person list.
+         *
+         * @param object
+         *            the object
+         */
 		public ReferencedPersonList(final DomainObject object) {
 			this.init(object);
 		}
 
+		/**
+         * Inits the.
+         *
+         * @param object
+         *            the object
+         */
 		private void init(final DomainObject object) {
 			try {
 				final List fields = ClassUtil.getAllFields(object);

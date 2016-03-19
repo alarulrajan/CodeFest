@@ -27,10 +27,16 @@ import com.technoetic.xplanner.importer.SpreadsheetStoryFactory;
 import com.technoetic.xplanner.importer.SpreadsheetStoryImporter;
 import com.technoetic.xplanner.testing.DateHelper;
 
+/**
+ * The Class TestSpreadsheetStoryImporterRealSpreadsheet.
+ */
 public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
 {
+   
+   /** The Constant TEST_DATE. */
    public static final Date TEST_DATE = DateHelper.createDate(2005, 4, 20);
 
+   /** The header configuration. */
    private final SpreadsheetHeaderConfiguration headerConfiguration = new SpreadsheetHeaderConfiguration(
       SpreadsheetStoryWriter.TITLE_HEADER,
       SpreadsheetStoryWriter.END_DATE_HEADER,
@@ -38,6 +44,11 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       SpreadsheetStoryWriter.STATUS_HEADER,
       SpreadsheetStoryWriter.ESTIMATE_HEADER);
 
+   /** Test header only spreadsheet.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testHeaderOnlySpreadsheet() throws Exception
    {
       ArrayList stories = new ArrayList();
@@ -46,6 +57,11 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       assertStoriesImported(expectedNumberOfStories, tempFile, null);
    }
 
+   /** Test spreadsheet with one story.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSpreadsheetWithOneStory() throws Exception
    {
       SpreadsheetStoryFactory spreadsheetStoryFactory = new SpreadsheetStoryFactory();
@@ -55,6 +71,11 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       assertStoriesImported(expectedNumberOfStories, tempFile, spreadsheetStoryFactory);
    }
 
+   /** Test spreadsheet with multiple stories.
+     *
+     * @throws Exception
+     *             the exception
+     */
    public void testSpreadsheetWithMultipleStories() throws Exception
    {
       SpreadsheetStoryFactory spreadsheetStoryFactory = new SpreadsheetStoryFactory();
@@ -65,6 +86,13 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       assertStoryAttributes(stories, list);
    }
 
+   /** Assert story attributes.
+     *
+     * @param stories
+     *            the stories
+     * @param list
+     *            the list
+     */
    private void assertStoryAttributes(ArrayList stories, List list)
    {
       for (Iterator iterator = stories.iterator(), it = list.iterator(); iterator.hasNext();)
@@ -79,6 +107,14 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       }
    }
 
+   /** Creates the stories.
+     *
+     * @param spreadsheetStoryFactory
+     *            the spreadsheet story factory
+     * @param numStories
+     *            the num stories
+     * @return the array list
+     */
    private ArrayList createStories(SpreadsheetStoryFactory spreadsheetStoryFactory, int numStories)
    {
       ArrayList stories = new ArrayList();
@@ -94,6 +130,18 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       return stories;
    }
 
+   /** Assert stories imported.
+     *
+     * @param expectedNumberOfStories
+     *            the expected number of stories
+     * @param tempFile
+     *            the temp file
+     * @param spreadsheetStoryFactory
+     *            the spreadsheet story factory
+     * @return the list
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
    private List assertStoriesImported(int expectedNumberOfStories,
                                       File tempFile,
                                       SpreadsheetStoryFactory spreadsheetStoryFactory)
@@ -111,6 +159,14 @@ public class TestSpreadsheetStoryImporterRealSpreadsheet extends TestCase
       return list;
    }
 
+   /** Creates the test spreadsheet.
+     *
+     * @param stories
+     *            the stories
+     * @return the file
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
    private File createTestSpreadsheet(ArrayList stories)
       throws IOException
    {
